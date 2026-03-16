@@ -11,23 +11,23 @@ book:
     - chapters/02-overview-of-supervised-learning.md
     - chapters/03-linear-methods-for-regression.md
     - chapters/04-linear-methods-for-classification.md
-    - chapters/05-basis-expansions-and-regularization.md
-    - chapters/06-kernel-smoothing-methods.md
-    - chapters/07-model-assessment-and-selection.md
-    - chapters/08-model-inference-and-averaging.md
-    - chapters/09-additive-models-trees-and-related-methods.md
-    - chapters/10-boosting-and-additive-trees.md
-    - chapters/11-neural-networks.md
-    - chapters/12-support-vector-machines-and-flexible-discriminants.md
-    - chapters/13-prototype-methods-and-nearest-neighbors.md
-    - chapters/14-unsupervised-learning.md
-    - chapters/15-random-forests.md
-    - chapters/16-ensemble-learning.md
-    - chapters/17-undirected-graphical-models.md
-    - chapters/18-high-dimensional-problems.md
-    - chapters/19-references.md
-    - chapters/20-author-index.md
-    - chapters/21-index.md
+    # - chapters/05-basis-expansions-and-regularization.md
+    # - chapters/06-kernel-smoothing-methods.md
+    # - chapters/07-model-assessment-and-selection.md
+    # - chapters/08-model-inference-and-averaging.md
+    # - chapters/09-additive-models-trees-and-related-methods.md
+    # - chapters/10-boosting-and-additive-trees.md
+    # - chapters/11-neural-networks.md
+    # - chapters/12-support-vector-machines-and-flexible-discriminants.md
+    # - chapters/13-prototype-methods-and-nearest-neighbors.md
+    # - chapters/14-unsupervised-learning.md
+    # - chapters/15-random-forests.md
+    # - chapters/16-ensemble-learning.md
+    # - chapters/17-undirected-graphical-models.md
+    # - chapters/18-high-dimensional-problems.md
+    # - chapters/19-references.md
+    # - chapters/20-author-index.md
+    # - chapters/21-index.md
     - references.qmd
 
 bibliography: references.bib
