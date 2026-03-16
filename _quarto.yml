@@ -8,9 +8,9 @@ book:
   chapters:
     - index.qmd
     - chapters/01-introduction.md
-    - chapters/02-overview-of-supervised-learning.md
-    - chapters/03-linear-methods-for-regression.md
-    - chapters/04-linear-methods-for-classification.md
+    # - chapters/02-overview-of-supervised-learning.md
+    # - chapters/03-linear-methods-for-regression.md
+    # - chapters/04-linear-methods-for-classification.md
     # - chapters/05-basis-expansions-and-regularization.md
     # - chapters/06-kernel-smoothing-methods.md
     # - chapters/07-model-assessment-and-selection.md
