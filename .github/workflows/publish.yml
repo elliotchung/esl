@@ -19,10 +19,8 @@ jobs:
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
-
-      # ADDED: Installs TinyTex so Quarto stops crashing
-      - name: Install TinyTeX
-        run: quarto install tinytex
+        with:
+          tinytex: true # This built-in parameter seamlessly installs TinyTeX and handles the PATH
 
       - name: Publish to GitHub Pages (and render)
         uses: quarto-dev/quarto-actions/publish@v2
