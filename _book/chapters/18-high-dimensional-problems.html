@@ -1,0 +1,1705 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.35">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>18&nbsp; High-Dimensional Problems: p ≫ N – esl</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/19-references.html" rel="next">
+<link href="../chapters/17-undirected-graphical-models.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ccb035bea26c1e21f80f44cf7c27909.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/18-high-dimensional-problems.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">High-Dimensional Problems: p ≫ N</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">esl</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-overview-of-supervised-learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Overview of Supervised Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-linear-methods-for-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Linear Methods for Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-linear-methods-for-classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Linear Methods for Classification</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-basis-expansions-and-regularization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Basis Expansions and Regularization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-kernel-smoothing-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Kernel Smoothing Methods</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-model-assessment-and-selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Model Assessment and Selection</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-model-inference-and-averaging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Model Inference and Averaging</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/09-additive-models-trees-and-related-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Additive Models, Trees, and Related Methods</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/10-boosting-and-additive-trees.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Boosting and Additive Trees</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/11-neural-networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Neural Networks</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/12-support-vector-machines-and-flexible-discriminants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Support Vector Machines and Flexible Discriminants</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/13-prototype-methods-and-nearest-neighbors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Prototype Methods and Nearest-Neighbors</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/14-unsupervised-learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/15-random-forests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Random Forests</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/16-ensemble-learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Ensemble Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/17-undirected-graphical-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Undirected Graphical Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/18-high-dimensional-problems.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">High-Dimensional Problems: p ≫ N</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/19-references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/20-author-index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Author Index</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/21-index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Index</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#when-p-is-much-bigger-than-n" id="toc-when-p-is-much-bigger-than-n" class="nav-link active" data-scroll-target="#when-p-is-much-bigger-than-n"><span class="header-section-number">19</span> 18.1 When p is Much Bigger than N</a>
+  <ul class="collapse">
+  <li><a href="#diagonal-linear-discriminant-analysis-and-nearest-shrunken-centroids" id="toc-diagonal-linear-discriminant-analysis-and-nearest-shrunken-centroids" class="nav-link" data-scroll-target="#diagonal-linear-discriminant-analysis-and-nearest-shrunken-centroids"><span class="header-section-number">19.1</span> 18.2 Diagonal Linear Discriminant Analysis and Nearest Shrunken Centroids</a></li>
+  </ul></li>
+  <li><a href="#linear-classifiers-with-quadratic-regularization" id="toc-linear-classifiers-with-quadratic-regularization" class="nav-link" data-scroll-target="#linear-classifiers-with-quadratic-regularization"><span class="header-section-number">20</span> 18.3 Linear Classifiers with Quadratic Regularization</a></li>
+  <li><a href="#linear-classifiers-with-l_1-regularization" id="toc-linear-classifiers-with-l_1-regularization" class="nav-link" data-scroll-target="#linear-classifiers-with-l_1-regularization"><span class="header-section-number">21</span> 18.4 Linear Classifiers with <span class="math inline">\(L_1\)</span> Regularization</a>
+  <ul class="collapse">
+  <li><a href="#the-fused-lasso-for-functional-data" id="toc-the-fused-lasso-for-functional-data" class="nav-link" data-scroll-target="#the-fused-lasso-for-functional-data"><span class="header-section-number">21.0.1</span> 18.4.2 The Fused Lasso for Functional Data</a></li>
+  </ul></li>
+  <li><a href="#classification-when-features-are-unavailable" id="toc-classification-when-features-are-unavailable" class="nav-link" data-scroll-target="#classification-when-features-are-unavailable"><span class="header-section-number">22</span> 18.5 Classification When Features are Unavailable</a></li>
+  <li><a href="#example-string-kernels-and-protein-classification" id="toc-example-string-kernels-and-protein-classification" class="nav-link" data-scroll-target="#example-string-kernels-and-protein-classification"><span class="header-section-number">23</span> 18.5.1 Example: String Kernels and Protein Classification</a></li>
+  <li><a href="#classification-and-other-models-using-inner-product-kernels-and-pairwise-distances" id="toc-classification-and-other-models-using-inner-product-kernels-and-pairwise-distances" class="nav-link" data-scroll-target="#classification-and-other-models-using-inner-product-kernels-and-pairwise-distances"><span class="header-section-number">24</span> 18.5.2 Classification and Other Models Using Inner-Product Kernels and Pairwise Distances</a></li>
+  <li><a href="#high-dimensional-regression-supervised-principal-components" id="toc-high-dimensional-regression-supervised-principal-components" class="nav-link" data-scroll-target="#high-dimensional-regression-supervised-principal-components"><span class="header-section-number">25</span> 18.6 High-Dimensional Regression: Supervised Principal Components</a>
+  <ul class="collapse">
+  <li><a href="#connection-to-latent-variable-modeling" id="toc-connection-to-latent-variable-modeling" class="nav-link" data-scroll-target="#connection-to-latent-variable-modeling"><span class="header-section-number">25.1</span> 18.6.1 Connection to Latent-Variable Modeling</a></li>
+  <li><a href="#pre-conditioning-for-feature-selection" id="toc-pre-conditioning-for-feature-selection" class="nav-link" data-scroll-target="#pre-conditioning-for-feature-selection"><span class="header-section-number">25.2</span> 18.6.3 Pre-Conditioning for Feature Selection</a></li>
+  </ul></li>
+  <li><a href="#feature-assessment-and-the-multiple-testing-problem" id="toc-feature-assessment-and-the-multiple-testing-problem" class="nav-link" data-scroll-target="#feature-assessment-and-the-multiple-testing-problem"><span class="header-section-number">26</span> 18.7 Feature Assessment and the Multiple-Testing Problem</a></li>
+  <li><a href="#bibliographic-notes" id="toc-bibliographic-notes" class="nav-link" data-scroll-target="#bibliographic-notes"><span class="header-section-number">27</span> 18.8 Bibliographic Notes</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">High-Dimensional Problems: p ≫ N</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="when-p-is-much-bigger-than-n" class="level1" data-number="19">
+<h1 data-number="19"><span class="header-section-number">19</span> 18.1 When p is Much Bigger than N</h1>
+<p>In this chapter we discuss prediction problems in which the number of features p is much larger than the number of observations N, often written p ≫ N. Such problems have become of increasing importance, especially in genomics and other areas of computational biology. We will see that high variance and overfitting are a major concern in this setting. As a result, simple, highly regularized approaches often become the methods of choice. The first part of the chapter focuses on prediction in both the classification and regression settings, while the second part discusses the more basic problem of feature selection and assessment.</p>
+<p>To get us started, Figure 18.1 summarizes a small simulation study that demonstrates the “less fitting is better” principle that applies when p ≫ N. For each of N = 100 samples, we generated p standard Gaussian features X with pairwise correlation 0.2. The outcome Y was generated according to a linear model</p>
+<p><span class="math display">\[Y = \sum_{j=1}^{p} X_j \beta_j + \sigma \varepsilon \tag{18.1}\]</span></p>
+<p>where ε was generated from a standard Gaussian distribution. For each dataset, the set of coefficients β<sup>j</sup> were also generated from a standard Gaussian distribution. We investigated three cases: p = 20, 100, and 1000. The standard deviation σ was chosen in each case so that the signal-to-noise ratio Var[E(<sup>Y</sup> <sup>|</sup>X)]/σ<sup>2</sup> equaled 2. As a result, the number of significant uni-</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_668_Figure_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Figure 18.1: Test-error results for simulation experiments</figcaption>
+</figure>
+</div>
+<p><strong>FIGURE 18.1.</strong> Test-error results for simulation experiments. Shown are boxplots of the relative test errors over 100 simulations, for three different values of p, the number of features. The relative error is the test error divided by the Bayes error, <span class="math inline">\(\sigma^2\)</span> . From left to right, results are shown for ridge regression with three different values of the regularization parameter <span class="math inline">\(\lambda\)</span> : 0.001, 100 and 1000. The (average) effective degrees of freedom in the fit is indicated below each plot.</p>
+<p>variate regression coefficients<sup>1</sup> was 9, 33 and 331, respectively, averaged over the 100 simulation runs. The p=1000 case is designed to mimic the kind of data that we might see in a high-dimensional genomic or proteomic dataset, for example.</p>
+<p>We fit a ridge regression to the data, with three different values for the regularization parameter <span class="math inline">\(\lambda\)</span> : 0.001, 100, and 1000. When <span class="math inline">\(\lambda=0.001\)</span> , this is nearly the same as least squares regression, with a little regularization just to ensure that the problem is non-singular when p&gt;N. Figure 18.1 shows boxplots of the relative test error achieved by the different estimators in each scenario. The corresponding average degrees of freedom used in each ridge-regression fit is indicated (computed using formula (3.50) on page <span class="math inline">\(68^2\)</span> ). The degrees of freedom is a more interpretable parameter than <span class="math inline">\(\lambda\)</span> . We see that ridge regression with <span class="math inline">\(\lambda=0.001\)</span> (20 df) wins when p=20; <span class="math inline">\(\lambda=100\)</span> (35 df) wins when p=100, and <span class="math inline">\(\lambda=1000\)</span> (43 df) wins when p=1000.</p>
+<p>Here is an explanation for these results. When p = 20, we fit all the way and we can identify as many of the significant coefficients as possible with</p>
+<p><sup>&amp;</sup>lt;sup&gt;1We call a regression coefficient significant if <span class="math inline">\(|\hat{\beta}_j/\hat{se}_j| \geq 2\)</span> , where <span class="math inline">\(\hat{\beta}_j\)</span> is the estimated (univariate) coefficient and <span class="math inline">\(\hat{se}_j\)</span> is its estimated standard error.</p>
+<p><sup>&amp;</sup>lt;sup&gt;2For a fixed value of the regularization parameter <span class="math inline">\(\lambda\)</span> , the degrees of freedom depends on the observed predictor values in each simulation. Hence we compute the average degrees of freedom over simulations.</p>
+<p>low bias. When p=100, we can identify some non-zero coefficients using moderate shrinkage. Finally, when p=1000, even though there are many nonzero coefficients, we don’t have a hope for finding them and we need to shrink all the way down. As evidence of this, let <span class="math inline">\(t_j = \hat{\beta}_j/\hat{\text{se}}_j\)</span> , where <span class="math inline">\(\hat{\beta}_j\)</span> is the ridge regression estimate and <span class="math inline">\(\hat{\text{se}}_j\)</span> its estimated standard error. Then using the optimal ridge parameter in each of the three cases, the median value of <span class="math inline">\(|t_j|\)</span> was 2.0, 0.6 and 0.2, and the average number of <span class="math inline">\(|t_j|\)</span> values exceeding 2 was equal to 9.8, 1.2 and 0.0.</p>
+<p>Ridge regression with <span class="math inline">\(\lambda=0.001\)</span> successfully exploits the correlation in the features when p&lt; N, but cannot do so when <span class="math inline">\(p\gg N\)</span> . In the latter case there is not enough information in the relatively small number of samples to efficiently estimate the high-dimensional covariance matrix. In that case, more regularization leads to superior prediction performance.</p>
+<p>Thus it is not surprising that the analysis of high-dimensional data requires either modification of procedures designed for the N&gt;p scenario, or entirely new procedures. In this chapter we discuss examples of both kinds of approaches for high dimensional classification and regression; these methods tend to regularize quite heavily, using scientific contextual knowledge to suggest the appropriate form for this regularization. The chapter ends with a discussion of feature selection and multiple testing.</p>
+<section id="diagonal-linear-discriminant-analysis-and-nearest-shrunken-centroids" class="level2" data-number="19.1">
+<h2 data-number="19.1" class="anchored" data-anchor-id="diagonal-linear-discriminant-analysis-and-nearest-shrunken-centroids"><span class="header-section-number">19.1</span> 18.2 Diagonal Linear Discriminant Analysis and Nearest Shrunken Centroids</h2>
+<p>Gene expression arrays are an important new technology in biology, and are discussed in Chapters 1 and 14. The data in our next example form a matrix of 2308 genes (columns) and 63 samples (rows), from a set of microarray experiments. Each expression value is a log-ratio <span class="math inline">\(\log(R/G)\)</span> . R is the amount of gene-specific RNA in the target sample that hybridizes to a particular (gene-specific) spot on the microarray, and G is the corresponding amount of RNA from a reference sample. The samples arose from small, round blue-cell tumors (SRBCT) found in children, and are classified into four major types: BL (Burkitt lymphoma), EWS (Ewing’s sarcoma), NB (neuroblastoma), and RMS (rhabdomyosarcoma). There is an additional test data set of 20 observations. We will not go into the scientific background here.</p>
+<p>Since <span class="math inline">\(p \gg N\)</span> , we cannot fit a full linear discriminant analysis (LDA) to the data; some sort of regularization is needed. The method we describe here is similar to the methods of Section 4.3.1, but with important modifications that achieve feature selection. The simplest form of regularization assumes that the features are independent within each class, that is, the within-class covariance matrix is diagonal. Despite the fact that features will rarely be independent within a class, when <span class="math inline">\(p \gg N\)</span> we don’t have</p>
+<p>enough data to estimate their dependencies. The assumption of independence greatly reduces the number of parameters in the model and often results in an effective and interpretable classifier.</p>
+<p>Thus we consider the diagonal-covariance LDA rule for classifying the classes. The discriminant score [see (4.12) on page 110] for class k is</p>
+<p><span class="math display">\[\delta_k(x^*) = -\sum_{j=1}^p \frac{(x_j^* - \bar{x}_{kj})^2}{s_j^2} + 2\log \pi_k.\]</span> (18.2)</p>
+<p>Here <span class="math inline">\(x^* = (x_1^*, x_2^*, \dots, x_p^*)^T\)</span> is a vector of expression values for a test observation, <span class="math inline">\(s_j\)</span> is the pooled within-class standard deviation of the jth gene, and <span class="math inline">\(\bar{x}_{kj} = \sum_{i \in C_k} x_{ij}/N_k\)</span> is the mean of the <span class="math inline">\(N_k\)</span> values for gene j in class k, with <span class="math inline">\(C_k\)</span> being the index set for class k. We call <span class="math inline">\(\tilde{x}_k = (\bar{x}_{k1}, \bar{x}_{k2}, \dots \bar{x}_{kp})^T\)</span> the centroid of class k. The first part of (18.2) is simply the (negative) standardized squared distance of <span class="math inline">\(x^*\)</span> to the kth centroid. The second part is a correction based on the class prior probability <span class="math inline">\(\pi_k\)</span> , where <span class="math inline">\(\sum_{k=1}^K \pi_k = 1\)</span> . The classification rule is then</p>
+<p><span class="math display">\[C(x^*) = \ell \text{ if } \delta_{\ell}(x^*) = \max_k \delta_k(x^*). \tag{18.3}\]</span></p>
+<p>We see that the diagonal LDA classifier is equivalent to a nearest centroid classifier after appropriate standardization. It is also a special case of the naive-Bayes classifier, as described in Section 6.6.3. It assumes that the features in each class have independent Gaussian distributions with the same variance.</p>
+<p>The diagonal LDA classifier is often effective in high dimensional settings. It is also called the “independence rule” in Bickel and Levina (2004), who demonstrate theoretically that it will often outperform standard linear discriminant analysis in high-dimensional problems. Here the diagonal LDA classifier yielded five misclassification errors for the 20 test samples. One drawback of the diagonal LDA classifier is that it uses all of the features (genes), and hence is not convenient for interpretation. With further regularization we can do better—both in terms of test error and interpretability.</p>
+<p>We would like to regularize in a way that automatically drops out features that are not contributing to the class predictions. We can do this by shrinking the classwise mean toward the overall mean, for each feature separately. The result is a regularized version of the nearest centroid classifier, or equivalently a regularized version of the diagonal-covariance form of LDA. We call the procedure nearest shrunken centroids (NSC).</p>
+<p>The shrinkage procedure is defined as follows. Let</p>
+<p><span class="math display">\[d_{kj} = \frac{\bar{x}_{kj} - \bar{x}_j}{m_k(s_j + s_0)},\tag{18.4}\]</span></p>
+<p>where <span class="math inline">\(\bar{x}_j\)</span> is the overall mean for gene j, <span class="math inline">\(m_k^2 = 1/N_k - 1/N\)</span> and <span class="math inline">\(s_0\)</span> is a small positive constant, typically chosen to be the median of the <span class="math inline">\(s_j\)</span> values.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_671_Figure_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Figure 18.2: Soft thresholding function</figcaption>
+</figure>
+</div>
+<p><strong>FIGURE 18.2.</strong> Soft thresholding function <span class="math inline">\(sign(x)(|x| - \Delta)_+\)</span> is shown in orange, along with the 45° line in red.</p>
+<p>This constant guards against large <span class="math inline">\(d_{kj}\)</span> values that arise from expression values near zero. With constant within-class variance <span class="math inline">\(\sigma^2\)</span> , the variance of the contrast <span class="math inline">\(\bar{x}_{kj} - \bar{x}_j\)</span> in the numerator is <span class="math inline">\(m_k^2 \sigma^2\)</span> , and hence the form of the standardization in the denominator. We shrink the <span class="math inline">\(d_{kj}\)</span> toward zero using soft thresholding</p>
+<p><span class="math display">\[d'_{kj} = sign(d_{kj})(|d_{kj}| - \Delta)_{+};\]</span> (18.5)</p>
+<p>see Figure 18.2. Here <span class="math inline">\(\Delta\)</span> is a parameter to be determined; we used 10-fold cross-validation in the example (see the top panel of Figure 18.4). Each <span class="math inline">\(d_{kj}\)</span> is reduced by an amount <span class="math inline">\(\Delta\)</span> in absolute value, and is set to zero if its value is less than zero. The soft-thresholding function is shown in Figure 18.2; the same thresholding is applied to wavelet coefficients in Section 5.9. An alternative is to use hard thresholding</p>
+<p><span class="math display">\[d'_{kj} = d_{kj} \cdot I(|d_{kj}| \ge \Delta); \tag{18.6}\]</span></p>
+<p>we prefer soft-thresholding, as it is a smoother operation and typically works better. The shrunken versions of <span class="math inline">\(\bar{x}_{kj}\)</span> are then obtained by reversing the transformation in (18.4):</p>
+<p><span class="math display">\[\bar{x}'_{kj} = \bar{x}_j + m_k(s_j + s_0)d'_{kj}. \tag{18.7}\]</span></p>
+<p>We then use the shrunken centroids <span class="math inline">\(\bar{x}'_{kj}\)</span> in place of the original <span class="math inline">\(\bar{x}_{kj}\)</span> in the discriminant score (18.2). The estimator (18.7) can also be viewed as a lasso-style estimator for the class means (Exercise 18.2).</p>
+<p>Notice that only the genes that have a nonzero <span class="math inline">\(d'_{kj}\)</span> for at least one of the classes play a role in the classification rule, and hence the vast majority of genes can often be discarded. In this example, all but 43 genes were discarded, leaving a small interpretable set of genes that characterize each class. Figure 18.3 represents the genes in a heatmap.</p>
+<p>Figure 18.4 (top panel) demonstrates the effectiveness of the shrinkage. With no shrinkage we make 5/20 errors on the test data, and several errors</p>
+<p>on the training and CV data. The shrunken centroids achieve zero test errors for a fairly broad band of values for <span class="math inline">\(\Delta\)</span> . The bottom panel of Figure 18.4 shows the four centroids for the SRBCT data (gray), relative to the overall centroid. The blue bars are shrunken versions of these centroids, obtained by soft-thresholding the gray bars, using <span class="math inline">\(\Delta=4.3\)</span> . The discriminant scores (18.2) can be used to construct class probability estimates:</p>
+<p><span class="math display">\[\hat{p}_k(x^*) = \frac{e^{\frac{1}{2}\delta_k(x^*)}}{\sum_{\ell=1}^K e^{\frac{1}{2}\delta_\ell(x^*)}}.\]</span> (18.8)</p>
+<p>These can be used to rate the classifications, or to decide not to classify a particular sample at all.</p>
+<p>Note that other forms of feature selection can be used in this setting, including hard thresholding. Fan and Fan (2008) show theoretically the importance of carrying out some kind of feature selection with diagonal linear discriminant analysis in high-dimensional problems.</p>
+</section>
+</section>
+<section id="linear-classifiers-with-quadratic-regularization" class="level1" data-number="20">
+<h1 data-number="20"><span class="header-section-number">20</span> 18.3 Linear Classifiers with Quadratic Regularization</h1>
+<p>Ramaswamy et al.&nbsp;(2001) present a more difficult microarray classification problem, involving a training set of 144 patients with 14 different types of cancer, and a test set of 54 patients. Gene expression measurements were available for 16,063 genes.</p>
+<p>Table 18.1 shows the prediction results from eight different classification methods. The data from each patient was first standardized to have mean 0 and variance 1; this seems to improve prediction accuracy overall this example, suggesting that the “shape” of each gene-expression profile is important, rather than the absolute expression levels. In each case, the available for 16,063 genes.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_672_Figure_9.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Figure 18.3: Heat-map of the chosen 43 genes</figcaption>
+</figure>
+</div>
+<p><strong>FIGURE 18.3.</strong> Heat-map of the chosen 43 genes. Within each of the horizontal partitions, we have ordered the genes by hierarchical clustering, and similarly for the samples within each vertical partition. Yellow represents over- and blue under-expression.</p>
+<section id="number-of-genes" class="level4" data-number="20.0.0.1">
+<h4 data-number="20.0.0.1" class="anchored" data-anchor-id="number-of-genes"><span class="header-section-number">20.0.0.1</span> Number of Genes</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_673_Figure_3.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Figure 18.4: Error curves and centroids profiles for the SRBCT data</figcaption>
+</figure>
+</div>
+<p>Centroids: Average Expression Centered at Overall Centroid</p>
+<p>FIGURE 18.4. (Top): Error curves for the SRBCT data. Shown are the training, 10-fold cross-validation, and test misclassification errors as the threshold parameter ∆ is varied. The value ∆ = 4.34 is chosen by CV, resulting in a subset of 43 selected genes. (Bottom): Four centroids profiles dkj for the SRBCT data (gray), relative to the overall centroid. Each centroid has 2308 components, and we see considerable noise. The blue bars are shrunken versions d ′ kj of these centroids, obtained by soft-thresholding the gray bars, using ∆ = 4.3.</p>
+<p><strong>TABLE 18.1.</strong> Prediction results for microarray data with 14 cancer classes. Method 1 is described in Section 18.2. Methods 2, 3 and 6 are discussed in Section 18.3, while 4, 7 and 8 are discussed in Section 18.4. Method 5 is described in Section 13.3. The elastic-net penalized multinomial does the best on the test data, but the standard error of each test-error estimate is about 3, so such comparisons are inconclusive.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 34%">
+<col style="width: 24%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Methods</th>
+<th>CV errors (SE)<br>Out of 144</th>
+<th>Test errors<br>Out of 54</th>
+<th>Number of<br>Genes Used</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td>27 (7 2)</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>1. Nearest shrunken centroids</td>
+<td>35 (5.0)</td>
+<td>17</td>
+<td><span class="math inline">\(6,\!520\)</span></td>
+</tr>
+<tr class="odd">
+<td>2. <span class="math inline">\(L_2\)</span> -penalized discriminant analysis</td>
+<td>25 (4.1)</td>
+<td>12</td>
+<td>16,063</td>
+</tr>
+<tr class="even">
+<td>3. Support vector classifier</td>
+<td>26(4.2)</td>
+<td>14</td>
+<td>16,063</td>
+</tr>
+<tr class="odd">
+<td>4. Lasso regression (one vs all)</td>
+<td>30.7 (1.8)</td>
+<td>12.5</td>
+<td>1,429</td>
+</tr>
+<tr class="even">
+<td>5. k-nearest neighbors</td>
+<td>41 (4.6)</td>
+<td>26</td>
+<td>16,063</td>
+</tr>
+<tr class="odd">
+<td>6. <span class="math inline">\(L_2\)</span> -penalized multinomial</td>
+<td>26 (4.2)</td>
+<td>15</td>
+<td>16,063</td>
+</tr>
+<tr class="even">
+<td>7. <span class="math inline">\(L_1\)</span> -penalized multinomial</td>
+<td>17 (2.8)</td>
+<td>13</td>
+<td>269</td>
+</tr>
+<tr class="odd">
+<td>8. Elastic-net penalized multinomial</td>
+<td>22 (3.7)</td>
+<td>11.8</td>
+<td>384</td>
+</tr>
+</tbody>
+</table>
+<p>regularization parameter has been chosen to minimize the cross-validation error, and the test error at that value of the parameter is shown. When more than one value of the regularization parameter yields the minimal cross-validation error, the average test error at these values is reported.</p>
+<p>RDA (regularized discriminant analysis), regularized multinomial logistic regression, and the support vector machine are more complex methods that try to exploit multivariate information in the data. We describe each in turn, as well as a variety of regularization methods, including both <span class="math inline">\(L_1\)</span> and <span class="math inline">\(L_2\)</span> and some in between.</p>
+</section>
+<section id="regularized-discriminant-analysis" class="level4" data-number="20.0.0.2">
+<h4 data-number="20.0.0.2" class="anchored" data-anchor-id="regularized-discriminant-analysis"><span class="header-section-number">20.0.0.2</span> 18.3.1 Regularized Discriminant Analysis</h4>
+<p>Regularized discriminant analysis (RDA) is described in Section 4.3.1. Linear discriminant analysis involves the inversion of a <span class="math inline">\(p \times p\)</span> within-covariance matrix. When <span class="math inline">\(p \gg N\)</span> , this matrix can be huge, has rank at most N &lt; p, and hence is singular. RDA overcomes the singularity issues by regularizing the within-covariance estimate <span class="math inline">\(\hat{\Sigma}\)</span> . Here we use a version of RDA that shrinks <span class="math inline">\(\hat{\Sigma}\)</span> towards its diagonal:</p>
+<p><span class="math display">\[\hat{\mathbf{\Sigma}}(\gamma) = \gamma \hat{\mathbf{\Sigma}} + (1 - \gamma) \operatorname{diag}(\hat{\mathbf{\Sigma}}), \text{ with } \gamma \in [0, 1].\]</span> (18.9)</p>
+<p>Note that <span class="math inline">\(\gamma = 0\)</span> corresponds to diagonal LDA, which is the “no shrinkage” version of nearest shrunken centroids. The form of shrinkage in (18.9) is</p>
+<p>much like ridge regression (Section 3.4.1), which shrinks the total covariance matrix of the features towards a diagonal (scalar) matrix. In fact, viewing linear discriminant analysis as linear regression with optimal scoring of the categorical response (see (12.57) in Section 12.6), the equivalence becomes more precise.</p>
+<p>The computational burden of inverting this large <span class="math inline">\(p \times p\)</span> matrix is overcome using the methods discussed in Section 18.3.5. The value of <span class="math inline">\(\gamma\)</span> was chosen by cross-validation in line 2 of Table 18.1; all values of <span class="math inline">\(\gamma \in (0.002, 0.550)\)</span> gave the same CV and test error. Further development of RDA, including shrinkage of the centroids in addition to the covariance matrix, can be found in Guo et al.&nbsp;(2006).</p>
+</section>
+<section id="logistic-regression-with-quadratic-regularization" class="level4" data-number="20.0.0.3">
+<h4 data-number="20.0.0.3" class="anchored" data-anchor-id="logistic-regression-with-quadratic-regularization"><span class="header-section-number">20.0.0.3</span> 18.3.2 Logistic Regression with Quadratic Regularization</h4>
+<p>Logistic regression (Section 4.4) can be modified in a similar way, to deal with the <span class="math inline">\(p \gg N\)</span> case. With K classes, we use a symmetric version of the multiclass logistic model (4.17) on page 119:</p>
+<p><span class="math display">\[\Pr(G = k | X = x) = \frac{\exp(\beta_{k0} + x^T \beta_k)}{\sum_{\ell=1}^{K} \exp(\beta_{\ell0} + x^T \beta_\ell)}.\]</span> (18.10)</p>
+<p>This has K coefficient vectors of log-odds parameters <span class="math inline">\(\beta_1, \beta_2, \ldots, \beta_K\)</span> . We regularize the fitting by maximizing the penalized log-likelihood</p>
+<p><span class="math display">\[\max_{\{\beta_{0k}, \beta_k\}_1^K} \left[ \sum_{i=1}^N \log \Pr(g_i|x_i) - \frac{\lambda}{2} \sum_{k=1}^K ||\beta_k||_2^2 \right].\]</span> (18.11)</p>
+<p>This regularization automatically resolves the redundancy in the parametrization, and forces <span class="math inline">\(\sum_{k=1}^{K} \hat{\beta}_{kj} = 0\)</span> , <span class="math inline">\(j = 1, \ldots, p\)</span> (Exercise 18.3). Note that the constant terms <span class="math inline">\(\beta_{k0}\)</span> are not regularized (and so one should be set to zero). The resulting optimization problem is convex, and can be solved by a Newton algorithm or other numerical techniques. Details are given in Zhu and Hastie (2004). Friedman et al.&nbsp;(2010) provide software for computing the regularization path for the two- and multiclass logistic regression models. Table 18.1, line 6 reports the results for the multiclass logistic regression model, referred to there as “multinomial”. It can be shown (Rosset et al., 2004a) that for separable data, as <span class="math inline">\(\lambda \to 0\)</span> , the regularized (two-class) logistic regression estimate (renormalized) converges to the maximal margin classifier (Section 12.2). This gives an attractive alternative to the support-vector machine, discussed next, especially in the multiclass case.</p>
+</section>
+<section id="the-support-vector-classifier" class="level4" data-number="20.0.0.4">
+<h4 data-number="20.0.0.4" class="anchored" data-anchor-id="the-support-vector-classifier"><span class="header-section-number">20.0.0.4</span> 18.3.3 The Support Vector Classifier</h4>
+<p>The support vector classifier is described for the two-class case in Section 12.2. When p &gt; N, it is especially attractive because in general the</p>
+<p>classes are perfectly separable by a hyperplane unless there are identical feature vectors in different classes. Without any regularization the support vector classifier finds the separating hyperplane with the largest margin; that is, the hyperplane yielding the biggest gap between the classes in the training data. Somewhat surprisingly, when <span class="math inline">\(p\gg N\)</span> the unregularized support vector classifier often works about as well as the best regularized version. Overfitting often does not seem to be a problem, partly because of the insensitivity of misclassification loss.</p>
+<p>There are many different methods for generalizing the two-class support-vector classifier to K &gt; 2 classes. In the “one versus one” (OVO) approach, we compute all <span class="math inline">\(\binom{K}{2}\)</span> pairwise classifiers. For each test point, the predicted class is the one that wins the most pairwise contests. In the “one versus all” (OVA) approach, each class is compared to all of the others in K two-class comparisons. To classify a test point, we compute the confidences (signed distance from the hyperplane) for each of the K classifiers. The winner is the class with the highest confidence. Finally, Vapnik (1998) and Weston and Watkins (1999) suggested (somewhat complex) multiclass criteria which generalize the two-class criterion (12.7).</p>
+<p>Tibshirani and Hastie (2007) propose the <em>margin tree</em> classifier, in which support-vector classifiers are used in a binary tree, much as in CART (Chapter 9). The classes are organized in a hierarchical manner, which can be useful for classifying patients into different cancer types, for example.</p>
+<p>Line 3 of Table 18.1 shows the results for the support vector classifier using the OVA method; Ramaswamy et al.&nbsp;(2001) reported (and we confirmed) that this approach worked best for this problem. The errors are very similar to those in line 6, as we might expect from the comments at the end of the previous section. The error rates are insensitive to the choice of C [the regularization parameter in (12.8) on page 420], for values of C&gt;0.001. Since p&gt;N, the support vector hyperplane can perfectly separate the training data by setting <span class="math inline">\(C=\infty\)</span> .</p>
+</section>
+<section id="feature-selection" class="level4" data-number="20.0.0.5">
+<h4 data-number="20.0.0.5" class="anchored" data-anchor-id="feature-selection"><span class="header-section-number">20.0.0.5</span> 18.3.4 Feature Selection</h4>
+<p>Feature selection is an important scientific requirement for a classifier when p is large. Neither discriminant analysis, logistic regression, nor the support-vector classifier perform feature selection automatically, because all use quadratic regularization. All features have nonzero weights in both models. Ad-hoc methods for feature selection have been proposed, for example, removing genes with small coefficients, and refitting the classifier. This is done in a backward stepwise manner, starting with the smallest weights and moving on to larger weights. This is known as recursive feature elimination (Guyon et al., 2002). It was not successful in this example; Ramaswamy et al.&nbsp;(2001) report, for example, that the accuracy of the support-vector classifier starts to degrade as the number of genes is reduced from the full</p>
+<p>set of 16,063. This is rather remarkable, as the number of training samples is only 144. We do not have an explanation for this behavior.</p>
+<p>All three methods discussed in this section (RDA, LR and SVM) can be modified to fit nonlinear decision boundaries using kernels. Usually the motivation for such an approach is to increase the model complexity. With <span class="math inline">\(p\gg N\)</span> the models are already sufficiently complex and overfitting is always a danger. Yet despite the high dimensionality, radial kernels (Section 12.3.3) sometimes deliver superior results in these high dimensional problems. The radial kernel tends to dampen inner products between points far away from each other, which in turn leads to robustness to outliers. This occurs often in high dimensions, and may explain the positive results. We tried a radial kernel with the SVM in Table 18.1, but in this case the performance was inferior.</p>
+</section>
+<section id="computational-shortcuts-when-p-gg-n" class="level4" data-number="20.0.0.6">
+<h4 data-number="20.0.0.6" class="anchored" data-anchor-id="computational-shortcuts-when-p-gg-n"><span class="header-section-number">20.0.0.6</span> 18.3.5 Computational Shortcuts When <span class="math inline">\(p \gg N\)</span></h4>
+<p>The computational techniques discussed in this section apply to any method that fits a linear model with quadratic regularization on the coefficients. That includes all the methods discussed in this section, and many more. When p &gt; N, the computations can be carried out in an N-dimensional space, rather than p, via the singular value decomposition introduced in Section 14.5. Here is the geometric intuition: just like two points in three-dimensional space always lie on a line, N points in p-dimensional space lie in an (N-1)-dimensional affine subspace.</p>
+<p>Given the <span class="math inline">\(N \times p\)</span> data matrix <strong>X</strong>, let</p>
+<p><span class="math display">\[\mathbf{X} = \mathbf{U}\mathbf{D}\mathbf{V}^T \tag{18.12}\]</span></p>
+<p><span class="math display">\[= \mathbf{R}\mathbf{V}^T \tag{18.13}\]</span></p>
+<p>be the singular-value decomposition (SVD) of <span class="math inline">\(\mathbf{X}\)</span> ; that is, <span class="math inline">\(\mathbf{V}\)</span> is <span class="math inline">\(p \times N\)</span> with orthonormal columns, <span class="math inline">\(\mathbf{U}\)</span> is <span class="math inline">\(N \times N\)</span> orthogonal, and <span class="math inline">\(\mathbf{D}\)</span> a diagonal matrix with elements <span class="math inline">\(d_1 \geq d_2 \geq d_N \geq 0\)</span> . The matrix <span class="math inline">\(\mathbf{R}\)</span> is <span class="math inline">\(N \times N\)</span> , with rows <span class="math inline">\(r_i^T\)</span> .</p>
+<p>As a simple example, let’s first consider the estimates from a ridge regression:</p>
+<p><span class="math display">\[\hat{\beta} = (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1} \mathbf{X}^T \mathbf{y}. \tag{18.14}\]</span></p>
+<p>Replacing X by <span class="math inline">\(RV^T\)</span> and after some further manipulations, this can be shown to equal</p>
+<p><span class="math display">\[\hat{\beta} = \mathbf{V}(\mathbf{R}^T \mathbf{R} + \lambda \mathbf{I})^{-1} \mathbf{R}^T \mathbf{y}\]</span> (18.15)</p>
+<p>(Exercise 18.4). Thus <span class="math inline">\(\hat{\beta} = \mathbf{V}\hat{\theta}\)</span> , where <span class="math inline">\(\hat{\theta}\)</span> is the ridge-regression estimate using the N observations <span class="math inline">\((r_i, y_i)\)</span> , i = 1, 2, …, N. In other words, we can simply reduce the data matrix from <span class="math inline">\(\mathbf{X}\)</span> to <span class="math inline">\(\mathbf{R}\)</span> , and work with the rows of <span class="math inline">\(\mathbf{R}\)</span> . This trick reduces the computational cost from <span class="math inline">\(O(p^3)\)</span> to <span class="math inline">\(O(pN^2)\)</span> when p &gt; N.</p>
+<p>These results can be generalized to all models that are linear in the parameters and have quadratic penalties. Consider any supervised learning problem where we use a linear function <span class="math inline">\(f(X) = \beta_0 + X^T \beta\)</span> to model a parameter in the conditional distribution of Y|X. We fit the parameters <span class="math inline">\(\beta\)</span> by minimizing some loss function <span class="math inline">\(\sum_{i=1}^{N} L(y_i, f(x_i))\)</span> over the data with a quadratic penalty on <span class="math inline">\(\beta\)</span> . Logistic regression is a useful example to have in mind. Then we have the following simple theorem:</p>
+<p>Let <span class="math inline">\(f^*(r_i) = \theta_0 + r_i^T \theta\)</span> with <span class="math inline">\(r_i\)</span> defined in (18.13), and consider the pair of optimization problems:</p>
+<p><span class="math display">\[(\hat{\beta}_0, \hat{\beta}) = \arg\min_{\beta_0, \beta \in \mathbb{R}^p} \sum_{i=1}^N L(y_i, \beta_0 + x_i^T \beta) + \lambda \beta^T \beta; \quad (18.16)\]</span></p>
+<p><span class="math display">\[(\hat{\theta}_0, \hat{\theta}) = \arg \min_{\theta_0, \theta \in \mathbb{R}^N} \sum_{i=1}^N L(y_i, \theta_0 + r_i^T \theta) + \lambda \theta^T \theta.\]</span> (18.17)</p>
+<p>Then the <span class="math inline">\(\hat{\beta}_0 = \hat{\theta}_0\)</span> , and <span class="math inline">\(\hat{\beta} = \mathbf{V}\hat{\theta}\)</span> .</p>
+<p>The theorem says that we can simply replace the p vectors <span class="math inline">\(x_i\)</span> by the N-vectors <span class="math inline">\(r_i\)</span> , and perform our penalized fit as before, but with far fewer predictors. The N-vector solution <span class="math inline">\(\hat{\theta}\)</span> is then transformed back to the p-vector solution via a simple matrix multiplication. This result is part of the statistics folklore, and deserves to be known more widely—see Hastie and Tibshirani (2004) for further details.</p>
+<p>Geometrically, we are rotating the features to a coordinate system in which all but the first N coordinates are zero. Such rotations are allowed since the quadratic penalty is invariant under rotations, and linear models are equivariant.</p>
+<p>This result can be applied to many of the learning methods discussed in this chapter, such as regularized (multiclass) logistic regression, linear discriminant analysis (Exercise 18.6), and support vector machines. It also applies to neural networks with quadratic regularization (Section 11.5.2). Note, however, that it does not apply to methods such as the lasso, which uses nonquadratic <span class="math inline">\((L_1)\)</span> penalties on the coefficients.</p>
+<p>Typically we use cross-validation to select the parameter <span class="math inline">\(\lambda\)</span> . It can be seen (Exercise 18.12) that we only need to construct <span class="math inline">\(\mathbf{R}\)</span> once, on the original data, and use it as the data for each of the CV folds.</p>
+<p>The support vector “kernel trick” of Section 12.3.7 exploits the same reduction used in this section, in a slightly different context. Suppose we have at our disposal the <span class="math inline">\(N \times N\)</span> gram (inner-product) matrix <span class="math inline">\(\mathbf{K} = \mathbf{X}\mathbf{X}^T\)</span> . From (18.12) we have <span class="math inline">\(\mathbf{K} = \mathbf{U}\mathbf{D}^2\mathbf{U}^T\)</span> , and so <span class="math inline">\(\mathbf{K}\)</span> captures the same information as <span class="math inline">\(\mathbf{R}\)</span> . Exercise 18.13 shows how we can exploit the ideas in this section to fit a ridged logistic regression with <span class="math inline">\(\mathbf{K}\)</span> using its SVD.</p>
+</section>
+</section>
+<section id="linear-classifiers-with-l_1-regularization" class="level1" data-number="21">
+<h1 data-number="21"><span class="header-section-number">21</span> 18.4 Linear Classifiers with <span class="math inline">\(L_1\)</span> Regularization</h1>
+<p>The methods of Section 18.3 use an <span class="math inline">\(L_2\)</span> penalty to regularize their parameters, just as in ridge regression. All of the estimated coefficients are nonzero, and hence no feature selection is performed. In this section we discuss methods that use <span class="math inline">\(L_1\)</span> penalties instead, and hence provide automatic feature selection.</p>
+<p>Recall the lasso of Section 3.4.2,</p>
+<p><span class="math display">\[\min_{\beta} \frac{1}{2} \sum_{i=1}^{N} \left( y_i - \beta_0 - \sum_{j=1}^{p} x_{ij} \beta_j \right)^2 + \lambda \sum_{j=1}^{p} |\beta_j|, \tag{18.18}\]</span></p>
+<p>which we have written in the Lagrange form (3.52). As discussed there, the use of the <span class="math inline">\(L_1\)</span> penalty causes a subset of the solution coefficients <span class="math inline">\(\hat{\beta}_j\)</span> to be exactly zero, for a sufficiently large value of the tuning parameter <span class="math inline">\(\lambda\)</span> .</p>
+<p>In Section 3.8.1 we discussed the LARS algorithm, an efficient procedure for computing the lasso solution for all <span class="math inline">\(\lambda\)</span> . When p&gt;N (as in this chapter), as <span class="math inline">\(\lambda\)</span> approaches zero, the lasso fits the training data exactly. In fact, by convex duality one can show that when p&gt;N the number of non-zero coefficients is at most N for all values of <span class="math inline">\(\lambda\)</span> (Rosset and Zhu, 2007, for example). Thus the lasso provides a (severe) form of feature selection.</p>
+<p>Lasso regression can be applied to a two-class classification problem by coding the outcome <span class="math inline">\(\pm 1\)</span> , and applying a cutoff (usually 0) to the predictions. For more than two classes, there are many possible approaches, including the OVA and OVO methods discussed in Section 18.3.3. We tried the OVA-approach on the cancer data in Section 18.3. The results are shown in line (4) of Table 18.1. Its performance is among the best.</p>
+<p>A more natural approach for classification problems is to use the lasso penalty to regularize logistic regression. Several implementations have been proposed in the literature, including path algorithms similar to LARS (Park and Hastie, 2007). Because the paths are piecewise smooth but nonlinear, exact methods are slower than the LARS algorithm, and are less feasible when p is large.</p>
+<p>Friedman et al.&nbsp;(2010) provide very fast algorithms for fitting <span class="math inline">\(L_1\)</span> -penalized logistic and multinomial regression models. They use the symmetric multinomial logistic regression model as in (18.10) in Section 18.3.2, and maximize the penalized log-likelihood</p>
+<p><span class="math display">\[\max_{\{\beta_{0k}, \beta_k \in \mathbb{R}^p\}_1^K} \left[ \sum_{i=1}^N \log \Pr(g_i|x_i) - \lambda \sum_{k=1}^K \sum_{j=1}^p |\beta_{kj}| \right];\]</span> (18.19)</p>
+<p>compare with (18.11). Their algorithm computes the exact solution at a pre-chosen sequence of values for <span class="math inline">\(\lambda\)</span> by cyclical coordinate descent (Section 3.8.6), and exploits the fact that solutions are sparse when <span class="math inline">\(p \gg N\)</span> ,</p>
+<p>as well as the fact that solutions for neighboring values of λ tend to be very similar. This method was used in line (7) of Table 18.1, with the overall tuning parameter λ chosen by cross-validation. The performance was similar to that of the best methods, except here the automatic feature selection chose 269 genes altogether. A similar approach is used in Genkin et al.&nbsp;(2007); although they present their model from a Bayesian point of view, they in fact compute the posterior mode, which solves the penalized maximum-likelihood problem.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_680_Figure_3.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Figure 18.5: Regularized logistic regression paths for the leukemia data</figcaption>
+</figure>
+</div>
+<p>FIGURE 18.5. Regularized logistic regression paths for the leukemia data. The left panel is the lasso path, the right panel the elastic-net path with α = 0.8. At the ends of the path (extreme left), there are 19 nonzero coefficients for the lasso, and 39 for the elastic net. The averaging effect of the elastic net results in more non-zero coefficients than the lasso, but with smaller magnitudes.</p>
+<p>In genomic applications, there are often strong correlations among the variables; genes tend to operate in molecular pathways. The lasso penalty is somewhat indifferent to the choice among a set of strong but correlated variables (Exercise 3.28). The ridge penalty, on the other hand, tends to shrink the coefficients of correlated variables toward each other (Exercise 3.29 on page 99). The elastic net penalty (Zou and Hastie, 2005) is a compromise, and has the form</p>
+<p><span class="math display">\[\sum_{j=1}^{p} (\alpha |\beta_j| + (1 - \alpha)\beta_j^2).\]</span> (18.20)</p>
+<p>The second term encourages highly correlated features to be averaged, while the first term encourages a sparse solution in the coefficients of these averaged features. The elastic net penalty can be used with any linear model, in particular for regression or classification.</p>
+<p>Hence the multinomial problem above with elastic-net penalty becomes</p>
+<p><span class="math display">\[\max_{\{\beta_{0k},\beta_{k}\in\mathbb{R}^{p}\}_{1}^{K}} \left[ \sum_{i=1}^{N} \log \Pr(g_{i}|x_{i}) - \lambda \sum_{k=1}^{K} \sum_{j=1}^{p} \left(\alpha|\beta_{kj}| + (1-\alpha)\beta_{kj}^{2}\right) \right].\]</span> (18.21)</p>
+<p>The parameter <span class="math inline">\(\alpha\)</span> determines the mix of the penalties, and is often prechosen on qualitative grounds. The elastic net can yield more that N nonzero coefficients when p&gt;N, a potential advantage over the lasso. Line (8) in Table 18.1 uses this model, with <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\lambda\)</span> chosen by cross-validation. We used a sequence of 20 values of <span class="math inline">\(\alpha\)</span> between 0.05 and 1.0, and a 100 values of <span class="math inline">\(\lambda\)</span> uniform on the log scale covering the entire range. Values of <span class="math inline">\(\alpha \in [0.75, 0.80]\)</span> gave the minimum CV error, with values of <span class="math inline">\(\lambda &lt; 0.001\)</span> for all tied solutions. Although it has the lowest test error among all methods, the margin is small and not significant. Interestingly, when CV is performed separately for each value of <span class="math inline">\(\alpha\)</span> , a minimum test error of 8.8 is achieved at <span class="math inline">\(\alpha = 0.10\)</span> , but this is not the value chosen in the two-dimensional CV.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_681_Figure_6.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Figure 18.6: Training, test, and 10-fold cross validation curves for lasso logistic regression</figcaption>
+</figure>
+</div>
+<p><strong>FIGURE 18.6.</strong> Training, test, and 10-fold cross validation curves for lasso logistic regression on the leukemia data. The left panel shows misclassification errors, the right panel shows deviance.</p>
+<p>Figure 18.5 shows the lasso and elastic-net coefficient paths on the two-class leukemia data (Golub et al., 1999). There are 7129 gene-expression measurements on 38 samples, 27 of them in class ALL (acute lymphocytic leukemia), and 11 in class AML (acute myelogenous leukemia). There is also a test set with 34 samples (20, 14). Since the data are linearly separable, the solution is undefined at <span class="math inline">\(\lambda=0\)</span> (Exercise 18.11), and degrades for very small values of <span class="math inline">\(\lambda\)</span> . Hence the paths have been truncated as the fitted probabilities approach 0 and 1. There are 19 non-zero coefficients in the left plot, and 39 in the right. Figure 18.6 (left panel) shows the misclas-</p>
+<p>sification errors for the lasso logistic regression on the training and test data, as well as for 10-fold cross-validation on the training data. The right panel uses binomial deviance to measure errors, and is much smoother. The small sample sizes lead to considerable sampling variance in these curves, even though individual curves are relatively smooth (see, for example, Figure 7.1 on page 220). Both of these plots suggest that the limiting solution λ ↓ 0 is adequate, leading to 3/34 misclassifications in the test set. The corresponding figures for the elastic net are qualitatively similar and are not shown.</p>
+<p>For p ≫ N, the limiting coefficients diverge for all regularized logistic regression models, so in practical software implementations a minimum value for λ &gt; 0 is either explicitly or implicitly set. However, renormalized versions of the coefficients converge, and these limiting solutions can be thought of as interesting alternatives to the linear optimal separating hyperplane (SVM). With α = 0 the limiting solution coincides with the SVM (see end of Section 18.3.2), but all the 7129 genes are selected. With α = 1, the limiting solution coincides with an L<sup>1</sup> separating hyperplane (Rosset et al., 2004a), and includes at most 38 genes. As α decreases from 1, the elastic-net solutions include more genes in the separating hyperplane.</p>
+<section id="application-of-lasso-to-protein-mass-spectroscopy" class="level4" data-number="21.0.0.1">
+<h4 data-number="21.0.0.1" class="anchored" data-anchor-id="application-of-lasso-to-protein-mass-spectroscopy"><span class="header-section-number">21.0.0.1</span> 18.4.1 Application of Lasso to Protein Mass Spectroscopy</h4>
+<p>Protein mass spectrometry has become a popular technology for analyzing the proteins in blood, and can be used to diagnose a disease or understand the processes underlying it.</p>
+<p>For each blood serum sample i, we observe the intensity xij for many time of flight values t<sup>j</sup> . This intensity is related to the number of particles observed to take approximately t<sup>j</sup> time to pass from the emitter to the detector during a cycle of operation of the machine. The time of flight has a known relationship to the mass over charge ratio (m/z) of the constituent proteins in the blood. Hence the identification of a peak in the spectrum at a certain t<sup>j</sup> tells us that there is a protein with a corresponding mass and charge. The identity of this protein can then be determined by other means.</p>
+<p>Figure 18.7 shows an example taken from Adam et al.&nbsp;(2003). It shows the average spectra for healthy patients and those with prostate cancer. There are 16,898 m/z sites in total, ranging in value from 2000 to 40,000. The full dataset consists of 157 healthy patients and 167 with cancer, and the goal is to find m/z sites that discriminate between the two groups. This is an example of functional data; the predictors can be viewed as a function of m/z. There has been much interest in this problem in the past few years; see e.g.&nbsp;Petricoin et al.&nbsp;(2002).</p>
+<p>The data were first standardized (baseline subtraction and normalization), and we restricted attention to m/z values between 2000 and 40,000 (spectra outside of this range were not of interest). We then applied near-</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_683_Figure_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Figure 18.7: Protein mass spectrometry data average profiles</figcaption>
+</figure>
+</div>
+<p>FIGURE 18.7. Protein mass spectrometry data: average profiles from normal and prostate cancer patients.</p>
+<p>est shrunken centroids and lasso regression to the data, with the results for both methods shown in Table 18.2.</p>
+<p>By fitting harder to the data, the lasso achieves a considerably lower test error rate. However, it may not provide a scientifically useful solution. Ideally, protein mass spectrometry resolves a biological sample into its constituent proteins, and these should appear as peaks in the spectra. The lasso doesn’t treat peaks in any special way, so not surprisingly only some of the non-zero lasso weights were situated near peaks in the spectra. Furthermore, the same protein may yield a peak at slightly different m/z values in different spectra. In order to identify common peaks, some kind of m/z warping is needed from sample to sample.</p>
+<p>To address this, we applied a standard peak-extraction algorithm to each spectrum, yielding a total of 5178 peaks in the 217 training spectra. Our idea was to pool the collection of peaks from all patients, and hence construct a set of common peaks. For this purpose, we applied hierarchical clustering to the positions of these peaks along the log m/z axis. We cut the resulting dendrogram horizontally at height log(0.005)<sup>3</sup> , and computed averages of the peak positions in each resulting cluster. This process yielded 728 common clusters and their corresponding peak centers.</p>
+<p>Given these 728 common peaks, we determined which of these were present in each individual spectrum, and if present, the height of the peak. A peak height of zero was assigned if that peak was not found. This produced a 217 × 728 matrix of peak heights as features, which was used in a lasso regression. We scored the test spectra for the same 728 peaks.</p>
+<p><sup>3</sup>Use of the value 0.005 means that peaks with positions less than 0.5% apart are considered the same peak, a fairly common assumption.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Test Errors/108</th>
+<th>Number of Sites</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1. Nearest shrunken centroids</td>
+<td>34</td>
+<td>459</td>
+</tr>
+<tr class="even">
+<td>2. Lasso</td>
+<td>22</td>
+<td>113</td>
+</tr>
+<tr class="odd">
+<td>3. Lasso on peaks</td>
+<td>28</td>
+<td>35</td>
+</tr>
+</tbody>
+</table>
+<p>TABLE 18.2. Results for the prostate data example. The standard deviation for the test errors is about 4.5.</p>
+<p>The prediction results for this application of the lasso to the peaks are shown in the last line of Table 18.2: it does fairly well, but not as well as the lasso on the raw spectra. However, the fitted model may be more useful to the biologist as it yields 35 peak positions for further study. On the other hand, the results suggest that there may be useful discriminatory information between the peaks of the spectra, and the positions of the lasso sites from line (2) of the table also deserve further examination.</p>
+</section>
+<section id="the-fused-lasso-for-functional-data" class="level3" data-number="21.0.1">
+<h3 data-number="21.0.1" class="anchored" data-anchor-id="the-fused-lasso-for-functional-data"><span class="header-section-number">21.0.1</span> 18.4.2 The Fused Lasso for Functional Data</h3>
+<p>In the previous example, the features had a natural order, determined by the mass-to-charge ratio m/z. More generally, we may have functional features xi(t) that are ordered according to some index variable t. We have already discussed several approaches for exploiting such structure.</p>
+<p>We can represent xi(t) by their coefficients in a basis of functions in t, such as splines, wavelets or Fourier bases, and then apply a regression using these coefficients as predictors. Equivalently, one can instead represent the coefficients of the original features in these bases. These approaches are described in Section 5.3.</p>
+<p>In the classification setting, we discuss the analogous approach of penalized discriminant analysis in Section 12.6. This uses a penalty that explicitly controls the resulting smoothness of the coefficient vector.</p>
+<p>The above methods tend to smooth the coefficients uniformly. Here we present a more adaptive strategy that modifies the lasso penalty to take into account the ordering of the features. The fused lasso (Tibshirani et al., 2005) solves</p>
+<p><span class="math display">\[\min_{\beta \in \mathbb{R}^p} \left\{ \sum_{i=1}^N (y_i - \beta_0 - \sum_{j=1}^p x_{ij} \beta_j)^2 + \lambda_1 \sum_{j=1}^p |\beta_j| + \lambda_2 \sum_{j=1}^{p-1} |\beta_{j+1} - \beta_j| \right\}.\]</span> (18.22)</p>
+<p>This criterion is strictly convex in β, so a unique solution exists. The first penalty encourages the solution to be sparse, while the second encourages it to be smooth in the index j.</p>
+<p>The difference penalty in (18.22) assumes an uniformly spaced index j. If instead the underlying index variable t has nonuniform values t<sup>j</sup> , a natural generalization of (18.22) would be based on divided differences</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_685_Figure_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Figure 18.8: Fused lasso applied to CGH data</figcaption>
+</figure>
+</div>
+<p><strong>FIGURE 18.8.</strong> Fused lasso applied to CGH data. Each point represents the copy-number of a gene in a tumor sample, relative to that of a control (on the log base-2 scale).</p>
+<p><span class="math display">\[\lambda_2 \sum_{j=1}^{p-1} \frac{|\beta_{j+1} - \beta_j|}{|t_{j+1} - t_j|}.\]</span> (18.23)</p>
+<p>This amounts to having a penalty modifier for each of the terms in the series.</p>
+<p>A particularly useful special case arises when the predictor matrix <span class="math inline">\(\mathbf{X} = \mathbf{I}_N\)</span> , the <span class="math inline">\(N \times N\)</span> identity matrix. This is a special case of the fused lasso, used to approximate a sequence <span class="math inline">\(\{y_i\}_1^N\)</span> . The fused lasso signal approximator solves</p>
+<p><span class="math display">\[\min_{\beta \in \mathbb{R}^N} \left\{ \sum_{i=1}^N (y_i - \beta_0 - \beta_i)^2 + \lambda_1 \sum_{i=1}^N |\beta_i| + \lambda_2 \sum_{i=1}^{N-1} |\beta_{i+1} - \beta_i| \right\}.\]</span> (18.24)</p>
+<p>Figure 18.8 shows an example taken from Tibshirani and Wang (2007). The data in the panel come from a Comparative Genomic Hybridization (CGH) array, measuring the approximate log (base-two) ratio of the number of copies of each gene in a tumor sample, as compared to a normal sample. The horizontal axis represents the chromosomal location of each gene. The idea is that in cancer cells, genes are often amplified (duplicated) or deleted, and it is of interest to detect these events. Furthermore, these events tend to occur in contiguous regions. The smoothed signal estimate from the fused lasso signal approximator is shown in dark red (with appropriately chosen values for <span class="math inline">\(\lambda_1\)</span> and <span class="math inline">\(\lambda_2\)</span> ). The significantly nonzero regions can be used to detect locations of gains and losses of genes in the tumor.</p>
+<p>There is also a two-dimensional version of the fused lasso, in which the parameters are laid out in a grid of pixels, and a penalty is applied to the first differences to the left, right, above and below the target pixel. This can be useful for denoising or classifying images. Friedman et al.&nbsp;(2007) develop fast generalized coordinate descent algorithms for the one- and two-dimensional fused lasso.</p>
+</section>
+</section>
+<section id="classification-when-features-are-unavailable" class="level1" data-number="22">
+<h1 data-number="22"><span class="header-section-number">22</span> 18.5 Classification When Features are Unavailable</h1>
+<p>In some applications the objects under study are more abstract in nature, and it is not obvious how to define a feature vector. As long as we can fill in an N ×N proximity matrix of similarities between pairs of objects in our database, it turns out we can put to use many of the classifiers in our arsenal by interpreting the proximities as inner-products. Protein structures fall into this category, and we explore an example in Section 18.5.1 below.</p>
+<p>In other applications, such as document classification, feature vectors are available but can be extremely high-dimensional. Here we may not wish to compute with such high-dimensional data, but rather store the innerproducts between pairs of documents. Often these inner-products can be approximated by sampling techniques.</p>
+<p>Pairwise distances serve a similar purpose, because they can be turned into centered inner-products. Proximity matrices are discussed in more detail in Chapter 14.</p>
+</section>
+<section id="example-string-kernels-and-protein-classification" class="level1" data-number="23">
+<h1 data-number="23"><span class="header-section-number">23</span> 18.5.1 Example: String Kernels and Protein Classification</h1>
+<p>An important problem in computational biology is to classify proteins into functional and structural classes based on their sequence similarities. Protein molecules are strings of amino acids, differing in both length and composition. In the example we consider, the lengths vary between 75–160 amino-acid molecules, each of which can be one of 20 different types, labeled using letters. Here are two examples, of length 110 and 153, respectively:</p>
+<p>IPTSALVKETLALLSTHRTLLIANETLRIPVPVHKNHQLCTEEIFQGIGTLESQTVQGGTV ERLFKNLSLIKKYIDGQKKKCGEERRRVNQFLDYLQEFLGVMNTEWI</p>
+<p>PHRRDLCSRSIWLARKIRSDLTALTESYVKHQGLWSELTEAERLQENLQAYRTFHVLLA RLLEDQQVHFTPTEGDFHQAIHTLLLQVAAFAYQIEELMILLEYKIPRNEADGMLFEKK LWGLKVLQELSQWTVRSIHDLRFISSHQTGIP</p>
+<p>There have been many proposals for measuring the similarity between a pair of protein molecules. Here we focus on a measure based on the count of matching substrings (Leslie et al., 2004), such as the LQE above.</p>
+<p>To construct our features, we count the number of times that a given sequence of length m occurs in our string, and we compute this number for all possible sequences of length m. Formally, for a string x, we define a feature map</p>
+<p><span class="math display">\[\Phi_m(x) = \{\phi_a(x)\}_{a \in \mathcal{A}_m} \tag{18.25}\]</span></p>
+<p>where A<sup>m</sup> is the set of subsequences of length m, and φa(x) is the number of times that “a” occurs in our string x. Using this, we define the inner product</p>
+<p><span class="math display">\[K_m(x_1, x_2) = \langle \Phi_m(x_1), \Phi_m(x_2) \rangle, \qquad (18.26)\]</span></p>
+<p>which measures the similarity between the two strings x1, x2. This can be used to drive, for example, a support vector classifier for classifying strings into different protein classes.</p>
+<p>Now the number of possible sequences <sup>a</sup> is |Am<sup>|</sup> = 20m, which can be very large for moderate m, and the vast majority of the subsequences do not match the strings in our training set. It turns out that we can compute the N × N inner-product matrix or string kernel K<sup>m</sup> (18.26) efficiently using tree-structures, without actually computing the individual vectors. This methodology, and the data to follow, come from Leslie et al.&nbsp;(2004).<sup>4</sup></p>
+<p>The data consist of 1708 proteins in two classes— negative (1663) and positive (45). The two examples above, which we will call “x1” and “x2”, are from this set. We have marked the occurrences of subsequence LQE, which appears in both proteins. There are 20<sup>3</sup> possible subsequences, so Φ3(x) will be a vector of length 8000. For this example φLQE(x1) = 1 and φLQE(x2) = 2.</p>
+<p>Using software from Leslie et al.&nbsp;(2004), we computed the string kernel for m = 4, which was then used in a support vector classifier to find the maximal margin solution in this 20<sup>4</sup> = 160, 000-dimensional feature space. We used 10-fold cross-validation to compute the SVM predictions on all of the training data. The orange curve in Figure 18.9 shows the cross-validated ROC curve for the support vector classifier, computed by varying the cutpoint on the real-valued predictions from the cross-validated support vector classifier. The area under the curve is 0.84. Leslie et al.&nbsp;(2004) show that the string kernel method is competitive with, but perhaps not as accurate as, more specialized methods for protein string matching.</p>
+<p>Many other classifiers can be computed using only the information in the kernel matrix; some details are given in the next section. The results for the nearest centroid classifier (green), and distance-weighted one-nearest neighbors (blue) are shown in Figure 18.9. Their performance is similar to that of the support vector classifier.</p>
+<p><sup>4</sup>We thank Christina Leslie for her help and for providing the data, which is available on our book website.</p>
+<section id="roc-curves-for-string-kernel" class="level4" data-number="23.0.0.1">
+<h4 data-number="23.0.0.1" class="anchored" data-anchor-id="roc-curves-for-string-kernel"><span class="header-section-number">23.0.0.1</span> <strong>ROC Curves for String Kernel</strong></h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_688_Figure_3.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Figure 18.9: Cross-validated ROC curves for protein example using the string kernel</figcaption>
+</figure>
+</div>
+<p>FIGURE 18.9. Cross-validated ROC curves for protein example using the string kernel. The numbers next to each method in the legend give the area under the curve, an overall measure of accuracy. The SVM achieves better sensitivities than the other two, which achieve better specificities.</p>
+</section>
+</section>
+<section id="classification-and-other-models-using-inner-product-kernels-and-pairwise-distances" class="level1" data-number="24">
+<h1 data-number="24"><span class="header-section-number">24</span> 18.5.2 Classification and Other Models Using Inner-Product Kernels and Pairwise Distances</h1>
+<p>There are a number of other classifiers, besides the support-vector machine, that can be implemented using only inner-product matrices. This also implies they can be “kernelized” like the SVM.</p>
+<p>An obvious example is nearest-neighbor classification, since we can transform pairwise inner-products to pairwise distances:</p>
+<p><span class="math display">\[||x_i - x_{i'}||^2 = \langle x_i, x_i \rangle + \langle x_{i'}, x_{i'} \rangle - 2\langle x_i, x_{i'} \rangle.\]</span> (18.27)</p>
+<p>A variation of 1-NN classification is used in Figure 18.9, which produces a continuous discriminant score needed to construct a ROC curve. This distance-weighted 1-NN makes use of the distance of a test points to the closest member of each class; see Exercise 18.14.</p>
+<p>Nearest-centroid classification follows easily as well. For training pairs (x<sup>i</sup> , gi), i = 1, . . . , N, a test point x0, and class centroids ¯xk, k = 1, . . . , K we can write</p>
+<p><span class="math display">\[||x_0 - \bar{x}_k||^2 = \langle x_0, x_0 \rangle - \frac{2}{N_k} \sum_{g_i = k} \langle x_0, x_i \rangle + \frac{1}{N_k^2} \sum_{g_i = k} \sum_{g_{i'} = k} \langle x_i, x_{i'} \rangle, \quad (18.28)\]</span></p>
+<p>Hence we can compute the distance of the test point to each of the centroids, and perform nearest centroid classification. This also implies that methods like K-means clustering can also be implemented, using only the inner products of the data points.</p>
+<p>Logistic and multinomial regression with quadratic regularization can also be implemented with inner-product kernels; see Section 12.3.3 and Exercise 18.13. Exercise 12.10 derives linear discriminant analysis using an inner-product kernel.</p>
+<p>Principal components can be computed using inner-product kernels as well; since this is frequently useful, we give some details. Suppose first that we have a centered data matrix <span class="math inline">\(\mathbf{X}\)</span> , and let <span class="math inline">\(\mathbf{X} = \mathbf{U}\mathbf{D}\mathbf{V}^T\)</span> be its SVD (18.12). Then <span class="math inline">\(\mathbf{Z} = \mathbf{U}\mathbf{D}\)</span> is the matrix of principal component variables (see Section 14.5.1). But if <span class="math inline">\(\mathbf{K} = \mathbf{X}\mathbf{X}^T\)</span> , then it follows that <span class="math inline">\(\mathbf{K} = \mathbf{U}\mathbf{D}^2\mathbf{U}^T\)</span> , and hence we can compute <span class="math inline">\(\mathbf{Z}\)</span> from the eigen decomposition of <span class="math inline">\(\mathbf{K}\)</span> . If <span class="math inline">\(\mathbf{X}\)</span> is not centered, then we can center it using <span class="math inline">\(\tilde{\mathbf{X}} = (\mathbf{I} - \mathbf{M})\mathbf{X}\)</span> , where <span class="math inline">\(\mathbf{M} = \frac{1}{N}\mathbf{1}\mathbf{1}^T\)</span> is the mean operator. Thus we compute the eigenvectors of the double-centered kernel <span class="math inline">\((\mathbf{I} - \mathbf{M})\mathbf{K}(\mathbf{I} - \mathbf{M})\)</span> for the principal components from an uncentered inner-product matrix. Exercise 18.15 explores this further, and Section 14.5.4 discusses in more detail kernel PCA for general kernels, such as the radial kernel used in SVMs.</p>
+<p>If instead we had available only the pairwise (squared) Euclidean distances between observations,</p>
+<p><span class="math display">\[\Delta_{ii'}^2 = ||x_i - x_{i'}||^2, \tag{18.29}\]</span></p>
+<p>it turns out we can do all of the above as well. The trick is to convert the pairwise distances to centered inner-products, and then proceed as before. We write</p>
+<p><span class="math display">\[\Delta_{ii'}^2 = ||x_i - \bar{x}||^2 + ||x_{i'} - \bar{x}||^2 - 2\langle x_i - \bar{x}, x_{i'} - \bar{x}\rangle. \tag{18.30}\]</span></p>
+<p>Defining <span class="math inline">\(\mathbf{B} = \{-\Delta_{ii'}^2/2\}\)</span> , we double center <span class="math inline">\(\mathbf{B}\)</span> :</p>
+<p><span class="math display">\[\tilde{\mathbf{K}} = (\mathbf{I} - \mathbf{M})\mathbf{B}(\mathbf{I} - \mathbf{M}); \tag{18.31}\]</span></p>
+<p>it is easy to check that <span class="math inline">\(\tilde{K}_{ii'} = \langle x_i - \bar{x}, x_{i'} - \bar{x} \rangle\)</span> , the centered inner-product matrix.</p>
+<p>Distances and inner-products also allow us to compute the medoid in each class—the observation with smallest average distance to other observations in that class. This can be used for classification (closest medoids), as well as to drive k-medoids clustering (Section 14.3.10). With abstract data objects like proteins, medoids have a practical advantage over means. The medoid is one of the training examples, and can be displayed. We tried closest medoids in the example in the next section (see Table 18.3), and its performance is disappointing.</p>
+<p>It is useful to consider what we <em>cannot</em> do with inner-product kernels and distances:</p>
+<p>TABLE 18.3. Cross-validated error rates for the abstracts example. The nearest shrunken centroids ended up using no-shrinkage, but does use a word-by-word standardization (section 18.2). This standardization gives it a distinct advantage over the other methods.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th>Method</th>
+<th>CV Error (SE)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1.</td>
+<td>Nearest shrunken centroids</td>
+<td>0.17 (0.05)</td>
+</tr>
+<tr class="even">
+<td>2.</td>
+<td>SVM</td>
+<td>0.23 (0.06)</td>
+</tr>
+<tr class="odd">
+<td>3.</td>
+<td>Nearest medoids</td>
+<td>0.65 (0.07)</td>
+</tr>
+<tr class="even">
+<td>4.</td>
+<td>1-NN</td>
+<td>0.44 (0.07)</td>
+</tr>
+<tr class="odd">
+<td>5.</td>
+<td>Nearest centroids</td>
+<td>0.29 (0.07)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>We cannot standardize the variables; standardization significantly improves performance in the example in the next section.</li>
+<li>We cannot assess directly the contributions of individual variables. In particular, we cannot perform individual t-tests, fit the nearest shrunken centroids model, or fit any model that uses the lasso penalty.</li>
+<li>We cannot separate the good variables from the noise: all variables get an equal say. If, as is often the case, the ratio of relevant to irrelevant variables is small, methods that use kernels are not likely to work as well as methods that do feature selection.</li>
+</ul>
+<section id="example-abstracts-classification" class="level4" data-number="24.0.0.1">
+<h4 data-number="24.0.0.1" class="anchored" data-anchor-id="example-abstracts-classification"><span class="header-section-number">24.0.0.1</span> 18.5.3 Example: Abstracts Classification</h4>
+<p>This somewhat whimsical example serves to illustrate a limitation of kernel approaches. We collected the abstracts from 48 papers, 16 each from Bradley Efron (BE), Trevor Hastie and Rob Tibshirani (HT) (frequent coauthors), and Jerome Friedman (JF). We extracted all unique words from these abstracts, and defined features xij to be the number of times word j appears in abstract i. This is the so-called bag of words representation. Quotations, parentheses and special characters were first removed from the abstracts, and all characters were converted to lower case. We also removed the word “we”, which could unfairly discriminate HT abstracts from the others.</p>
+<p>There were 4492 total words, of which p = 1310 were unique. We sought to classify the documents into BE, HT or JF on the basis of the features xij . Although it is artificial, this example allows us to assess the possible degradation in performance if information specific to the raw features is not used.</p>
+<p>We first applied the nearest shrunken centroid classifier to the data, using 10-fold cross-validation. It essentially chose no shrinkage, and so used all the features; see the first line of Table 18.3. The error rate is 17%; the number of features can be reduced to about 500 without much loss in accuracy. Note that the nearest shrunken classifier requires the raw feature matrix X in order to standardize the features individually. Figure 18.10 shows the</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_691_Figure_3.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Figure 18.10: Abstracts example: top 20 scores from nearest shrunken centroids</figcaption>
+</figure>
+</div>
+<p>FIGURE 18.10. Abstracts example: top 20 scores from nearest shrunken centroids. Each score is the standardized difference in frequency for the word in the given class (BE, HT or JF) versus all classes. Thus a positive score (to the right of the vertical grey zero lines) indicates a higher frequency in that class; a negative score indicates a lower relative frequency.</p>
+<p>top 20 discriminating words, with a positive score indicating that a word appears more in that class than in the other classes.</p>
+<p>Some of these terms make sense: for example “frequentist” and “Bayesian” reflect Efron’s greater emphasis on statistical inference. However, many others are surprising, and reflect personal writing styles: for example, Friedman’s use of “presented” and HT’s use of “propose”.</p>
+<p>We then applied the support vector classifier with linear kernel and no regularization, using the “all pairs” (ovo) method to handle the three classes (regularization of the SVM did not improve its performance). The result is shown in Table 18.3. It does somewhat worse than the nearest shrunken centroid classifier.</p>
+<p>As mentioned, the first line of Table 18.3 represents nearest shrunken centroids (with no shrinkage). Denote by s<sup>j</sup> the pooled within-class standard deviation for feature j, and s<sup>0</sup> the median of the s<sup>j</sup> values. Then line (1) also corresponds to nearest centroid classification, after first standardizing each feature by s<sup>j</sup> + s<sup>0</sup> [recall (18.4) on page 652].</p>
+<p>Line (3) shows that the performance of nearest medoids is very poor, something which surprised us. It is perhaps due to the small sample sizes and high dimensions, with medoids having much higher variance than means. The performance of the one-nearest neighbor classifier is also poor.</p>
+<p>The performance of the nearest centroid classifier is also shown in Table 18.3 in line (5): it is better than nearest medoids, but worse than that of nearest shrunken centroids, even with no shrinkage. The difference seems to be the standardization of each feature that is done in nearest shrunken centroids. This standardization is important here, and requires access to the individual feature values. Nearest centroids uses a spherical metric, and relies on the fact that the features are in similar units. The support vector machine estimates a linear combination of the features and can better deal with unstandardized features.</p>
+</section>
+</section>
+<section id="high-dimensional-regression-supervised-principal-components" class="level1" data-number="25">
+<h1 data-number="25"><span class="header-section-number">25</span> 18.6 High-Dimensional Regression: Supervised Principal Components</h1>
+<p>In this section we describe a simple approach to regression and generalized regression that is especially useful when p ≫ N. We illustrate the method on another microarray data example. The data is taken from Rosenwald et al.&nbsp;(2002) and consists of 240 samples from patients with diffuse large B-cell lymphoma (DLBCL), with gene expression measurements for 7399 genes. The outcome is survival time, either observed or right censored. We randomly divided the lymphoma samples into a training set of size 160 and a test set of size 80.</p>
+<p>Although supervised principal components is useful for linear regression, its most interesting applications may be in survival studies, which is the focus of this example.</p>
+<p>We have not yet discussed regression with censored survival data in this book; it represents a generalized form of regression in which the outcome variable (survival time) is only partly observed for some individuals. Suppose for example we carry out a medical study that lasts for 365 days, and for simplicity all subjects are recruited on day one. We might observe one individual to die 200 days after the start of the study. Another individual might still be alive at 365 days when the study ends. This individual is said to be “right censored” at 365 days. We know only that he or she lived at least 365 days. Although we do not know how long past 365 days the individual actually lived, the censored observation is still informative. This is illustrated in Figure 18.11. Figure 18.12 shows the survival curve estimated by the Kaplan–Meier method for the 80 patients in the test set. See for example Kalbfleisch and Prentice (1980) for a description of the Kaplan–Meier method.</p>
+<p>Our objective in this example is to find a set of features (genes) that can predict the survival of an independent set of patients. This could be</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_693_Figure_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Figure 18.11: Censored survival data illustration</figcaption>
+</figure>
+</div>
+<p>FIGURE 18.11. Censored survival data. For illustration there are four patients. The first and third patients die before the study ends. The second patient is alive at the end of the study (365 days), while the fourth patient is lost to follow-up before the study ends. For example, this patient might have moved out of the country. The survival times for patients two and four are said to be “censored.”</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_693_Figure_4.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Figure 18.12: Kaplan-Meier estimate of survival function</figcaption>
+</figure>
+</div>
+<p>FIGURE 18.12. Lymphoma data. The Kaplan–Meier estimate of the survival function for the 80 patients in the test set, along with one-standard-error curves. The curve estimates the probability of surviving past t months. The ticks indicate censored observations.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_694_Figure_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Figure 18.13: Underlying conceptual model for supervised principal components</figcaption>
+</figure>
+</div>
+<p>FIGURE 18.13. Underlying conceptual model for supervised principal components. There are two cell types, and patients with the good cell type live longer on the average. Supervised principal components estimate the cell type, by averaging the expression of genes that reflect it.</p>
+<p>useful as a prognostic indicator to aid in choosing treatments, or to help understand the biological basis for the disease.</p>
+<p>The underlying conceptual model for supervised principal components is shown in Figure 18.13. We imagine that there are two cell types, and patients with the good cell type live longer on the average. However there is considerable overlap in the two sets of survival times. We might think of survival time as a “noisy surrogate” for cell type. A fully supervised approach would give the most weight to those genes having the strongest relationship with survival. These genes are partially, but not perfectly, related to cell type. If we could instead discover the underlying cell types of the patients, often reflected by a sizable signature of genes acting together in pathways, then we might do a better job of predicting patient survival.</p>
+<p>Although the cell type in Figure 18.13 is discrete, it is useful to imagine a continuous cell type, define by some linear combination of the features. We will estimate the cell type as a continuous quantity, and then discretize it for display and interpretation.</p>
+<p>How can we find the linear combination that defines the important underlying cell types? Principal components analysis (Section 14.5) is an effective method for finding linear combinations of features that exhibit large variation in a dataset. But what we seek here are linear combinations with both high variance and significant correlation with the outcome. The lower right panel of Figure 18.14 shows the result of applying standard principal components in this example; the leading component does not correlate strongly with survival (details are given in the figure caption).</p>
+<p>Hence we want to encourage principal component analysis to find linear combinations of features that have high correlation with the outcome. To do this, we restrict attention to features which by themselves have a sizable correlation with the outcome. This is summarized in the supervised principal components Algorithm 18.1, and illustrated in Figure 18.14.</p>
+<p>The details in steps (1) and (2b) will depend on the type of outcome variable. For a standard regression problem, we use the univariate linear least squares coefficients in step (1) and a linear least squares model in</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_695_Figure_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Figure 18.14: Supervised principal components on the lymphoma data</figcaption>
+</figure>
+</div>
+<p>FIGURE 18.14. Supervised principal components on the lymphoma data. The left panel shows a heatmap of a subset of the gene-expression training data. The rows are ordered by the magnitude of the univariate Cox-score, shown in the middle vertical column. The top 50 and bottom 50 genes are shown. The supervised principal component uses the top 27 genes (chosen by 10-fold CV). It is represented by the bar at the top of the heatmap, and is used to order the columns of the expression matrix. In addition, each row is multiplied by the sign of the Cox-score. The middle panel on the right shows the survival curves on the test data when we create a low and high group by splitting this supervised PC at zero (training data mean). The curves are well separated, as indicated by the p-value for the log-rank test. The top panel does the same, using the top-scoring gene on the training data. The curves are somewhat separated, but not significantly. The bottom panel uses the first principal component on all the genes, and the separation is also poor. Each of the top genes can be interpreted as noisy surrogates for a latent underlying cell-type characteristic, and supervised principal components uses them all to estimate this latent factor.</p>
+<section id="algorithm-18.1-supervised-principal-components." class="level4" data-number="25.0.0.1">
+<h4 data-number="25.0.0.1" class="anchored" data-anchor-id="algorithm-18.1-supervised-principal-components."><span class="header-section-number">25.0.0.1</span> Algorithm 18.1 Supervised Principal Components.</h4>
+<ul>
+<li><ol type="1">
+<li>Compute the standardized univariate regression coefficients for the outcome as a function of each feature separately.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>For each value of the threshold θ from the list 0 ≤ θ<sup>1</sup> &lt; θ<sup>2</sup> &lt; · · · &lt; θK:</li>
+</ol>
+<ul>
+<li><ol type="a">
+<li>Form a reduced data matrix consisting of only those features whose univariate coefficient exceeds θ in absolute value, and compute the first m principal components of this matrix.</li>
+</ol></li>
+<li><ol start="2" type="a">
+<li>Use these principal components in a regression model to predict the outcome.</li>
+</ol></li>
+</ul></li>
+<li><ol start="3" type="1">
+<li>Pick θ (and m) by cross-validation.</li>
+</ol></li>
+</ul>
+<p>step (2b). For survival problems, Cox’s proportional hazards regression model is widely used; hence we use the score test from this model in step (1) and the multivariate Cox model in step (2b). The details are not essential for understanding the basic method; they may be found in Bair et al.&nbsp;(2006).</p>
+<p>Figure 18.14 shows the results of supervised principal components in this example. We used a Cox-score cutoff of 3.53, yielding 27 genes, where the value 3.53 was found through 10-fold cross-validation. We then computed the first principal component (m = 1) using just this subset of the data, as well as its value for each of the test observations. We included this as a quantitative predictor in a Cox regression model, and its likelihood-ratio significance was p = 0.005. When dichotomized (using the mean score on the training data as a threshold), it clearly separates the patients in the test set into low and high risk groups (middle-right panel of Figure 18.14, p = 0.006).</p>
+<p>The top-right panel of Figure 18.14 uses the top scoring gene (dichotomized) alone as a predictor of survival. It is not significant on the test set. Likewise, the lower-right panel shows the dichotomized principal component using all the training data, which is also not significant.</p>
+<p>Our procedure allows m &gt; 1 principal components in step (2a). However, the supervision in step (1) encourages the principal components to align with the outcome, and thus in most cases only the first or first few components tend to be useful for prediction. In the mathematical development below, we consider only the first component, but extensions to more than one component can be derived in a similar way.</p>
+</section>
+<section id="connection-to-latent-variable-modeling" class="level2" data-number="25.1">
+<h2 data-number="25.1" class="anchored" data-anchor-id="connection-to-latent-variable-modeling"><span class="header-section-number">25.1</span> 18.6.1 Connection to Latent-Variable Modeling</h2>
+<p>A formal connection between supervised principal components and the underlying cell type model (Figure 18.13) can be seen through a latent variable model for the data. Suppose we have a response variable Y which is related to an underlying latent variable U by a linear model</p>
+<p><span class="math display">\[Y = \beta_0 + \beta_1 U + \varepsilon. \tag{18.32}\]</span></p>
+<p>In addition, we have measurements on a set of features <span class="math inline">\(X_j\)</span> indexed by <span class="math inline">\(j \in \mathcal{P}\)</span> (for pathway), for which</p>
+<p><span class="math display">\[X_j = \alpha_{0j} + \alpha_{1j}U + \epsilon_j, \quad j \in \mathcal{P}. \tag{18.33}\]</span></p>
+<p>The errors <span class="math inline">\(\varepsilon\)</span> and <span class="math inline">\(\epsilon_j\)</span> are assumed to have mean zero and are independent of all other random variables in their respective models.</p>
+<p>We also have many additional features <span class="math inline">\(X_k\)</span> , <span class="math inline">\(k \notin \mathcal{P}\)</span> which are independent of U. We would like to identify <span class="math inline">\(\mathcal{P}\)</span> , estimate U, and hence fit the prediction model (18.32). This is a special case of a latent-structure model, or single-component factor-analysis model (Mardia et al., 1979, see also Section 14.7). The latent factor U is a continuous version of the cell type conceptualized in Figure 18.13.</p>
+<p>The supervised principal component algorithm can be seen as a method for fitting this model:</p>
+<ul>
+<li>The screening step (1) estimates the set <span class="math inline">\(\mathcal{P}\)</span> .</li>
+<li>Given <span class="math inline">\(\widehat{\mathcal{P}}\)</span> , the largest principal component in step (2a) estimates the latent factor U.</li>
+<li>Finally, the regression fit in step (2b) estimates the coefficient in model (18.32).</li>
+</ul>
+<p>Step (1) is natural, since on average the regression coefficient is nonzero only if <span class="math inline">\(\alpha_{1j}\)</span> is non-zero. Hence this step should select the features <span class="math inline">\(j \in \mathcal{P}\)</span> . Step (2a) is natural if we assume that the errors <span class="math inline">\(\epsilon_j\)</span> have a Gaussian distribution, with the same variance. In this case the principal component is the maximum likelihood estimate for the single factor model (Mardia et al., 1979). The regression in (2b) is an obvious final step.</p>
+<p>Suppose there are a total of p features, with <span class="math inline">\(p_1\)</span> features in the relevant set <span class="math inline">\(\mathcal{P}\)</span> . Then if p and <span class="math inline">\(p_1\)</span> grow but <span class="math inline">\(p_1\)</span> is small relative to p, one can show (under reasonable conditions) that the leading supervised principal component is consistent for the underlying latent factor. The usual leading principal component may not be consistent, since it can be contaminated by the presence of a large number of “noise” features.</p>
+<p>Finally, suppose that the threshold used in step (1) of the supervised principal component procedure yields a large number of features for computation of the principal component. Then for interpretational purposes, as well as for practical uses, we would like some way of finding a reduced a set of features that approximates the model. Pre-conditioning (Section 18.6.3) is one way of doing this.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_698_Picture_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Illustration</figcaption>
+</figure>
+</div>
+<section id="relationship-with-partial-least-squares" class="level4" data-number="25.1.0.1">
+<h4 data-number="25.1.0.1" class="anchored" data-anchor-id="relationship-with-partial-least-squares"><span class="header-section-number">25.1.0.1</span> 18.6.2 Relationship with Partial Least Squares</h4>
+<p>Supervised principal components is closely related to partial least squares regression (Section 3.5.2). Bair et al.&nbsp;(2006) found that the key to the good performance of supervised principal components was the filtering out of noisy features in step (2a). Partial least squares (Section 3.5.2) downweights noisy features, but does not throw them away; as a result a large number of noisy features can contaminate the predictions. However, a modification of the partial least squares procedure has been proposed that has a similar flavor to supervised principal components [Brown et al.&nbsp;(1991),Nadler and Coifman (2005), for example]. We select the features as in steps (1) and (2a) of supervised principal components, but then apply PLS (rather than principal components) to these features. For our current discussion, we call this “thresholded PLS.”</p>
+<p>Thresholded PLS can be viewed as a noisy version of supervised principal components, and hence we might not expect it to work as well in practice. Assume the variables are all standardized. The first PLS variate has the form</p>
+<p><span class="math display">\[\mathbf{z} = \sum_{j \in \mathcal{P}} \langle \mathbf{y}, \mathbf{x}_j \rangle \mathbf{x}_j, \tag{18.34}\]</span></p>
+<p>and can be thought of as an estimate of the latent factor U in model (18.33). In contrast, the supervised principal components direction uˆ satisfies</p>
+<p><span class="math display">\[\hat{\mathbf{u}} = \frac{1}{d^2} \sum_{j \in \mathcal{P}} \langle \hat{\mathbf{u}}, \mathbf{x}_j \rangle \mathbf{x}_j, \tag{18.35}\]</span></p>
+<p>where d is the leading singular value of X<sup>P</sup> . This follows from the definition of the leading principal component. Hence thresholded PLS uses weights which are the inner product of y with each of the features, while supervised principal components uses the features to derive a “self-consistent” estimate uˆ. Since many features contribute to the estimate uˆ, rather than just the single outcome y, we can expect uˆ to be less noisy than z. In fact, if there are p<sup>1</sup> features in the set P, and N, p and p<sup>1</sup> go to infinity with p1/N → 0, then it can be shown using the techniques in Bair et al.&nbsp;(2006) that</p>
+<p><span class="math display">\[\mathbf{z} = \mathbf{u} + O_p(1)\]</span></p>
+<p><span class="math display">\[\hat{\mathbf{u}} = \mathbf{u} + O_p(\sqrt{p_1/N}), \qquad (18.36)\]</span></p>
+<p>where u is the true (unobservable) latent variable in the model (18.32), (18.33).</p>
+<p>We now present a simulation example to compare the methods numerically. There are N = 100 samples and p = 5000 genes. We generated the data as follows:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_699_Figure_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Figure 18.15: Heatmap of the outcome and first 500 genes</figcaption>
+</figure>
+</div>
+<p>FIGURE 18.15. Heatmap of the outcome (left column) and first 500 genes from a realization from model (18.37). The genes are in the columns, and the samples are in the rows.</p>
+<p><span class="math display">\[x_{ij} = \begin{cases} 3 + \epsilon_{ij} &amp; \text{if } i \le 50, \\ 4 + \epsilon_{ij} &amp; \text{if } i &gt; 50 \end{cases} \qquad j = 1, \dots, 50\]</span></p>
+<p><span class="math display">\[x_{ij} = \begin{cases} 1.5 + \epsilon_{ij} &amp; \text{if } 1 \le i \le 25 \text{ or } 51 \le i \le 75 \\ 5.5 + \epsilon_{ij} &amp; \text{if } 26 \le i \le 50 \text{ or } 76 \le i \le 100 \end{cases} \qquad j = 51, \dots, 250\]</span></p>
+<p><span class="math display">\[x_{ij} = \epsilon_{ij} \qquad j = 251, \dots, 5000\]</span></p>
+<p><span class="math display">\[y_{i} = 2 \cdot \frac{1}{50} \sum_{j=1}^{50} x_{ij} + \epsilon_{i} \qquad (18.37)\]</span></p>
+<p>where <span class="math inline">\(\epsilon_{ij}\)</span> and <span class="math inline">\(\epsilon_i\)</span> are independent normal random variables with mean 0 and standard deviations 1 and 1.5, respectively. Thus in the first 50 genes, there is an average difference of 1 unit between samples 1–50 and 51–100, and this difference correlates with the outcome y. The next 200 genes have a large average difference of 4 units between samples (1–25, 51–75) and (26–50, 76–100), but this difference is uncorrelated with the outcome. The rest of the genes are noise. Figure 18.15 shows a heatmap of a typical realization, with the outcome at the left, and the first 500 genes to the right.</p>
+<p>We generated 100 simulations from this model, and summarize the test error results in Figure 18.16. The test errors of principal components and partial least squares are shown at the right of the plot; both are badly affected by the noisy features in the data. Supervised principal components and thresholded PLS work best over a wide range of the number of selected features, with the former showing consistently lower test errors.</p>
+<p>While this example seems “tailor-made” for supervised principal components, its good performance seems to hold in other simulated and real datasets (Bair et al., 2006).</p>
+</section>
+</section>
+<section id="pre-conditioning-for-feature-selection" class="level2" data-number="25.2">
+<h2 data-number="25.2" class="anchored" data-anchor-id="pre-conditioning-for-feature-selection"><span class="header-section-number">25.2</span> 18.6.3 Pre-Conditioning for Feature Selection</h2>
+<p>Supervised principal components can yield lower test errors than competing methods, as shown in Figure 18.16. However, it does not always produce a sparse model involving only a small number of features (genes). Even if the thresholding in Step (1) of the algorithm yields a relatively small number the former showing consistently lower test errors.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_700_Figure_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Figure 18.16: Root mean squared test error for supervised principal components</figcaption>
+</figure>
+</div>
+<p>FIGURE 18.16. Root mean squared test error (± one standard error), for supervised principal components and thresholded PLS on 100 realizations from model (18.37). All methods use one component, and the errors are relative to the noise standard deviation (the Bayes error is 1.0). For both methods, different values for the filtering threshold were tried and the number of features retained is shown on the horizontal axis. The extreme right points correspond to regular principal components and partial least squares, using all the genes. of features, it may be that some of the omitted features have sizable inner products with the supervised principal component (and could act as a good surrogate). In addition, highly correlated features will tend to be chosen together, and there may be great deal of redundancy in the set of selected features.</p>
+<p>The lasso (Sections 18.4 and 3.4.2), on the other hand, produces a sparse model from the data. How do the test errors of the two methods compare on the simulated example of the last section? Figure 18.17 shows the test errors for one realization from model (18.37) for the lasso, supervised principal components, and the pre-conditioned lasso (described below).</p>
+<p>We see that supervised principal components (orange curve) reaches its lowest error when about 50 features are included in the model, which is the correct number for the simulation. Although a linear model in the first 50 features is optimal, the lasso (green) is adversely affected by the large number of noisy features, and starts overfitting when far fewer are in the model.</p>
+<p>Can we get the low test error of supervised principal components along with the sparsity of the lasso? This is the goal of pre-conditioning (Paul et al., 2008). In this approach, one first computes the supervised principal component predictor ˆy<sup>i</sup> for each observation in the training set (with the</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_701_Figure_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Figure 18.17: Test errors for the lasso, supervised principal components, and pre-conditioned lasso</figcaption>
+</figure>
+</div>
+<p>FIGURE 18.17. Test errors for the lasso, supervised principal components, and pre-conditioned lasso, for one realization from model (18.37). Each model is indexed by the number of non-zero features. The supervised principal component path is truncated at 250 features. The lasso self-truncates at 100, the sample size (see Section 18.4). In this case, the pre-conditioned lasso achieves the lowest error with about 25 features.</p>
+<p>threshold selected by cross-validation). Then we apply the lasso with ˆy<sup>i</sup> as the outcome variable, in place of the usual outcome y<sup>i</sup> . All features are used in the lasso fit, not just those that were retained in the thresholding step in supervised principal components. The idea is that by first denoising the outcome variable, the lasso should not be as adversely affected by the large number of noise features. Figure 18.17 shows that pre-conditioning (purple curve) has been successful here, yielding much lower test error than the usual lasso, and as low (in this case) as for supervised principal components. It also can achieve this using less features. The usual lasso, applied to the raw outcome, starts to overfit more quickly than the pre-conditioned version. Overfitting is not a problem, since the outcome variable has been denoised. We usually select the tuning parameter for the pre-conditioned lasso on more subjective grounds, like parsimony.</p>
+<p>Pre-conditioning can be applied in a variety of settings, using initial estimates other than supervised principal components and post-processors other than the lasso. More details may be found in Paul et al.&nbsp;(2008).</p>
+</section>
+</section>
+<section id="feature-assessment-and-the-multiple-testing-problem" class="level1" data-number="26">
+<h1 data-number="26"><span class="header-section-number">26</span> 18.7 Feature Assessment and the Multiple-Testing Problem</h1>
+<p>In the first part of this chapter we discuss prediction models in the p ≫ N setting. Here we consider the more basic problem of assessing the significance of each of the p features. Consider the protein mass spectrometry example of Section 18.4.1. In that problem, the scientist might not be interested in predicting whether a given patient has prostate cancer. Rather the goal might be to identify proteins whose abundance differs between normal and cancer samples, in order to enhance understanding of the disease and suggest targets for drug development. Thus our goal is to assess the significance of individual features. This assessment is usually done without the use of a multivariate predictive model like those in the first part of this chapter. The feature assessment problem moves our focus from prediction to the traditional statistical topic of multiple hypothesis testing. For the remainder of this chapter we will use M instead of p to denote the number of features, since we will frequently be referring to p-values.</p>
+<p><strong>TABLE 18.4.</strong> Subset of the 12,625 genes from microarray study of radiation sensitivity. There are a total of 44 samples in the normal group and 14 in the radiation sensitive group; we only show three samples from each group.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 10%">
+<col style="width: 9%">
+<col style="width: 10%">
+<col style="width: 4%">
+<col style="width: 10%">
+<col style="width: 13%">
+<col style="width: 15%">
+<col style="width: 4%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th></th>
+<th>Norn</th>
+<th>nal</th>
+<th></th>
+<th>R</th>
+<th>adiation</th>
+<th>Sensitive</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Gene 1</td>
+<td>7.85</td>
+<td>29.74</td>
+<td>29.50</td>
+<td></td>
+<td>17.20</td>
+<td>-50.75</td>
+<td>-18.89</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Gene 2</td>
+<td>15.44</td>
+<td>2.70</td>
+<td>19.37</td>
+<td></td>
+<td>6.57</td>
+<td>-7.41</td>
+<td>79.18</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Gene 3</td>
+<td>-1.79</td>
+<td>15.52</td>
+<td>-3.13</td>
+<td></td>
+<td>-8.32</td>
+<td>12.64</td>
+<td>4.75</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Gene 4</td>
+<td>-11.74</td>
+<td>22.35</td>
+<td>-36.11</td>
+<td></td>
+<td>-52.17</td>
+<td>7.24</td>
+<td>-2.32</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>:</td>
+<td>:</td>
+<td>:</td>
+<td>:</td>
+<td>:</td>
+<td>:</td>
+<td>:</td>
+<td>:</td>
+<td>:</td>
+</tr>
+<tr class="even">
+<td>Gene <span class="math inline">\(12,625\)</span></td>
+<td>-14.09</td>
+<td>32.77</td>
+<td>57.78</td>
+<td></td>
+<td>-32.84</td>
+<td>24.09</td>
+<td>-101.44</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Consider, for example, the microarray data in Table 18.4, taken from a study on the sensitivity of cancer patients to ionizing radiation treatment (Rieger et al., 2004). Each row consists of the expression of genes in 58 patient samples: 44 samples were from patients with a normal reaction, and 14 from patients who had a severe reaction to radiation. The measurements were made on oligo-nucleotide microarrays. The object of the experiment was to find genes whose expression was different in the radiation sensitive group of patients. There are M=12,625 genes altogether; the table shows the data for some of the genes and samples for illustration.</p>
+<p>To identify informative genes, we construct a two-sample t-statistic for each gene.</p>
+<p><span class="math display">\[t_j = \frac{\bar{x}_{2j} - \bar{x}_{1j}}{\text{se}_j},\tag{18.38}\]</span></p>
+<p>where <span class="math inline">\(\bar{x}_{kj} = \sum_{i \in C_{\ell}} x_{ij}/N_{\ell}\)</span> . Here <span class="math inline">\(C_{\ell}\)</span> are the indices of the <span class="math inline">\(N_{\ell}\)</span> samples in group <span class="math inline">\(\ell\)</span> , where <span class="math inline">\(\ell = 1\)</span> is the normal group and <span class="math inline">\(\ell = 2\)</span> is the sensitive group. The quantity <span class="math inline">\(\mathbf{s}_{ij}\)</span> is the pooled within-group standard error for gene j:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_703_Figure_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Figure 18.18: Radiation sensitivity microarray example histogram</figcaption>
+</figure>
+</div>
+<p><strong>FIGURE 18.18.</strong> Radiation sensitivity microarray example. A histogram of the 12,625 t-statistics comparing the radiation-sensitive versus insensitive groups. Overlaid in blue is the histogram of the t-statistics from 1000 permutations of the sample labels.</p>
+<p><span class="math display">\[\operatorname{se}_{j} = \hat{\sigma}_{j} \sqrt{\frac{1}{N_{1}} + \frac{1}{N_{2}}}; \quad \hat{\sigma}_{j}^{2} = \frac{1}{N_{1} + N_{2} - 2} \left( \sum_{i \in C_{1}} (x_{ij} - \bar{x}_{1j})^{2} + \sum_{i \in C_{2}} (x_{ij} - \bar{x}_{2j})^{2} \right). \tag{18.39}\]</span></p>
+<p>A histogram of the 12,625 t-statistics is shown in orange in Figure 18.18, ranging in value from -4.7 to 5.0. If the <span class="math inline">\(t_j\)</span> values were normally distributed we could consider any value greater than two in absolute value to be significantly large. This would correspond to a significance level of about 5%. Here there are 1189 genes with <span class="math inline">\(|t_j| \geq 2\)</span> . However with 12,625 genes we would expect many large values to occur by chance, even if the grouping is unrelated to any gene. For example, if the genes were independent (which they are surely not), the number of falsely significant genes would have a binomial distribution with mean 12,625 <span class="math inline">\(\cdot\)</span> 0.05 = 631.3 and standard deviation 24.5; the actual 1189 is way out of range.</p>
+<p>How do we assess the results for all 12,625 genes? This is called the <em>multiple testing</em> problem. We can start as above by computing a <em>p</em>-value for each gene. This can be done using the theoretical <em>t</em>-distribution probabilities, which assumes the features are normally distributed. An attractive alternative approach is to use the permutation distribution, since it avoids assumptions about the distribution of the data. We compute (in principle) all <span class="math inline">\(K = \binom{58}{14}\)</span> permutations of the sample labels, and for each permutation k compute the t-statistics <span class="math inline">\(t_j^k\)</span> . Then the p-value for gene j is</p>
+<p><span class="math display">\[p_j = \frac{1}{K} \sum_{k=1}^{K} I(|t_j^k| &gt; |t_j|).\]</span> (18.40)</p>
+<p>Of course, <span class="math inline">\(\binom{58}{14}\)</span> is a large number (around <span class="math inline">\(10^{13}\)</span> ) and so we can’t enumerate all of the possible permutations. Instead we take a random sample of the possible permutations; here we took a random sample of K=1000 permutations.</p>
+<p>To exploit the fact that the genes are similar (e.g., measured on the same scale), we can instead pool the results for all genes in computing the <em>p</em>-values.</p>
+<p><span class="math display">\[p_j = \frac{1}{MK} \sum_{j'=1}^{M} \sum_{k=1}^{K} I(|t_{j'}^k| &gt; |t_j|).\]</span> (18.41)</p>
+<p>This also gives more granular p-values than does (18.40), since there many more values in the pooled null distribution than there are in each individual null distribution.</p>
+<p>Using this set of p-values, we would like to test the hypotheses:</p>
+<p><span class="math display">\[H_{0j}\]</span> = treatment has no effect on gene <span class="math inline">\(j\)</span></p>
+<p><span class="math display">\[versus \tag{18.42}\]</span></p>
+<p><span class="math inline">\(H_{1j}\)</span> = treatment has an effect on gene j</p>
+<p>for all j = 1, 2, …, M. We reject <span class="math inline">\(H_{0j}\)</span> at level <span class="math inline">\(\alpha\)</span> if <span class="math inline">\(p_j &lt; \alpha\)</span> . This test has type-I error equal to <span class="math inline">\(\alpha\)</span> ; that is, the probability of falsely rejecting <span class="math inline">\(H_{0j}\)</span> is <span class="math inline">\(\alpha\)</span> .</p>
+<p>Now with many tests to consider, it is not clear what we should use as an overall measure of error. Let <span class="math inline">\(A_j\)</span> be the event that <span class="math inline">\(H_{0j}\)</span> is falsely rejected; by definition <span class="math inline">\(\Pr(A_j) = \alpha\)</span> . The family-wise error rate (FWER) is the probability of at least one false rejection, and is a commonly used overall measure of error. In detail, if <span class="math inline">\(A = \bigcup_{j=1}^M A_j\)</span> is the event of at least one false rejection, then the FWER is <span class="math inline">\(\Pr(A)\)</span> . Generally <span class="math inline">\(\Pr(A) \gg \alpha\)</span> for large M, and depends on the correlation between the tests. If the tests are independent each with type-I error rate <span class="math inline">\(\alpha\)</span> , then the family-wise error rate of the collection of tests is <span class="math inline">\((1 - (1 - \alpha)^M)\)</span> . On the other hand, if the tests have positive dependence, that is <span class="math inline">\(\Pr(A_j|A_k) &gt; \Pr(A_j)\)</span> , then the FWER will be less than <span class="math inline">\((1 - (1 - \alpha)^M)\)</span> . Positive dependence between tests often occurs in practice, in particular in genomic studies.</p>
+<p>One of the simplest approaches to multiple testing is the <em>Bonferroni</em> method. It makes each individual test more stringent, in order to make the FWER equal to at most <span class="math inline">\(\alpha\)</span> : we reject <span class="math inline">\(H_{0j}\)</span> if <span class="math inline">\(p_j &lt; \alpha/M\)</span> . It is easy to show that the resulting FWER is <span class="math inline">\(\leq \alpha\)</span> (Exercise 18.16). The Bonferroni method can be useful if M is relatively small, but for large M it is too conservative, that is, it calls too few genes significant.</p>
+<p>In our example, if we test at level say <span class="math inline">\(\alpha=0.05\)</span> , then we must use the threshold <span class="math inline">\(0.05/12,625=3.9\times10^{-6}\)</span> . None of the 12,625 genes had a <em>p</em>-value this small.</p>
+<p>There are variations to this approach that adjust the individual p-values to achieve an FWER of at most α, with some approaches avoiding the assumption of independence; see, e.g., Dudoit et al.&nbsp;(2002b).</p>
+<section id="the-false-discovery-rate" class="level4" data-number="26.0.0.1">
+<h4 data-number="26.0.0.1" class="anchored" data-anchor-id="the-false-discovery-rate"><span class="header-section-number">26.0.0.1</span> 18.7.1 The False Discovery Rate</h4>
+<p>A different approach to multiple testing does not try to control the FWER, but focuses instead on the proportion of falsely significant genes. As we will see, this approach has a strong practical appeal.</p>
+<p>Table 18.5 summarizes the theoretical outcomes of M hypothesis tests. Note that the family-wise error rate is Pr(V ≥ 1). Here we instead focus</p>
+<p>TABLE 18.5. Possible outcomes from M hypothesis tests. Note that V is the number of false-positive tests; the type-I error rate is E(V )/M0. The type-II error rate is E(T)/M1, and the power is 1 − E(T)/M1.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th>Called</th>
+<th>Called</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td>Not Significant</td>
+<td>Significant</td>
+<td>Total</td>
+</tr>
+<tr class="even">
+<td>H0<br>True</td>
+<td>U</td>
+<td>V</td>
+<td>M0</td>
+</tr>
+<tr class="odd">
+<td>H0<br>False</td>
+<td>T</td>
+<td>S</td>
+<td>M1</td>
+</tr>
+<tr class="even">
+<td>Total</td>
+<td>M<br>− R</td>
+<td>R</td>
+<td>M</td>
+</tr>
+</tbody>
+</table>
+<p>on the false discovery rate</p>
+<p><span class="math display">\[FDR = E(V/R). (18.43)\]</span></p>
+<p>In the microarray setting, this is the expected proportion of genes that are incorrectly called significant, among the R genes that are called significant. The expectation is taken over the population from which the data are generated. Benjamini and Hochberg (1995) first proposed the notion of false discovery rate, and gave a testing procedure (Algorithm 18.2) whose FDR is bounded by a user-defined level α. The Benjamini–Hochberg (BH) procedure is based on p-values; these can be obtained from an asymptotic approximation to the test statistic (e.g., Gaussian), or a permutation distribution, as is done here.</p>
+<p>If the hypotheses are independent, Benjamini and Hochberg (1995) show that regardless of how many null hypotheses are true and regardless of the distribution of the p-values when the null hypothesis is false, this procedure has the property</p>
+<p><span class="math display">\[FDR \le \frac{M_0}{M} \alpha \le \alpha. \tag{18.45}\]</span></p>
+<p>For illustration we chose α = 0.15. Figure 18.19 shows a plot of the ordered p-values p(j) , and the line with slope 0.15/12625.</p>
+</section>
+<section id="algorithm-18.2-benjamini-hochberg-bh-method." class="level4" data-number="26.0.0.2">
+<h4 data-number="26.0.0.2" class="anchored" data-anchor-id="algorithm-18.2-benjamini-hochberg-bh-method."><span class="header-section-number">26.0.0.2</span> Algorithm 18.2 Benjamini-Hochberg (BH) Method.</h4>
+<ul>
+<li><ol type="1">
+<li>Fix the false discovery rate <span class="math inline">\(\alpha\)</span> and let <span class="math inline">\(p_{(1)} \leq p_{(2)} \leq \cdots \leq p_{(M)}\)</span> denote the ordered p-values</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>Define</li>
+</ol></li>
+</ul>
+<p><span class="math display">\[L = \max \left\{ j : p_{(j)} &lt; \alpha \cdot \frac{j}{M} \right\}. \tag{18.44}\]</span></p>
+<ol start="3" type="1">
+<li>Reject all hypotheses <span class="math inline">\(H_{0j}\)</span> for which <span class="math inline">\(p_j \leq p_{(L)}\)</span> , the BH rejection threshold.</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_706_Figure_7.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Figure 18.19: Ordered p-values and the Benjamini-Hochberg threshold</figcaption>
+</figure>
+</div>
+<p><strong>FIGURE 18.19.</strong> Microarray example continued. Shown is a plot of the ordered p-values <span class="math inline">\(p_{(j)}\)</span> and the line <span class="math inline">\(0.15 \cdot (j/12, 625)\)</span> , for the Benjamini–Hochberg method. The largest j for which the p-value <span class="math inline">\(p_{(j)}\)</span> falls below the line, gives the BH threshold. Here this occurs at j = 11, indicated by the vertical line. Thus the BH method calls significant the 11 genes (in red) with smallest p-values.</p>
+</section>
+<section id="algorithm-18.3-the-plug-in-estimate-of-the-false-discovery-rate." class="level4" data-number="26.0.0.3">
+<h4 data-number="26.0.0.3" class="anchored" data-anchor-id="algorithm-18.3-the-plug-in-estimate-of-the-false-discovery-rate."><span class="header-section-number">26.0.0.3</span> <strong>Algorithm 18.3</strong> The Plug-in Estimate of the False Discovery Rate.</h4>
+<ul>
+<li><ol type="1">
+<li>Create K permutations of the data, producing t-statistics <span class="math inline">\(t_j^k\)</span> for features <span class="math inline">\(j=1,2,\ldots,M\)</span> and permutations <span class="math inline">\(k=1,2,\ldots,K\)</span> .</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>For a range of values of the cut-point C, let</li>
+</ol></li>
+</ul>
+<p><span class="math display">\[R_{\text{obs}} = \sum_{j=1}^{M} I(|t_j| &gt; C), \quad \widehat{\mathbf{E}(V)} = \frac{1}{K} \sum_{j=1}^{M} \sum_{k=1}^{K} I(|t_j^k| &gt; C). \quad (18.46)\]</span></p>
+<ol start="3" type="1">
+<li>Estimate the FDR by <span class="math inline">\(\widehat{\text{FDR}} = \widehat{\text{E}(V)}/R_{\text{obs}}\)</span> .</li>
+</ol>
+<p>Starting at the left and moving right, the BH method finds the last time that the p-values fall below the line. This occurs at j = 11, so we reject the 11 genes with smallest p-values. Note that the cutoff occurs at the 11th smallest p-value, 0.00012, and the 11th largest of the values <span class="math inline">\(|t_j|\)</span> is 4.101 Thus we reject the 11 genes with <span class="math inline">\(|t_j| \ge 4.101\)</span> .</p>
+<p>From our brief description, it is not clear how the BH procedure works; that is, why the corresponding FDR is at most 0.15, the value used for <span class="math inline">\(\alpha\)</span> . Indeed, the proof of this fact is quite complicated (Benjamini and Hochberg, 1995).</p>
+<p>A more direct way to proceed is a plug-in approach. Rather than starting with a value for <span class="math inline">\(\alpha\)</span> , we fix a cut-point for our t-statistics, say the value 4.101 that appeared above. The number of observed values <span class="math inline">\(|t_j|\)</span> equal or greater than 4.101 is 11. The total number of permutation values <span class="math inline">\(|t_j|\)</span> equal or greater than 4.101 is 1518, for an average of 1518/1000 = 1.518 per permutation. Thus a direct estimate of the false discovery rate is <span class="math inline">\(\widehat{\text{FDR}} = 1.518/11 \approx 14\%\)</span> . Note that 14% is approximately equal to the value of <span class="math inline">\(\alpha = 0.15\)</span> used above (the difference is due to discreteness). This procedure is summarized in Algorithm 18.3. To recap:</p>
+<p>The plug-in estimate of FDR of Algorithm 18.3 is equivalent to the BH procedure of Algorithm 18.2, using the permutation p-values (18.40).</p>
+<p>This correspondence between the BH method and the plug-in estimate is not a coincidence. Exercise 18.17 shows that they are equivalent in general. Note that this procedure makes no reference to p-values at all, but rather works directly with the test statistics.</p>
+<p>The plug-in estimate is based on the approximation</p>
+<p><span class="math display">\[E(V/R) \approx \frac{E(V)}{E(R)},\]</span> (18.47)</p>
+<p>and in general <span class="math inline">\(\widehat{\text{FDR}}\)</span> is a consistent estimate of FDR (Storey, 2002; Storey et al., 2004). Note that the numerator <span class="math inline">\(\widehat{\text{E}(V)}\)</span> actually estimates <span class="math inline">\((M/M_0)\text{E}(V)\)</span> ,</p>
+<p>since the permutation distribution uses M rather <span class="math inline">\(M_0\)</span> null hypotheses. Hence if an estimate of <span class="math inline">\(M_0\)</span> is available, a better estimate of FDR can be obtained from <span class="math inline">\((\hat{M}_0/M) \cdot \widehat{\text{FDR}}\)</span> . Exercise 18.19 shows a way to estimate <span class="math inline">\(M_0\)</span> . The most conservative (upwardly biased) estimate of FDR uses <span class="math inline">\(M_0 = M\)</span> . Equivalently, an estimate of <span class="math inline">\(M_0\)</span> can be used to improve the BH method, through relation (18.45).</p>
+<p>The reader might be surprised that we chose a value as large as 0.15 for <span class="math inline">\(\alpha\)</span> , the FDR bound. We must remember that the FDR is not the same as type-I error, for which 0.05 is the customary choice. For the scientist, the false discovery rate is the expected proportion of false positive genes among the list of genes that the statistician tells him are significant. Microarray experiments with FDRs as high as 0.15 might still be useful, especially if they are exploratory in nature.</p>
+</section>
+<section id="asymmetric-cutpoints-and-the-sam-procedure" class="level4" data-number="26.0.0.4">
+<h4 data-number="26.0.0.4" class="anchored" data-anchor-id="asymmetric-cutpoints-and-the-sam-procedure"><span class="header-section-number">26.0.0.4</span> 18.7.2 Asymmetric Cutpoints and the SAM Procedure</h4>
+<p>In the testing methods described above, we used the absolute value of the test statistic <span class="math inline">\(t_j\)</span> , and hence applied the same cut-points to both positive and negative values of the statistic. In some experiments, it might happen that most or all of the differentially expressed genes change in the positive direction (or all in the negative direction). For this situation it is advantageous to derive separate cut-points for the two cases.</p>
+<p>The significance analysis of microarrays (SAM) approach offers a way of doing this. The basis of the SAM method is shown in Figure 18.20. On the vertical axis we have plotted the ordered test statistics <span class="math inline">\(t_{(1)} \leq t_{(2)} \leq \cdots \leq t_{(M)}\)</span> , while the horizontal axis shows the expected order statistics from the permutations of the data: <span class="math inline">\(\tilde{t}_{(j)} = (1/K) \sum_{k=1}^{K} t_{(j)}^k\)</span> , where <span class="math inline">\(t_{(1)}^k \leq t_{(2)}^k \leq \cdots \leq t_{(M)}^k\)</span> are the ordered test statistics from permutation k.</p>
+<p>Two lines are drawn, parallel to the 45° line, <span class="math inline">\(\Delta\)</span> units away. Starting at the origin and moving to the right, we find the first place that the genes leave the band. This defines the upper cutpoint <span class="math inline">\(C_{\text{hi}}\)</span> and all genes beyond that point are called significant (marked red). Similarly we find the lower cutpoint <span class="math inline">\(C_{\text{low}}\)</span> for genes in the bottom left corner. Thus each value of the tuning parameter <span class="math inline">\(\Delta\)</span> defines upper and lower cutpoints, and the plug-in estimate <span class="math inline">\(\widehat{\text{FDR}}\)</span> for each of these cutpoints is estimated as before. Typically a range of values of <span class="math inline">\(\Delta\)</span> and associated <span class="math inline">\(\widehat{\text{FDR}}\)</span> values are computed, from which a particular pair are chosen on subjective grounds.</p>
+<p>The advantage of the SAM approach lies in the possible asymmetry of the cutpoints. In the example of Figure 18.20, with <span class="math inline">\(\Delta=0.71\)</span> we obtain 11 significant genes; they are all in the upper right. The data points in the bottom left never leave the band, and hence <span class="math inline">\(C_{low}=-\infty\)</span> . Hence for this value of <span class="math inline">\(\Delta\)</span> , no genes are called significant on the left (negative) side. We do not impose symmetry on the cutpoints, as was done in Section 18.7.1, as there is no reason to assume similar behavior at the two ends.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_709_Figure_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Figure 18.20: SAM plot for the radiation sensitivity microarray data</figcaption>
+</figure>
+</div>
+<p><strong>FIGURE 18.20.</strong> SAM plot for the radiation sensitivity microarray data. On the vertical axis we have plotted the ordered test statistics, while the horizontal axis shows the expected order statistics of the test statistics from permutations of the data. Two lines are drawn, parallel to the 45° line, <span class="math inline">\(\Delta\)</span> units away from it. Starting at the origin and moving to the right, we find the first place that the genes leave the band. This defines the upper cut-point <span class="math inline">\(C_{hi}\)</span> and all genes beyond that point are called significant (marked in red). Similarly we define a lower cutpoint <span class="math inline">\(C_{low}\)</span> . For the particular value of <span class="math inline">\(\Delta=0.71\)</span> in the plot, no genes are called significant in the bottom left.</p>
+<p>There is some similarity between this approach and the asymmetry possible with likelihood-ratio tests. Suppose we have a log-likelihood <span class="math inline">\(\ell_0(t_j)\)</span> under the null-hypothesis of no effect, and a log-likelihood <span class="math inline">\(\ell(t_j)\)</span> under the alternative. Then a likelihood ratio test amounts to rejecting the null-hypothesis if</p>
+<p><span class="math display">\[\ell(t_j) - \ell_0(t_j) &gt; \Delta, \tag{18.48}\]</span></p>
+<p>for some <span class="math inline">\(\Delta\)</span> . Depending on the likelihoods, and particularly their relative values, this can result in a different threshold for <span class="math inline">\(t_j\)</span> than for <span class="math inline">\(-t_j\)</span> . The SAM procedure rejects the null-hypothesis if</p>
+<p><span class="math display">\[|t_{(j)} - \tilde{t}_{(j)}| &gt; \Delta \tag{18.49}\]</span></p>
+<p>Again, the threshold for each <span class="math inline">\(t_{(j)}\)</span> depends on the corresponding value of the null value <span class="math inline">\(\tilde{t}_{(j)}\)</span> .</p>
+</section>
+<section id="a-bayesian-interpretation-of-the-fdr" class="level4" data-number="26.0.0.5">
+<h4 data-number="26.0.0.5" class="anchored" data-anchor-id="a-bayesian-interpretation-of-the-fdr"><span class="header-section-number">26.0.0.5</span> 18.7.3 A Bayesian Interpretation of the FDR</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_710_Picture_8.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Illustration</figcaption>
+</figure>
+</div>
+<p>There is an interesting Bayesian view of the FDR, developed in Storey (2002) and Efron and Tibshirani (2002). First we need to define the <em>positive false discovery rate</em> (pFDR) as</p>
+<p><span class="math display">\[pFDR = E\left\lceil \frac{V}{R} \middle| R &gt; 0 \right\rceil. \tag{18.50}\]</span></p>
+<p>The additional term <em>positive</em> refers to the fact that we are only interested in estimating an error rate where positive findings have occurred. It is this slightly modified version of the FDR that has a clean Bayesian interpretation. Note that the usual FDR [expression (18.43)] is not defined if Pr(R=0) &gt; 0.</p>
+<p>Let <span class="math inline">\(\Gamma\)</span> be a rejection region for a single test; in the example above we used <span class="math inline">\(\Gamma = (-\infty, -4.10) \cup (4.10, \infty)\)</span> . Suppose that M identical simple hypothesis tests are performed with the i.i.d. statistics <span class="math inline">\(t_1, \ldots, t_M\)</span> and rejection region <span class="math inline">\(\Gamma\)</span> . We define a random variable <span class="math inline">\(Z_j\)</span> which equals 0 if the jth null hypothesis is true, and 1 otherwise. We assume that each pair <span class="math inline">\((t_j, Z_j)\)</span> are i.i.d random variables with</p>
+<p><span class="math display">\[t_j|Z_j \sim (1-Z_j) \cdot F_0 + Z_j \cdot F_1\]</span> (18.51)</p>
+<p>for some distributions <span class="math inline">\(F_0\)</span> and <span class="math inline">\(F_1\)</span> . This says that each test statistic <span class="math inline">\(t_j\)</span> comes from one of two distributions: <span class="math inline">\(F_0\)</span> if the null hypothesis is true, and <span class="math inline">\(F_1\)</span> otherwise. Letting <span class="math inline">\(\Pr(Z_j = 0) = \pi_0\)</span> , marginally we have:</p>
+<p><span class="math display">\[t_j \sim \pi_0 \cdot F_0 + (1 - \pi_0) \cdot F_1.\]</span> (18.52)</p>
+<p>Then it can be shown (Efron et al., 2001; Storey, 2002) that</p>
+<p><span class="math display">\[pFDR(\Gamma) = Pr(Z_j = 0 | t_j \in \Gamma). \tag{18.53}\]</span></p>
+<p>Hence under the mixture model (18.51), the pFDR is the posterior probability that the null hypothesis it true, given that test statistic falls in the rejection region for the test; that is, given that we reject the null hypothesis (Exercise 18.20).</p>
+<p>The false discovery rate provides a measure of accuracy for tests based on an entire rejection region, such as |t<sup>j</sup> | ≥ 2. But if the FDR of such a test is say 10%, then a gene with say t<sup>j</sup> = 5 will be more significant than a gene with t<sup>j</sup> = 2. Thus it is of interest to derive a local (gene-specific) version of the FDR. The q-value (Storey, 2003) of a test statistic t<sup>j</sup> is defined to be the smallest FDR over all rejection regions that reject t<sup>j</sup> . That is, for symmetric rejection regions, the q-value for t<sup>j</sup> = 2 is defined to be the FDR for the rejection region Γ = {−(∞, −2) ∪ (2,∞)}. Thus the q-value for t<sup>j</sup> = 5 will be smaller than that for t<sup>j</sup> = 2, reflecting the fact that t<sup>j</sup> = 5 is more significant than t<sup>j</sup> = 2. The local false discovery rate (Efron and Tibshirani, 2002) at t = t<sup>0</sup> is defined to be</p>
+<p><span class="math display">\[\Pr(Z_j = 0 | t_j = t_0). \tag{18.54}\]</span></p>
+<p>This is the (positive) FDR for an infinitesimal rejection region surrounding the value t<sup>j</sup> = t0.</p>
+</section>
+</section>
+<section id="bibliographic-notes" class="level1" data-number="27">
+<h1 data-number="27"><span class="header-section-number">27</span> 18.8 Bibliographic Notes</h1>
+<p>Many references were given at specific points in this chapter; we give some additional ones here. Dudoit et al.&nbsp;(2002a) give an overview and comparison of discrimination methods for gene expression data. Levina (2002) does some mathematical analysis comparing diagonal LDA to full LDA, as p, N → ∞ with p &gt; N. She shows that with reasonable assumptions diagonal LDA has a lower asymptotic error rate than full LDA. Tibshirani et al.&nbsp;(2001a) and Tibshirani et al.&nbsp;(2003) proposed the nearest shrunken-centroid classifier. Zhu and Hastie (2004) study regularized logistic regression. Highdimensional regression and the lasso are very active areas of research, and many references are given in Section 3.8.5. The fused lasso was proposed by Tibshirani et al.&nbsp;(2005), while Zou and Hastie (2005) introduced the elastic net. Supervised principal components is discussed in Bair and Tibshirani (2004) and Bair et al.&nbsp;(2006). For an introduction to the analysis of censored survival data, see Kalbfleisch and Prentice (1980).</p>
+<p>Microarray technology has led to a flurry of statistical research: see for example the books by Speed (2003), Parmigiani et al.&nbsp;(2003), Simon et al.&nbsp;(2004), and Lee (2004).</p>
+<p>The false discovery rate was proposed by Benjamini and Hochberg (1995), and studied and generalized in subsequent papers by these authors and many others. A partial list of papers on FDR may be found on Yoav Benjamini’s homepage. Some more recent papers include Efron and Tibshirani (2002), Storey (2002), Genovese and Wasserman (2004), Storey and Tibshirani (2003) and Benjamini and Yekutieli (2005). Dudoit et al.&nbsp;(2002b) review methods for identifying differentially expressed genes in microarray studies.</p>
+<section id="exercises" class="level4" data-number="27.0.0.1">
+<h4 data-number="27.0.0.1" class="anchored" data-anchor-id="exercises"><span class="header-section-number">27.0.0.1</span> Exercises</h4>
+<p>Ex. 18.1 For a coefficient estimate <span class="math inline">\(\hat{\beta}_j\)</span> , let <span class="math inline">\(\hat{\beta}_j/||\hat{\beta}_j||_2\)</span> be the normalized version. Show that as <span class="math inline">\(\lambda \to \infty\)</span> , the normalized ridge-regression estimates converge to the renormalized partial-least-squares one-component estimates.</p>
+<p>Ex. 18.2 Nearest shrunken centroids and the lasso. Consider a (naive Bayes) Gaussian model for classification in which the features <span class="math inline">\(j=1,2,\ldots,p\)</span> are assumed to be independent within each class <span class="math inline">\(k=1,2,\ldots,K\)</span> . With observations <span class="math inline">\(i=1,2,\ldots,N\)</span> and <span class="math inline">\(C_k\)</span> equal to the set of indices of the <span class="math inline">\(N_k\)</span> observations in class k, we observe <span class="math inline">\(x_{ij} \sim N(\mu_j + \mu_{jk}, \sigma_j^2)\)</span> for <span class="math inline">\(i \in C_k\)</span> with <span class="math inline">\(\sum_{k=1}^K \mu_{jk} = 0\)</span> . Set <span class="math inline">\(\hat{\sigma}_j^2 = s_j^2\)</span> , the pooled within-class variance for feature j, and consider the lasso-style minimization problem</p>
+<p><span class="math display">\[\min_{\{\mu_j, \mu_{jk}\}} \left\{ \frac{1}{2} \sum_{j=1}^p \sum_{k=1}^K \sum_{i \in C_k} \frac{(x_{ij} - \mu_j - \mu_{jk})^2}{s_j^2} + \lambda \sqrt{N_k} \sum_{j=1}^p \sum_{k=1}^K \frac{|\mu_{jk}|}{s_j} \right\} (18.55)\]</span></p>
+<p>Show that the solution is equivalent to the nearest shrunken centroid estimator (18.7), with <span class="math inline">\(s_0\)</span> set to zero, and <span class="math inline">\(m_k^2\)</span> equal to <span class="math inline">\(1/N_k\)</span> instead of <span class="math inline">\(1/N_k - 1/N\)</span> as before.</p>
+<p>Ex. 18.3 Show that the fitted coefficients for the regularized multiclass logistic regression problem (18.10) satisfy <span class="math inline">\(\sum_{k=1}^K \hat{\beta}_{kj} = 0\)</span> , <span class="math inline">\(j = 1, \ldots, p\)</span> . What about the <span class="math inline">\(\hat{\beta}_{k0}\)</span> ? Discuss issues with these constant parameters, and how they can be resolved.</p>
+<p>Ex. 18.4 Derive the computational formula (18.15) for ridge regression. [Hint: Use the first derivative of the penalized sum-of-squares criterion to show that if <span class="math inline">\(\lambda &gt; 0\)</span> , then <span class="math inline">\(\hat{\beta} = \mathbf{X}^T s\)</span> for some <span class="math inline">\(s \in \mathbb{R}^N\)</span> .]</p>
+<p>Ex. 18.5 Prove the theorem (18.16)–(18.17) in Section 18.3.5, by decomposing <span class="math inline">\(\beta\)</span> and the rows of <strong>X</strong> into their projections into the column space of <strong>V</strong> and its complement in <span class="math inline">\(\mathbb{R}^p\)</span> .</p>
+<p>Ex. 18.6 Show how the theorem in Section 18.3.5 can be applied to regularized discriminant analysis [Equations 4.14 and (18.9)].</p>
+<p>Ex. 18.7 Consider a linear regression problem where <span class="math inline">\(p \gg N\)</span> , and assume the rank of <strong>X</strong> is N. Let the SVD of <span class="math inline">\(\mathbf{X} = \mathbf{U}\mathbf{D}\mathbf{V}^T = \mathbf{R}\mathbf{V}^T\)</span> , where <strong>R</strong> is <span class="math inline">\(N \times N\)</span> nonsingular, and <strong>V</strong> is <span class="math inline">\(p \times N\)</span> with orthonormal columns.</p>
+<ul>
+<li><ol type="a">
+<li>Show that there are infinitely many least-squares solutions all with zero residuals.</li>
+</ol></li>
+<li><ol start="2" type="a">
+<li>Show that the ridge-regression estimate for <span class="math inline">\(\beta\)</span> can be written</li>
+</ol></li>
+</ul>
+<p><span class="math display">\[\hat{\beta}_{\lambda} = \mathbf{V}(\mathbf{R}^T \mathbf{R} + \lambda \mathbf{I})^{-1} \mathbf{R}^T \mathbf{y}\]</span> (18.56)</p>
+<ol start="3" type="a">
+<li>Show that when <span class="math inline">\(\lambda=0\)</span> , the solution <span class="math inline">\(\hat{\beta}_0=\mathbf{V}\mathbf{D}^{-1}\mathbf{U}^T\mathbf{y}\)</span> has residuals all equal to zero, and is unique in that it has the smallest Euclidean norm amongst all zero-residual solutions.</li>
+</ol>
+<p>Ex. 18.8 Data Piling. Exercise 4.2 shows that the two-class LDA solution can be obtained by a linear regression of a binary response vector <span class="math inline">\(\mathbf{y}\)</span> consisting of -1s and +1s. The prediction <span class="math inline">\(\hat{\beta}^T x\)</span> for any x is (up to a scale and shift) the LDA score <span class="math inline">\(\delta(x)\)</span> . Suppose now that <span class="math inline">\(p \gg N\)</span> .</p>
+<ul>
+<li><ol type="a">
+<li>Consider the linear regression model <span class="math inline">\(f(x) = \alpha + \beta^T x\)</span> fit to a binary response <span class="math inline">\(Y \in \{-1, +1\}\)</span> . Using Exercise 18.7, show that there are infinitely many directions defined by <span class="math inline">\(\hat{\beta}\)</span> in <span class="math inline">\(\mathbb{R}^p\)</span> onto which the data project to exactly two points, one for each class. These are known as data piling directions (Ahn and Marron, 2005).</li>
+</ol></li>
+<li><ol start="2" type="a">
+<li>Show that the distance between the projected points is <span class="math inline">\(2/||\hat{\beta}||\)</span> , and hence these directions define separating hyperplanes with that margin.</li>
+</ol></li>
+<li><ol start="3" type="a">
+<li>Argue that there is a single maximal data piling direction for which this distance is largest, and is defined by <span class="math inline">\(\hat{\beta}_0 = \mathbf{V}\mathbf{D}^{-1}\mathbf{U}^T\mathbf{y} = \mathbf{X}^-\mathbf{y}\)</span> , where <span class="math inline">\(\mathbf{X} = \mathbf{U}\mathbf{D}\mathbf{V}^T\)</span> is the SVD of <span class="math inline">\(\mathbf{X}\)</span> .</li>
+</ol></li>
+</ul>
+<p>Ex. 18.9 Compare the data piling direction of Exercise 18.8 to the direction of the optimal separating hyperplane (Section 4.5.2) qualitatively. Which makes the widest margin, and why? Use a small simulation to demonstrate the difference.</p>
+<p>Ex. 18.10 When <span class="math inline">\(p \gg N\)</span> , linear discriminant analysis (see Section 4.3) is degenerate because the within-class covariance matrix <strong>W</strong> is singular. One version of regularized discriminant analysis (4.14) replaces <strong>W</strong> by a ridged version <span class="math inline">\(\mathbf{W} + \lambda \mathbf{I}\)</span> , leading to a regularized discriminant function <span class="math inline">\(\delta_{\lambda}(x) = x^T(\mathbf{W} + \lambda \mathbf{I})^{-1}(\bar{x}_1 - \bar{x}_{-1})\)</span> . Show that <span class="math inline">\(\delta_0(x) = \lim_{\lambda \downarrow 0} \delta_{\lambda}(x)\)</span> corresponds to the maximal data piling direction defined in Exercise 18.8.</p>
+<p>Ex. 18.11 Suppose you have a sample of N pairs <span class="math inline">\((x_i, y_i)\)</span> , with <span class="math inline">\(y_i\)</span> binary and <span class="math inline">\(x_i \in \mathbb{R}^1\)</span> . Suppose also that the two classes are separable; e.g., for each</p>
+<p>pair i, i’ with <span class="math inline">\(y_i = 0\)</span> and <span class="math inline">\(y_{i'} = 1\)</span> , <span class="math inline">\(x_{i'} - x_i \ge C\)</span> for some C &gt; 0. You wish to fit a linear logistic regression model logitPr <span class="math inline">\((Y = 1|X) = \alpha + \beta X\)</span> by maximum-likelihood. Show that <span class="math inline">\(\hat{\beta}\)</span> is undefined.</p>
+<p>Ex. 18.12 Suppose we wish to select the ridge parameter <span class="math inline">\(\lambda\)</span> by 10-fold cross-validation in a <span class="math inline">\(p \gg N\)</span> situation (for any linear model). We wish to use the computational shortcuts described in Section 18.3.5. Show that we need only to reduce the <span class="math inline">\(N \times p\)</span> matrix <span class="math inline">\(\mathbf{X}\)</span> to the <span class="math inline">\(N \times N\)</span> matrix <span class="math inline">\(\mathbf{R}\)</span> once, and can use it in all the cross-validation runs.</p>
+<p>Ex. 18.13 Suppose our p &gt; N predictors are presented as an <span class="math inline">\(N \times N\)</span> inner-product matrix <span class="math inline">\(\mathbf{K} = \mathbf{X}\mathbf{X}^T\)</span> , and we wish to fit the equivalent of a linear logistic regression model in the original features with quadratic regularization. Our predictions are also to be made using inner products; a new <span class="math inline">\(x_0\)</span> is presented as <span class="math inline">\(k_0 = \mathbf{X}x_0\)</span> . Let <span class="math inline">\(\mathbf{K} = \mathbf{U}\mathbf{D}^2\mathbf{U}^T\)</span> be the eigen-decomposition of <span class="math inline">\(\mathbf{K}\)</span> . Show that the predictions are given by <span class="math inline">\(\hat{f}_0 = k_0^T \hat{\alpha}\)</span> , where</p>
+<ul>
+<li><ol type="a">
+<li><span class="math inline">\(\hat{\alpha} = \mathbf{U}\mathbf{D}^{-1}\hat{\beta}\)</span> , and</li>
+</ol></li>
+<li><ol start="2" type="a">
+<li><span class="math inline">\(\hat{\beta}\)</span> is the ridged logistic regression estimate with input matrix <span class="math inline">\(\mathbf{R} = \mathbf{UD}\)</span> .</li>
+</ol></li>
+</ul>
+<p>Argue that the same approach can be used for any appropriate kernel matrix K.</p>
+<p>Ex. 18.14 Distance weighted 1-NN classification. Consider the 1-nearest-neighbor method (Section 13.3) in a two-class classification problem. Let <span class="math inline">\(d_+(x_0)\)</span> be the shortest distance to a training observation in class +1, and likewise <span class="math inline">\(d_-(x_0)\)</span> the shortest distance for class -1. Let <span class="math inline">\(N_-\)</span> be the number of samples in class -1, <span class="math inline">\(N_+\)</span> the number in class +1, and <span class="math inline">\(N=N_-+N_+\)</span> .</p>
+<ol type="a">
+<li>Show that</li>
+</ol>
+<p><span class="math display">\[\delta(x_0) = \log \frac{d_-(x_0)}{d_+(x_0)} \tag{18.57}\]</span></p>
+<p>can be viewed as a nonparametric discriminant function corresponding to 1-NN classification. [Hint: Show that <span class="math inline">\(\hat{f}_+(x_0) = \frac{1}{N_+d_+(x_0)}\)</span> can be viewed as a nonparametric estimate of the density in class +1 at <span class="math inline">\(x_0\)</span> ].</p>
+<ul>
+<li><ol start="2" type="a">
+<li>How would you modify this function to introduce class prior probabilities <span class="math inline">\(\pi_+\)</span> and <span class="math inline">\(\pi_-\)</span> different from the sample-priors <span class="math inline">\(N_+/N\)</span> and <span class="math inline">\(N_-/N\)</span> ?</li>
+</ol></li>
+<li><ol start="3" type="a">
+<li>How would you generalize this approach for K-NN classification?</li>
+</ol></li>
+</ul>
+<p>Ex. 18.15 Kernel PCA. In Section 18.5.2 we show how to compute the principal component variables <strong>Z</strong> from an uncentered inner-product matrix <strong>K</strong>. We compute the eigen-decomposition <span class="math inline">\((\mathbf{I} - \mathbf{M})\mathbf{K}(\mathbf{I} - \mathbf{M}) = \mathbf{U}\mathbf{D}^2\mathbf{U}^T\)</span> , with <span class="math inline">\(\mathbf{M} = \mathbf{1}\mathbf{1}^T/N\)</span> , and then <span class="math inline">\(\mathbf{Z} = \mathbf{U}\mathbf{D}\)</span> . Suppose we have the inner-product</p>
+<p>vector <span class="math inline">\(\mathbf{k}_0\)</span> , containing the N inner-products between a new point <span class="math inline">\(x_0\)</span> and each of the <span class="math inline">\(x_i\)</span> in our training set. Show that the (centered) projections of <span class="math inline">\(x_0\)</span> onto the principal-component directions are given by</p>
+<p><span class="math display">\[\mathbf{z}_0 = \mathbf{D}^{-1} \mathbf{U}^T (\mathbf{I} - \mathbf{M}) \left[ \mathbf{k}_0 - \mathbf{K} \mathbf{1} / N \right]. \tag{18.58}\]</span></p>
+<p>Ex. 18.16 Bonferroni method for multiple comparisons. Suppose we are in a multiple-testing scenario with null hypotheses <span class="math inline">\(H_{0j}\)</span> , <span class="math inline">\(j=1,2,\ldots,M\)</span> , and corresponding p-values <span class="math inline">\(p_j\)</span> , <span class="math inline">\(i=1,2,\ldots,M\)</span> . Let A be the event that at least one null hypothesis is falsely rejected, and let <span class="math inline">\(A_j\)</span> be the event that the jth null hypothesis is falsely rejected. Suppose that we use the Bonferroni method, rejecting the jth null hypothesis if <span class="math inline">\(p_j &lt; \alpha/M\)</span> .</p>
+<ul>
+<li><ol type="a">
+<li>Show that <span class="math inline">\(\Pr(A) \leq \alpha\)</span> . [Hint: <span class="math inline">\(\Pr(A_j \cup A_{j'}) = \Pr(A_j) + \Pr(A_{j'}) \Pr(A_j \cap A_{j'})\)</span> ]</li>
+</ol></li>
+<li><ol start="2" type="a">
+<li>If the hypotheses <span class="math inline">\(H_{0j}\)</span> , <span class="math inline">\(j=1,2,\ldots,M\)</span> , are independent, then <span class="math inline">\(\Pr(A)=1-\Pr(A^C)=1-\prod_{j=1}^M\Pr(A_j^C)=1-(1-\alpha/M)^M\)</span> . Use this to show that <span class="math inline">\(\Pr(A)\approx \alpha\)</span> in this case.</li>
+</ol></li>
+</ul>
+<p>Ex. 18.17 Equivalence between Benjamini-Hochberg and plug-in methods.</p>
+<ul>
+<li><ol type="a">
+<li>In the notation of Algorithm 18.2, show that for rejection threshold <span class="math inline">\(p_0 = p_{(L)}\)</span> , a proportion of at most <span class="math inline">\(p_0\)</span> of the permuted values <span class="math inline">\(t_j^k\)</span> exceed <span class="math inline">\(|T|_{(L)}\)</span> where <span class="math inline">\(|T|_{(L)}\)</span> is the Lth largest value among the <span class="math inline">\(|t_j|\)</span> . Hence show that the plug-in FDR estimate <span class="math inline">\(\widehat{\text{FDR}}\)</span> is less than or equal to <span class="math inline">\(p_0 \cdot M/L = \alpha\)</span> .</li>
+</ol></li>
+<li><ol start="2" type="a">
+<li>Show that the cut-point <span class="math inline">\(|T|_{(L+1)}\)</span> produces a test with estimated FDR greater than <span class="math inline">\(\alpha\)</span> .</li>
+</ol></li>
+</ul>
+<p>Ex. 18.18 Use result (18.53) to show that</p>
+<p><span class="math display">\[pFDR = \frac{\pi_0 \cdot \{Type \ I \ error \ of \ \Gamma\}}{\pi_0 \cdot \{Type \ I \ error \ of \ \Gamma\} + \pi_1 \{Power \ of \ \Gamma\}}\]</span> (18.59)</p>
+<p>(Storey, 2003).</p>
+<p>Ex. 18.19 Consider the data in Table 18.4 of Section (18.7), available from the book website.</p>
+<ul>
+<li><ol type="a">
+<li>Using a symmetric two-sided rejection region based on the t-statistic, compute the plug-in estimate of the FDR for various values of the cut-point.</li>
+</ol></li>
+<li><ol start="2" type="a">
+<li>Carry out the BH procedure for various FDR levels <span class="math inline">\(\alpha\)</span> and show the equivalence of your results, with those from part (a).</li>
+</ol></li>
+<li><ol start="3" type="a">
+<li>Let (q.25, q.75) be the quartiles of the t-statistics from the permuted datasets. Let ˆπ<sup>0</sup> = {#t<sup>j</sup> ∈ (q.25, q.75)}/(.5M), and set ˆπ<sup>0</sup> = min(ˆπ0, 1). Multiply the FDR estimates from (a) by ˆπ<sup>0</sup> and examine the results.</li>
+</ol></li>
+<li><ol start="4" type="a">
+<li>Give a motivation for the estimate in part (c).</li>
+</ol></li>
+</ul>
+<p>(Storey, 2003)</p>
+<p>Ex. 18.20 Proof of result (18.53). Write</p>
+<p><span class="math display">\[pFDR = E\left(\frac{V}{R}|R&gt;0\right)\]</span> (18.60)</p>
+<p><span class="math display">\[= \sum_{k=1}^{M} E\left[\frac{V}{R}|R=k\right] \Pr(R=k|R&gt;0)\]</span> (18.61)</p>
+<p>Use the fact that given R = k, V is a binomial random variable, with k trials and probability of success Pr(H = 0|T ∈ Γ), to complete the proof.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/17-undirected-graphical-models.html" class="pagination-link" aria-label="Undirected Graphical Models">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Undirected Graphical Models</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/19-references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">References</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

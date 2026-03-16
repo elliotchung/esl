@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.35">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2&nbsp; Overview of Supervised Learning – esl</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/03-linear-methods-for-regression.html" rel="next">
+<link href="../chapters/01-introduction.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ccb035bea26c1e21f80f44cf7c27909.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/02-overview-of-supervised-learning.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Overview of Supervised Learning</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">esl</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-overview-of-supervised-learning.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Overview of Supervised Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-linear-methods-for-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Linear Methods for Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-linear-methods-for-classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Linear Methods for Classification</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-basis-expansions-and-regularization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Basis Expansions and Regularization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-kernel-smoothing-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Kernel Smoothing Methods</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-model-assessment-and-selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Model Assessment and Selection</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-model-inference-and-averaging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Model Inference and Averaging</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/09-additive-models-trees-and-related-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Additive Models, Trees, and Related Methods</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/10-boosting-and-additive-trees.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Boosting and Additive Trees</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/11-neural-networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Neural Networks</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/12-support-vector-machines-and-flexible-discriminants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Support Vector Machines and Flexible Discriminants</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/13-prototype-methods-and-nearest-neighbors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Prototype Methods and Nearest-Neighbors</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/14-unsupervised-learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/15-random-forests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Random Forests</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/16-ensemble-learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Ensemble Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/17-undirected-graphical-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Undirected Graphical Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/18-high-dimensional-problems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">High-Dimensional Problems: p ≫ N</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/19-references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/20-author-index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Author Index</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/21-index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Index</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">2.1</span> 2.1 Introduction</a></li>
+  <li><a href="#variable-types-and-terminology" id="toc-variable-types-and-terminology" class="nav-link" data-scroll-target="#variable-types-and-terminology"><span class="header-section-number">2.2</span> 2.2 Variable Types and Terminology</a></li>
+  <li><a href="#two-simple-approaches-to-prediction-least-squares-and-nearest-neighbors" id="toc-two-simple-approaches-to-prediction-least-squares-and-nearest-neighbors" class="nav-link" data-scroll-target="#two-simple-approaches-to-prediction-least-squares-and-nearest-neighbors"><span class="header-section-number">2.3</span> 2.3 Two Simple Approaches to Prediction: Least Squares and Nearest Neighbors</a>
+  <ul class="collapse">
+  <li><a href="#linear-models-and-least-squares" id="toc-linear-models-and-least-squares" class="nav-link" data-scroll-target="#linear-models-and-least-squares"><span class="header-section-number">2.3.1</span> 2.3.1 Linear Models and Least Squares</a></li>
+  <li><a href="#nearest-neighbor-methods" id="toc-nearest-neighbor-methods" class="nav-link" data-scroll-target="#nearest-neighbor-methods"><span class="header-section-number">2.3.2</span> 2.3.2 Nearest-Neighbor Methods</a></li>
+  <li><a href="#from-least-squares-to-nearest-neighbors" id="toc-from-least-squares-to-nearest-neighbors" class="nav-link" data-scroll-target="#from-least-squares-to-nearest-neighbors"><span class="header-section-number">2.3.3</span> 2.3.3 From Least Squares to Nearest Neighbors</a></li>
+  </ul></li>
+  <li><a href="#statistical-decision-theory" id="toc-statistical-decision-theory" class="nav-link" data-scroll-target="#statistical-decision-theory"><span class="header-section-number">2.4</span> 2.4 Statistical Decision Theory</a></li>
+  <li><a href="#local-methods-in-high-dimensions" id="toc-local-methods-in-high-dimensions" class="nav-link" data-scroll-target="#local-methods-in-high-dimensions"><span class="header-section-number">2.5</span> 2.5 Local Methods in High Dimensions</a></li>
+  <li><a href="#statistical-models-supervised-learning-and-function-approximation" id="toc-statistical-models-supervised-learning-and-function-approximation" class="nav-link" data-scroll-target="#statistical-models-supervised-learning-and-function-approximation"><span class="header-section-number">2.6</span> 2.6 Statistical Models, Supervised Learning and Function Approximation</a>
+  <ul class="collapse">
+  <li><a href="#a-statistical-model-for-the-joint-distribution-prxy" id="toc-a-statistical-model-for-the-joint-distribution-prxy" class="nav-link" data-scroll-target="#a-statistical-model-for-the-joint-distribution-prxy"><span class="header-section-number">2.6.1</span> 2.6.1 A Statistical Model for the Joint Distribution Pr(X,Y)</a></li>
+  <li><a href="#supervised-learning" id="toc-supervised-learning" class="nav-link" data-scroll-target="#supervised-learning"><span class="header-section-number">2.6.2</span> 2.6.2 Supervised Learning</a></li>
+  <li><a href="#function-approximation" id="toc-function-approximation" class="nav-link" data-scroll-target="#function-approximation"><span class="header-section-number">2.6.3</span> 2.6.3 Function Approximation</a></li>
+  </ul></li>
+  <li><a href="#structured-regression-models" id="toc-structured-regression-models" class="nav-link" data-scroll-target="#structured-regression-models"><span class="header-section-number">2.7</span> 2.7 Structured Regression Models</a>
+  <ul class="collapse">
+  <li><a href="#difficulty-of-the-problem" id="toc-difficulty-of-the-problem" class="nav-link" data-scroll-target="#difficulty-of-the-problem"><span class="header-section-number">2.7.1</span> 2.7.1 Difficulty of the Problem</a></li>
+  </ul></li>
+  <li><a href="#classes-of-restricted-estimators" id="toc-classes-of-restricted-estimators" class="nav-link" data-scroll-target="#classes-of-restricted-estimators"><span class="header-section-number">2.8</span> 2.8 Classes of Restricted Estimators</a>
+  <ul class="collapse">
+  <li><a href="#roughness-penalty-and-bayesian-methods" id="toc-roughness-penalty-and-bayesian-methods" class="nav-link" data-scroll-target="#roughness-penalty-and-bayesian-methods"><span class="header-section-number">2.8.1</span> 2.8.1 Roughness Penalty and Bayesian Methods</a></li>
+  <li><a href="#kernel-methods-and-local-regression" id="toc-kernel-methods-and-local-regression" class="nav-link" data-scroll-target="#kernel-methods-and-local-regression"><span class="header-section-number">2.8.2</span> 2.8.2 Kernel Methods and Local Regression</a></li>
+  <li><a href="#basis-functions-and-dictionary-methods" id="toc-basis-functions-and-dictionary-methods" class="nav-link" data-scroll-target="#basis-functions-and-dictionary-methods"><span class="header-section-number">2.8.3</span> 2.8.3 Basis Functions and Dictionary Methods</a></li>
+  </ul></li>
+  <li><a href="#model-selection-and-the-bias-variance-tradeoff" id="toc-model-selection-and-the-bias-variance-tradeoff" class="nav-link" data-scroll-target="#model-selection-and-the-bias-variance-tradeoff"><span class="header-section-number">2.9</span> 2.9 Model Selection and the Bias-Variance Tradeoff</a></li>
+  <li><a href="#bibliographic-notes" id="toc-bibliographic-notes" class="nav-link" data-scroll-target="#bibliographic-notes"><span class="header-section-number">2.10</span> Bibliographic Notes</a>
+  <ul class="collapse">
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">2.10.1</span> Exercises</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Overview of Supervised Learning</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">2.1</span> 2.1 Introduction</h2>
+<p>The first three examples described in Chapter 1 have several components in common. For each there is a set of variables that might be denoted as inputs, which are measured or preset. These have some influence on one or more outputs. For each example the goal is to use the inputs to predict the values of the outputs. This exercise is called supervised learning.</p>
+<p>We have used the more modern language of machine learning. In the statistical literature the inputs are often called the predictors, a term we will use interchangeably with inputs, and more classically the independent variables. In the pattern recognition literature the term features is preferred, which we use as well. The outputs are called the responses, or classically the dependent variables.</p>
+</section>
+<section id="variable-types-and-terminology" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="variable-types-and-terminology"><span class="header-section-number">2.2</span> 2.2 Variable Types and Terminology</h2>
+<p>The outputs vary in nature among the examples. In the glucose prediction example, the output is a quantitative measurement, where some measurements are bigger than others, and measurements close in value are close in nature. In the famous Iris discrimination example due to R. A. Fisher, the output is qualitative (species of Iris) and assumes values in a finite set G = {Virginica, Setosa and Versicolor}. In the handwritten digit example the output is one of 10 different digit classes: G = {0, 1, . . . , 9}. In both of these there is no explicit ordering in the classes, and in fact often descriptive labels rather than numbers are used to denote the classes. Qualitative variables are also referred to as categorical or discrete variables as well as factors.</p>
+<p>For both types of outputs it makes sense to think of using the inputs to predict the output. Given some specific atmospheric measurements today and yesterday, we want to predict the ozone level tomorrow. Given the grayscale values for the pixels of the digitized image of the handwritten digit, we want to predict its class label.</p>
+<p>This distinction in output type has led to a naming convention for the prediction tasks: regression when we predict quantitative outputs, and classification when we predict qualitative outputs. We will see that these two tasks have a lot in common, and in particular both can be viewed as a task in function approximation.</p>
+<p>Inputs also vary in measurement type; we can have some of each of qualitative and quantitative input variables. These have also led to distinctions in the types of methods that are used for prediction: some methods are defined most naturally for quantitative inputs, some most naturally for qualitative and some for both.</p>
+<p>A third variable type is ordered categorical, such as small, medium and large, where there is an ordering between the values, but no metric notion is appropriate (the difference between medium and small need not be the same as that between large and medium). These are discussed further in Chapter 4.</p>
+<p>Qualitative variables are typically represented numerically by codes. The easiest case is when there are only two classes or categories, such as “success” or “failure,” “survived” or “died.” These are often represented by a single binary digit or bit as 0 or 1, or else by −1 and 1. For reasons that will become apparent, such numeric codes are sometimes referred to as targets. When there are more than two categories, several alternatives are available. The most useful and commonly used coding is via dummy variables. Here a K-level qualitative variable is represented by a vector of K binary variables or bits, only one of which is “on” at a time. Although more compact coding schemes are possible, dummy variables are symmetric in the levels of the factor.</p>
+<p>We will typically denote an input variable by the symbol <span class="math inline">\(X\)</span>. If <span class="math inline">\(X\)</span> is a vector, its components can be accessed by subscripts <span class="math inline">\(X_j\)</span>. Quantitative outputs will be denoted by <span class="math inline">\(Y\)</span>, and qualitative outputs by <span class="math inline">\(G\)</span> (for group). We use uppercase letters such as <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span> or <span class="math inline">\(G\)</span> when referring to the generic aspects of a variable. Observed values are written in lowercase; hence the <span class="math inline">\(i\)</span>th observed value of <span class="math inline">\(X\)</span> is written as <span class="math inline">\(x_i\)</span> (where <span class="math inline">\(x_i\)</span> is again a scalar or vector). Matrices are represented by bold uppercase letters; for example, a set of <span class="math inline">\(N\)</span> input <span class="math inline">\(p\)</span>-vectors <span class="math inline">\(x^i\)</span>, <span class="math inline">\(i = 1, \ldots, N\)</span> would be represented by the <span class="math inline">\(N \times p\)</span> matrix <span class="math inline">\(\mathbf{X}\)</span>. In general, vectors will not be bold, except when they have <span class="math inline">\(N\)</span> components; this convention distinguishes a <span class="math inline">\(p\)</span>-vector of inputs <span class="math inline">\(x_i\)</span> for the <span class="math inline">\(i\)</span>th observation from the <span class="math inline">\(N\)</span>-vector <span class="math inline">\(\mathbf{x}_j\)</span> consisting of all the observations on variable <span class="math inline">\(X_j\)</span>. Since all vectors are assumed to be column vectors, the <span class="math inline">\(i\)</span>th row of <span class="math inline">\(\mathbf{X}\)</span> is <span class="math inline">\(x_i^T\)</span>, the vector transpose of <span class="math inline">\(x_i\)</span>.</p>
+<p>For the moment we can loosely state the learning task as follows: given the value of an input vector X, make a good prediction of the output Y, denoted by <span class="math inline">\(\hat{Y}\)</span> (pronounced “y-hat”). If Y takes values in <span class="math inline">\(\mathbb{R}\)</span> then so should <span class="math inline">\(\hat{Y}\)</span> ; likewise for categorical outputs, <span class="math inline">\(\hat{G}\)</span> should take values in the same set <span class="math inline">\(\mathcal{G}\)</span> associated with G.</p>
+<p>For a two-class G, one approach is to denote the binary coded target as Y, and then treat it as a quantitative output. The predictions <span class="math inline">\(\hat{Y}\)</span> will typically lie in [0,1], and we can assign to <span class="math inline">\(\hat{G}\)</span> the class label according to whether <span class="math inline">\(\hat{y} &gt; 0.5\)</span> . This approach generalizes to K-level qualitative outputs as well.</p>
+<p>We need data to construct prediction rules, often a lot of it. We thus suppose we have available a set of measurements <span class="math inline">\((x_i, y_i)\)</span> or <span class="math inline">\((x_i, g_i)\)</span> , <span class="math inline">\(i = 1, \ldots, N\)</span> , known as the <em>training data</em>, with which to construct our prediction rule.</p>
+</section>
+<section id="two-simple-approaches-to-prediction-least-squares-and-nearest-neighbors" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="two-simple-approaches-to-prediction-least-squares-and-nearest-neighbors"><span class="header-section-number">2.3</span> 2.3 Two Simple Approaches to Prediction: Least Squares and Nearest Neighbors</h2>
+<p>In this section we develop two simple but powerful prediction methods: the linear model fit by least squares and the k-nearest-neighbor prediction rule. The linear model makes huge assumptions about structure and yields stable but possibly inaccurate predictions. The method of k-nearest neighbors makes very mild structural assumptions: its predictions are often accurate but can be unstable.</p>
+<section id="linear-models-and-least-squares" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="linear-models-and-least-squares"><span class="header-section-number">2.3.1</span> 2.3.1 Linear Models and Least Squares</h3>
+<p>The linear model has been a mainstay of statistics for the past 30 years and remains one of our most important tools. Given a vector of inputs <span class="math inline">\(X^T = (X_1, X_2, \dots, X_p)\)</span> , we predict the output Y via the model</p>
+<p><span class="math display">\[\hat{Y} = \hat{\beta}_0 + \sum_{j=1}^p X_j \hat{\beta}_j, \tag{2.1}\]</span></p>
+<p>The term <span class="math inline">\(\hat{\beta}_0\)</span> is the intercept, also known as the <em>bias</em> in machine learning. Often it is convenient to include the constant variable 1 in X, include <span class="math inline">\(\hat{\beta}_0\)</span> in the vector of coefficients <span class="math inline">\(\hat{\beta}\)</span> , and then write the linear model in vector form as an inner product</p>
+<p><span class="math display">\[\hat{Y} = X^T \hat{\beta},\tag{2.2}\]</span></p>
+<p>where <span class="math inline">\(X^T\)</span> denotes vector or matrix transpose (X being a column vector). Here we are modeling a single output, so <span class="math inline">\(\hat{Y}\)</span> is a scalar; in general <span class="math inline">\(\hat{Y}\)</span> can be a K-vector, in which case <span class="math inline">\(\beta\)</span> would be a <span class="math inline">\(p \times K\)</span> matrix of coefficients. In the (p+1)-dimensional input-output space, <span class="math inline">\((X,\hat{Y})\)</span> represents a hyperplane. If the constant is included in X, then the hyperplane includes the origin and is a subspace; if not, it is an affine set cutting the Y-axis at the point <span class="math inline">\((0,\hat{\beta}_0)\)</span> . From now on we assume that the intercept is included in <span class="math inline">\(\hat{\beta}\)</span> .</p>
+<p>Viewed as a function over the <em>p</em>-dimensional input space, <span class="math inline">\(f(X) = X^T \beta\)</span> is linear, and the gradient <span class="math inline">\(f'(X) = \beta\)</span> is a vector in input space that points in the steepest uphill direction.</p>
+<p>How do we fit the linear model to a set of training data? There are many different methods, but by far the most popular is the method of least squares. In this approach, we pick the coefficients <span class="math inline">\(\beta\)</span> to minimize the residual sum of squares <span class="math display">\[RSS(\beta) = \sum_{i=1}^{N} (y_i - x_i^T \beta)^2, \tag{2.3}\]</span></p>
+<p>RSS(β) is a quadratic function of the parameters, and hence its minimum always exists, but may not be unique. The solution is easiest to characterize in matrix notation. We can write</p>
+<p><span class="math display">\[RSS(\beta) = (\mathbf{y} - \mathbf{X}\beta)^T (\mathbf{y} - \mathbf{X}\beta), \tag{2.4}\]</span></p>
+<p>where <strong>X</strong> is an <span class="math inline">\(N \times p\)</span> matrix with each row an input vector, and <strong>y</strong> is an N-vector of the outputs in the training set. Differentiating w.r.t. <span class="math inline">\(\beta\)</span> we get the normal equations</p>
+<p><span class="math display">\[\mathbf{X}^T(\mathbf{y} - \mathbf{X}\beta) = 0. \tag{2.5}\]</span></p>
+<p>If <span class="math inline">\(\mathbf{X}^T \mathbf{X}\)</span> is nonsingular, then the unique solution is given by</p>
+<p><span class="math display">\[\hat{\beta} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}, \tag{2.6}\]</span></p>
+<p>and the fitted value at the <em>i</em>th input <span class="math inline">\(x_i\)</span> is <span class="math inline">\(\hat{y}_i = \hat{y}(x_i) = x_i^T \hat{\beta}\)</span> . At an arbitrary input <span class="math inline">\(x_0\)</span> the prediction is <span class="math inline">\(\hat{y}(x_0) = x_0^T \hat{\beta}\)</span> . The entire fitted surface is characterized by the p parameters <span class="math inline">\(\hat{\beta}\)</span> . Intuitively, it seems that we do not need a very large data set to fit such a model.</p>
+<p>Let’s look at an example of the linear model in a classification context. Figure 2.1 shows a scatterplot of training data on a pair of inputs <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> . The data are simulated, and for the present the simulation model is not important. The output class variable G has the values BLUE or ORANGE, and is represented as such in the scatterplot. There are 100 points in each of the two classes. The linear regression model was fit to these data, with the response Y coded as 0 for BLUE and 1 for ORANGE. The fitted values <span class="math inline">\(\hat{Y}\)</span> are converted to a fitted class variable <span class="math inline">\(\hat{G}\)</span> according to the rule</p>
+<p><span class="math display">\[\hat{G} = \begin{cases} \text{ORANGE} &amp; \text{if } \hat{Y} &gt; 0.5, \\ \text{BLUE} &amp; \text{if } \hat{Y} \le 0.5. \end{cases} \tag{2.7}\]</span></p>
+<p>Linear Regression of 0/1 Response</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_31_Figure_3.jpeg" class="img-fluid figure-img"></p>
+<figcaption>A classification example in two dimensions. The classes are coded as a binary variable (BLUE = 0, ORANGE = 1), and then fit by linear regression. The line is the decision boundary defined by <span class="math inline">\(x^T \hat{\beta} = 0.5\)</span> . The orange shaded region denotes that part of input space classified as ORANGE, while the blue region is classified as BLUE.</figcaption>
+</figure>
+</div>
+<p><strong>FIGURE 2.1.</strong> A classification example in two dimensions. The classes are coded as a binary variable (BLUE = 0, ORANGE = 1), and then fit by linear regression. The line is the decision boundary defined by <span class="math inline">\(x^T \hat{\beta} = 0.5\)</span> . The orange shaded region denotes that part of input space classified as ORANGE, while the blue region is classified as BLUE.</p>
+<p>The set of points in <span class="math inline">\(\mathbb{R}^2\)</span> classified as ORANGE corresponds to <span class="math inline">\(\{x: x^T \hat{\beta} &gt; 0.5\}\)</span> , indicated in Figure 2.1, and the two predicted classes are separated by the decision boundary <span class="math inline">\(\{x: x^T \hat{\beta} = 0.5\}\)</span> , which is linear in this case. We see that for these data there are several misclassifications on both sides of the decision boundary. Perhaps our linear model is too rigid— or are such errors unavoidable? Remember that these are errors on the training data itself, and we have not said where the constructed data came from. Consider the two possible scenarios:</p>
+<p>Scenario 1: The training data in each class were generated from bivariate Gaussian distributions with uncorrelated components and different means.</p>
+<p>Scenario 2: The training data in each class came from a mixture of 10 low-variance Gaussian distributions, with individual means themselves distributed as Gaussian.</p>
+<p>A mixture of Gaussians is best described in terms of the generative model. One first generates a discrete variable that determines which of the component Gaussians to use, and then generates an observation from the chosen density. In the case of one Gaussian per class, we will see in Chapter 4 that a linear decision boundary is the best one can do, and that our estimate is almost optimal. The region of overlap is inevitable, and future data to be predicted will be plagued by this overlap as well.</p>
+<p>In the case of mixtures of tightly clustered Gaussians the story is different. A linear decision boundary is unlikely to be optimal, and in fact is not. The optimal decision boundary is nonlinear and disjoint, and as such will be much more difficult to obtain.</p>
+<p>We now look at another classification and regression procedure that is in some sense at the opposite end of the spectrum to the linear model, and far better suited to the second scenario.</p>
+</section>
+<section id="nearest-neighbor-methods" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="nearest-neighbor-methods"><span class="header-section-number">2.3.2</span> 2.3.2 Nearest-Neighbor Methods</h3>
+<p>Nearest-neighbor methods use those observations in the training set <span class="math inline">\(\mathcal{T}\)</span> closest in input space to x to form <span class="math inline">\(\hat{Y}\)</span> . Specifically, the k-nearest neighbor fit for <span class="math inline">\(\hat{Y}\)</span> is defined as follows:</p>
+<p><span class="math display">\[\hat{Y}(x) = \frac{1}{k} \sum_{x_i \in N_k(x)} y_i, \tag{2.8}\]</span></p>
+<p>where <span class="math inline">\(N_k(x)\)</span> is the neighborhood of x defined by the k closest points <span class="math inline">\(x_i\)</span> in the training sample. Closeness implies a metric, which for the moment we assume is Euclidean distance. So, in words, we find the k observations with <span class="math inline">\(x_i\)</span> closest to x in input space, and average their responses.</p>
+<p>In Figure 2.2 we use the same training data as in Figure 2.1, and use 15-nearest-neighbor averaging of the binary coded response as the method of fitting. Thus <span class="math inline">\(\hat{Y}\)</span> is the proportion of <code>ORANGE</code>’s in the neighborhood, and so assigning class <code>ORANGE</code> to <span class="math inline">\(\hat{G}\)</span> if <span class="math inline">\(\hat{Y}&gt;0.5\)</span> amounts to a majority vote in the neighborhood. The colored regions indicate all those points in input space classified as <code>BLUE</code> or <code>ORANGE</code> by such a rule, in this case found by evaluating the procedure on a fine grid in input space. We see that the decision boundaries that separate the <code>BLUE</code> from the <code>ORANGE</code> regions are far more irregular, and respond to local clusters where one class dominates.</p>
+<p>Figure 2.3 shows the results for 1-nearest-neighbor classification: <span class="math inline">\(\hat{Y}\)</span> is assigned the value <span class="math inline">\(y_{\ell}\)</span> of the closest point <span class="math inline">\(x_{\ell}\)</span> to x in the training data. In this case the regions of classification can be computed relatively easily, and correspond to a <em>Voronoi tessellation</em> of the training data. Each point <span class="math inline">\(x_i\)</span> has an associated tile bounding the region for which it is the closest input point. For all points x in the tile, <span class="math inline">\(\hat{G}(x) = g_i\)</span> . The decision boundary is even more irregular than before.</p>
+<p>The method of k-nearest-neighbor averaging is defined in exactly the same way for regression of a quantitative output Y, although k=1 would be an unlikely choice.</p>
+<p>15-Nearest Neighbor Classifier</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_33_Figure_3.jpeg" class="img-fluid figure-img"></p>
+<figcaption>The same classification example in two dimensions as in Figure 2.1. The classes are coded as a binary variable (BLUE = 0, ORANGE = 1) and then fit by 15-nearest-neighbor averaging as in (2.8). The predicted class is hence chosen by majority vote amongst the 15-nearest neighbors.</figcaption>
+</figure>
+</div>
+<p><strong>FIGURE 2.2.</strong> The same classification example in two dimensions as in Figure 2.1. The classes are coded as a binary variable (BLUE = 0, ORANGE = 1) and then fit by 15-nearest-neighbor averaging as in (2.8). The predicted class is hence chosen by majority vote amongst the 15-nearest neighbors.</p>
+<p>In Figure 2.2 we see that far fewer training observations are misclassified than in Figure 2.1. This should not give us too much comfort, though, since in Figure 2.3 none of the training data are misclassified. A little thought suggests that for k-nearest-neighbor fits, the error on the training data should be approximately an increasing function of k, and will always be 0 for k = 1. An independent test set would give us a more satisfactory means for comparing the different methods.</p>
+<p>It appears that k-nearest-neighbor fits have a single parameter, the number of neighbors k, compared to the p parameters in least-squares fits. Although this is the case, we will see that the <em>effective</em> number of parameters of k-nearest neighbors is N/k and is generally bigger than p, and decreases with increasing k. To get an idea of why, note that if the neighborhoods were nonoverlapping, there would be N/k neighborhoods and we would fit one parameter (a mean) in each neighborhood.</p>
+<p>It is also clear that we cannot use sum-of-squared errors on the training set as a criterion for picking k, since we would always pick k=1! It would seem that k-nearest-neighbor methods would be more appropriate for the mixture Scenario 2 described above, while for Gaussian data the decision boundaries of k-nearest neighbors would be unnecessarily noisy.</p>
+<p>1-Nearest Neighbor Classifier</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_34_Figure_3.jpeg" class="img-fluid figure-img"></p>
+<figcaption>The same classification example in two dimensions as in Figure 2.1. The classes are coded as a binary variable (BLUE = 0, ORANGE = 1), and then predicted by 1-nearest-neighbor classification.</figcaption>
+</figure>
+</div>
+<p><strong>FIGURE 2.3.</strong> The same classification example in two dimensions as in Figure 2.1. The classes are coded as a binary variable (BLUE = 0, ORANGE = 1), and then predicted by 1-nearest-neighbor classification.</p>
+</section>
+<section id="from-least-squares-to-nearest-neighbors" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="from-least-squares-to-nearest-neighbors"><span class="header-section-number">2.3.3</span> 2.3.3 From Least Squares to Nearest Neighbors</h3>
+<p>The linear decision boundary from least squares is very smooth, and apparently stable to fit. It does appear to rely heavily on the assumption that a linear decision boundary is appropriate. In language we will develop shortly, it has low variance and potentially high bias.</p>
+<p>On the other hand, the k-nearest-neighbor procedures do not appear to rely on any stringent assumptions about the underlying data, and can adapt to any situation. However, any particular subregion of the decision boundary depends on a handful of input points and their particular positions, and is thus wiggly and unstable—high variance and low bias.</p>
+<p>Each method has its own situations for which it works best; in particular linear regression is more appropriate for Scenario 1 above, while nearest neighbors are more suitable for Scenario 2. The time has come to expose the oracle! The data in fact were simulated from a model somewhere between the two, but closer to Scenario 2. First we generated 10 means <span class="math inline">\(m_k\)</span> from a bivariate Gaussian distribution <span class="math inline">\(N((1,0)^T, \mathbf{I})\)</span> and labeled this class BLUE. Similarly, 10 more were drawn from <span class="math inline">\(N((0,1)^T, \mathbf{I})\)</span> and labeled class ORANGE. Then for each class we generated 100 observations as follows: for each observation, we picked an <span class="math inline">\(m_k\)</span> at random with probability 1/10, and</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_35_Figure_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Misclassification curves for the simulation example used in Figures 2.1, 2.2 and 2.3. A single training sample of size 200 was used, and a test sample of size 10, 000. The orange curves are test and the blue are training error for k-nearest-neighbor classification. The results for linear regression are the bigger orange and blue squares at three degrees of freedom. The purple line is the optimal Bayes error rate.</figcaption>
+</figure>
+</div>
+<p>FIGURE 2.4. Misclassification curves for the simulation example used in Figures 2.1, 2.2 and 2.3. A single training sample of size 200 was used, and a test sample of size 10, 000. The orange curves are test and the blue are training error for k-nearest-neighbor classification. The results for linear regression are the bigger orange and blue squares at three degrees of freedom. The purple line is the optimal Bayes error rate.</p>
+<p>then generated a N(mk, I/5), thus leading to a mixture of Gaussian clusters for each class. Figure 2.4 shows the results of classifying 10,000 new observations generated from the model. We compare the results for least squares and those for k-nearest neighbors for a range of values of k.</p>
+<p>A large subset of the most popular techniques in use today are variants of these two simple procedures. In fact 1-nearest-neighbor, the simplest of all, captures a large percentage of the market for low-dimensional problems. The following list describes some ways in which these simple procedures have been enhanced:</p>
+<ul>
+<li><p>Kernel methods use weights that decrease smoothly to zero with distance from the target point, rather than the effective 0/1 weights used by k-nearest neighbors.</p></li>
+<li><p>In high-dimensional spaces the distance kernels are modified to emphasize some variable more than others.</p></li>
+<li><p>Local regression fits linear models by locally weighted least squares, rather than fitting constants locally.</p></li>
+<li><p>Linear models fit to a basis expansion of the original inputs allow arbitrarily complex models.</p></li>
+<li><p>Projection pursuit and neural network models consist of sums of nonlinearly transformed linear models.</p></li>
+</ul>
+</section>
+</section>
+<section id="statistical-decision-theory" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="statistical-decision-theory"><span class="header-section-number">2.4</span> 2.4 Statistical Decision Theory</h2>
+<p>In this section we develop a small amount of theory that provides a framework for developing models such as those discussed informally so far. We first consider the case of a quantitative output, and place ourselves in the world of random variables and probability spaces. Let <span class="math inline">\(X \in \mathbb{R}^p\)</span> denote a real valued random input vector, and <span class="math inline">\(Y \in \mathbb{R}\)</span> a real valued random output variable, with joint distribution <span class="math inline">\(\Pr(X,Y)\)</span> . We seek a function f(X) for predicting Y given values of the input X. This theory requires a loss function L(Y, f(X)) for penalizing errors in prediction, and by far the most common and convenient is squared error loss: <span class="math inline">\(L(Y, f(X)) = (Y - f(X))^2\)</span> . This leads us to a criterion for choosing f,</p>
+<p><span class="math display">\[EPE(f) = E(Y - f(X))^2\tag{2.9}\]</span></p>
+<p><span class="math display">\[= \int [y - f(x)]^2 \Pr(dx, dy), \tag{2.10}\]</span></p>
+<p>the expected (squared) prediction error . By conditioning <span class="math inline">\(^1\)</span> on X, we can write EPE as</p>
+<p><span class="math display">\[EPE(f) = E_X E_{Y|X} ([Y - f(X)]^2 | X)\tag{2.11}\]</span></p>
+<p>and we see that it suffices to minimize EPE pointwise:</p>
+<p><span class="math display">\[f(x) = \operatorname{argmin}_{c} \mathbb{E}_{Y|X} \left( [Y - c]^{2} | X = x \right). \tag{2.12}\]</span></p>
+<p>The solution is</p>
+<p><span class="math display">\[f(x) = \mathcal{E}(Y|X=x), \tag{2.13}\]</span></p>
+<p>the conditional expectation, also known as the <em>regression</em> function. Thus the best prediction of Y at any point X=x is the conditional mean, when best is measured by average squared error.</p>
+<p>The nearest-neighbor methods attempt to directly implement this recipe using the training data. At each point x, we might ask for the average of all</p>
+<p><sup>1</sup>Conditioning here amounts to factoring the joint density <span class="math inline">\(\Pr(X,Y) = \Pr(Y|X)\Pr(X)\)</span> where <span class="math inline">\(\Pr(Y|X) = \Pr(Y,X)/\Pr(X)\)</span> , and splitting up the bivariate integral accordingly.</p>
+<p>those <span class="math inline">\(y_i\)</span> s with input <span class="math inline">\(x_i = x\)</span> . Since there is typically at most one observation at any point x, we settle for</p>
+<p><span class="math display">\[\hat{f}(x) = \text{Ave}(y_i | x_i \in N_k(x)), \tag{2.14}\]</span></p>
+<p>where “Ave” denotes average, and <span class="math inline">\(N_k(x)\)</span> is the neighborhood containing the k points in <span class="math inline">\(\mathcal{T}\)</span> closest to x. Two approximations are happening here:</p>
+<ul>
+<li>expectation is approximated by averaging over sample data;</li>
+<li>conditioning at a point is relaxed to conditioning on some region “close” to the target point.</li>
+</ul>
+<p>For large training sample size N, the points in the neighborhood are likely to be close to x, and as k gets large the average will get more stable. In fact, under mild regularity conditions on the joint probability distribution <span class="math inline">\(\Pr(X,Y)\)</span> , one can show that as <span class="math inline">\(N,k\to\infty\)</span> such that <span class="math inline">\(k/N\to 0\)</span> , <span class="math inline">\(\hat{f}(x)\to \mathrm{E}(Y|X=x)\)</span> . In light of this, why look further, since it seems we have a universal approximator? We often do not have very large samples. If the linear or some more structured model is appropriate, then we can usually get a more stable estimate than k-nearest neighbors, although such knowledge has to be learned from the data as well. There are other problems though, sometimes disastrous. In Section 2.5 we see that as the dimension p gets large, so does the metric size of the k-nearest neighborhood. So settling for nearest neighborhood as a surrogate for conditioning will fail us miserably. The convergence above still holds, but the rate of convergence decreases as the dimension increases.</p>
+<p>How does linear regression fit into this framework? The simplest explanation is that one assumes that the regression function f(x) is approximately linear in its arguments:</p>
+<p><span class="math display">\[f(x) \approx x^T \beta. \tag{2.15}\]</span></p>
+<p>This is a model-based approach—we specify a model for the regression function. Plugging this linear model for f(x) into EPE (2.9) and differentiating we can solve for <span class="math inline">\(\beta\)</span> theoretically:</p>
+<p><span class="math display">\[\beta = [\mathbf{E}(XX^T)]^{-1}\mathbf{E}(XY). \tag{2.16}\]</span></p>
+<p>Note we have <em>not</em> conditioned on X; rather we have used our knowledge of the functional relationship to <em>pool</em> over values of X. The least squares solution (2.6) amounts to replacing the expectation in (2.16) by averages over the training data.</p>
+<p>So both k-nearest neighbors and least squares end up approximating conditional expectations by averages. But they differ dramatically in terms of model assumptions:</p>
+<p>• Least squares assumes f(x) is well approximated by a globally linear function.</p>
+<p>• k-nearest neighbors assumes f(x) is well approximated by a locally constant function.</p>
+<p>Although the latter seems more palatable, we have already seen that we may pay a price for this flexibility.</p>
+<p>Many of the more modern techniques described in this book are model based, although far more flexible than the rigid linear model. For example, additive models assume that</p>
+<p><span class="math display">\[f(X) = \sum_{j=1}^{p} f_j(X_j). \tag{2.17}\]</span></p>
+<p>This retains the additivity of the linear model, but each coordinate function <span class="math inline">\(f_j\)</span> is arbitrary. It turns out that the optimal estimate for the additive model uses techniques such as k-nearest neighbors to approximate univariate conditional expectations simultaneously for each of the coordinate functions. Thus the problems of estimating a conditional expectation in high dimensions are swept away in this case by imposing some (often unrealistic) model assumptions, in this case additivity.</p>
+<p>Are we happy with the criterion (2.11)? What happens if we replace the <span class="math inline">\(L_2\)</span> loss function with the <span class="math inline">\(L_1\)</span> : E|Y - f(X)|? The solution in this case is the conditional median,</p>
+<p><span class="math display">\[\hat{f}(x) = \text{median}(Y|X=x), \tag{2.18}\]</span></p>
+<p>which is a different measure of location, and its estimates are more robust than those for the conditional mean. <span class="math inline">\(L_1\)</span> criteria have discontinuities in their derivatives, which have hindered their widespread use. Other more resistant loss functions will be mentioned in later chapters, but squared error is analytically convenient and the most popular.</p>
+<p>What do we do when the output is a categorical variable G? The same paradigm works here, except we need a different loss function for penalizing prediction errors. An estimate <span class="math inline">\(\hat{G}\)</span> will assume values in <span class="math inline">\(\mathcal{G}\)</span> , the set of possible classes. Our loss function can be represented by a <span class="math inline">\(K \times K\)</span> matrix <span class="math inline">\(\mathbf{L}\)</span> , where <span class="math inline">\(K = \operatorname{card}(\mathcal{G})\)</span> . <span class="math inline">\(\mathbf{L}\)</span> will be zero on the diagonal and nonnegative elsewhere, where <span class="math inline">\(L(k,\ell)\)</span> is the price paid for classifying an observation belonging to class <span class="math inline">\(\mathcal{G}_k\)</span> as <span class="math inline">\(\mathcal{G}_\ell\)</span> . Most often we use the zero-one loss function, where all misclassifications are charged a single unit. The expected prediction error is</p>
+<p><span class="math display">\[EPE = E[L(G, \hat{G}(X))], \tag{2.19}\]</span></p>
+<p>where again the expectation is taken with respect to the joint distribution Pr(G, X). Again we condition, and can write EPE as</p>
+<p><span class="math display">\[EPE = E_X \sum_{k=1}^{K} L[\mathcal{G}_k, \hat{G}(X)] Pr(\mathcal{G}_k | X)\tag{2.20}\]</span></p>
+<p>Bayes Optimal Classifier</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_39_Figure_3.jpeg" class="img-fluid figure-img"></p>
+<figcaption>The optimal Bayes decision boundary for the simulation example of Figures 2.1, 2.2 and 2.3. Since the generating density is known for each class, this boundary can be calculated exactly (Exercise 2.2).</figcaption>
+</figure>
+</div>
+<p><strong>FIGURE 2.5.</strong> The optimal Bayes decision boundary for the simulation example of Figures 2.1, 2.2 and 2.3. Since the generating density is known for each class, this boundary can be calculated exactly (Exercise 2.2).</p>
+<p>and again it suffices to minimize EPE pointwise:</p>
+<p><span class="math display">\[\hat{G}(x) = \operatorname{argmin}_{g \in \mathcal{G}} \sum_{k=1}^{K} L(\mathcal{G}_k, g) \Pr(\mathcal{G}_k | X = x).\tag{2.21}\]</span></p>
+<p>With the 0-1 loss function this simplifies to</p>
+<p><span class="math display">\[\hat{G}(x) = \operatorname{argmin}_{g \in \mathcal{G}} [1 - \Pr(g|X = x)]\tag{2.22}\]</span></p>
+<p>or simply</p>
+<p><span class="math display">\[\hat{G}(x) = \mathcal{G}_k \text{ if } \Pr(\mathcal{G}_k|X=x) = \max_{g \in \mathcal{G}} \Pr(g|X=x).\tag{2.23}\]</span></p>
+<p>This reasonable solution is known as the <em>Bayes classifier</em>, and says that we classify to the most probable class, using the conditional (discrete) distribution <span class="math inline">\(\Pr(G|X)\)</span> . Figure 2.5 shows the Bayes-optimal decision boundary for our simulation example. The error rate of the Bayes classifier is called the <em>Bayes rate</em>.</p>
+<p>Again we see that the k-nearest neighbor classifier directly approximates this solution—a majority vote in a nearest neighborhood amounts to exactly this, except that conditional probability at a point is relaxed to conditional probability within a neighborhood of a point, and probabilities are estimated by training-sample proportions.</p>
+<p>Suppose for a two-class problem we had taken the dummy-variable approach and coded G via a binary Y, followed by squared error loss estimation. Then <span class="math inline">\(\hat{f}(X) = \mathrm{E}(Y|X) = \mathrm{Pr}(G = \mathcal{G}_1|X)\)</span> if <span class="math inline">\(\mathcal{G}_1\)</span> corresponded to Y = 1. Likewise for a K-class problem, <span class="math inline">\(\mathrm{E}(Y_k|X) = \mathrm{Pr}(G = \mathcal{G}_k|X)\)</span> . This shows that our dummy-variable regression procedure, followed by classification to the largest fitted value, is another way of representing the Bayes classifier. Although this theory is exact, in practice problems can occur, depending on the regression model used. For example, when linear regression is used, <span class="math inline">\(\hat{f}(X)\)</span> need not be positive, and we might be suspicious about using it as an estimate of a probability. We will discuss a variety of approaches to modeling <span class="math inline">\(\mathrm{Pr}(G|X)\)</span> in Chapter 4.</p>
+</section>
+<section id="local-methods-in-high-dimensions" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="local-methods-in-high-dimensions"><span class="header-section-number">2.5</span> 2.5 Local Methods in High Dimensions</h2>
+<p>We have examined two learning techniques for prediction so far: the stable but biased linear model and the less stable but apparently less biased class of k-nearest-neighbor estimates. It would seem that with a reasonably large set of training data, we could always approximate the theoretically optimal conditional expectation by k-nearest-neighbor averaging, since we should be able to find a fairly large neighborhood of observations close to any x and average them. This approach and our intuition breaks down in high dimensions, and the phenomenon is commonly referred to as the curse of dimensionality (Bellman, 1961). There are many manifestations of this problem, and we will examine a few here.</p>
+<p>Consider the nearest-neighbor procedure for inputs uniformly distributed in a p-dimensional unit hypercube, as in Figure 2.6. Suppose we send out a hypercubical neighborhood about a target point to capture a fraction r of the observations. Since this corresponds to a fraction r of the unit volume, the expected edge length will be <span class="math inline">\(e_p(r) = r^{1/p}\)</span> . In ten dimensions <span class="math inline">\(e_{10}(0.01) = 0.63\)</span> and <span class="math inline">\(e_{10}(0.1) = 0.80\)</span> , while the entire range for each input is only 1.0. So to capture 1% or 10% of the data to form a local average, we must cover 63% or 80% of the range of each input variable. Such neighborhoods are no longer “local.” Reducing r dramatically does not help much either, since the fewer observations we average, the higher is the variance of our fit.</p>
+<p>Another consequence of the sparse sampling in high dimensions is that all sample points are close to an edge of the sample. Consider N data points uniformly distributed in a p-dimensional unit ball centered at the origin. Suppose we consider a nearest-neighbor estimate at the origin. The median</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_41_Figure_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>The curse of dimensionality is well illustrated by a subcubical neighborhood for uniform data in a unit cube. The figure on the right shows the side-length of the subcube needed to capture a fraction r of the volume of the data, for different dimensions p.&nbsp;In ten dimensions we need to cover 80% of the range of each coordinate to capture 10% of the data.</figcaption>
+</figure>
+</div>
+<p>FIGURE 2.6. The curse of dimensionality is well illustrated by a subcubical neighborhood for uniform data in a unit cube. The figure on the right shows the side-length of the subcube needed to capture a fraction r of the volume of the data, for different dimensions p.&nbsp;In ten dimensions we need to cover 80% of the range of each coordinate to capture 10% of the data.</p>
+<p>distance from the origin to the closest data point is given by the expression</p>
+<p><span class="math display">\[d(p,N) = \left(1 - \frac{1}{2}^{1/N}\right)^{1/p} \tag{2.24}\]</span></p>
+<p>(Exercise 2.3). A more complicated expression exists for the mean distance to the closest point. For N = 500, p = 10 , d(p, N) ≈ 0.52, more than halfway to the boundary. Hence most data points are closer to the boundary of the sample space than to any other data point. The reason that this presents a problem is that prediction is much more difficult near the edges of the training sample. One must extrapolate from neighboring sample points rather than interpolate between them.</p>
+<p>Another manifestation of the curse is that the sampling density is proportional to <span class="math inline">\(N^{1/p}\)</span>, where p is the dimension of the input space and N is the sample size. Thus, if <span class="math inline">\(N_1 = 100\)</span> represents a dense sample for a single input problem, then <span class="math inline">\(N_{10} = 100^{10}\)</span> is the sample size required for the same sampling density with 10 inputs. Thus in high dimensions all feasible training samples sparsely populate the input space.</p>
+<p>Let us construct another uniform example. Suppose we have 1000 training examples <span class="math inline">\(x_i\)</span> generated uniformly on <span class="math inline">\([−1, 1]^p\)</span> . Assume that the true relationship between X and Y is</p>
+<p><span class="math display">\[Y = f(X) = e^{-8||X||^2},\]</span></p>
+<p>without any measurement error. We use the 1-nearest-neighbor rule to predict <span class="math inline">\(y_0\)</span> at the test-point <span class="math inline">\(x_0 = 0\)</span>. Denote the training set by T . We can compute the expected prediction error at <span class="math inline">\(x_0\)</span> for our procedure, averaging over all such samples of size 1000. Since the problem is deterministic, this is the mean squared error (MSE) for estimating <span class="math inline">\(f(0)\)</span>:</p>
+<p><span class="math display">\[\begin{aligned}
+MSE(x_0) &amp;= E_{\mathcal{T}}[f(x_0) - \hat{y}_0]^2 \\
+&amp;= E_{\mathcal{T}}[\hat{y}_0 - E_{\mathcal{T}}(\hat{y}_0)]^2 + [E_{\mathcal{T}}(\hat{y}_0) - f(x_0)]^2 \\
+&amp;= Var_{\mathcal{T}}(\hat{y}_0) + Bias^2(\hat{y}_0). \tag{2.25}
+\end{aligned}\]</span></p>
+<p>Figure 2.7 illustrates the setup. We have broken down the MSE into two components that will become familiar as we proceed: variance and squared bias. Such a decomposition is always possible and often useful, and is known as the bias-variance decomposition. Unless the nearest neighbor is at 0, <span class="math inline">\(\hat{y}_0\)</span> will be smaller than f(0) in this example, and so the average estimate will be biased downward. The variance is due to the sampling variance of the 1-nearest neighbor. In low dimensions and with N=1000, the nearest neighbor is very close to 0, and so both the bias and variance are small. As the dimension increases, the nearest neighbor tends to stray further from the target point, and both bias and variance are incurred. By p=10, for more than 99% of the samples the nearest neighbor is a distance greater than 0.5 from the origin. Thus as p increases, the estimate tends to be 0 more often than not, and hence the MSE levels off at 1.0, as does the bias, and the variance starts dropping (an artifact of this example).</p>
+<p>Although this is a highly contrived example, similar phenomena occur more generally. The complexity of functions of many variables can grow exponentially with the dimension, and if we wish to be able to estimate such functions with the same accuracy as function in low dimensions, then we need the size of our training set to grow exponentially as well. In this example, the function is a complex interaction of all p variables involved.</p>
+<p>The dependence of the bias term on distance depends on the truth, and it need not always dominate with 1-nearest neighbor. For example, if the function always involves only a few dimensions as in Figure 2.8, then the variance can dominate instead.</p>
+<p>Suppose, on the other hand, that we know that the relationship between Y and X is linear,</p>
+<p><span class="math display">\[Y = X^T \beta + \varepsilon, \tag{2.26}\]</span></p>
+<p>where <span class="math inline">\(\varepsilon \sim N(0, \sigma^2)\)</span> and we fit the model by least squares to the training data. For an arbitrary test point <span class="math inline">\(x_0\)</span> , we have <span class="math inline">\(\hat{y}_0 = x_0^T \hat{\beta}\)</span> , which can be written as <span class="math inline">\(\hat{y}_0 = x_0^T \beta + \sum_{i=1}^N \ell_i(x_0)\varepsilon_i\)</span> , where <span class="math inline">\(\ell_i(x_0)\)</span> is the <em>i</em>th element of <span class="math inline">\(\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}x_0\)</span> . Since under this model the least squares estimates are</p>
+<p><img src="../figures/_page_43_Figure_2.jpeg" class="img-fluid"></p>
+<p><strong>FIGURE 2.7.</strong> A simulation example, demonstrating the curse of dimensionality and its effect on MSE, bias and variance. The input features are uniformly distributed in <span class="math inline">\([-1,1]^p\)</span> for <span class="math inline">\(p=1,\ldots,10\)</span> The top left panel shows the target function (no noise) in <span class="math inline">\(\mathbb{R}\)</span> : <span class="math inline">\(f(X)=e^{-8||X||^2}\)</span> , and demonstrates the error that 1-nearest neighbor makes in estimating f(0). The training point is indicated by the blue tick mark. The top right panel illustrates why the radius of the 1-nearest neighborhood increases with dimension p.&nbsp;The lower left panel shows the average radius of the 1-nearest neighborhoods. The lower-right panel shows the MSE, squared bias and variance curves as a function of dimension p.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_44_Figure_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>A simulation example with the same setup as in Figure 2.7. Here the function is constant in all but one dimension: <span class="math inline">\(f(X) = \frac{1}{2}(X_1 + 1)^3\)</span> . The variance dominates.</figcaption>
+</figure>
+</div>
+<p><strong>FIGURE 2.8.</strong> A simulation example with the same setup as in Figure 2.7. Here the function is constant in all but one dimension: <span class="math inline">\(f(X) = \frac{1}{2}(X_1 + 1)^3\)</span> . The variance dominates.</p>
+<p>unbiased, we find that</p>
+<p><span class="math display">\[\begin{aligned}
+\text{EPE}(x_0) &amp;=  \text{E}_{y_0|x_0} \text{E}_{\mathcal{T}} (y_0 - \hat{y}_0)^2 \\
+&amp;=  \text{Var}(y_0|x_0) + \text{E}_{\mathcal{T}} [\hat{y}_0 - \text{E}_{\mathcal{T}} \hat{y}_0]^2 + [\text{E}_{\mathcal{T}} \hat{y}_0 - x_0^T \beta]^2 \\
+&amp;=  \text{Var}(y_0|x_0) + \text{Var}_{\mathcal{T}} (\hat{y}_0) + \text{Bias}^2 (\hat{y}_0) \\
+&amp;=  \sigma^2 + \text{E}_{\mathcal{T}} x_0^T (\mathbf{X}^T \mathbf{X})^{-1} x_0 \sigma^2 + 0^2.
+\end{aligned} \tag{2.27}\]</span></p>
+<p>Here we have incurred an additional variance <span class="math inline">\(\sigma^2\)</span> in the prediction error, since our target is not deterministic. There is no bias, and the variance depends on <span class="math inline">\(x_0\)</span> . If N is large and <span class="math inline">\(\mathcal{T}\)</span> were selected at random, and assuming E(X) = 0, then <span class="math inline">\(\mathbf{X}^T \mathbf{X} \to N \text{Cov}(X)\)</span> and</p>
+<p><span class="math display">\[\begin{aligned}
+E_{x_0} \text{EPE}(x_0) &amp;\sim E_{x_0} x_0^T \text{Cov}(X)^{-1} x_0 \sigma^2 / N + \sigma^2 \\
+&amp;= \text{trace}[\text{Cov}(X)^{-1} \text{Cov}(x_0)] \sigma^2 / N + \sigma^2 \\
+&amp;= \sigma^2 (p/N) + \sigma^2. \tag{2.28}
+\end{aligned}\]</span></p>
+<p>Here we see that the expected EPE increases linearly as a function of p, with slope <span class="math inline">\(\sigma^2/N\)</span> . If N is large and/or <span class="math inline">\(\sigma^2\)</span> is small, this growth in variance is negligible (0 in the deterministic case). By imposing some heavy restrictions on the class of models being fitted, we have avoided the curse of dimensionality. Some of the technical details in (2.27) and (2.28) are derived in Exercise 2.5.</p>
+<p>Figure 2.9 compares 1-nearest neighbor vs.&nbsp;least squares in two situations, both of which have the form <span class="math inline">\(Y = f(X) + \varepsilon\)</span> , X uniform as before, and <span class="math inline">\(\varepsilon \sim N(0,1)\)</span> . The sample size is N = 500. For the orange curve, f(x)</p>
+<p>Expected Prediction Error of 1NN vs.&nbsp;OLS</p>
+<p><img src="../figures/_page_45_Figure_3.jpeg" class="img-fluid"></p>
+<p>FIGURE 2.9. The curves show the expected prediction error (at x<sup>0</sup> = 0) for 1-nearest neighbor relative to least squares for the model Y = f(X) + ε. For the orange curve, f(x) = x1, while for the blue curve f(x) = <sup>1</sup> 2 (x<sup>1</sup> + 1)<sup>3</sup> .</p>
+<p>is linear in the first coordinate, for the blue curve, cubic as in Figure 2.8. Shown is the relative EPE of 1-nearest neighbor to least squares, which appears to start at around 2 for the linear case. Least squares is unbiased in this case, and as discussed above the EPE is slightly above σ <sup>2</sup> = 1. The EPE for 1-nearest neighbor is always above 2, since the variance of ˆf(x0) in this case is at least σ 2 , and the ratio increases with dimension as the nearest neighbor strays from the target point. For the cubic case, least squares is biased, which moderates the ratio. Clearly we could manufacture examples where the bias of least squares would dominate the variance, and the 1-nearest neighbor would come out the winner.</p>
+<p>By relying on rigid assumptions, the linear model has no bias at all and negligible variance, while the error in 1-nearest neighbor is substantially larger. However, if the assumptions are wrong, all bets are off and the 1-nearest neighbor may dominate. We will see that there is a whole spectrum of models between the rigid linear models and the extremely flexible 1-nearest-neighbor models, each with their own assumptions and biases, which have been proposed specifically to avoid the exponential growth in complexity of functions in high dimensions by drawing heavily on these assumptions.</p>
+<p>Before we delve more deeply, let us elaborate a bit on the concept of statistical models and see how they fit into the prediction framework.</p>
+</section>
+<section id="statistical-models-supervised-learning-and-function-approximation" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="statistical-models-supervised-learning-and-function-approximation"><span class="header-section-number">2.6</span> 2.6 Statistical Models, Supervised Learning and Function Approximation</h2>
+<p>Our goal is to find a useful approximation <span class="math inline">\(\hat{f}(x)\)</span> to the function f(x) that underlies the predictive relationship between the inputs and outputs. In the theoretical setting of Section 2.4, we saw that squared error loss lead us to the regression function <span class="math inline">\(f(x) = \mathrm{E}(Y|X=x)\)</span> for a quantitative response. The class of nearest-neighbor methods can be viewed as direct estimates of this conditional expectation, but we have seen that they can fail in at least two ways:</p>
+<ul>
+<li>if the dimension of the input space is high, the nearest neighbors need not be close to the target point, and can result in large errors;</li>
+<li>if special structure is known to exist, this can be used to reduce both the bias and the variance of the estimates.</li>
+</ul>
+<p>We anticipate using other classes of models for f(x), in many cases specifically designed to overcome the dimensionality problems, and here we discuss a framework for incorporating them into the prediction problem.</p>
+<section id="a-statistical-model-for-the-joint-distribution-prxy" class="level3" data-number="2.6.1">
+<h3 data-number="2.6.1" class="anchored" data-anchor-id="a-statistical-model-for-the-joint-distribution-prxy"><span class="header-section-number">2.6.1</span> 2.6.1 A Statistical Model for the Joint Distribution Pr(X,Y)</h3>
+<p>Suppose in fact that our data arose from a statistical model</p>
+<p><span class="math display">\[Y = f(X) + \varepsilon, \tag{2.29}\]</span></p>
+<p>where the random error <span class="math inline">\(\varepsilon\)</span> has <span class="math inline">\(\mathrm{E}(\varepsilon)=0\)</span> and is independent of X. Note that for this model, <span class="math inline">\(f(x)=\mathrm{E}(Y|X=x)\)</span> , and in fact the conditional distribution <span class="math inline">\(\mathrm{Pr}(Y|X)\)</span> depends on X only through the conditional mean f(x).</p>
+<p>The additive error model is a useful approximation to the truth. For most systems the input–output pairs (X,Y) will not have a deterministic relationship Y = f(X). Generally there will be other unmeasured variables that also contribute to Y, including measurement error. The additive model assumes that we can capture all these departures from a deterministic relationship via the error <span class="math inline">\(\varepsilon\)</span> .</p>
+<p>For some problems a deterministic relationship does hold. Many of the classification problems studied in machine learning are of this form, where the response surface can be thought of as a colored map defined in <span class="math inline">\(\mathbb{R}^p\)</span> . The training data consist of colored examples from the map <span class="math inline">\(\{x_i, g_i\}\)</span> , and the goal is to be able to color any point. Here the function is deterministic, and the randomness enters through the x location of the training points. For the moment we will not pursue such problems, but will see that they can be handled by techniques appropriate for the error-based models.</p>
+<p>The assumption in (2.29) that the errors are independent and identically distributed is not strictly necessary, but seems to be at the back of our mind</p>
+<p>when we average squared errors uniformly in our EPE criterion. With such a model it becomes natural to use least squares as a data criterion for model estimation as in (2.1). Simple modifications can be made to avoid the independence assumption; for example, we can have <span class="math inline">\(\mathrm{Var}(Y|X=x)=\sigma(x)\)</span> , and now both the mean and variance depend on X. In general the conditional distribution <span class="math inline">\(\mathrm{Pr}(Y|X)\)</span> can depend on X in complicated ways, but the additive error model precludes these.</p>
+<p>So far we have concentrated on the quantitative response. Additive error models are typically not used for qualitative outputs G; in this case the target function p(X) is the conditional density <span class="math inline">\(\Pr(G|X)\)</span> , and this is modeled directly. For example, for two-class data, it is often reasonable to assume that the data arise from independent binary trials, with the probability of one particular outcome being p(X), and the other 1-p(X). Thus if Y is the 0–1 coded version of G, then <span class="math inline">\(\operatorname{E}(Y|X=x)=p(x)\)</span> , but the variance depends on x as well: <span class="math inline">\(\operatorname{Var}(Y|X=x)=p(x)[1-p(x)]\)</span> .</p>
+</section>
+<section id="supervised-learning" class="level3" data-number="2.6.2">
+<h3 data-number="2.6.2" class="anchored" data-anchor-id="supervised-learning"><span class="header-section-number">2.6.2</span> 2.6.2 Supervised Learning</h3>
+<p>Before we launch into more statistically oriented jargon, we present the function-fitting paradigm from a machine learning point of view. Suppose for simplicity that the errors are additive and that the model <span class="math inline">\(Y = f(X) + \varepsilon\)</span> is a reasonable assumption. Supervised learning attempts to learn f by example through a teacher. One observes the system under study, both the inputs and outputs, and assembles a training set of observations <span class="math inline">\(\mathcal{T} = (x_i, y_i)\)</span> , i = 1, …, N. The observed input values to the system <span class="math inline">\(x_i\)</span> are also fed into an artificial system, known as a learning algorithm (usually a computer program), which also produces outputs <span class="math inline">\(\hat{f}(x_i)\)</span> in response to the inputs. The learning algorithm has the property that it can modify its input/output relationship <span class="math inline">\(\hat{f}\)</span> in response to differences <span class="math inline">\(y_i - \hat{f}(x_i)\)</span> between the original and generated outputs. This process is known as learning by example. Upon completion of the learning process the hope is that the artificial and real outputs will be close enough to be useful for all sets of inputs likely to be encountered in practice.</p>
+</section>
+<section id="function-approximation" class="level3" data-number="2.6.3">
+<h3 data-number="2.6.3" class="anchored" data-anchor-id="function-approximation"><span class="header-section-number">2.6.3</span> 2.6.3 Function Approximation</h3>
+<p>The learning paradigm of the previous section has been the motivation for research into the supervised learning problem in the fields of machine learning (with analogies to human reasoning) and neural networks (with biological analogies to the brain). The approach taken in applied mathematics and statistics has been from the perspective of function approximation and estimation. Here the data pairs <span class="math inline">\(\{x_i, y_i\}\)</span> are viewed as points in a (p+1)-dimensional Euclidean space. The function f(x) has domain equal to the p-dimensional input subspace, and is related to the data via a model</p>
+<p>such as y<sup>i</sup> = f(xi) + ε<sup>i</sup> . For convenience in this chapter we will assume the domain is IR<sup>p</sup> , a p-dimensional Euclidean space, although in general the inputs can be of mixed type. The goal is to obtain a useful approximation to f(x) for all x in some region of IR<sup>p</sup> , given the representations in T . Although somewhat less glamorous than the learning paradigm, treating supervised learning as a problem in function approximation encourages the geometrical concepts of Euclidean spaces and mathematical concepts of probabilistic inference to be applied to the problem. This is the approach taken in this book.</p>
+<p>Many of the approximations we will encounter have associated a set of parameters θ that can be modified to suit the data at hand. For example, the linear model f(x) = x <sup>T</sup> β has θ = β. Another class of useful approximators can be expressed as linear basis expansions</p>
+<p><span class="math display">\[f_{\theta}(x) = \sum_{k=1}^{K} h_k(x)\theta_k, \tag{2.30}\]</span></p>
+<p>where the h<sup>k</sup> are a suitable set of functions or transformations of the input vector x. Traditional examples are polynomial and trigonometric expansions, where for example h<sup>k</sup> might be x 2 1 , x1x 2 2 , cos(x1) and so on. We also encounter nonlinear expansions, such as the sigmoid transformation common to neural network models,</p>
+<p><span class="math display">\[h_k(x) = \frac{1}{1 + \exp(-x^T \beta_k)}, \tag{2.31}\]</span></p>
+<p>We can use least squares to estimate the parameters θ in f<sup>θ</sup> as we did for the linear model, by minimizing the residual sum-of-squares</p>
+<p><span class="math display">\[RSS(\theta) = \sum_{i=1}^{N} (y_i - f_{\theta}(x_i))^2 \tag{2.32}\]</span></p>
+<p>as a function of θ. This seems a reasonable criterion for an additive error model. In terms of function approximation, we imagine our parameterized function as a surface in p + 1 space, and what we observe are noisy realizations from it. This is easy to visualize when p = 2 and the vertical coordinate is the output y, as in Figure 2.10. The noise is in the output coordinate, so we find the set of parameters such that the fitted surface gets as close to the observed points as possible, where close is measured by the sum of squared vertical errors in RSS(θ).</p>
+<p>For the linear model we get a simple closed form solution to the minimization problem. This is also true for the basis function methods, if the basis functions themselves do not have any hidden parameters. Otherwise the solution requires either iterative methods or numerical optimization.</p>
+<p>While least squares is generally very convenient, it is not the only criterion used and in some cases would not make much sense. A more general</p>
+<p><img src="../figures/_page_49_Figure_2.jpeg" class="img-fluid"></p>
+<p><strong>FIGURE 2.10.</strong> Least squares fitting of a function of two inputs. The parameters of <span class="math inline">\(f_{\theta}(x)\)</span> are chosen so as to minimize the sum-of-squared vertical errors.</p>
+<p>principle for estimation is maximum likelihood estimation. Suppose we have a random sample <span class="math inline">\(y_i\)</span> , i = 1, …, N from a density <span class="math inline">\(\Pr_{\theta}(y)\)</span> indexed by some parameters <span class="math inline">\(\theta\)</span> . The log-probability of the observed sample is</p>
+<p><span class="math display">\[L(\theta) = \sum_{i=1}^{N} \log \Pr_{\theta}(y_i). \tag{2.33}\]</span></p>
+<p>The principle of maximum likelihood assumes that the most reasonable values for <span class="math inline">\(\theta\)</span> are those for which the probability of the observed sample is largest. Least squares for the additive error model <span class="math inline">\(Y = f_{\theta}(X) + \varepsilon\)</span> , with <span class="math inline">\(\varepsilon \sim N(0, \sigma^2)\)</span> , is equivalent to maximum likelihood using the conditional likelihood</p>
+<p><span class="math display">\[Pr(Y|X,\theta) = N(f_{\theta}(X), \sigma^2). \tag{2.34}\]</span></p>
+<p>So although the additional assumption of normality seems more restrictive, the results are the same. The log-likelihood of the data is</p>
+<p><span class="math display">\[L(\theta) = -\frac{N}{2}\log(2\pi) - N\log\sigma - \frac{1}{2\sigma^2}\sum_{i=1}^{N}(y_i - f_{\theta}(x_i))^2, \tag{2.35}\]</span></p>
+<p>and the only term involving <span class="math inline">\(\theta\)</span> is the last, which is <span class="math inline">\(RSS(\theta)\)</span> up to a scalar negative multiplier.</p>
+<p>A more interesting example is the multinomial likelihood for the regression function <span class="math inline">\(\Pr(G|X)\)</span> for a qualitative output G. Suppose we have a model <span class="math inline">\(\Pr(G = \mathcal{G}_k | X = x) = p_{k,\theta}(x), k = 1, \dots, K\)</span> for the conditional probability of each class given X, indexed by the parameter vector <span class="math inline">\(\theta\)</span> . Then the</p>
+<p>log-likelihood (also referred to as the cross-entropy) is</p>
+<p><span class="math display">\[L(\theta) = \sum_{i=1}^{N} \log p_{g_i,\theta}(x_i), \tag{2.36}\]</span></p>
+<p>and when maximized it delivers values of θ that best conform with the data in this likelihood sense.</p>
+</section>
+</section>
+<section id="structured-regression-models" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="structured-regression-models"><span class="header-section-number">2.7</span> 2.7 Structured Regression Models</h2>
+<p>We have seen that although nearest-neighbor and other local methods focus directly on estimating the function at a point, they face problems in high dimensions. They may also be inappropriate even in low dimensions in cases where more structured approaches can make more efficient use of the data. This section introduces classes of such structured approaches. Before we proceed, though, we discuss further the need for such classes.</p>
+<section id="difficulty-of-the-problem" class="level3" data-number="2.7.1">
+<h3 data-number="2.7.1" class="anchored" data-anchor-id="difficulty-of-the-problem"><span class="header-section-number">2.7.1</span> 2.7.1 Difficulty of the Problem</h3>
+<p>Consider the RSS criterion for an arbitrary function f,</p>
+<p><span class="math display">\[RSS(f) = \sum_{i=1}^{N} (y_i - f(x_i))^2.\tag{2.37}\]</span></p>
+<p>Minimizing (2.37) leads to infinitely many solutions: any function ˆf passing through the training points (x<sup>i</sup> , yi) is a solution. Any particular solution chosen might be a poor predictor at test points different from the training points. If there are multiple observation pairs x<sup>i</sup> , yiℓ, ℓ = 1, . . . , N<sup>i</sup> at each value of x<sup>i</sup> , the risk is limited. In this case, the solutions pass through the average values of the yiℓ at each x<sup>i</sup> ; see Exercise 2.6. The situation is similar to the one we have already visited in Section 2.4; indeed, (2.37) is the finite sample version of (2.11) on page 18. If the sample size N were sufficiently large such that repeats were guaranteed and densely arranged, it would seem that these solutions might all tend to the limiting conditional expectation.</p>
+<p>In order to obtain useful results for finite N, we must restrict the eligible solutions to (2.37) to a smaller set of functions. How to decide on the nature of the restrictions is based on considerations outside of the data. These restrictions are sometimes encoded via the parametric representation of fθ, or may be built into the learning method itself, either implicitly or explicitly. These restricted classes of solutions are the major topic of this book. One thing should be clear, though. Any restrictions imposed on f that lead to a unique solution to (2.37) do not really remove the ambiguity caused by the multiplicity of solutions. There are infinitely many possible restrictions, each leading to a unique solution, so the ambiguity has simply been transferred to the choice of constraint.</p>
+<p>In general the constraints imposed by most learning methods can be described as complexity restrictions of one kind or another. This usually means some kind of regular behavior in small neighborhoods of the input space. That is, for all input points x sufficiently close to each other in some metric, ˆf exhibits some special structure such as nearly constant, linear or low-order polynomial behavior. The estimator is then obtained by averaging or polynomial fitting in that neighborhood.</p>
+<p>The strength of the constraint is dictated by the neighborhood size. The larger the size of the neighborhood, the stronger the constraint, and the more sensitive the solution is to the particular choice of constraint. For example, local constant fits in infinitesimally small neighborhoods is no constraint at all; local linear fits in very large neighborhoods is almost a globally linear model, and is very restrictive.</p>
+<p>The nature of the constraint depends on the metric used. Some methods, such as kernel and local regression and tree-based methods, directly specify the metric and size of the neighborhood. The nearest-neighbor methods discussed so far are based on the assumption that locally the function is constant; close to a target input x0, the function does not change much, and so close outputs can be averaged to produce ˆf(x0). Other methods such as splines, neural networks and basis-function methods implicitly define neighborhoods of local behavior. In Section 5.4.1 we discuss the concept of an equivalent kernel (see Figure 5.8 on page 157), which describes this local dependence for any method linear in the outputs. These equivalent kernels in many cases look just like the explicitly defined weighting kernels discussed above—peaked at the target point and falling away smoothly away from it.</p>
+<p>One fact should be clear by now. Any method that attempts to produce locally varying functions in small isotropic neighborhoods will run into problems in high dimensions—again the curse of dimensionality. And conversely, all methods that overcome the dimensionality problems have an associated—and often implicit or adaptive—metric for measuring neighborhoods, which basically does not allow the neighborhood to be simultaneously small in all directions.</p>
+</section>
+</section>
+<section id="classes-of-restricted-estimators" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="classes-of-restricted-estimators"><span class="header-section-number">2.8</span> 2.8 Classes of Restricted Estimators</h2>
+<p>The variety of nonparametric regression techniques or learning methods fall into a number of different classes depending on the nature of the restrictions imposed. These classes are not distinct, and indeed some methods fall in several classes. Here we give a brief summary, since detailed descriptions are given in later chapters. Each of the classes has associated with it one or more parameters, sometimes appropriately called <em>smoothing</em> parameters, that control the effective size of the local neighborhood. Here we describe three broad classes.</p>
+<section id="roughness-penalty-and-bayesian-methods" class="level3" data-number="2.8.1">
+<h3 data-number="2.8.1" class="anchored" data-anchor-id="roughness-penalty-and-bayesian-methods"><span class="header-section-number">2.8.1</span> 2.8.1 Roughness Penalty and Bayesian Methods</h3>
+<p>Here the class of functions is controlled by explicitly penalizing <span class="math inline">\(\mathrm{RSS}(f)\)</span> with a roughness penalty</p>
+<p><span class="math display">\[PRSS(f;\lambda) = RSS(f) + \lambda J(f). \tag{2.38}\]</span></p>
+<p>The user-selected functional J(f) will be large for functions f that vary too rapidly over small regions of input space. For example, the popular cubic smoothing spline for one-dimensional inputs is the solution to the penalized least-squares criterion</p>
+<p><span class="math display">\[PRSS(f;\lambda) = \sum_{i=1}^{N} (y_i - f(x_i))^2 + \lambda \int [f''(x)]^2 dx.\tag{2.39}\]</span></p>
+<p>The roughness penalty here controls large values of the second derivative of f, and the amount of penalty is dictated by <span class="math inline">\(\lambda \geq 0\)</span> . For <span class="math inline">\(\lambda = 0\)</span> no penalty is imposed, and any interpolating function will do, while for <span class="math inline">\(\lambda = \infty\)</span> only functions linear in x are permitted.</p>
+<p>Penalty functionals J can be constructed for functions in any dimension, and special versions can be created to impose special structure. For example, additive penalties <span class="math inline">\(J(f) = \sum_{j=1}^p J(f_j)\)</span> are used in conjunction with additive functions <span class="math inline">\(f(X) = \sum_{j=1}^p f_j(X_j)\)</span> to create additive models with smooth coordinate functions. Similarly, projection pursuit regression models have <span class="math inline">\(f(X) = \sum_{m=1}^M g_m(\alpha_m^T X)\)</span> for adaptively chosen directions <span class="math inline">\(\alpha_m\)</span> , and the functions <span class="math inline">\(g_m\)</span> can each have an associated roughness penalty.</p>
+<p>Penalty function, or regularization methods, express our prior belief that the type of functions we seek exhibit a certain type of smooth behavior, and indeed can usually be cast in a Bayesian framework. The penalty J corresponds to a log-prior, and <span class="math inline">\(\mathrm{PRSS}(f;\lambda)\)</span> the log-posterior distribution, and minimizing <span class="math inline">\(\mathrm{PRSS}(f;\lambda)\)</span> amounts to finding the posterior mode. We discuss roughness-penalty approaches in Chapter 5 and the Bayesian paradigm in Chapter 8.</p>
+</section>
+<section id="kernel-methods-and-local-regression" class="level3" data-number="2.8.2">
+<h3 data-number="2.8.2" class="anchored" data-anchor-id="kernel-methods-and-local-regression"><span class="header-section-number">2.8.2</span> 2.8.2 Kernel Methods and Local Regression</h3>
+<p>These methods can be thought of as explicitly providing estimates of the regression function or conditional expectation by specifying the nature of the local neighborhood, and of the class of regular functions fitted locally. The local neighborhood is specified by a kernel function <span class="math inline">\(K_{\lambda}(x_0, x)\)</span> which assigns</p>
+<p>weights to points x in a region around x<sup>0</sup> (see Figure 6.1 on page 192). For example, the Gaussian kernel has a weight function based on the Gaussian density function</p>
+<p><span class="math display">\[K_{\lambda}(x_0, x) = \frac{1}{\lambda} \exp\left[-\frac{||x - x_0||^2}{2\lambda}\right]\tag{2.40}\]</span></p>
+<p>and assigns weights to points that die exponentially with their squared Euclidean distance from x0. The parameter λ corresponds to the variance of the Gaussian density, and controls the width of the neighborhood. The simplest form of kernel estimate is the Nadaraya–Watson weighted average</p>
+<p><span class="math display">\[\hat{f}(x_0) = \frac{\sum_{i=1}^{N} K_{\lambda}(x_0, x_i) y_i}{\sum_{i=1}^{N} K_{\lambda}(x_0, x_i)}.\tag{2.41}\]</span></p>
+<p>In general we can define a local regression estimate of f(x0) as fθ<sup>ˆ</sup>(x0), where ˆθ minimizes</p>
+<p><span class="math display">\[RSS(f_{\theta}, x_0) = \sum_{i=1}^{N} K_{\lambda}(x_0, x_i)(y_i - f_{\theta}(x_i))^2, \tag{2.42}\]</span></p>
+<p>and f<sup>θ</sup> is some parameterized function, such as a low-order polynomial. Some examples are:</p>
+<ul>
+<li>fθ(x) = θ0, the constant function; this results in the Nadaraya– Watson estimate in (2.41) above.</li>
+<li>fθ(x) = θ<sup>0</sup> + θ1x gives the popular local linear regression model.</li>
+</ul>
+<p>Nearest-neighbor methods can be thought of as kernel methods having a more data-dependent metric. Indeed, the metric for k-nearest neighbors is</p>
+<p><span class="math display">\[K_k(x, x_0) = I(||x - x_0|| \le ||x_{(k)} - x_0||),\]</span></p>
+<p>where x(k) is the training observation ranked kth in distance from x0, and I(S) is the indicator of the set S.</p>
+<p>These methods of course need to be modified in high dimensions, to avoid the curse of dimensionality. Various adaptations are discussed in Chapter 6.</p>
+</section>
+<section id="basis-functions-and-dictionary-methods" class="level3" data-number="2.8.3">
+<h3 data-number="2.8.3" class="anchored" data-anchor-id="basis-functions-and-dictionary-methods"><span class="header-section-number">2.8.3</span> 2.8.3 Basis Functions and Dictionary Methods</h3>
+<p>This class of methods includes the familiar linear and polynomial expansions, but more importantly a wide variety of more flexible models. The model for f is a linear expansion of basis functions</p>
+<p><span class="math display">\[f_{\theta}(x) = \sum_{m=1}^{M} \theta_m h_m(x), \tag{2.43}\]</span></p>
+<p>where each of the h<sup>m</sup> is a function of the input x, and the term linear here refers to the action of the parameters θ. This class covers a wide variety of methods. In some cases the sequence of basis functions is prescribed, such as a basis for polynomials in x of total degree M.</p>
+<p>For one-dimensional x, polynomial splines of degree K can be represented by an appropriate sequence of M spline basis functions, determined in turn by M−K−1 knots. These produce functions that are piecewise polynomials of degree K between the knots, and joined up with continuity of degree K − 1 at the knots. As an example consider linear splines, or piecewise linear functions. One intuitively satisfying basis consists of the functions b1(x) = 1, b2(x) = x, and bm+2(x) = (x − tm)+, m = 1, . . . , M − 2, where t<sup>m</sup> is the mth knot, and z<sup>+</sup> denotes positive part. Tensor products of spline bases can be used for inputs with dimensions larger than one (see Section 5.2, and the CART and MARS models in Chapter 9.) The parameter M controls the degree of the polynomial or the number of knots in the case of splines.</p>
+<p>Radial basis functions are symmetric p-dimensional kernels located at particular centroids,</p>
+<p><span class="math display">\[f_{\theta}(x) = \sum_{m=1}^{M} K_{\lambda_m}(\mu_m, x)\theta_m, \tag{2.44}\]</span></p>
+<p>for example, the Gaussian kernel Kλ(µ, x) = e −||x−µ||2/2λ is popular.</p>
+<p>Radial basis functions have centroids µ<sup>m</sup> and scales λ<sup>m</sup> that have to be determined. The spline basis functions have knots. In general we would like the data to dictate them as well. Including these as parameters changes the regression problem from a straightforward linear problem to a combinatorially hard nonlinear problem. In practice, shortcuts such as greedy algorithms or two stage processes are used. Section 6.7 describes some such approaches.</p>
+<p>A single-layer feed-forward neural network model with linear output weights can be thought of as an adaptive basis function method. The model has the form</p>
+<p><span class="math display">\[f_{\theta}(x) = \sum_{m=1}^{M} \beta_m \sigma(\alpha_m^T x + b_m), \tag{2.45}\]</span></p>
+<p>where σ(x) = 1/(1 + e −x ) is known as the activation function. Here, as in the projection pursuit model, the directions α<sup>m</sup> and the bias terms b<sup>m</sup> have to be determined, and their estimation is the meat of the computation. Details are given in Chapter 11.</p>
+<p>These adaptively chosen basis function methods are also known as dictionary methods, where one has available a possibly infinite set or dictionary D of candidate basis functions from which to choose, and models are built up by employing some kind of search mechanism.</p>
+</section>
+</section>
+<section id="model-selection-and-the-bias-variance-tradeoff" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="model-selection-and-the-bias-variance-tradeoff"><span class="header-section-number">2.9</span> 2.9 Model Selection and the Bias-Variance Tradeoff</h2>
+<p>All the models described above and many others discussed in later chapters have a <em>smoothing</em> or <em>complexity</em> parameter that has to be determined:</p>
+<ul>
+<li>the multiplier of the penalty term;</li>
+<li>the width of the kernel;</li>
+<li>or the number of basis functions.</li>
+</ul>
+<p>In the case of the smoothing spline, the parameter <span class="math inline">\(\lambda\)</span> indexes models ranging from a straight line fit to the interpolating model. Similarly a local degree-m polynomial model ranges between a degree-m global polynomial when the window size is infinitely large, to an interpolating fit when the window size shrinks to zero. This means that we cannot use residual sum-of-squares on the training data to determine these parameters as well, since we would always pick those that gave interpolating fits and hence zero residuals. Such a model is unlikely to predict future data well at all.</p>
+<p>The k-nearest-neighbor regression fit <span class="math inline">\(f_k(x_0)\)</span> usefully illustrates the competing forces that affect the predictive ability of such approximations. Suppose the data arise from a model <span class="math inline">\(Y = f(X) + \varepsilon\)</span> , with <span class="math inline">\(E(\varepsilon) = 0\)</span> and <span class="math inline">\(Var(\varepsilon) = \sigma^2\)</span> . For simplicity here we assume that the values of <span class="math inline">\(x_i\)</span> in the sample are fixed in advance (nonrandom). The expected prediction error at <span class="math inline">\(x_0\)</span> , also known as test or generalization error, can be decomposed:</p>
+<p><span class="math display">\[\begin{aligned} \text{EPE}_{k}(x_{0}) &amp;= \text{E}[(Y - \hat{f}_{k}(x_{0}))^{2} | X = x_{0}] \\ &amp;= \sigma^{2} + \left[ \text{Bias}^{2}(\hat{f}_{k}(x_{0})) + \text{Var}_{\mathcal{T}}(\hat{f}_{k}(x_{0})) \right] \\ &amp;= \sigma^{2} + \left[ f(x_{0}) - \frac{1}{k} \sum_{\ell=1}^{k} f(x_{(\ell)}) \right]^{2} + \frac{\sigma^{2}}{k}. \end{aligned} (2.47)\]</span></p>
+<p>The subscripts in parentheses <span class="math inline">\((\ell)\)</span> indicate the sequence of nearest neighbors to <span class="math inline">\(x_0\)</span> .</p>
+<p>There are three terms in this expression. The first term <span class="math inline">\(\sigma^2\)</span> is the <em>ir-reducible</em> error—the variance of the new test target—and is beyond our control, even if we know the true <span class="math inline">\(f(x_0)\)</span> .</p>
+<p>The second and third terms are under our control, and make up the mean squared error of <span class="math inline">\(\hat{f}_k(x_0)\)</span> in estimating <span class="math inline">\(f(x_0)\)</span> , which is broken down into a bias component and a variance component. The bias term is the squared difference between the true mean <span class="math inline">\(f(x_0)\)</span> and the expected value of the estimate— <span class="math inline">\([E_T(\hat{f}_k(x_0)) - f(x_0)]^2\)</span> —where the expectation averages the randomness in the training data. This term will most likely increase with k, if the true function is reasonably smooth. For small k the few closest neighbors will have values <span class="math inline">\(f(x_{(\ell)})\)</span> close to <span class="math inline">\(f(x_0)\)</span> , so their average should</p>
+<p><img src="../figures/_page_56_Figure_2.jpeg" class="img-fluid"></p>
+<p><strong>FIGURE 2.11.</strong> Test and training error as a function of model complexity.</p>
+<p>be close to <span class="math inline">\(f(x_0)\)</span> . As k grows, the neighbors are further away, and then anything can happen.</p>
+<p>The variance term is simply the variance of an average here, and decreases as the inverse of k. So as k varies, there is a bias-variance tradeoff.</p>
+<p>More generally, as the <em>model complexity</em> of our procedure is increased, the variance tends to increase and the squared bias tends to decrease. The opposite behavior occurs as the model complexity is decreased. For k-nearest neighbors, the model complexity is controlled by k.</p>
+<p>Typically we would like to choose our model complexity to trade bias off with variance in such a way as to minimize the test error. An obvious estimate of test error is the training error <span class="math inline">\(\frac{1}{N}\sum_i(y_i-\hat{y}_i)^2\)</span> . Unfortunately training error is not a good estimate of test error, as it does not properly account for model complexity.</p>
+<p>Figure 2.11 shows the typical behavior of the test and training error, as model complexity is varied. The training error tends to decrease whenever we increase the model complexity, that is, whenever we fit the data harder. However with too much fitting, the model adapts itself too closely to the training data, and will not generalize well (i.e., have large test error). In that case the predictions <span class="math inline">\(\hat{f}(x_0)\)</span> will have large variance, as reflected in the last term of expression (2.46). In contrast, if the model is not complex enough, it will underfit and may have large bias, again resulting in poor generalization. In Chapter 7 we discuss methods for estimating the test error of a prediction method, and hence estimating the optimal amount of model complexity for a given prediction method and training set.</p>
+</section>
+<section id="bibliographic-notes" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="bibliographic-notes"><span class="header-section-number">2.10</span> Bibliographic Notes</h2>
+<p>Some good general books on the learning problem are Duda et al.&nbsp;(2000), Bishop (1995), (Bishop, 2006), Ripley (1996), Cherkassky and Mulier (2007) and Vapnik (1996). Parts of this chapter are based on Friedman (1994b).</p>
+<section id="exercises" class="level3" data-number="2.10.1">
+<h3 data-number="2.10.1" class="anchored" data-anchor-id="exercises"><span class="header-section-number">2.10.1</span> Exercises</h3>
+<p>Ex. 2.1 Suppose each of K-classes has an associated target <span class="math inline">\(t_k\)</span> , which is a vector of all zeros, except a one in the kth position. Show that classifying to the largest element of <span class="math inline">\(\hat{y}\)</span> amounts to choosing the closest target, <span class="math inline">\(\min_k ||t_k - \hat{y}||\)</span> , if the elements of <span class="math inline">\(\hat{y}\)</span> sum to one.</p>
+<p>Ex. 2.2 Show how to compute the Bayes decision boundary for the simulation example in Figure 2.5.</p>
+<p>Ex. 2.3 Derive equation (2.24).</p>
+<p>Ex. 2.4 The edge effect problem discussed on page 23 is not peculiar to uniform sampling from bounded domains. Consider inputs drawn from a spherical multinormal distribution <span class="math inline">\(X \sim N(0, \mathbf{I}_p)\)</span> . The squared distance from any sample point to the origin has a <span class="math inline">\(\chi_p^2\)</span> distribution with mean p.&nbsp;Consider a prediction point <span class="math inline">\(x_0\)</span> drawn from this distribution, and let <span class="math inline">\(a = x_0/||x_0||\)</span> be an associated unit vector. Let <span class="math inline">\(z_i = a^T x_i\)</span> be the projection of each of the training points on this direction.</p>
+<p>Show that the <span class="math inline">\(z_i\)</span> are distributed N(0,1) with expected squared distance from the origin 1, while the target point has expected squared distance p from the origin.</p>
+<p>Hence for p = 10, a randomly drawn test point is about 3.1 standard deviations from the origin, while all the training points are on average one standard deviation along direction a. So most prediction points see themselves as lying on the edge of the training set.</p>
+<p>Ex. 2.5</p>
+<ul>
+<li><ol type="a">
+<li>Derive equation (2.27). The last line makes use of (3.8) through a conditioning argument.</li>
+</ol></li>
+<li><ol start="2" type="a">
+<li>Derive equation (2.28), making use of the <em>cyclic</em> property of the trace operator <span class="math inline">\([\operatorname{trace}(AB) = \operatorname{trace}(BA)]\)</span> , and its linearity (which allows us to interchange the order of trace and expectation).</li>
+</ol></li>
+</ul>
+<p>Ex. 2.6 Consider a regression problem with inputs <span class="math inline">\(x_i\)</span> and outputs <span class="math inline">\(y_i\)</span> , and a parameterized model <span class="math inline">\(f_{\theta}(x)\)</span> to be fit by least squares. Show that if there are observations with <em>tied</em> or <em>identical</em> values of x, then the fit can be obtained from a reduced weighted least squares problem.</p>
+<p>Ex. 2.7 Suppose we have a sample of N pairs <span class="math inline">\(x_i, y_i\)</span> drawn i.i.d. from the distribution characterized as follows:</p>
+<p><span class="math inline">\(x_i \sim h(x)\)</span> , the design density <span class="math inline">\(y_i = f(x_i) + \varepsilon_i\)</span> , f is the regression function <span class="math inline">\(\varepsilon_i \sim (0, \sigma^2)\)</span> (mean zero, variance <span class="math inline">\(\sigma^2\)</span> )</p>
+<p>We construct an estimator for f linear in the <span class="math inline">\(y_i\)</span> ,</p>
+<p><span class="math display">\[\hat{f}(x_0) = \sum_{i=1}^{N} \ell_i(x_0; \mathcal{X}) y_i,\]</span></p>
+<p>where the weights <span class="math inline">\(\ell_i(x_0; \mathcal{X})\)</span> do not depend on the <span class="math inline">\(y_i\)</span> , but do depend on the entire training sequence of <span class="math inline">\(x_i\)</span> , denoted here by <span class="math inline">\(\mathcal{X}\)</span> .</p>
+<ul>
+<li><ol type="a">
+<li>Show that linear regression and k-nearest-neighbor regression are members of this class of estimators. Describe explicitly the weights <span class="math inline">\(\ell_i(x_0; \mathcal{X})\)</span> in each of these cases.</li>
+</ol></li>
+<li><ol start="2" type="a">
+<li>Decompose the conditional mean-squared error</li>
+</ol></li>
+</ul>
+<p><span class="math display">\[E_{\mathcal{Y}|\mathcal{X}}(f(x_0) - \hat{f}(x_0))^2\]</span></p>
+<p>into a conditional squared bias and a conditional variance component. Like <span class="math inline">\(\mathcal{X}\)</span> , <span class="math inline">\(\mathcal{Y}\)</span> represents the entire training sequence of <span class="math inline">\(y_i\)</span> .</p>
+<ol start="3" type="a">
+<li>Decompose the (unconditional) mean-squared error</li>
+</ol>
+<p><span class="math display">\[E_{\mathcal{Y},\mathcal{X}}(f(x_0) - \hat{f}(x_0))^2\]</span></p>
+<p>into a squared bias and a variance component.</p>
+<ul>
+<li><ol start="4" type="a">
+<li>Establish a relationship between the squared biases and variances in the above two cases.</li>
+</ol></li>
+<li>Ex. 2.8 Compare the classification performance of linear regression and k-nearest neighbor classification on the zipcode data. In particular, consider only the 2’s and 3’s, and k = 1, 3, 5, 7 and 15. Show both the training and test error for each choice. The zipcode data are available from the book website www-stat.stanford.edu/ElemStatLearn.</li>
+<li>Ex. 2.9 Consider a linear regression model with p parameters, fit by least squares to a set of training data <span class="math inline">\((x_1, y_1), \ldots, (x_N, y_N)\)</span> drawn at random from a population. Let <span class="math inline">\(\hat{\beta}\)</span> be the least squares estimate. Suppose we have some test data <span class="math inline">\((\tilde{x}_1, \tilde{y}_1), \ldots, (\tilde{x}_M, \tilde{y}_M)\)</span> drawn at random from the same population as the training data. If <span class="math inline">\(R_{tr}(\beta) = \frac{1}{N} \sum_{1}^{N} (y_i \beta^T x_i)^2\)</span> and <span class="math inline">\(R_{te}(\beta) = \frac{1}{M} \sum_{1}^{M} (\tilde{y}_i \beta^T \tilde{x}_i)^2\)</span> , prove that</li>
+</ul>
+<p><span class="math display">\[E[R_{tr}(\hat{\beta})] \leq E[R_{te}(\hat{\beta})],\]</span></p>
+<p>where the expectations are over all that is random in each expression. [This exercise was brought to our attention by Ryan Tibshirani, from a homework assignment given by Andrew Ng.]</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/01-introduction.html" class="pagination-link" aria-label="Introduction">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/03-linear-methods-for-regression.html" class="pagination-link" aria-label="Linear Methods for Regression">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Linear Methods for Regression</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

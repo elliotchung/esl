@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.35">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>13&nbsp; Prototype Methods and Nearest-Neighbors – esl</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/14-unsupervised-learning.html" rel="next">
+<link href="../chapters/12-support-vector-machines-and-flexible-discriminants.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ccb035bea26c1e21f80f44cf7c27909.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/13-prototype-methods-and-nearest-neighbors.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Prototype Methods and Nearest-Neighbors</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">esl</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-overview-of-supervised-learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Overview of Supervised Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-linear-methods-for-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Linear Methods for Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-linear-methods-for-classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Linear Methods for Classification</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-basis-expansions-and-regularization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Basis Expansions and Regularization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-kernel-smoothing-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Kernel Smoothing Methods</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-model-assessment-and-selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Model Assessment and Selection</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-model-inference-and-averaging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Model Inference and Averaging</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/09-additive-models-trees-and-related-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Additive Models, Trees, and Related Methods</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/10-boosting-and-additive-trees.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Boosting and Additive Trees</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/11-neural-networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Neural Networks</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/12-support-vector-machines-and-flexible-discriminants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Support Vector Machines and Flexible Discriminants</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/13-prototype-methods-and-nearest-neighbors.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Prototype Methods and Nearest-Neighbors</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/14-unsupervised-learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/15-random-forests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Random Forests</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/16-ensemble-learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Ensemble Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/17-undirected-graphical-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Undirected Graphical Models</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/18-high-dimensional-problems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">High-Dimensional Problems: p ≫ N</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/19-references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">References</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/20-author-index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Author Index</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/21-index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Index</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">14</span> 13.1 Introduction</a></li>
+  <li><a href="#prototype-methods" id="toc-prototype-methods" class="nav-link" data-scroll-target="#prototype-methods"><span class="header-section-number">15</span> 13.2 Prototype Methods</a></li>
+  <li><a href="#learning-vector-quantization" id="toc-learning-vector-quantization" class="nav-link" data-scroll-target="#learning-vector-quantization"><span class="header-section-number">16</span> 13.2.2 Learning Vector Quantization</a>
+  <ul class="collapse">
+  <li><a href="#k-nearest-neighbor-classifiers" id="toc-k-nearest-neighbor-classifiers" class="nav-link" data-scroll-target="#k-nearest-neighbor-classifiers"><span class="header-section-number">16.1</span> 13.3 k-Nearest-Neighbor Classifiers</a></li>
+  </ul></li>
+  <li><a href="#example-k-nearest-neighbors-and-image-scene-classification" id="toc-example-k-nearest-neighbors-and-image-scene-classification" class="nav-link" data-scroll-target="#example-k-nearest-neighbors-and-image-scene-classification"><span class="header-section-number">17</span> 13.3.2 Example: k-Nearest-Neighbors and Image Scene Classification</a></li>
+  <li><a href="#adaptive-nearest-neighbor-methods" id="toc-adaptive-nearest-neighbor-methods" class="nav-link" data-scroll-target="#adaptive-nearest-neighbor-methods"><span class="header-section-number">18</span> 13.4 Adaptive Nearest-Neighbor Methods</a></li>
+  <li><a href="#computational-considerations" id="toc-computational-considerations" class="nav-link" data-scroll-target="#computational-considerations"><span class="header-section-number">19</span> 13.5 Computational Considerations</a></li>
+  <li><a href="#bibliographic-notes" id="toc-bibliographic-notes" class="nav-link" data-scroll-target="#bibliographic-notes"><span class="header-section-number">20</span> Bibliographic Notes</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">21</span> Exercises</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Prototype Methods and Nearest-Neighbors</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level1" data-number="14">
+<h1 data-number="14"><span class="header-section-number">14</span> 13.1 Introduction</h1>
+<p>In this chapter we discuss some simple and essentially model-free methods for classification and pattern recognition. Because they are highly unstructured, they typically are not useful for understanding the nature of the relationship between the features and class outcome. However, as black box prediction engines, they can be very effective, and are often among the best performers in real data problems. The nearest-neighbor technique can also be used in regression; this was touched on in Chapter 2 and works reasonably well for low-dimensional problems. However, with high-dimensional features, the bias–variance tradeoff does not work as favorably for nearestneighbor regression as it does for classification.</p>
+</section>
+<section id="prototype-methods" class="level1" data-number="15">
+<h1 data-number="15"><span class="header-section-number">15</span> 13.2 Prototype Methods</h1>
+<p>Throughout this chapter, our training data consists of the N pairs (x1, g1), . . . , (xn, g<sup>N</sup> ) where g<sup>i</sup> is a class label taking values in {1, 2, . . . , K}. Prototype methods represent the training data by a set of points in feature space. These prototypes are typically not examples from the training sample, except in the case of 1-nearest-neighbor classification discussed later.</p>
+<p>Each prototype has an associated class label, and classification of a query point x is made to the class of the closest prototype. “Closest” is usually defined by Euclidean distance in the feature space, after each feature has been standardized to have overall mean 0 and variance 1 in the training sample. Euclidean distance is appropriate for quantitative features. We discuss distance measures between qualitative and other kinds of feature values in Chapter 14.</p>
+<p>These methods can be very effective if the prototypes are well positioned to capture the distribution of each class. Irregular class boundaries can be represented, with enough prototypes in the right places in feature space. The main challenge is to figure out how many prototypes to use and where to put them. Methods differ according to the number and way in which prototypes are selected.</p>
+<section id="k-means-clustering" class="level4" data-number="15.0.0.1">
+<h4 data-number="15.0.0.1" class="anchored" data-anchor-id="k-means-clustering"><span class="header-section-number">15.0.0.1</span> 13.2.1 K-means Clustering</h4>
+<p>K-means clustering is a method for finding clusters and cluster centers in a set of unlabeled data. One chooses the desired number of cluster centers, say R, and the K-means procedure iteratively moves the centers to minimize the total within cluster variance.<sup>1</sup> Given an initial set of centers, the Kmeans algorithm alternates the two steps:</p>
+<ul>
+<li>for each center we identify the subset of training points (its cluster) that is closer to it than any other center;</li>
+<li>the means of each feature for the data points in each cluster are computed, and this mean vector becomes the new center for that cluster.</li>
+</ul>
+<p>These two steps are iterated until convergence. Typically the initial centers are R randomly chosen observations from the training data. Details of the K-means procedure, as well as generalizations allowing for different variable types and more general distance measures, are given in Chapter 14.</p>
+<p>To use K-means clustering for classification of labeled data, the steps are:</p>
+<ul>
+<li>apply K-means clustering to the training data in each class separately, using R prototypes per class;</li>
+<li>assign a class label to each of the K × R prototypes;</li>
+<li>classify a new feature x to the class of the closest prototype.</li>
+</ul>
+<p>Figure 13.1 (upper panel) shows a simulated example with three classes and two features. We used R = 5 prototypes per class, and show the classification regions and the decision boundary. Notice that a number of the</p>
+<p><sup>1</sup>The “K” in K-means refers to the number of cluster centers. Since we have already reserved K to denote the number of classes, we denote the number of clusters by R.</p>
+<p>K-means - 5 Prototypes per Class</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_479_Figure_3.jpeg" class="img-fluid figure-img"></p>
+<figcaption>K-means - 5 Prototypes per Class</figcaption>
+</figure>
+</div>
+<p>LVQ - 5 Prototypes per Class</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_479_Figure_5.jpeg" class="img-fluid figure-img"></p>
+<figcaption>LVQ - 5 Prototypes per Class</figcaption>
+</figure>
+</div>
+<p>FIGURE 13.1. Simulated example with three classes and five prototypes per class. The data in each class are generated from a mixture of Gaussians. In the upper panel, the prototypes were found by applying the K-means clustering algorithm separately in each class. In the lower panel, the LVQ algorithm (starting from the K-means solution) moves the prototypes away from the decision boundary. The broken purple curve in the background is the Bayes decision boundary.</p>
+</section>
+<section id="algorithm-13.1-learning-vector-quantizationlvq." class="level4" data-number="15.0.0.2">
+<h4 data-number="15.0.0.2" class="anchored" data-anchor-id="algorithm-13.1-learning-vector-quantizationlvq."><span class="header-section-number">15.0.0.2</span> Algorithm 13.1 Learning Vector Quantization—LVQ.</h4>
+<ul>
+<li><ol type="1">
+<li>Choose R initial prototypes for each class: m1(k), m2(k), . . . , mR(k), k = 1, 2, . . . , K, for example, by sampling R training points at random from each class.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>Sample a training point x<sup>i</sup> randomly (with replacement), and let (j, k) index the closest prototype m<sup>j</sup> (k) to x<sup>i</sup> .</li>
+</ol>
+<ul>
+<li><ol type="a">
+<li>If g<sup>i</sup> = k (i.e., they are in the same class), move the prototype towards the training point:</li>
+</ol></li>
+</ul></li>
+</ul>
+<p><span class="math display">\[m_j(k) \leftarrow m_j(k) + \epsilon(x_i - m_j(k)),\]</span></p>
+<p>where ǫ is the learning rate.</p>
+<ol start="2" type="a">
+<li>If g<sup>i</sup> 6= k (i.e., they are in different classes), move the prototype away from the training point:</li>
+</ol>
+<p><span class="math display">\[m_j(k) \leftarrow m_j(k) - \epsilon(x_i - m_j(k)).\]</span></p>
+<ol start="3" type="1">
+<li>Repeat step 2, decreasing the learning rate ǫ with each iteration towards zero.</li>
+</ol>
+<p>prototypes are near the class boundaries, leading to potential misclassification errors for points near these boundaries. This results from an obvious shortcoming with this method: for each class, the other classes do not have a say in the positioning of the prototypes for that class. A better approach, discussed next, uses all of the data to position all prototypes.</p>
+</section>
+</section>
+<section id="learning-vector-quantization" class="level1" data-number="16">
+<h1 data-number="16"><span class="header-section-number">16</span> 13.2.2 Learning Vector Quantization</h1>
+<p>In this technique due to Kohonen (1989), prototypes are placed strategically with respect to the decision boundaries in an ad-hoc way. LVQ is an online algorithm—observations are processed one at a time.</p>
+<p>The idea is that the training points attract prototypes of the correct class, and repel other prototypes. When the iterations settle down, prototypes should be close to the training points in their class. The learning rate ǫ is decreased to zero with each iteration, following the guidelines for stochastic approximation learning rates (Section 11.4.)</p>
+<p>Figure 13.1 (lower panel) shows the result of LVQ, using the K-means solution as starting values. The prototypes have tended to move away from the decision boundaries, and away from prototypes of competing classes.</p>
+<p>The procedure just described is actually called LVQ1. Modifications (LVQ2, LVQ3, etc.) have been proposed, that can sometimes improve performance. A drawback of learning vector quantization methods is the fact that they are defined by algorithms, rather than optimization of some fixed criteria; this makes it difficult to understand their properties.</p>
+<section id="gaussian-mixtures" class="level4" data-number="16.0.0.1">
+<h4 data-number="16.0.0.1" class="anchored" data-anchor-id="gaussian-mixtures"><span class="header-section-number">16.0.0.1</span> 13.2.3 Gaussian Mixtures</h4>
+<p>The Gaussian mixture model can also be thought of as a prototype method, similar in spirit to K-means and LVQ. We discuss Gaussian mixtures in some detail in Sections 6.8, 8.5 and 12.7. Each cluster is described in terms of a Gaussian density, which has a centroid (as in K-means), and a covariance matrix. The comparison becomes crisper if we restrict the component Gaussians to have a scalar covariance matrix (Exercise 13.1). The two steps of the alternating EM algorithm are very similar to the two steps in K-means:</p>
+<ul>
+<li>In the E-step, each observation is assigned a responsibility or weight for each cluster, based on the likelihood of each of the corresponding Gaussians. Observations close to the center of a cluster will most likely get weight 1 for that cluster, and weight 0 for every other cluster. Observations half-way between two clusters divide their weight accordingly.</li>
+<li>In the M-step, each observation contributes to the weighted means (and covariances) for <em>every</em> cluster.</li>
+</ul>
+<p>As a consequence, the Gaussian mixture model is often referred to as a soft clustering method, while K-means is hard.</p>
+<p>Similarly, when Gaussian mixture models are used to represent the feature density in each class, it produces smooth posterior probabilities <span class="math inline">\(\hat{p}(x) = \{\hat{p}_1(x), \dots, \hat{p}_K(x)\}\)</span> for classifying x (see (12.60) on page 449.) Often this is interpreted as a soft classification, while in fact the classification rule is <span class="math inline">\(\hat{G}(x) = \arg\max_k \hat{p}_k(x)\)</span> . Figure 13.2 compares the results of K-means and Gaussian mixtures on the simulated mixture problem of Chapter 2. We see that although the decision boundaries are roughly similar, those for the mixture model are smoother (although the prototypes are in approximately the same positions.) We also see that while both procedures devote a blue prototype (incorrectly) to a region in the northwest, the Gaussian mixture classifier can ultimately ignore this region, while K-means cannot. LVQ gave very similar results to K-means on this example, and is not shown.</p>
+</section>
+<section id="k-nearest-neighbor-classifiers" class="level2" data-number="16.1">
+<h2 data-number="16.1" class="anchored" data-anchor-id="k-nearest-neighbor-classifiers"><span class="header-section-number">16.1</span> 13.3 k-Nearest-Neighbor Classifiers</h2>
+<p>These classifiers are <em>memory-based</em>, and require no model to be fit. Given a query point <span class="math inline">\(x_0\)</span> , we find the k training points <span class="math inline">\(x_{(r)}, r = 1, \ldots, k\)</span> closest in distance to <span class="math inline">\(x_0\)</span> , and then classify using majority vote among the k neighbors.</p>
+<p>K-means - 5 Prototypes per Class</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_482_Figure_3.jpeg" class="img-fluid figure-img"></p>
+<figcaption>K-means - 5 Prototypes per Class</figcaption>
+</figure>
+</div>
+<section id="gaussian-mixtures---5-subclasses-per-class" class="level4" data-number="16.1.0.1">
+<h4 data-number="16.1.0.1" class="anchored" data-anchor-id="gaussian-mixtures---5-subclasses-per-class"><span class="header-section-number">16.1.0.1</span> Gaussian Mixtures - 5 Subclasses per Class</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_482_Figure_5.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Gaussian Mixtures - 5 Subclasses per Class</figcaption>
+</figure>
+</div>
+<p><strong>FIGURE 13.2.</strong> The upper panel shows the K-means classifier applied to the mixture data example. The decision boundary is piecewise linear. The lower panel shows a Gaussian mixture model with a common covariance for all component Gaussians. The EM algorithm for the mixture model was started at the K-means solution. The broken purple curve in the background is the Bayes decision boundary.</p>
+<p>Ties are broken at random. For simplicity we will assume that the features are real-valued, and we use Euclidean distance in feature space:</p>
+<p><span class="math display">\[d_{(i)} = ||x_{(i)} - x_0||. (13.1)\]</span></p>
+<p>Typically we first standardize each of the features to have mean zero and variance 1, since it is possible that they are measured in different units. In Chapter 14 we discuss distance measures appropriate for qualitative and ordinal features, and how to combine them for mixed data. Adaptively chosen distance metrics are discussed later in this chapter.</p>
+<p>Despite its simplicity, k-nearest-neighbors has been successful in a large number of classification problems, including handwritten digits, satellite image scenes and EKG patterns. It is often successful where each class has many possible prototypes, and the decision boundary is very irregular. Figure 13.3 (upper panel) shows the decision boundary of a 15-nearestneighbor classifier applied to the three-class simulated data. The decision boundary is fairly smooth compared to the lower panel, where a 1-nearestneighbor classifier was used. There is a close relationship between nearestneighbor and prototype methods: in 1-nearest-neighbor classification, each training point is a prototype.</p>
+<p>Figure 13.4 shows the training, test and tenfold cross-validation errors as a function of the neighborhood size, for the two-class mixture problem. Since the tenfold CV errors are averages of ten numbers, we can estimate a standard error.</p>
+<p>Because it uses only the training point closest to the query point, the bias of the 1-nearest-neighbor estimate is often low, but the variance is high. A famous result of Cover and Hart (1967) shows that asymptotically the error rate of the 1-nearest-neighbor classifier is never more than twice the Bayes rate. The rough idea of the proof is as follows (using squared-error loss). We assume that the query point coincides with one of the training points, so that the bias is zero. This is true asymptotically if the dimension of the feature space is fixed and the training data fills up the space in a dense fashion. Then the error of the Bayes rule is just the variance of a Bernoulli random variate (the target at the query point), while the error of 1-nearest-neighbor rule is twice the variance of a Bernoulli random variate, one contribution each for the training and query targets.</p>
+<p>We now give more detail for misclassification loss. At x let k <sup>∗</sup> be the dominant class, and pk(x) the true conditional probability for class k. Then</p>
+<p>Bayes error = <span class="math display">\[1 - p_{k^*}(x)\]</span> , (13.2)</p>
+<p>1-nearest-neighbor error <span class="math display">\[=\sum_{k=1}^{K} p_k(x)(1-p_k(x)),\]</span> (13.3)</p>
+<p><span class="math display">\[\geq 1 - p_{k^*}(x).\]</span> (13.4)</p>
+<p>The asymptotic 1-nearest-neighbor error rate is that of a random rule; we pick both the classification and the test point at random with probabili-</p>
+</section>
+<section id="nearest-neighbors" class="level4" data-number="16.1.0.2">
+<h4 data-number="16.1.0.2" class="anchored" data-anchor-id="nearest-neighbors"><span class="header-section-number">16.1.0.2</span> 15-Nearest Neighbors</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_484_Figure_3.jpeg" class="img-fluid figure-img"></p>
+<figcaption>15-Nearest Neighbors</figcaption>
+</figure>
+</div>
+</section>
+<section id="nearest-neighbor" class="level4" data-number="16.1.0.3">
+<h4 data-number="16.1.0.3" class="anchored" data-anchor-id="nearest-neighbor"><span class="header-section-number">16.1.0.3</span> 1-Nearest Neighbor</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_484_Figure_5.jpeg" class="img-fluid figure-img"></p>
+<figcaption>1-Nearest Neighbor</figcaption>
+</figure>
+</div>
+<p><strong>FIGURE 13.3.</strong> k-nearest-neighbor classifiers applied to the simulation data of Figure 13.1. The broken purple curve in the background is the Bayes decision boundary.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_485_Figure_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>k-nearest-neighbors on the two-class mixture data</figcaption>
+</figure>
+</div>
+<p>FIGURE 13.4. k-nearest-neighbors on the two-class mixture data. The upper panel shows the misclassification errors as a function of neighborhood size. Standard error bars are included for 10-fold cross validation. The lower panel shows the decision boundary for 7-nearest-neighbors, which appears to be optimal for minimizing test error. The broken purple curve in the background is the Bayes decision boundary.</p>
+<p>ties pk(x), k = 1, . . . , K. For K = 2 the 1-nearest-neighbor error rate is 2pk<sup>∗</sup> (x)(1 − pk<sup>∗</sup> (x)) ≤ 2(1 − pk<sup>∗</sup> (x)) (twice the Bayes error rate). More generally, one can show (Exercise 13.3)</p>
+<p><span class="math display">\[\sum_{k=1}^{K} p_k(x)(1 - p_k(x)) \le 2(1 - p_{k^*}(x)) - \frac{K}{K - 1}(1 - p_{k^*}(x))^2.\]</span> (13.5)</p>
+<p>Many additional results of this kind have been derived; Ripley (1996) summarizes a number of them.</p>
+<p>This result can provide a rough idea about the best performance that is possible in a given problem. For example, if the 1-nearest-neighbor rule has a 10% error rate, then asymptotically the Bayes error rate is at least 5%. The kicker here is the asymptotic part, which assumes the bias of the nearest-neighbor rule is zero. In real problems the bias can be substantial. The adaptive nearest-neighbor rules, described later in this chapter, are an attempt to alleviate this bias. For simple nearest-neighbors, the bias and variance characteristics can dictate the optimal number of near neighbors for a given problem. This is illustrated in the next example.</p>
+</section>
+<section id="example-a-comparative-study" class="level4" data-number="16.1.0.4">
+<h4 data-number="16.1.0.4" class="anchored" data-anchor-id="example-a-comparative-study"><span class="header-section-number">16.1.0.4</span> 13.3.1 Example: A Comparative Study</h4>
+<p>We tested the nearest-neighbors, K-means and LVQ classifiers on two simulated problems. There are 10 independent features X<sup>j</sup> , each uniformly distributed on [0, 1]. The two-class 0-1 target variable is defined as follows:</p>
+<p><span class="math display">\[Y = I\left(X_1 &gt; \frac{1}{2}\right);\]</span> problem 1: “easy”,<br>
+<span class="math inline">\(Y = I\left(\operatorname{sign}\left\{\prod_{j=1}^{3}\left(X_j - \frac{1}{2}\right)\right\} &gt; 0\right);\)</span> problem 2: “difficult.” (13.6)</p>
+<p>Hence in the first problem the two classes are separated by the hyperplane X<sup>1</sup> = 1/2; in the second problem, the two classes form a checkerboard pattern in the hypercube defined by the first three features. The Bayes error rate is zero in both problems. There were 100 training and 1000 test observations.</p>
+<p>Figure 13.5 shows the mean and standard error of the misclassification error for nearest-neighbors, K-means and LVQ over ten realizations, as the tuning parameters are varied. We see that K-means and LVQ give nearly identical results. For the best choices of their tuning parameters, K-means and LVQ outperform nearest-neighbors for the first problem, and they perform similarly for the second problem. Notice that the best value of each tuning parameter is clearly situation dependent. For example 25 nearest-neighbors outperforms 1-nearest-neighbor by a factor of 70% in the</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_487_Figure_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Mean ± one standard error of misclassification error</figcaption>
+</figure>
+</div>
+<p>FIGURE 13.5. Mean ± one standard error of misclassification error for nearest-neighbors, K-means (blue) and LVQ (red) over ten realizations for two simulated problems: “easy” and “difficult,” described in the text.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_488_Figure_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>LANDSAT images for an agricultural area</figcaption>
+</figure>
+</div>
+<p><strong>FIGURE 13.6.</strong> The first four panels are LANDSAT images for an agricultural area in four spectral bands, depicted by heatmap shading. The remaining two panels give the actual land usage (color coded) and the predicted land usage using a five-nearest-neighbor rule described in the text.</p>
+<p>first problem, while 1-nearest-neighbor is best in the second problem by a factor of 18%. These results underline the importance of using an objective, data-based method like cross-validation to estimate the best value of a tuning parameter (see Figure 13.4 and Chapter 7).</p>
+</section>
+</section>
+</section>
+<section id="example-k-nearest-neighbors-and-image-scene-classification" class="level1" data-number="17">
+<h1 data-number="17"><span class="header-section-number">17</span> 13.3.2 Example: k-Nearest-Neighbors and Image Scene Classification</h1>
+<p>The STATLOG project (Michie et al., 1994) used part of a LANDSAT image as a benchmark for classification (82 × 100 pixels). Figure 13.6 shows four heat-map images, two in the visible spectrum and two in the infrared, for an area of agricultural land in Australia. Each pixel has a class label from the 7-element set <span class="math inline">\(\mathcal{G} = \{red\ soil,\ cotton,\ vegetation\ stubble,\ mixture,\ gray\ soil,\ damp\ gray\ soil,\ very\ damp\ gray\ soil\}\)</span> , determined manually by research assistants surveying the area. The lower middle panel shows the actual land usage, shaded by different colors to indicate the classes. The objective is to classify the land usage at a pixel, based on the information in the four spectral bands.</p>
+<p>Five-nearest-neighbors produced the predicted map shown in the bottom right panel, and was computed as follows. For each pixel we extracted an 8-neighbor feature map—the pixel itself and its 8 immediate neighbors</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_489_Picture_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>A pixel and its 8-neighbor feature map</figcaption>
+</figure>
+</div>
+<p>FIGURE 13.7. A pixel and its 8-neighbor feature map.</p>
+<p>(see Figure 13.7). This is done separately in the four spectral bands, giving <span class="math inline">\((1+8)\times 4=36\)</span> input features per pixel. Then five-nearest-neighbors classification was carried out in this 36-dimensional feature space. The resulting test error rate was about 9.5% (see Figure 13.8). Of all the methods used in the STATLOG project, including LVQ, CART, neural networks, linear discriminant analysis and many others, k-nearest-neighbors performed best on this task. Hence it is likely that the decision boundaries in <span class="math inline">\(\mathbb{R}^{36}\)</span> are quite irregular.</p>
+<section id="invariant-metrics-and-tangent-distance" class="level4" data-number="17.0.0.1">
+<h4 data-number="17.0.0.1" class="anchored" data-anchor-id="invariant-metrics-and-tangent-distance"><span class="header-section-number">17.0.0.1</span> 13.3.3 Invariant Metrics and Tangent Distance</h4>
+<p>In some problems, the training features are invariant under certain natural transformations. The nearest-neighbor classifier can exploit such invariances by incorporating them into the metric used to measure the distances between objects. Here we give an example where this idea was used with great success, and the resulting classifier outperformed all others at the time of its development (Simard et al., 1993).</p>
+<p>The problem is handwritten digit recognition, as discussed is Chapter 1 and Section 11.7. The inputs are grayscale images with <span class="math inline">\(16 \times 16 = 256\)</span> pixels; some examples are shown in Figure 13.9. At the top of Figure 13.10, a “3” is shown, in its actual orientation (middle) and rotated 7.5° and 15° in either direction. Such rotations can often occur in real handwriting, and it is obvious to our eye that this “3” is still a “3” after small rotations. Hence we want our nearest-neighbor classifier to consider these two “3”s to be close together (similar). However the 256 grayscale pixel values for a rotated “3” will look quite different from those in the original image, and hence the two objects can be far apart in Euclidean distance in <span class="math inline">\(\mathbb{R}^{256}\)</span> .</p>
+<p>We wish to remove the effect of rotation in measuring distances between two digits of the same class. Consider the set of pixel values consisting of the original “3” and its rotated versions. This is a one-dimensional curve in <span class="math inline">\(\mathbb{R}^{256}\)</span> , depicted by the green curve passing through the “3” in Figure 13.10. Figure 13.11 shows a stylized version of <span class="math inline">\(\mathbb{R}^{256}\)</span> , with two images indicated by <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_{i'}\)</span> . These might be two different “3”s, for example. Through each image we have drawn the curve of rotated versions of that image, called</p>
+</section>
+<section id="statlog-results" class="level4" data-number="17.0.0.2">
+<h4 data-number="17.0.0.2" class="anchored" data-anchor-id="statlog-results"><span class="header-section-number">17.0.0.2</span> STATLOG results</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_490_Figure_3.jpeg" class="img-fluid figure-img"></p>
+<figcaption>STATLOG results</figcaption>
+</figure>
+</div>
+<p>FIGURE 13.8. Test-error performance for a number of classifiers, as reported by the STATLOG project. The entry DANN is a variant of k-nearest neighbors, using an adaptive metric (Section 13.4.2).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_490_Figure_5.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Examples of grayscale images of handwritten digits</figcaption>
+</figure>
+</div>
+<p>FIGURE 13.9. Examples of grayscale images of handwritten digits.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_491_Figure_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>A “3” in its original orientation and rotated versions</figcaption>
+</figure>
+</div>
+<p>FIGURE 13.10. The top row shows a ” 3” in its original orientation (middle) and rotated versions of it. The green curve in the middle of the figure depicts this set of rotated ” 3” in 256-dimensional space. The red line is the tangent line to the curve at the original image, with some ” 3”s on this tangent line, and its equation shown at the bottom of the figure.</p>
+<p>invariance manifolds in this context. Now, rather than using the usual Euclidean distance between the two images, we use the shortest distance between the two curves. In other words, the distance between the two images is taken to be the shortest Euclidean distance between any rotated version of first image, and any rotated version of the second image. This distance is called an invariant metric.</p>
+<p>In principle one could carry out 1-nearest-neighbor classification using this invariant metric. However there are two problems with it. First, it is very difficult to calculate for real images. Second, it allows large transformations that can lead to poor performance. For example a “6” would be considered close to a “9” after a rotation of 180◦ . We need to restrict attention to small rotations.</p>
+<p>The use of tangent distance solves both of these problems. As shown in Figure 13.10, we can approximate the invariance manifold of the image “3” by its tangent at the original image. This tangent can be computed by estimating the direction vector from small rotations of the image, or by more sophisticated spatial smoothing methods (Exercise 13.4.) For large rotations, the tangent image no longer looks like a “3,” so the problem with large transformations is alleviated.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_492_Figure_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Tangent distance computation for two images</figcaption>
+</figure>
+</div>
+<p><strong>FIGURE 13.11.</strong> Tangent distance computation for two images <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_{i'}\)</span> . Rather than using the Euclidean distance between <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_{i'}\)</span> , or the shortest distance between the two curves, we use the shortest distance between the two tangent lines.</p>
+<p>The idea then is to compute the invariant tangent line for each training image. For a query image to be classified, we compute its invariant tangent line, and find the closest line to it among the lines in the training set. The class (digit) corresponding to this closest line is our predicted class for the query image. In Figure 13.11 the two tangent lines intersect, but this is only because we have been forced to draw a two-dimensional representation of the actual 256-dimensional situation. In <span class="math inline">\(\mathbb{R}^{256}\)</span> the probability of two such lines intersecting is effectively zero.</p>
+<p>Now a simpler way to achieve this invariance would be to add into the training set a number of rotated versions of each training image, and then just use a standard nearest-neighbor classifier. This idea is called “hints” in Abu-Mostafa (1995), and works well when the space of invariances is small. So far we have presented a simplified version of the problem. In addition to rotation, there are six other types of transformations under which we would like our classifier to be invariant. There are translation (two directions), scaling (two directions), sheer, and character thickness. Hence the curves and tangent lines in Figures 13.10 and 13.11 are actually 7-dimensional manifolds and hyperplanes. It is infeasible to add transformed versions of each training image to capture all of these possibilities. The tangent manifolds provide an elegant way of capturing the invariances.</p>
+<p>Table 13.1 shows the test misclassification error for a problem with 7291 training images and 2007 test digits (the U.S. Postal Services database), for a carefully constructed neural network, and simple 1-nearest-neighbor and</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Error rate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Neural-net</td>
+<td>0.049</td>
+</tr>
+<tr class="even">
+<td>1-nearest-neighbor/Euclidean distance</td>
+<td>0.055</td>
+</tr>
+<tr class="odd">
+<td>1-nearest-neighbor/tangent distance</td>
+<td>0.026</td>
+</tr>
+</tbody>
+</table>
+<p><strong>TABLE 13.1.</strong> Test error rates for the handwritten ZIP code problem.</p>
+<p>tangent distance 1-nearest-neighbor rules. The tangent distance nearest-neighbor classifier works remarkably well, with test error rates near those for the human eye (this is a notoriously difficult test set). In practice, it turned out that nearest-neighbors are too slow for online classification in this application (see Section 13.5), and neural network classifiers were subsequently developed to mimic it.</p>
+</section>
+</section>
+<section id="adaptive-nearest-neighbor-methods" class="level1" data-number="18">
+<h1 data-number="18"><span class="header-section-number">18</span> 13.4 Adaptive Nearest-Neighbor Methods</h1>
+<p>When nearest-neighbor classification is carried out in a high-dimensional feature space, the nearest neighbors of a point can be very far away, causing bias and degrading the performance of the rule.</p>
+<p>To quantify this, consider N data points uniformly distributed in the unit cube <span class="math inline">\([-\frac{1}{2}, \frac{1}{2}]^p\)</span> . Let R be the radius of a 1-nearest-neighborhood centered at the origin. Then</p>
+<p><span class="math display">\[\operatorname{median}(R) = v_p^{-1/p} \left( 1 - \frac{1}{2}^{1/N} \right)^{1/p}, \tag{13.7}\]</span></p>
+<p>where <span class="math inline">\(v_p r^p\)</span> is the volume of the sphere of radius r in p dimensions. Figure 13.12 shows the median radius for various training sample sizes and dimensions. We see that median radius quickly approaches 0.5, the distance to the edge of the cube.</p>
+<p>What can be done about this problem? Consider the two-class situation in Figure 13.13. There are two features, and a nearest-neighborhood at a query point is depicted by the circular region. Implicit in near-neighbor classification is the assumption that the class probabilities are roughly constant in the neighborhood, and hence simple averages give good estimates. However, in this example the class probabilities vary only in the horizontal direction. If we knew this, we would stretch the neighborhood in the vertical direction, as shown by the tall rectangular region. This will reduce the bias of our estimate and leave the variance the same.</p>
+<p>In general, this calls for adapting the metric used in nearest-neighbor classification, so that the resulting neighborhoods stretch out in directions for which the class probabilities don’t change much. In high-dimensional feature space, the class probabilities might change only a low-dimensional subspace and hence there can be considerable advantage to adapting the metric.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_494_Figure_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Median radius of a 1-nearest-neighborhood</figcaption>
+</figure>
+</div>
+<p>FIGURE 13.12. Median radius of a 1-nearest-neighborhood, for uniform data with N observations in p dimensions.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_494_Figure_4.jpeg" class="img-fluid figure-img"></p>
+<figcaption>The points are uniform in the cube</figcaption>
+</figure>
+</div>
+<p>FIGURE 13.13. The points are uniform in the cube, with the vertical line separating class red and green. The vertical strip denotes the 5-nearest-neighbor region using only the horizontal coordinate to find the nearest-neighbors for the target point (solid dot). The sphere shows the 5-nearest-neighbor region using both coordinates, and we see in this case it has extended into the class-red region (and is dominated by the wrong class in this instance).</p>
+<p>Friedman (1994a) proposed a method in which rectangular neighborhoods are found adaptively by successively carving away edges of a box containing the training data. Here we describe the <em>discriminant adaptive nearest-neighbor</em> (DANN) rule of Hastie and Tibshirani (1996a). Earlier, related proposals appear in Short and Fukunaga (1981) and Myles and Hand (1990).</p>
+<p>At each query point a neighborhood of say 50 points is formed, and the class distribution among the points is used to decide how to deform the neighborhood—that is, to adapt the metric. The adapted metric is then used in a nearest-neighbor rule at the query point. Thus at each query point a potentially different metric is used.</p>
+<p>In Figure 13.13 it is clear that the neighborhood should be stretched in the direction orthogonal to line joining the class centroids. This direction also coincides with the linear discriminant boundary, and is the direction in which the class probabilities change the least. In general this direction of maximum change will not be orthogonal to the line joining the class centroids (see Figure 4.9 on page 116.) Assuming a local discriminant model, the information contained in the local within- and between-class covariance matrices is all that is needed to determine the optimal shape of the neighborhood.</p>
+<p>The discriminant adaptive nearest-neighbor (DANN) metric at a query point <span class="math inline">\(x_0\)</span> is defined by</p>
+<p><span class="math display">\[D(x, x_0) = (x - x_0)^T \Sigma (x - x_0), \tag{13.8}\]</span></p>
+<p>where</p>
+<p><span class="math display">\[\Sigma = \mathbf{W}^{-1/2} [\mathbf{W}^{-1/2} \mathbf{B} \mathbf{W}^{-1/2} + \epsilon \mathbf{I}] \mathbf{W}^{-1/2}\]</span> <span class="math display">\[= \mathbf{W}^{-1/2} [\mathbf{B}^* + \epsilon \mathbf{I}] \mathbf{W}^{-1/2}. \tag{13.9}\]</span></p>
+<p>Here <strong>W</strong> is the pooled within-class covariance matrix <span class="math inline">\(\sum_{k=1}^{K} \pi_k \mathbf{W}_k\)</span> and <strong>B</strong> is the between class covariance matrix <span class="math inline">\(\sum_{k=1}^{K} \pi_k (\bar{x}_k - \bar{x}) (\bar{x}_k - \bar{x})^T\)</span> , with <strong>W</strong> and <strong>B</strong> computed using only the 50 nearest neighbors around <span class="math inline">\(x_0\)</span> . After computation of the metric, it is used in a nearest-neighbor rule at <span class="math inline">\(x_0\)</span> .</p>
+<p>This complicated formula is actually quite simple in its operation. It first spheres the data with respect to <span class="math inline">\(\mathbf{W}\)</span> , and then stretches the neighborhood in the zero-eigenvalue directions of <span class="math inline">\(\mathbf{B}^*\)</span> (the between-matrix for the sphered data ). This makes sense, since locally the observed class means do not differ in these directions. The <span class="math inline">\(\epsilon\)</span> parameter rounds the neighborhood, from an infinite strip to an ellipsoid, to avoid using points far away from the query point. The value of <span class="math inline">\(\epsilon=1\)</span> seems to work well in general. Figure 13.14 shows the resulting neighborhoods for a problem where the classes form two concentric circles. Notice how the neighborhoods stretch out orthogonally to the decision boundaries when both classes are present in the neighborhood. In the pure regions with only one class, the neighborhoods remain circular;</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_496_Figure_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Neighborhoods found by the DANN procedure</figcaption>
+</figure>
+</div>
+<p><strong>FIGURE 13.14.</strong> Neighborhoods found by the DANN procedure, at various query points (centers of the crosses). There are two classes in the data, with one class surrounding the other. 50 nearest-neighbors were used to estimate the local metrics. Shown are the resulting metrics used to form 15-nearest-neighborhoods.</p>
+<p>in these cases the between matrix <span class="math inline">\(\mathbf{B} = 0\)</span> , and the <span class="math inline">\(\Sigma\)</span> in (13.8) is the identity matrix.</p>
+<section id="example" class="level4" data-number="18.0.0.1">
+<h4 data-number="18.0.0.1" class="anchored" data-anchor-id="example"><span class="header-section-number">18.0.0.1</span> 13.4.1 Example</h4>
+<p>Here we generate two-class data in ten dimensions, analogous to the twodimensional example of Figure 13.14. All ten predictors in class 1 are independent standard normal, conditioned on the squared radius being greater than 22.4 and less than 40, while the predictors in class 2 are independent standard normal without the restriction. There are 250 observations in each class. Hence the first class almost completely surrounds the second class in the full ten-dimensional space.</p>
+<p>In this example there are no pure noise variables, the kind that a nearestneighbor subset selection rule might be able to weed out. At any given point in the feature space, the class discrimination occurs along only one direction. However, this direction changes as we move across the feature space and all variables are important somewhere in the space.</p>
+<p>Figure 13.15 shows boxplots of the test error rates over ten realizations, for standard 5-nearest-neighbors, LVQ, and discriminant adaptive 5-nearest-neighbors. We used 50 prototypes per class for LVQ, to make it comparable to 5 nearest-neighbors (since 250/5 = 50). The adaptive metric significantly reduces the error rate, compared to LVQ or standard nearest-neighbors.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/_page_497_Figure_2.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Ten-dimensional simulated example boxplots</figcaption>
+</figure>
+</div>
+<p>FIGURE 13.15. Ten-dimensional simulated example: boxplots of the test error rates over ten realizations, for standard 5-nearest-neighbors, LVQ with 50 centers, and discriminant-adaptive 5-nearest-neighbors</p>
+</section>
+<section id="global-dimension-reduction-for-nearest-neighbors" class="level4" data-number="18.0.0.2">
+<h4 data-number="18.0.0.2" class="anchored" data-anchor-id="global-dimension-reduction-for-nearest-neighbors"><span class="header-section-number">18.0.0.2</span> 13.4.2 Global Dimension Reduction for Nearest-Neighbors</h4>
+<p>The discriminant-adaptive nearest-neighbor method carries out local dimension reduction—that is, dimension reduction separately at each query point. In many problems we can also benefit from global dimension reduction, that is, apply a nearest-neighbor rule in some optimally chosen subspace of the original feature space. For example, suppose that the two classes form two nested spheres in four dimensions of feature space, and there are an additional six noise features whose distribution is independent of class. Then we would like to discover the important four-dimensional subspace, and carry out nearest-neighbor classification in that reduced subspace. Hastie and Tibshirani (1996a) discuss a variation of the discriminant-adaptive nearest-neighbor method for this purpose. At each training point <span class="math inline">\(x_i\)</span> , the between-centroids sum of squares matrix <span class="math inline">\(\mathbf{B}_i\)</span> is computed, and then these matrices are averaged over all training points:</p>
+<p><span class="math display">\[\bar{\mathbf{B}} = \frac{1}{N} \sum_{i=1}^{N} \mathbf{B}_{i}.\]</span> (13.10)</p>
+<p>Let <span class="math inline">\(e_1, e_2, \ldots, e_p\)</span> be the eigenvectors of the matrix <span class="math inline">\(\bar{\mathbf{B}}\)</span> , ordered from largest to smallest eigenvalue <span class="math inline">\(\theta_k\)</span> . Then these eigenvectors span the optimal subspaces for global subspace reduction. The derivation is based on the fact that the best rank-L approximation to <span class="math inline">\(\bar{\mathbf{B}}\)</span> , <span class="math inline">\(\bar{\mathbf{B}}_{[L]} = \sum_{\ell=1}^{L} \theta_{\ell} e_{\ell} e_{\ell}^{T}\)</span> , solves the least squares problem</p>
+<p><span class="math display">\[\min_{\text{rank}(\mathbf{M})=L} \sum_{i=1}^{N} \text{trace}[(\mathbf{B}_i - \mathbf{M})^2].\]</span> (13.11)</p>
+<p>Since each <span class="math inline">\(\mathbf{B}_i\)</span> contains information on (a) the local discriminant subspace, and (b) the strength of discrimination in that subspace, (13.11) can be seen</p>
+<p>as a way of finding the best approximating subspace of dimension L to a series of N subspaces by weighted least squares (Exercise 13.5.)</p>
+<p>In the four-dimensional sphere example mentioned above and examined in Hastie and Tibshirani (1996a), four of the eigenvalues θ<sup>ℓ</sup> turn out to be large (having eigenvectors nearly spanning the interesting subspace), and the remaining six are near zero. Operationally, we project the data into the leading four-dimensional subspace, and then carry out nearest neighbor classification. In the satellite image classification example in Section 13.3.2, the technique labeled DANN in Figure 13.8 used 5-nearest-neighbors in a globally reduced subspace. There are also connections of this technique with the sliced inverse regression proposal of Duan and Li (1991). These authors use similar ideas in the regression setting, but do global rather than local computations. They assume and exploit spherical symmetry of the feature distribution to estimate interesting subspaces.</p>
+</section>
+</section>
+<section id="computational-considerations" class="level1" data-number="19">
+<h1 data-number="19"><span class="header-section-number">19</span> 13.5 Computational Considerations</h1>
+<p>One drawback of nearest-neighbor rules in general is the computational load, both in finding the neighbors and storing the entire training set. With N observations and p predictors, nearest-neighbor classification requires N p operations to find the neighbors per query point. There are fast algorithms for finding nearest-neighbors (Friedman et al., 1975; Friedman et al., 1977) which can reduce this load somewhat. Hastie and Simard (1998) reduce the computations for tangent distance by developing analogs of K-means clustering in the context of this invariant metric.</p>
+<p>Reducing the storage requirements is more difficult, and various editing and condensing procedures have been proposed. The idea is to isolate a subset of the training set that suffices for nearest-neighbor predictions, and throw away the remaining training data. Intuitively, it seems important to keep the training points that are near the decision boundaries and on the correct side of those boundaries, while some points far from the boundaries could be discarded.</p>
+<p>The multi-edit algorithm of Devijver and Kittler (1982) divides the data cyclically into training and test sets, computing a nearest neighbor rule on the training set and deleting test points that are misclassified. The idea is to keep homogeneous clusters of training observations.</p>
+<p>The condensing procedure of Hart (1968) goes further, trying to keep only important exterior points of these clusters. Starting with a single randomly chosen observation as the training set, each additional data item is processed one at a time, adding it to the training set only if it is misclassified by a nearest-neighbor rule computed on the current training set.</p>
+<p>These procedures are surveyed in Dasarathy (1991) and Ripley (1996). They can also be applied to other learning procedures besides nearestneighbors. While such methods are sometimes useful, we have not had much practical experience with them, nor have we found any systematic comparison of their performance in the literature.</p>
+</section>
+<section id="bibliographic-notes" class="level1" data-number="20">
+<h1 data-number="20"><span class="header-section-number">20</span> Bibliographic Notes</h1>
+<p>The nearest-neighbor method goes back at least to Fix and Hodges (1951). The extensive literature on the topic is reviewed by Dasarathy (1991); Chapter 6 of Ripley (1996) contains a good summary. K-means clustering is due to Lloyd (1957) and MacQueen (1967). Kohonen (1989) introduced learning vector quantization. The tangent distance method is due to Simard et al.&nbsp;(1993). Hastie and Tibshirani (1996a) proposed the discriminant adaptive nearest-neighbor technique.</p>
+</section>
+<section id="exercises" class="level1" data-number="21">
+<h1 data-number="21"><span class="header-section-number">21</span> Exercises</h1>
+<p>Ex. 13.1 Consider a Gaussian mixture model where the covariance matrices are assumed to be scalar: Σ<sup>r</sup> = σI ∀r = 1, . . . , R, and σ is a fixed parameter. Discuss the analogy between the K-means clustering algorithm and the EM algorithm for fitting this mixture model in detail. Show that in the limit σ → 0 the two methods coincide.</p>
+<p>Ex. 13.2 Derive formula (13.7) for the median radius of the 1-nearestneighborhood.</p>
+<p>Ex. 13.3 Let E<sup>∗</sup> be the error rate of the Bayes rule in a K-class problem, where the true class probabilities are given by pk(x), k = 1, . . . , K. Assuming the test point and training point have identical features x, prove (13.5)</p>
+<p><span class="math display">\[\sum_{k=1}^{K} p_k(x)(1 - p_k(x)) \le 2(1 - p_{k^*}(x)) - \frac{K}{K - 1}(1 - p_{k^*}(x))^2.\]</span></p>
+<p>where k <sup>∗</sup> = arg max<sup>k</sup> pk(x). Hence argue that the error rate of the 1 nearest-neighbor rule converges in L1, as the size of the training set increases, to a value E1, bounded above by</p>
+<p><span class="math display">\[E^* \left( 2 - E^* \frac{K}{K - 1} \right). \tag{13.12}\]</span></p>
+<p>[This statement of the theorem of Cover and Hart (1967) is taken from Chapter 6 of Ripley (1996), where a short proof is also given].</p>
+<p>Ex. 13.4 Consider an image to be a function <span class="math inline">\(F(x): \mathbb{R}^2 \to \mathbb{R}^1\)</span> over the twodimensional spatial domain (paper coordinates). Then <span class="math inline">\(F(c+x_0+\mathbf{A}(x-x_0))\)</span> represents an affine transformation of the image F, where <span class="math inline">\(\mathbf{A}\)</span> is a <span class="math inline">\(2 \times 2\)</span> matrix.</p>
+<ul>
+<li><ol type="1">
+<li>Decompose A (via Q-R) in such a way that parameters identifying the four affine transformations (two scale, shear and rotation) are clearly identified.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>Using the chain rule, show that the derivative of <span class="math inline">\(F(c+x_0+\mathbf{A}(x-x_0))\)</span> w.r.t. each of these parameters can be represented in terms of the two spatial derivatives of F.</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>Using a two-dimensional kernel smoother (Chapter 6), describe how to implement this procedure when the images are quantized to <span class="math inline">\(16 \times 16\)</span> pixels.</li>
+</ol></li>
+</ul>
+<p>Ex. 13.5 Let <span class="math inline">\(\mathbf{B}_i, i = 1, 2, ..., N\)</span> be square <span class="math inline">\(p \times p\)</span> positive semi-definite matrices and let <span class="math inline">\(\bar{\mathbf{B}} = (1/N) \sum \mathbf{B}_i\)</span> . Write the eigen-decomposition of <span class="math inline">\(\bar{\mathbf{B}}\)</span> as <span class="math inline">\(\sum_{\ell=1}^p \theta_\ell e_\ell e_\ell^T\)</span> with <span class="math inline">\(\theta_\ell \geq \theta_{\ell-1} \geq ... \geq \theta_1\)</span> . Show that the best rank-L approximation for the <span class="math inline">\(\mathbf{B}_i\)</span> ,</p>
+<p><span class="math display">\[\min_{\text{rank}(\mathbf{M})=L} \sum_{i=1}^{N} \text{trace}[(\mathbf{B}_i - \mathbf{M})^2],\]</span></p>
+<p>is given by <span class="math inline">\(\bar{\mathbf{B}}_{[L]} = \sum_{\ell=1}^L \theta_\ell e_\ell e_\ell^T\)</span> . (<em>Hint:</em> Write <span class="math inline">\(\sum_{i=1}^N \operatorname{trace}[(\mathbf{B}_i - \mathbf{M})^2]\)</span> as</p>
+<p><span class="math display">\[\sum_{i=1}^{N} \operatorname{trace}[(\mathbf{B}_{i} - \bar{\mathbf{B}})^{2}] + \sum_{i=1}^{N} \operatorname{trace}[(\mathbf{M} - \bar{\mathbf{B}})^{2}]).\]</span></p>
+<p>Ex. 13.6 Here we consider the problem of shape averaging. In particular, <span class="math inline">\(\mathbf{L}_i\)</span> , <span class="math inline">\(i=1,\ldots,M\)</span> are each <span class="math inline">\(N\times 2\)</span> matrices of points in <span class="math inline">\(\mathbb{R}^2\)</span> , each sampled from corresponding positions of handwritten (cursive) letters. We seek an affine invariant average <span class="math inline">\(\mathbf{V}\)</span> , also <span class="math inline">\(N\times 2\)</span> , <span class="math inline">\(\mathbf{V}^T\mathbf{V}=I\)</span> , of the M letters <span class="math inline">\(\mathbf{L}_i\)</span> with the following property: <span class="math inline">\(\mathbf{V}\)</span> minimizes</p>
+<p><span class="math display">\[\sum_{j=1}^{M} \min_{\mathbf{A}_j} \|\mathbf{L}_j - \mathbf{V}\mathbf{A}_j\|^2.\]</span></p>
+<p>Characterize the solution.</p>
+<p>This solution can suffer if some of the letters are <em>big</em> and dominate the average. An alternative approach is to minimize instead:</p>
+<p><span class="math display">\[\sum_{j=1}^{M} \min_{\mathbf{A}_j} \left\| \mathbf{L}_j \mathbf{A}_j^* - \mathbf{V} \right\|^2.\]</span></p>
+<p>Derive the solution to this problem. How do the criteria differ? Use the SVD of the <span class="math inline">\(\mathbf{L}_{j}\)</span> to simplify the comparison of the two approaches.</p>
+<p>Ex. 13.7 Consider the application of nearest-neighbors to the “easy” and “hard” problems in the left panel of Figure 13.5.</p>
+<ul>
+<li><ol type="1">
+<li>Replicate the results in the left panel of Figure 13.5.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>Estimate the misclassification errors using fivefold cross-validation, and compare the error rate curves to those in 1.</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>Consider an “AIC-like” penalization of the training set misclassification error. Specifically, add 2t/N to the training set misclassification error, where t is the approximate number of parameters N/r, r being the number of nearest-neighbors. Compare plots of the resulting penalized misclassification error to those in 1 and 2. Which method gives a better estimate of the optimal number of nearest-neighbors: cross-validation or AIC?</li>
+</ol></li>
+</ul>
+<p>Ex. 13.8 Generate data in two classes, with two features. These features are all independent Gaussian variates with standard deviation 1. Their mean vectors are (−1, −1) in class 1 and (1, 1) in class 2. To each feature vector apply a random rotation of angle θ, θ chosen uniformly from 0 to 2π. Generate 50 observations from each class to form the training set, and 500 in each class as the test set. Apply four different classifiers:</p>
+<ul>
+<li><ol type="1">
+<li>Nearest-neighbors.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>Nearest-neighbors with hints: ten randomly rotated versions of each data point are added to the training set before applying nearestneighbors.</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>Invariant metric nearest-neighbors, using Euclidean distance invariant to rotations about the origin.</li>
+</ol></li>
+<li><ol start="4" type="1">
+<li>Tangent distance nearest-neighbors.</li>
+</ol></li>
+</ul>
+<p>In each case choose the number of neighbors by tenfold cross-validation. Compare the results.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/12-support-vector-machines-and-flexible-discriminants.html" class="pagination-link" aria-label="Support Vector Machines and Flexible Discriminants">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Support Vector Machines and Flexible Discriminants</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/14-unsupervised-learning.html" class="pagination-link" aria-label="Unsupervised Learning">
+        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
