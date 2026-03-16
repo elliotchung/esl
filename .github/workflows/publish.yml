@@ -4,6 +4,10 @@ on:
 
 name: Render and Publish
 
+# Forces all actions to use Node 24, silencing the deprecation warning
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
@@ -15,6 +19,10 @@ jobs:
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
+
+      # ADDED: Installs TinyTex so Quarto stops crashing
+      - name: Install TinyTeX
+        run: quarto install tinytex
 
       - name: Publish to GitHub Pages (and render)
         uses: quarto-dev/quarto-actions/publish@v2
