@@ -1,6 +1,6 @@
 # Kernel Smoothing Methods
 
-In this chapter we describe a class of regression techniques that achieve flexibility in estimating the regression function f(X) over the domain IR<sup>p</sup> by fitting a different but simple model separately at each query point x0. This is done by using only those observations close to the target point x<sup>0</sup> to fit the simple model, and in such a way that the resulting estimated function ˆf(X) is smooth in IR<sup>p</sup> . This localization is achieved via a weighting function or kernel Kλ(x0, xi), which assigns a weight to x<sup>i</sup> based on its distance from x0. The kernels K<sup>λ</sup> are typically indexed by a parameter λ that dictates the width of the neighborhood. These memory-based methods require in principle little or no training; all the work gets done at evaluation time. The only parameter that needs to be determined from the training data is λ. The model, however, is the entire training data set.
+In this chapter we describe a class of regression techniques that achieve flexibility in estimating the regression function f(X) over the domain IR$^{p}$ by fitting a different but simple model separately at each query point x0. This is done by using only those observations close to the target point x$^{0}$ to fit the simple model, and in such a way that the resulting estimated function ˆf(X) is smooth in IR$^{p}$ . This localization is achieved via a weighting function or kernel K$\lambda$(x0, xi), which assigns a weight to x$^{i}$ based on its distance from x0. The kernels K$^{\lambda}$ are typically indexed by a parameter $\lambda$ that dictates the width of the neighborhood. These memory-based methods require in principle little or no training; all the work gets done at evaluation time. The only parameter that needs to be determined from the training data is $\lambda$. The model, however, is the entire training data set.
 
 We also discuss more general classes of kernel-based techniques , which tie in with structured methods in other chapters, and are useful for density estimation and classification.
 
@@ -115,7 +115,7 @@ There is of course a price to be paid for this bias reduction, and that is incre
 
 ![Figure 6.6 - Variance functions for local constant, linear, and quadratic regression](../figures/_page_216_Figure_2.jpeg)
 
-FIGURE 6.6. The variances functions ||l(x)||<sup>2</sup> for local constant, linear and quadratic regression, for a metric bandwidth (λ = 0.2) tri-cube kernel.
+FIGURE 6.6. The variances functions ||l(x)||$^{2}$ for local constant, linear and quadratic regression, for a metric bandwidth ($\lambda$ = 0.2) tri-cube kernel.
 
 local polynomials. To summarize some collected wisdom on this issue:
 
@@ -127,11 +127,11 @@ While it may be helpful to tinker, and move from local linear fits at the bounda
 
 # 6.2 Selecting the Width of the Kernel
 
-In each of the kernels Kλ, λ is a parameter that controls its width:
+In each of the kernels K$\lambda$, $\lambda$ is a parameter that controls its width:
 
-- For the Epanechnikov or tri-cube kernel with metric width, λ is the radius of the support region.
-- For the Gaussian kernel, λ is the standard deviation.
-- λ is the number k of nearest neighbors in k-nearest neighborhoods, often expressed as a fraction or span k/N of the total training sample.
+- For the Epanechnikov or tri-cube kernel with metric width, $\lambda$ is the radius of the support region.
+- For the Gaussian kernel, $\lambda$ is the standard deviation.
+- $\lambda$ is the number k of nearest neighbors in k-nearest neighborhoods, often expressed as a fraction or span k/N of the total training sample.
 
 ![Figure 6.7 (part 1) - Comparison of equivalent kernels for a local linear regression smoother and a smoothing spline](../figures/_page_217_Figure_2.jpeg)
 
@@ -144,11 +144,11 @@ There is a natural bias-variance tradeoff as we change the width of the averagin
 - If the window is narrow,  $f(x_0)$  is an average of a small number of  $y_i$  close to  $x_0$ , and its variance will be relatively large—close to that of an individual  $y_i$ . The bias will tend to be small, again because each of the  $E(y_i) = f(x_i)$  should be close to  $f(x_0)$ .
 - If the window is wide, the variance of  $\hat{f}(x_0)$  will be small relative to the variance of any  $y_i$ , because of the effects of averaging. The bias will be higher, because we are now using observations  $x_i$  further from  $x_0$ , and there is no guarantee that  $f(x_i)$  will be close to  $f(x_0)$ .
 
-Similar arguments apply to local regression estimates, say local linear: as the width goes to zero, the estimates approach a piecewise-linear function that interpolates the training data<sup>1</sup>; as the width gets infinitely large, the fit approaches the global linear least-squares fit to the data.
+Similar arguments apply to local regression estimates, say local linear: as the width goes to zero, the estimates approach a piecewise-linear function that interpolates the training data$^{1}$; as the width gets infinitely large, the fit approaches the global linear least-squares fit to the data.
 
 The discussion in Chapter 5 on selecting the regularization parameter for smoothing splines applies here, and will not be repeated. Local regression smoothers are linear estimators; the smoother matrix in  $\hat{\mathbf{f}} = \mathbf{S}_{\lambda} \mathbf{y}$  is built up from the equivalent kernels (6.8), and has ijth entry  $\{\mathbf{S}_{\lambda}\}_{ij} = l_i(x_j)$ . Leave-one-out cross-validation is particularly simple (Exercise 6.7), as is generalized cross-validation,  $C_p$  (Exercise 6.10), and k-fold cross-validation. The effective degrees of freedom is again defined as trace( $\mathbf{S}_{\lambda}$ ), and can be used to calibrate the amount of smoothing. Figure 6.7 compares the equivalent kernels for a smoothing spline and local linear regression. The local regression smoother has a span of 40%, which results in df = trace( $\mathbf{S}_{\lambda}$ ) = 5.86. The smoothing spline was calibrated to have the same df, and their equivalent kernels are qualitatively quite similar.
 
-<sup>&</sup>lt;sup>1</sup>With uniformly spaced  $x_i$ ; with irregularly spaced  $x_i$ , the behavior can deteriorate.
+$ ^{1} $With uniformly spaced  $x_i$ ; with irregularly spaced  $x_i$ , the behavior can deteriorate.
 
 # 6.3 Local Regression in $\mathbb{R}^p$
 
@@ -171,7 +171,7 @@ Local regression becomes less useful in dimensions much higher than two or three
 
 ![Figure 6.8 - Local linear regression smoothing on galaxy velocity data with an irregular boundary](../figures/_page_219_Figure_2.jpeg)
 
-FIGURE 6.8. The left panel shows three-dimensional data, where the response is the velocity measurements on a galaxy, and the two predictors record positions on the celestial sphere. The unusual "star"-shaped design indicates the way the measurements were made, and results in an extremely irregular boundary. The right panel shows the results of local linear regression smoothing in IR<sup>2</sup> , using a nearest-neighbor window with 15% of the data.
+FIGURE 6.8. The left panel shows three-dimensional data, where the response is the velocity measurements on a galaxy, and the two predictors record positions on the celestial sphere. The unusual "star"-shaped design indicates the way the measurements were made, and results in an extremely irregular boundary. The right panel shows the results of local linear regression smoothing in IR$^{2}$ , using a nearest-neighbor window with 15% of the data.
 
 Although the scatter-cloud and wire-frame pictures in Figure 6.8 look attractive, it is quite difficult to interpret the results except at a gross level. From a data analysis perspective, conditional plots are far more useful.
 
@@ -181,13 +181,13 @@ Figure 6.9 shows an analysis of some environmental data with three predictors. T
 
 FIGURE 6.9. Three-dimensional smoothing example. The response is (cube-root of ) ozone concentration, and the three predictors are temperature, wind speed and radiation. The trellis display shows ozone as a function of radiation, conditioned on intervals of temperature and wind speed (indicated by darker green or orange shaded bars). Each panel contains about 40% of the range of each of the conditioned variables. The curve in each panel is a univariate local linear regression, fit to the data in the panel.
 
-# 6.4 Structured Local Regression Models in IR<sup>p</sup>
+# 6.4 Structured Local Regression Models in IR$^{p}$
 
 When the dimension to sample-size ratio is unfavorable, local regression does not help us much, unless we are willing to make some structural assumptions about the model. Much of this book is about structured regression and classification models. Here we focus on some approaches directly related to kernel methods.
 
 #### 6.4.1 Structured Kernels
 
-One line of approach is to modify the kernel. The default spherical kernel (6.13) gives equal weight to each coordinate, and so a natural default strategy is to standardize each variable to unit standard deviation. A more general approach is to use a positive semidefinite matrix  $\bf A$  to weigh the different coordinates:
+One line of approach is to modify the kernel. The default spherical kernel (6.13) gives equal weight to each coordinate, and so a natural default strategy is to standardize each variable to unit standard deviation. A more general approach is to use a positive semidefinite matrix  $\mathbf A$  to weigh the different coordinates:
 
 $$K_{\lambda,A}(x_0,x) = D\left(\frac{(x-x_0)^T \mathbf{A}(x-x_0)}{\lambda}\right). \tag{6.14}$$
 
@@ -285,11 +285,11 @@ Kernel density estimation is an unsupervised learning procedure, which historica
 
 # 6.6.1 Kernel Density Estimation
 
-Suppose we have a random sample x1, . . . , x<sup>N</sup> drawn from a probability density fX(x), and we wish to estimate f<sup>X</sup> at a point x0. For simplicity we assume for now that X ∈ IR. Arguing as before, a natural local estimate has the form
+Suppose we have a random sample x1, . . . , x$^{N}$ drawn from a probability density fX(x), and we wish to estimate f$^{X}$ at a point x0. For simplicity we assume for now that X $\in$ IR. Arguing as before, a natural local estimate has the form
 
 $$\hat{f}_X(x_0) = \frac{\#x_i \in \mathcal{N}(x_0)}{N\lambda},\tag{6.21}$$
 
-where N (x0) is a small metric neighborhood around x<sup>0</sup> of width λ. This estimate is bumpy, and the smooth Parzen estimate is preferred
+where N (x0) is a small metric neighborhood around x$^{0}$ of width $\lambda$. This estimate is bumpy, and the smooth Parzen estimate is preferred
 
 $$\hat{f}_X(x_0) = \frac{1}{N\lambda} \sum_{i=1}^{N} K_{\lambda}(x_0, x_i),$$
  (6.22)
@@ -469,13 +469,13 @@ Ex. 6.2 Show that  $\sum_{i=1}^{N} (x_i - x_0) l_i(x_0) = 0$  for local linear r
 $$PE(\lambda) = E \frac{1}{N} \sum_{i=1}^{N} (y_i^* - \hat{f}_{\lambda}(x_i))^2$$
  (6.34)
 
-for predicting new responses at the N input values. Show that the average squared residual on the training data, ASR(λ), is a biased estimate (optimistic) for PE(λ), while
+for predicting new responses at the N input values. Show that the average squared residual on the training data, ASR($\lambda$), is a biased estimate (optimistic) for PE($\lambda$), while
 
 $$C_{\lambda} = ASR(\lambda) + \frac{2\sigma^2}{N} trace(\mathbf{S}_{\lambda})$$
  (6.35)
 
 is unbiased.
 
-Ex. 6.11 Show that for the Gaussian mixture model (6.32) the likelihood is maximized at +∞, and describe how.
+Ex. 6.11 Show that for the Gaussian mixture model (6.32) the likelihood is maximized at +$\infty$, and describe how.
 
-Ex. 6.12 Write a computer program to perform a local linear discriminant analysis. At each query point x0, the training data receive weights Kλ(x0, xi) from a weighting kernel, and the ingredients for the linear decision boundaries (see Section 4.3) are computed by weighted averages. Try out your program on the zipcode data, and show the training and test errors for a series of five pre-chosen values of λ. The zipcode data are available from the book website www-stat.stanford.edu/ElemStatLearn.
+Ex. 6.12 Write a computer program to perform a local linear discriminant analysis. At each query point x0, the training data receive weights K$\lambda$(x0, xi) from a weighting kernel, and the ingredients for the linear decision boundaries (see Section 4.3) are computed by weighted averages. Try out your program on the zipcode data, and show the training and test errors for a series of five pre-chosen values of $\lambda$. The zipcode data are available from the book website www-stat.stanford.edu/ElemStatLearn.

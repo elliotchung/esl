@@ -59,7 +59,7 @@ Although the following applies to both continuous and discrete distributions, mu
 
 $$f(x) = \frac{1}{Z} \prod_{C \in \mathcal{C}} \psi_C(x_C) \tag{17.3}$$
 
-where C is the set of maximal cliques, and the positive functions  $\psi_C(\cdot)$  are called *clique potentials*. These are not in general density functions<sup>1</sup>, but rather are affinities that capture the dependence in  $X_C$  by scoring certain instances  $x_C$  higher than others. The quantity
+where C is the set of maximal cliques, and the positive functions  $\psi_C(\cdot)$  are called *clique potentials*. These are not in general density functions$^{1}$, but rather are affinities that capture the dependence in  $X_C$  by scoring certain instances  $x_C$  higher than others. The quantity
 
 $$Z = \sum_{x \in \mathcal{X}} \prod_{C \in \mathcal{C}} \psi_C(x_C) \tag{17.4}$$
 
@@ -81,7 +81,7 @@ $$f^{(3)}(x,y,z) = \frac{1}{Z}\psi(x,y,z).$$
 
 The first specifies only second order dependence (and can be represented with fewer parameters). Graphical models for discrete data are a special
 
-<sup>&</sup>lt;sup>1</sup>If the cliques are separated, then the potentials can be densities, but this is in general not the case.
+$ ^{1} $If the cliques are separated, then the potentials can be densities, but this is in general not the case.
 
 case of loglinear models for multiway contingency tables (Bishop et al., 1975, e.g.); in that language  $f^{(2)}$  is referred to as the "no second-order interaction" model.
 
@@ -115,7 +115,7 @@ We have learned two things here:
 - The dependence of Y on Z in (17.6) is in the mean term alone. Here we see explicitly that zero elements in  $\beta$  and hence  $\theta_{ZY}$  mean that the corresponding elements of Z are conditionally independent of Y, given the rest.
 - We can learn about this dependence structure through multiple linear regression.
 
-Thus  $\Theta$  captures all the second-order information (both structural and quantitative) needed to describe the conditional distribution of each node given the rest, and is the so-called "natural" parameter for the Gaussian graphical model<sup>2</sup>.
+Thus  $\Theta$  captures all the second-order information (both structural and quantitative) needed to describe the conditional distribution of each node given the rest, and is the so-called "natural" parameter for the Gaussian graphical model$^{2}$.
 
 Another (different) kind of graphical model is the *covariance graph* or *relevance network*, in which vertices are connected by bidirectional edges if the covariance (rather than the partial covariance) between the corresponding variables is nonzero. These are popular in genomics, see especially Butte et al. (2000). The negative log-likelihood from these models is not convex, making the computations more challenging (Chaudhuri et al., 2007).
 
@@ -128,15 +128,15 @@ $$\mathbf{S} = \frac{1}{N} \sum_{i=1}^{N} (x_i - \bar{x})(x_i - \bar{x})^T$$
 
 be the empirical covariance matrix, with  $\bar{x}$  the sample mean vector. Ignoring constants, the log-likelihood of the data can be written as
 
-<sup>&</sup>lt;sup>2</sup>The distribution arising from a Gaussian graphical model is a Wishart distribution. This is a member of the exponential family, with canonical or "natural" parameter  $\Theta = \Sigma^{-1}$ . Indeed, the partially maximized log-likelihood (17.11) is (up to constants) the Wishart log-likelihood.
+$ ^{2} $The distribution arising from a Gaussian graphical model is a Wishart distribution. This is a member of the exponential family, with canonical or "natural" parameter  $\Theta = \Sigma^{-1}$ . Indeed, the partially maximized log-likelihood (17.11) is (up to constants) the Wishart log-likelihood.
 
 $$\ell(\mathbf{\Theta}) = \log \det \mathbf{\Theta} - \operatorname{trace}(\mathbf{S}\mathbf{\Theta}). \tag{17.11}$$
 
-In (17.11) we have partially maximized with respect to the mean parameter µ. The quantity −ℓ(Θ) is a convex function of Θ. It is easy to show that the maximum likelihood estimate of Σ is simply S.
+In (17.11) we have partially maximized with respect to the mean parameter $\mu$. The quantity −$\ell$(Θ) is a convex function of Θ. It is easy to show that the maximum likelihood estimate of $\Sigma$ is simply S.
 
-Now to make the graph more useful (especially in high-dimensional settings) let's assume that some of the edges are missing; for example, the edge between PIP3 and Erk is one of several missing in Figure 17.1. As we have seen, for the Gaussian distribution this implies that the corresponding entries of Θ = Σ<sup>−</sup><sup>1</sup> are zero. Hence we now would like to maximize (17.11) under the constraints that some pre-defined subset of the parameters are zero. This is an equality-constrained convex optimization problem, and a number of methods have been proposed for solving it, in particular the iterative proportional fitting procedure (Speed and Kiiveri, 1986). This and other methods are summarized for example in Whittaker (1990) and Lauritzen (1996). These methods exploit the simplifications that arise from decomposing the graph into its maximal cliques, as described in the previous section. Here we outline a simple alternate approach, that exploits the sparsity in a different way. The fruits of this approach will become apparent later when we discuss the problem of estimation of the graph structure.
+Now to make the graph more useful (especially in high-dimensional settings) let's assume that some of the edges are missing; for example, the edge between PIP3 and Erk is one of several missing in Figure 17.1. As we have seen, for the Gaussian distribution this implies that the corresponding entries of Θ = $\Sigma$$^{−}$$^{1}$ are zero. Hence we now would like to maximize (17.11) under the constraints that some pre-defined subset of the parameters are zero. This is an equality-constrained convex optimization problem, and a number of methods have been proposed for solving it, in particular the iterative proportional fitting procedure (Speed and Kiiveri, 1986). This and other methods are summarized for example in Whittaker (1990) and Lauritzen (1996). These methods exploit the simplifications that arise from decomposing the graph into its maximal cliques, as described in the previous section. Here we outline a simple alternate approach, that exploits the sparsity in a different way. The fruits of this approach will become apparent later when we discuss the problem of estimation of the graph structure.
 
-The idea is based on linear regression, as inspired by (17.6) and (17.9). In particular, suppose that we want to estimate the edge parameters θij for the vertices that are joined to a given vertex i, restricting those that are not joined to be zero. Then it would seem that the linear regression of the node i values on the other relevant vertices might provide a reasonable estimate. But this ignores the dependence structure among the predictors in this regression. It turns out that if instead we use our current (model-based) estimate of the cross-product matrix of the predictors when we perform our regressions, this gives the correct solutions and solves the constrained maximum-likelihood problem exactly. We now give details.
+The idea is based on linear regression, as inspired by (17.6) and (17.9). In particular, suppose that we want to estimate the edge parameters $\theta$ij for the vertices that are joined to a given vertex i, restricting those that are not joined to be zero. Then it would seem that the linear regression of the node i values on the other relevant vertices might provide a reasonable estimate. But this ignores the dependence structure among the predictors in this regression. It turns out that if instead we use our current (model-based) estimate of the cross-product matrix of the predictors when we perform our regressions, this gives the correct solutions and solves the constrained maximum-likelihood problem exactly. We now give details.
 
 To constrain the log-likelihood (17.11), we add Lagrange constants for all missing edges
 
@@ -147,9 +147,9 @@ The gradient equation for maximizing (17.12) can be written as
 
 $$\mathbf{\Theta}^{-1} - \mathbf{S} - \mathbf{\Gamma} = \mathbf{0},\tag{17.13}$$
 
-using the fact that the derivative of log det Θ equals Θ−<sup>1</sup> (Boyd and Vandenberghe, 2004, for example, page 641). Γ is a matrix of Lagrange parameters with nonzero values for all pairs with edges absent.
+using the fact that the derivative of log det Θ equals Θ−$^{1}$ (Boyd and Vandenberghe, 2004, for example, page 641). $\Gamma$ is a matrix of Lagrange parameters with nonzero values for all pairs with edges absent.
 
-We will show how we can use regression to solve for Θ and its inverse W = Θ−<sup>1</sup> one row and column at a time. For simplicity let's focus on the last row and column. Then the upper right block of equation (17.13) can be written as
+We will show how we can use regression to solve for Θ and its inverse W = Θ−$^{1}$ one row and column at a time. For simplicity let's focus on the last row and column. Then the upper right block of equation (17.13) can be written as
 
 $$w_{12} - s_{12} - \gamma_{12} = 0. (17.14)$$
 
@@ -230,7 +230,7 @@ $$\mathbf{W}_{11}\beta - s_{12} + \lambda \cdot \operatorname{Sign}(\beta) = 0 \
 
 (recall that  $\beta$  and  $\theta_{12}$  have opposite signs). We will now see that this system is exactly equivalent to the estimating equations for a lasso regression.
 
-Consider the usual regression setup with outcome variables  ${\bf y}$  and predictor matrix  ${\bf Z}$ . There the lasso minimizes
+Consider the usual regression setup with outcome variables  ${\mathbf y}$  and predictor matrix  ${\mathbf Z}$ . There the lasso minimizes
 
 $$\frac{1}{2}(\mathbf{y} - \mathbf{Z}\beta)^{T}(\mathbf{y} - \mathbf{Z}\beta) + \lambda \cdot ||\beta||_{1}$$
  (17.24)
@@ -265,19 +265,19 @@ $$S(x,t) = sign(x)(|x| - t)_{+}.$$
 
 The procedure cycles through the predictors until convergence.
 
-It is easy to show that the diagonal elements  $w_{jj}$  of the solution matrix **W** are simply  $s_{jj} + \lambda$ , and these are fixed in step 1 of Algorithm 17.2<sup>3</sup>.
+It is easy to show that the diagonal elements  $w_{jj}$  of the solution matrix **W** are simply  $s_{jj} + \lambda$ , and these are fixed in step 1 of Algorithm 17.2$^{3}$.
 
 The graphical lasso algorithm is extremely fast, and can solve a moderately sparse problem with 1000 nodes in less than a minute. It is easy to modify the algorithm to have edge-specific penalty parameters  $\lambda_{jk}$ ; since
 
-<sup>&</sup>lt;sup>3</sup>An alternative formulation of the problem (17.21) can be posed, where we don't penalize the diagonal of  $\Theta$ . Then the diagonal elements  $w_{jj}$  of the solution matrix are  $s_{jj}$ , and the rest of the algorithm is unchanged.
+$ ^{3} $An alternative formulation of the problem (17.21) can be posed, where we don't penalize the diagonal of  $\Theta$ . Then the diagonal elements  $w_{jj}$  of the solution matrix are  $s_{jj}$ , and the rest of the algorithm is unchanged.
 
-<sup>λ</sup>jk <sup>=</sup> <sup>∞</sup> will force <sup>ˆ</sup>θjk to be zero, this algorithm subsumes Algorithm 17.1. By casting the sparse inverse-covariance problem as a series of regressions, one can also quickly compute and examine the solution paths as a function of the penalty parameter λ. More details can be found in Friedman et al. (2008b).
+$^{\lambda}$jk $^{=}$ $^{\infty}$ will force $^{ˆ}$$\theta$jk to be zero, this algorithm subsumes Algorithm 17.1. By casting the sparse inverse-covariance problem as a series of regressions, one can also quickly compute and examine the solution paths as a function of the penalty parameter $\lambda$. More details can be found in Friedman et al. (2008b).
 
 ![FIGURE 17.5](../figures/_page_655_Figure_3.jpeg)
 
 FIGURE 17.5. Four different graphical-lasso solutions for the flow-cytometry data.
 
-Figure 17.1 shows the result of applying the graphical lasso to the flowcytometry dataset. Here the lasso penalty parameter λ was set at 14. In practice it is informative to examine the different sets of graphs that are obtained as λ is varied. Figure 17.5 shows four different solutions. The graph becomes more sparse as the penalty parameter is increased.
+Figure 17.1 shows the result of applying the graphical lasso to the flowcytometry dataset. Here the lasso penalty parameter $\lambda$ was set at 14. In practice it is informative to examine the different sets of graphs that are obtained as $\lambda$ is varied. Figure 17.5 shows four different solutions. The graph becomes more sparse as the penalty parameter is increased.
 
 Finally note that the values at some of the nodes in a graphical model can be unobserved; that is, missing or hidden. If only some values are missing at a node, the EM algorithm can be used to impute the missing values (Exercise 17.9). However, sometimes the entire node is hidden or latent. In the Gaussian model, if a node has all missing values, due to linearity one can simply average over the missing nodes to yield another Gaussian model over the observed nodes. Hence the inclusion of hidden nodes does not enrich the resulting model for the observed nodes; in fact, it imposes additional structure on its covariance matrix. However in the discrete model (described next) the inherent nonlinearities make hidden units a powerful way of expanding the model.
 
@@ -287,16 +287,16 @@ Undirected Markov networks with all discrete variables are popular, and in parti
 
 In addition, the values at each node can be observed ("visible") or unobserved ("hidden"). The nodes are often organized in layers, similar to a neural network. Boltzmann machines are useful both for unsupervised and supervised learning, especially for structured input data such as images, but have been hampered by computational difficulties. Figure 17.6 shows a restricted Boltzmann machine (discussed later), in which some variables are hidden, and only some pairs of nodes are connected. We first consider the simpler case in which all p nodes are visible with edge pairs (j, k) enumerated in E.
 
-Denoting the binary valued variable at node j by X<sup>j</sup> , the Ising model for their joint probabilities is given by
+Denoting the binary valued variable at node j by X$^{j}$ , the Ising model for their joint probabilities is given by
 
 $$p(X, \mathbf{\Theta}) = \exp\left[\sum_{(j,k)\in E} \theta_{jk} X_j X_k - \Phi(\mathbf{\Theta})\right] \text{ for } X \in \mathcal{X},$$
  (17.28)
 
-with X = {0, 1} p . As with the Gaussian model of the previous section, only pairwise interactions are modeled. The Ising model was developed in statistical mechanics, and is now used more generally to model the joint effects of pairwise interactions. Φ(Θ) is the log of the partition function, and is defined by
+with X = {0, 1} p . As with the Gaussian model of the previous section, only pairwise interactions are modeled. The Ising model was developed in statistical mechanics, and is now used more generally to model the joint effects of pairwise interactions. $\Phi$(Θ) is the log of the partition function, and is defined by
 
 $$\Phi(\mathbf{\Theta}) = \log \sum_{x \in \mathcal{X}} \left[ \exp\left(\sum_{(j,k) \in E} \theta_{jk} x_j x_k\right) \right]. \tag{17.29}$$
 
-The partition function ensures that the probabilities add to one over the sample space. The terms θjkXjX<sup>k</sup> represent a particular parametrization of the (log) potential functions (17.5), and for technical reasons requires a *constant* node  $X_0 \equiv 1$  to be included (Exercise 17.10), with "edges" to all the other nodes. In the statistics literature, this model is equivalent to a first-order-interaction Poisson log-linear model for multiway tables of counts (Bishop et al., 1975; McCullagh and Nelder, 1989; Agresti, 2002).
+The partition function ensures that the probabilities add to one over the sample space. The terms $\theta$jkXjX$^{k}$ represent a particular parametrization of the (log) potential functions (17.5), and for technical reasons requires a *constant* node  $X_0 \equiv 1$  to be included (Exercise 17.10), with "edges" to all the other nodes. In the statistics literature, this model is equivalent to a first-order-interaction Poisson log-linear model for multiway tables of counts (Bishop et al., 1975; McCullagh and Nelder, 1989; Agresti, 2002).
 
 The Ising model implies a logistic form for each node conditional on the others (exercise 17.11):
 
@@ -336,18 +336,18 @@ the expectation taken with respect to the empirical distribution of the data. Lo
 
 To find the maximum likelihood estimates, we can use gradient search or Newton methods. However the computation of  $E_{\Theta}(X_j X_k)$  involves enumeration of  $p(X, \Theta)$  over  $2^{p-2}$  of the  $|\mathcal{X}| = 2^p$  possible values of X, and is not generally feasible for large p (e.g., larger than about 30). For smaller p, a number of standard statistical approaches are available:
 
-Poisson log-linear modeling, where we treat the problem as a large regression problem (Exercise 17.12). The response vector  $\mathbf{y}$  is the vector of  $2^p$  counts in each of the cells of the multiway tabulation of the data<sup>4</sup>. The predictor matrix  $\mathbf{Z}$  has  $2^p$  rows and up to  $1+p+p^2$  columns that characterize each of the cells, although this number depends on the sparsity of the graph. The computational cost is essentially that of a regression problem of this size, which is  $O(p^42^p)$  and is manageable for p < 20. The Newton updates are typically computed by iteratively reweighted least squares, and the number of steps is usually in the single digits. See Agresti (2002) and McCullagh and Nelder (1989) for details. Standard software (such as the R package glm) can be used to fit this model.
+Poisson log-linear modeling, where we treat the problem as a large regression problem (Exercise 17.12). The response vector  $\mathbf{y}$  is the vector of  $2^p$  counts in each of the cells of the multiway tabulation of the data$^{4}$. The predictor matrix  $\mathbf{Z}$  has  $2^p$  rows and up to  $1+p+p^2$  columns that characterize each of the cells, although this number depends on the sparsity of the graph. The computational cost is essentially that of a regression problem of this size, which is  $O(p^42^p)$  and is manageable for p < 20. The Newton updates are typically computed by iteratively reweighted least squares, and the number of steps is usually in the single digits. See Agresti (2002) and McCullagh and Nelder (1989) for details. Standard software (such as the R package glm) can be used to fit this model.
 
 Gradient descent requires at most  $O(p^22^{p-2})$  computations to compute the gradient, but may require many more gradient steps than the second-order Newton methods. Nevertheless, it can handle slightly larger problems with  $p \leq 30$ . These computations can be reduced by exploiting the special clique structure in sparse graphs, using the junction-tree algorithm. Details are not given here.
 
 Iterative proportional fitting (IPF) performs cyclical coordinate descent on the gradient equations (17.34). At each step a parameter is updated so that its gradient equation is exactly zero. This is done in a cyclical fashion until all the gradients are zero. One complete cycle costs the same as a gradient evaluation, but may be more efficient. Jirouśek and Přeučil (1995) implement an efficient version of IPF, using junction trees.
 
- $<sup>^4</sup>$ Each of the cell counts is treated as an independent Poisson variable. We get the multinomial model corresponding to (17.28) by conditioning on the total count N (which is also Poisson under this framework).
+ $$^{^4}$$ Each of the cell counts is treated as an independent Poisson variable. We get the multinomial model corresponding to (17.28) by conditioning on the total count N (which is also Poisson under this framework).
 
 When p is large (> 30) other approaches have been used to approximate the gradient.
 
-- The mean field approximation (Peterson and Anderson, 1987) estimates EΘ(XjXk) by EΘ(X<sup>j</sup> )EΘ(X<sup>j</sup> ), and replaces the input variables by their means, leading to a set of nonlinear equations for the parameters θjk.
-- To obtain near-exact solutions, Gibbs sampling (Section 8.6) is used to approximate EΘ(XjXk) by successively sampling from the estimated model probabilities PrΘ(X<sup>j</sup> |X<sup>−</sup><sup>j</sup> ) (see e.g. Ripley (1996)).
+- The mean field approximation (Peterson and Anderson, 1987) estimates EΘ(XjXk) by EΘ(X$^{j}$ )EΘ(X$^{j}$ ), and replaces the input variables by their means, leading to a set of nonlinear equations for the parameters $\theta$jk.
+- To obtain near-exact solutions, Gibbs sampling (Section 8.6) is used to approximate EΘ(XjXk) by successively sampling from the estimated model probabilities PrΘ(X$^{j}$ |X$^{−}$$^{j}$ ) (see e.g. Ripley (1996)).
 
 We have not discussed decomposable models, for which the maximum likelihood estimates can be found in closed form without any iteration whatsoever. These models arise, for example, in trees: special graphs with tree-structured topology. When computational tractability is a concern, trees represent a useful class of models and they sidestep the computational concerns raised in this section. For details, see for example Chapter 12 of Whittaker (1990).
 
@@ -355,18 +355,18 @@ We have not discussed decomposable models, for which the maximum likelihood esti
 
 ![Hidden Nodes Diagram](../figures/_page_659_Picture_7.jpeg)
 
-We can increase the complexity of a discrete Markov network by including latent or hidden nodes. Suppose that a subset of the variables X<sup>H</sup> are unobserved or "hidden", and the remainder X<sup>V</sup> are observed or "visible." Then the log-likelihood of the observed data is
+We can increase the complexity of a discrete Markov network by including latent or hidden nodes. Suppose that a subset of the variables X$^{H}$ are unobserved or "hidden", and the remainder X$^{V}$ are observed or "visible." Then the log-likelihood of the observed data is
 
 $$\ell(\boldsymbol{\Theta}) = \sum_{i=1}^{N} \log[\Pr_{\boldsymbol{\Theta}}(X_{\mathcal{V}} = x_{i\mathcal{V}})]$$
 
 $$= \sum_{i=1}^{N} \left[\log \sum_{x_{\mathcal{H}} \in \mathcal{X}_{\mathcal{H}}} \exp \sum_{(j,k) \in E} (\theta_{jk} x_{ij} x_{ik} - \Phi(\boldsymbol{\Theta}))\right]. \quad (17.36)$$
 
-The sum over x<sup>H</sup> means that we are summing over all possible {0, 1} values for the hidden units. The gradient works out to be
+The sum over x$^{H}$ means that we are summing over all possible {0, 1} values for the hidden units. The gradient works out to be
 
 $$\frac{d\ell(\mathbf{\Theta})}{d\theta_{jk}} = \hat{\mathbf{E}}_{\mathcal{V}} \mathbf{E}_{\mathbf{\Theta}}(X_j X_k | X_{\mathcal{V}}) - \mathbf{E}_{\mathbf{\Theta}}(X_j X_k)$$
  (17.37)
 
-The first term is an empirical average of XjX<sup>k</sup> if both are visible; if one or both are hidden, they are first imputed given the visible data, and then averaged over the hidden variables. The second term is the unconditional expectation of XjXk.
+The first term is an empirical average of XjX$^{k}$ if both are visible; if one or both are hidden, they are first imputed given the visible data, and then averaged over the hidden variables. The second term is the unconditional expectation of XjXk.
 
 The inner expectation in the first term can be evaluated using basic rules of conditional expectation and properties of Bernoulli random variables. In detail, for observation i
 
@@ -392,7 +392,7 @@ approximation for the binary case, only yields an estimate of  $\Sigma^{-1}$ . I
 
 #### 17.4.4 Restricted Boltzmann Machines
 
-In this section we consider a particular architecture for graphical models inspired by neural networks, where the units are organized in layers. A restricted Boltzmann machine (RBM) consists of one layer of visible units and one layer of hidden units with no connections within each layer. It is much simpler to compute the conditional expectations (as in (17.37) and (17.38)) if the connections between hidden units are removed <sup>5</sup>. Figure 17.6 shows an example; the visible layer is divided into input variables  $\mathcal{V}_1$  and output variables  $\mathcal{V}_2$ , and there is a hidden layer  $\mathcal{H}$ . We denote such a network by
+In this section we consider a particular architecture for graphical models inspired by neural networks, where the units are organized in layers. A restricted Boltzmann machine (RBM) consists of one layer of visible units and one layer of hidden units with no connections within each layer. It is much simpler to compute the conditional expectations (as in (17.37) and (17.38)) if the connections between hidden units are removed $^{5}$. Figure 17.6 shows an example; the visible layer is divided into input variables  $\mathcal{V}_1$  and output variables  $\mathcal{V}_2$ , and there is a hidden layer  $\mathcal{H}$ . We denote such a network by
 
 $$\mathcal{V}_1 \leftrightarrow \mathcal{H} \leftrightarrow \mathcal{V}_2.$$
  (17.39)
@@ -403,13 +403,13 @@ The restricted form of this model simplifies the Gibbs sampling for estimating t
 
 The resulting model is less general than a Boltzmann machine, but is still useful; for example it can learn to extract interesting features from images.
 
-<sup>&</sup>lt;sup>5</sup>We thank Geoffrey Hinton for assistance in the preparation of the material on RBMs.
+$ ^{5} $We thank Geoffrey Hinton for assistance in the preparation of the material on RBMs.
 
-By alternately sampling the variables in each layer of the RBM shown in Figure 17.6, it is possible to generate samples from the joint density model. If the V<sup>1</sup> part of the visible layer is clamped at a particular feature vector during the alternating sampling, it is possible to sample from the distribution over labels given V1. Alternatively classification of test items can also be achieved by comparing the unnormalized joint densities of each label category with the observed features. We do not need to compute the partition function as it is the same for all of these combinations.
+By alternately sampling the variables in each layer of the RBM shown in Figure 17.6, it is possible to generate samples from the joint density model. If the V$^{1}$ part of the visible layer is clamped at a particular feature vector during the alternating sampling, it is possible to sample from the distribution over labels given V1. Alternatively classification of test items can also be achieved by comparing the unnormalized joint densities of each label category with the observed features. We do not need to compute the partition function as it is the same for all of these combinations.
 
 As noted the restricted Boltzmann machine has the same generic form as a single hidden layer neural network (Section 11.3). The edges in the latter model are directed, the hidden units are usually real-valued, and the fitting criterion is different. The neural network minimizes the error (crossentropy) between the targets and their model predictions, conditional on the input features. In contrast, the restricted Boltzmann machine maximizes the log-likelihood for the joint distribution of all visible units—that is, the features and targets. It can extract information from the input features that is useful for predicting the labels, but, unlike supervised learning methods, it may also use some of its hidden units to model structure in the feature vectors that is not immediately relevant for predicting the labels. These features may turn out to be useful, however, when combined with features derived from other hidden layers.
 
-Unfortunately, Gibbs sampling in a restricted Boltzmann machine can be very slow, as it can take a long time to reach stationarity. As the network weights get larger, the chain mixes more slowly and we need to run more steps to get the unconditional estimates. Hinton (2002) noticed empirically that learning still works well if we estimate the second expectation in (17.37) by starting the Markov chain at the data and only running for a few steps (instead of to convergence). He calls this contrastive divergence: we sample H given V1, V2, then V1, V<sup>2</sup> given H and finally H given V1, V<sup>2</sup> again. The idea is that when the parameters are far from the solution, it may be wasteful to iterate the Gibbs sampler to stationarity, as just a single iteration will reveal a good direction for moving the estimates.
+Unfortunately, Gibbs sampling in a restricted Boltzmann machine can be very slow, as it can take a long time to reach stationarity. As the network weights get larger, the chain mixes more slowly and we need to run more steps to get the unconditional estimates. Hinton (2002) noticed empirically that learning still works well if we estimate the second expectation in (17.37) by starting the Markov chain at the data and only running for a few steps (instead of to convergence). He calls this contrastive divergence: we sample H given V1, V2, then V1, V$^{2}$ given H and finally H given V1, V$^{2}$ again. The idea is that when the parameters are far from the solution, it may be wasteful to iterate the Gibbs sampler to stationarity, as just a single iteration will reveal a good direction for moving the estimates.
 
 We now give an example to illustrate the use of an RBM. Using contrastive divergence, it is possible to train an RBM to recognize hand-written digits from the MNIST dataset (LeCun et al., 1998). With 2000 hidden units, 784 visible units for representing binary pixel intensities and one 10-way multinomial visible unit for representing labels, the RBM achieves an error rate of 1.9% on the test set. This is a little higher than the 1.4% achieved by a support vector machine and comparable to the error rate achieved by a neural network trained with backpropagation. The error rate of the RBM, however, can be reduced to 1.25% by replacing the 784 pixel intensities by 500 features that are produced from the images without using any label information. First, an RBM with 784 visible units and 500 hidden units is trained, using contrastive divergence, to model the set of images. Then the hidden states of the first RBM are used as data for training a
 
@@ -491,25 +491,25 @@ $$\hat{\mu}_j = \sum_{i=1}^N \hat{x}_{ij}/N$$
 
 $$\hat{\Sigma}_{jj'} = \sum_{i=1}^{N} [(\hat{x}_{ij} - \hat{\mu}_j)(\hat{x}_{ij'} - \hat{\mu}_{j'}) + c_{i,jj'}]/N \qquad (17.44)$$
 
-where ci,jj′ = Σˆ jj′ if j, j′ <sup>∈</sup> <sup>m</sup><sup>i</sup> and zero otherwise. Explain the reason for the correction term ci,jj′ (Little and Rubin, 2002).
+where ci,jj′ = $\Sigma$ˆ jj′ if j, j′ $^{\in}$ $^{m}$$^{i}$ and zero otherwise. Explain the reason for the correction term ci,jj′ (Little and Rubin, 2002).
 
 - (b) Implement the EM algorithm for the Gaussian graphical model using the modified regression procedure from Exercise 17.7 for the M-step.
 - (c) For the flow cytometry data on the book website, set the data for the last protein Jnk in the first 1000 observations to missing, fit the model of Figure 17.1, and compare the predicted values to the actual values for Jnk. Compare the results to those obtained from a regression of Jnk on the other vertices with edges to Jnk in Figure 17.1, using only the non-missing data.
 
-Ex. 17.10 Using a simple binary graphical model with just two variables, show why it is essential to include a constant node X<sup>0</sup> ≡ 1 in the model.
+Ex. 17.10 Using a simple binary graphical model with just two variables, show why it is essential to include a constant node X$^{0}$ ≡ 1 in the model.
 
 Ex. 17.11 Show that the Ising model (17.28) for the joint probabilities in a discrete graphical model implies that the conditional distributions have the logistic form (17.30).
 
-Ex. 17.12 Consider a Poisson regression problem with p binary variables xij , j = 1, . . . , p and response variable y<sup>i</sup> which measures the number of observations with predictor x<sup>i</sup> ∈ {0, 1} p . The design is balanced, in that all n = 2<sup>p</sup> possible combinations are measured. We assume a log-linear model for the Poisson mean in each cell
+Ex. 17.12 Consider a Poisson regression problem with p binary variables xij , j = 1, . . . , p and response variable y$^{i}$ which measures the number of observations with predictor x$^{i}$ $\in$ {0, 1} p . The design is balanced, in that all n = 2$^{p}$ possible combinations are measured. We assume a log-linear model for the Poisson mean in each cell
 
 $$\log \mu(X) = \theta_{00} + \sum_{(j,k)\in E} x_{ij} x_{ik} \theta_{jk}, \tag{17.45}$$
 
-using the same notation as in Section 17.4.1 (including the constant variable xi<sup>0</sup> = 1∀i). We assume the response is distributed as
+using the same notation as in Section 17.4.1 (including the constant variable xi$^{0}$ = 1∀i). We assume the response is distributed as
 
 $$\Pr(Y = y | X = x) = \frac{e^{-\mu(x)}\mu(x)^y}{y!}.$$
  (17.46)
 
-Write down the conditional log-likelihood for the observed responses y<sup>i</sup> , and compute the gradient.
+Write down the conditional log-likelihood for the observed responses y$^{i}$ , and compute the gradient.
 
-- (a) Show that the gradient equation for θ<sup>00</sup> computes the partition function (17.29).
+- (a) Show that the gradient equation for $\theta$$^{00}$ computes the partition function (17.29).
 - (b) Show that the gradient equations for the remainder of the parameters are equivalent to the gradient (17.34).

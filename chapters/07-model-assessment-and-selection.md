@@ -15,7 +15,7 @@ $$L(Y, \hat{f}(X)) = \begin{cases} (Y - \hat{f}(X))^2 & \text{squared error} \\ 
 
 ![Figure 7.1](../figures/_page_238_Figure_2.jpeg)
 
-FIGURE 7.1. Behavior of test sample and training sample error as the model complexity is varied. The light blue curves show the training error err, while the light red curves show the conditional test error Err<sup>T</sup> for 100 training sets of size 50 each, as the model complexity is increased. The solid curves show the expected test error Err and the expected training error E[err].
+FIGURE 7.1. Behavior of test sample and training sample error as the model complexity is varied. The light blue curves show the training error err, while the light red curves show the conditional test error Err$^{T}$ for 100 training sets of size 50 each, as the model complexity is increased. The solid curves show the expected test error Err and the expected training error E[err].
 
 Test error, also referred to as generalization error, is the prediction error over an independent test sample
 
@@ -28,9 +28,9 @@ $$\operatorname{Err} = \operatorname{E}[L(Y, \hat{f}(X))] = \operatorname{E}[\op
 
 Note that this expectation averages over everything that is random, including the randomness in the training set that produced ˆf.
 
-Figure 7.1 shows the prediction error (light red curves) Err<sup>T</sup> for 100 simulated training sets each of size 50. The lasso (Section 3.4.2) was used to produce the sequence of fits. The solid red curve is the average, and hence an estimate of Err.
+Figure 7.1 shows the prediction error (light red curves) Err$^{T}$ for 100 simulated training sets each of size 50. The lasso (Section 3.4.2) was used to produce the sequence of fits. The solid red curve is the average, and hence an estimate of Err.
 
-Estimation of Err<sup>T</sup> will be our goal, although we will see that Err is more amenable to statistical analysis, and most methods effectively estimate the expected error. It does not seem possible to estimate conditional error effectively, given only the information in the same training set. Some discussion of this point is given in Section 7.12.
+Estimation of Err$^{T}$ will be our goal, although we will see that Err is more amenable to statistical analysis, and most methods effectively estimate the expected error. It does not seem possible to estimate conditional error effectively, given only the information in the same training set. Some discussion of this point is given in Section 7.12.
 
 Training error is the average loss over the training sample
 
@@ -68,7 +68,7 @@ The "−2" in the definition makes the log-likelihood loss for the Gaussian dist
 
 For ease of exposition, for the remainder of this chapter we will use Y and f(X) to represent all of the above situations, since we focus mainly on the quantitative response (squared-error loss) setting. For the other situations, the appropriate translations are obvious.
 
-In this chapter we describe a number of methods for estimating the expected test error for a model. Typically our model will have a tuning parameter or parameters α and so we can write our predictions as ˆfα(x). The tuning parameter varies the complexity of our model, and we wish to find the value of α that minimizes error, that is, produces the minimum of the average test error curve in Figure 7.1. Having said this, for brevity we will often suppress the dependence of ˆf(x) on α.
+In this chapter we describe a number of methods for estimating the expected test error for a model. Typically our model will have a tuning parameter or parameters $\alpha$ and so we can write our predictions as ˆf$\alpha$(x). The tuning parameter varies the complexity of our model, and we wish to find the value of $\alpha$ that minimizes error, that is, produces the minimum of the average test error curve in Figure 7.1. Having said this, for brevity we will often suppress the dependence of ˆf(x) on $\alpha$.
 
 It is important to note that there are in fact two separate goals that we might have in mind:
 
@@ -173,32 +173,32 @@ settings. One should base the choice of tuning parameter on an estimate of predi
 
 # 7.4 Optimism of the Training Error Rate
 
-Discussions of error rate estimation can be confusing, because we have to make clear which quantities are fixed and which are random<sup>1</sup> . Before we continue, we need a few definitions, elaborating on the material of Section 7.2. Given a training set T = {(x1, y1),(x2, y2), . . .(x<sup>N</sup> , y<sup>N</sup> )} the generalization error of a model ˆf is
+Discussions of error rate estimation can be confusing, because we have to make clear which quantities are fixed and which are random$^{1}$ . Before we continue, we need a few definitions, elaborating on the material of Section 7.2. Given a training set T = {(x1, y1),(x2, y2), . . .(x$^{N}$ , y$^{N}$ )} the generalization error of a model ˆf is
 
 $$\operatorname{Err}_{\mathcal{T}} = \operatorname{E}_{X^{0}, Y^{0}}[L(Y^{0}, \hat{f}(X^{0}))|\mathcal{T}];$$
  (7.15)
 
-Note that the training set <sup>T</sup> is fixed in expression (7.15). The point (X<sup>0</sup> , Y <sup>0</sup> ) is a new test data point, drawn from F, the joint distribution of the data. Averaging over training sets T yields the expected error
+Note that the training set $^{T}$ is fixed in expression (7.15). The point (X$^{0}$ , Y $^{0}$ ) is a new test data point, drawn from F, the joint distribution of the data. Averaging over training sets T yields the expected error
 
 $$Err = E_{\mathcal{T}} E_{X^0, Y^0} [L(Y^0, \hat{f}(X^0)) | \mathcal{T}], \tag{7.16}$$
 
-which is more amenable to statistical analysis. As mentioned earlier, it turns out that most methods effectively estimate the expected error rather than E<sup>T</sup> ; see Section 7.12 for more on this point.
+which is more amenable to statistical analysis. As mentioned earlier, it turns out that most methods effectively estimate the expected error rather than E$^{T}$ ; see Section 7.12 for more on this point.
 
 Now typically, the training error
 
 $$\overline{\text{err}} = \frac{1}{N} \sum_{i=1}^{N} L(y_i, \hat{f}(x_i))$$
  (7.17)
 
-will be less than the true error Err<sup>T</sup> , because the same data is being used to fit the method and assess its error (see Exercise 2.9). A fitting method typically adapts to the training data, and hence the apparent or training error err will be an overly optimistic estimate of the generalization error Err<sup>T</sup> .
+will be less than the true error Err$^{T}$ , because the same data is being used to fit the method and assess its error (see Exercise 2.9). A fitting method typically adapts to the training data, and hence the apparent or training error err will be an overly optimistic estimate of the generalization error Err$^{T}$ .
 
-Part of the discrepancy is due to where the evaluation points occur. The quantity Err<sup>T</sup> can be thought of as extra-sample error, since the test input vectors don't need to coincide with the training input vectors. The nature of the optimism in err is easiest to understand when we focus instead on the in-sample error
+Part of the discrepancy is due to where the evaluation points occur. The quantity Err$^{T}$ can be thought of as extra-sample error, since the test input vectors don't need to coincide with the training input vectors. The nature of the optimism in err is easiest to understand when we focus instead on the in-sample error
 
 $$\operatorname{Err}_{\text{in}} = \frac{1}{N} \sum_{i=1}^{N} \operatorname{E}_{Y^{0}} [L(Y_{i}^{0}, \hat{f}(x_{i})) | \mathcal{T}]$$
  (7.18)
 
-The Y <sup>0</sup> notation indicates that we observe N new response values at each of the training points x<sup>i</sup> , i = 1, 2, . . . , N. We define the optimism as
+The Y $^{0}$ notation indicates that we observe N new response values at each of the training points x$^{i}$ , i = 1, 2, . . . , N. We define the optimism as
 
-<sup>1</sup> Indeed, in the first edition of our book, this section wasn't sufficiently clear.
+$^{1}$ Indeed, in the first edition of our book, this section wasn't sufficiently clear.
 
 the difference between Errin and the training error err:
 
@@ -247,19 +247,19 @@ The general form of the in-sample estimates is
 
 $$\widehat{\operatorname{Err}}_{\mathrm{in}} = \overline{\operatorname{err}} + \hat{\omega}, \tag{7.25}$$
 
-where ˆω is an estimate of the average optimism.
+where ˆ$\omega$ is an estimate of the average optimism.
 
-Using expression (7.24), applicable when d parameters are fit under squared error loss, leads to a version of the so-called C<sup>p</sup> statistic,
+Using expression (7.24), applicable when d parameters are fit under squared error loss, leads to a version of the so-called C$^{p}$ statistic,
 
 $$C_p = \overline{\text{err}} + 2 \cdot \frac{d}{N} \hat{\sigma_{\varepsilon}}^2. \tag{7.26}$$
 
-Here ˆσ<sup>ε</sup> 2 is an estimate of the noise variance, obtained from the meansquared error of a low-bias model. Using this criterion we adjust the training error by a factor proportional to the number of basis functions used.
+Here ˆ$\sigma$$^{\epsilon}$ 2 is an estimate of the noise variance, obtained from the meansquared error of a low-bias model. Using this criterion we adjust the training error by a factor proportional to the number of basis functions used.
 
-The Akaike information criterion is a similar but more generally applicable estimate of Errin when a log-likelihood loss function is used. It relies on a relationship similar to (7.24) that holds asymptotically as N → ∞:
+The Akaike information criterion is a similar but more generally applicable estimate of Errin when a log-likelihood loss function is used. It relies on a relationship similar to (7.24) that holds asymptotically as N $\to$ $\infty$:
 
 $$-2 \cdot \mathrm{E}[\log \mathrm{Pr}_{\hat{\theta}}(Y)] \approx -\frac{2}{N} \cdot \mathrm{E}[\mathrm{loglik}] + 2 \cdot \frac{d}{N}. \tag{7.27}$$
 
-Here Prθ(Y ) is a family of densities for Y (containing the "true" density), ˆθ is the maximum-likelihood estimate of θ, and "loglik" is the maximized log-likelihood:
+Here Pr$\theta$(Y ) is a family of densities for Y (containing the "true" density), ˆ$\theta$ is the maximum-likelihood estimate of $\theta$, and "loglik" is the maximized log-likelihood:
 
 $$loglik = \sum_{i=1}^{N} log \Pr_{\hat{\theta}}(y_i). \tag{7.28}$$
 
@@ -456,24 +456,24 @@ $$\text{where } \epsilon = a_{1} \frac{h[\log(a_{2}N/h) + 1] - \log(\eta/4)}{N},
 
 $$\text{and } 0 < a_{1} \leq 4, \ 0 < a_{2} \leq 2$$
 
-These bounds hold simultaneously for all members f(x, α), and are taken from Cherkassky and Mulier (2007, pages 116–118). They recommend the value c = 1. For regression they suggest a<sup>1</sup> = a<sup>2</sup> = 1, and for classification they make no recommendation, with a<sup>1</sup> = 4 and a<sup>2</sup> = 2 corresponding to worst-case scenarios. They also give an alternative practical bound for regression
+These bounds hold simultaneously for all members f(x, $\alpha$), and are taken from Cherkassky and Mulier (2007, pages 116–118). They recommend the value c = 1. For regression they suggest a$^{1}$ = a$^{2}$ = 1, and for classification they make no recommendation, with a$^{1}$ = 4 and a$^{2}$ = 2 corresponding to worst-case scenarios. They also give an alternative practical bound for regression
 
 $$\operatorname{Err}_{\mathcal{T}} \le \overline{\operatorname{err}} \left( 1 - \sqrt{\rho - \rho \log \rho + \frac{\log N}{2N}} \right)_{+}^{-1}$$
  (7.47)
 
-with ρ = h N , which is free of tuning constants. The bounds suggest that the optimism increases with h and decreases with N in qualitative agreement with the AIC correction d/N given in (7.24). However, the results in (7.46) are stronger: rather than giving the expected optimism for each fixed function f(x, α), they give probabilistic upper bounds for all functions f(x, α), and hence allow for searching over the class.
+with $\rho$ = h N , which is free of tuning constants. The bounds suggest that the optimism increases with h and decreases with N in qualitative agreement with the AIC correction d/N given in (7.24). However, the results in (7.46) are stronger: rather than giving the expected optimism for each fixed function f(x, $\alpha$), they give probabilistic upper bounds for all functions f(x, $\alpha$), and hence allow for searching over the class.
 
-Vapnik's structural risk minimization (SRM) approach fits a nested sequence of models of increasing VC dimensions h<sup>1</sup> < h<sup>2</sup> < · · · , and then chooses the model with the smallest value of the upper bound.
+Vapnik's structural risk minimization (SRM) approach fits a nested sequence of models of increasing VC dimensions h$^{1}$ < h$^{2}$ < $\cdot$ $\cdot$ $\cdot$ , and then chooses the model with the smallest value of the upper bound.
 
 We note that upper bounds like the ones in (7.46) are often very loose, but that doesn't rule them out as good criteria for model selection, where the relative (not absolute) size of the test error is important. The main drawback of this approach is the difficulty in calculating the VC dimension of a class of functions. Often only a crude upper bound for VC dimension is obtainable, and this may not be adequate. An example in which the structural risk minimization program can be successfully carried out is the support vector classifier, discussed in Section 12.2.
 
 # 7.9.1 Example (Continued)
 
-Figure 7.7 shows the results when AIC, BIC and SRM are used to select the model size for the examples of Figure 7.3. For the examples labeled KNN, the model index α refers to neighborhood size, while for those labeled REG α refers to subset size. Using each selection method (e.g., AIC) we estimated the best model ˆα and found its true prediction error Err<sup>T</sup> (ˆα) on a test set. For the same training set we computed the prediction error of the best
+Figure 7.7 shows the results when AIC, BIC and SRM are used to select the model size for the examples of Figure 7.3. For the examples labeled KNN, the model index $\alpha$ refers to neighborhood size, while for those labeled REG $\alpha$ refers to subset size. Using each selection method (e.g., AIC) we estimated the best model ˆ$\alpha$ and found its true prediction error Err$^{T}$ (ˆ$\alpha$) on a test set. For the same training set we computed the prediction error of the best
 
 ![Figure 7.7](../figures/_page_258_Figure_2.jpeg)
  
-FIGURE 7.7. Boxplots show the distribution of the relative error 100 × [Err<sup>T</sup> (ˆα) − min<sup>α</sup> Err<sup>T</sup> (α)]/[max<sup>α</sup> Err<sup>T</sup> (α) − min<sup>α</sup> Err<sup>T</sup> (α)] over the four scenarios of Figure 7.3. This is the error in using the chosen model relative to the best model. There are 100 training sets each of size 80 represented in each boxplot, with the errors computed on test sets of size 10, 000.
+FIGURE 7.7. Boxplots show the distribution of the relative error 100 $\times$ [Err$^{T}$ (ˆ$\alpha$) − min$^{\alpha}$ Err$^{T}$ ($\alpha$)]/[max$^{\alpha}$ Err$^{T}$ ($\alpha$) − min$^{\alpha}$ Err$^{T}$ ($\alpha$)] over the four scenarios of Figure 7.3. This is the error in using the chosen model relative to the best model. There are 100 training sets each of size 80 represented in each boxplot, with the errors computed on test sets of size 10, 000.
 
 and worst possible model choices:  $\min_{\alpha} \operatorname{Err}_{\mathcal{T}}(\alpha)$  and  $\max_{\alpha} \operatorname{Err}_{\mathcal{T}}(\alpha)$ . The boxplots show the distribution of the quantity
 
@@ -544,7 +544,7 @@ $$GCV(\hat{f}) = \frac{1}{N} \sum_{i=1}^{N} \left[ \frac{y_i - \hat{f}(x_i)}{1 -
 
 The quantity trace(S) is the effective number of parameters, as defined in Section 7.6.
 
-GCV can have a computational advantage in some settings, where the trace of S can be computed more easily than the individual elements Sii. In smoothing problems, GCV can also alleviate the tendency of crossvalidation to undersmooth. The similarity between GCV and AIC can be seen from the approximation 1/(1 − x) <sup>2</sup> <sup>≈</sup> 1 + 2<sup>x</sup> (Exercise 7.7).
+GCV can have a computational advantage in some settings, where the trace of S can be computed more easily than the individual elements Sii. In smoothing problems, GCV can also alleviate the tendency of crossvalidation to undersmooth. The similarity between GCV and AIC can be seen from the approximation 1/(1 − x) $^{2}$ $^{\approx}$ 1 + 2$^{x}$ (Exercise 7.7).
 
 # 7.10.2 The Wrong and Right Way to Do Cross-validation
 
@@ -583,7 +583,7 @@ While this point may seem obvious to the reader, we have seen this blunder commi
 
 #### 7.10.3 Does Cross-Validation Really Work?
 
-We once again examine the behavior of cross-validation in a high-dimensional classification problem. Consider a scenario with N = 20 samples in two equal-sized classes, and p = 500 quantitative predictors that are independent of the class labels. Once again, the true error rate of any classifier is 50%. Consider a simple univariate classifier: a single split that minimizes the misclassification error (a "stump"). Stumps are trees with a single split, and are used in boosting methods (Chapter 10). A simple argument suggests that cross-validation will not work properly in this setting<sup>2</sup> :
+We once again examine the behavior of cross-validation in a high-dimensional classification problem. Consider a scenario with N = 20 samples in two equal-sized classes, and p = 500 quantitative predictors that are independent of the class labels. Once again, the true error rate of any classifier is 50%. Consider a simple univariate classifier: a single split that minimizes the misclassification error (a "stump"). Stumps are trees with a single split, and are used in boosting methods (Chapter 10). A simple argument suggests that cross-validation will not work properly in this setting$^{2}$ :
 
 Fitting to the entire training set, we will find a predictor that splits the data very well. If we do 5-fold cross-validation, this same predictor should split any 4/5ths and 1/5th of the data well too, and hence its cross-validation error will be small (much less than 50%.) Thus CV does not give an accurate estimate of error.
 
@@ -591,7 +591,7 @@ To investigate whether this argument is correct, Figure 7.11 shows the result of
 
 What has happened? The preceding argument has ignored the fact that in cross-validation, the model must be completely retrained for each fold
 
-<sup>2</sup>This argument was made to us by a scientist at a proteomics lab meeting, and led to material in this section.
+$^{2}$This argument was made to us by a scientist at a proteomics lab meeting, and led to material in this section.
 
 ![Figure 7.11](../figures/_page_266_Figure_2.jpeg)
  
@@ -603,9 +603,9 @@ The results of applying five-fold cross-validation to each of 50 simulated datas
 
 # 7.11 Bootstrap Methods
 
-The bootstrap is a general tool for assessing statistical accuracy. First we describe the bootstrap in general, and then show how it can be used to estimate extra-sample prediction error. As with cross-validation, the bootstrap seeks to estimate the conditional error Err<sup>T</sup> , but typically estimates well only the expected prediction error Err.
+The bootstrap is a general tool for assessing statistical accuracy. First we describe the bootstrap in general, and then show how it can be used to estimate extra-sample prediction error. As with cross-validation, the bootstrap seeks to estimate the conditional error Err$^{T}$ , but typically estimates well only the expected prediction error Err.
 
-Suppose we have a model fit to a set of training data. We denote the training set by Z = (z1, z2, . . . , z<sup>N</sup> ) where z<sup>i</sup> = (x<sup>i</sup> , yi). The basic idea is to randomly draw datasets with replacement from the training data, each sample the same size as the original training set. This is done B times (B = 100 say), producing B bootstrap datasets, as shown in Figure 7.12. Then we refit the model to each of the bootstrap datasets, and examine the behavior of the fits over the B replications.
+Suppose we have a model fit to a set of training data. We denote the training set by Z = (z1, z2, . . . , z$^{N}$ ) where z$^{i}$ = (x$^{i}$ , yi). The basic idea is to randomly draw datasets with replacement from the training data, each sample the same size as the original training set. This is done B times (B = 100 say), producing B bootstrap datasets, as shown in Figure 7.12. Then we refit the model to each of the bootstrap datasets, and examine the behavior of the fits over the B replications.
 
 In the figure, S(Z) is any quantity computed from the data Z, for example, the prediction at some input point. From the bootstrap sampling we can estimate any aspect of the distribution of S(Z), for example, its variance,
 
@@ -623,7 +623,7 @@ How can we apply the bootstrap to estimate prediction error? One approach would 
 $$\widehat{\text{Err}}_{\text{boot}} = \frac{1}{B} \frac{1}{N} \sum_{b=1}^{B} \sum_{i=1}^{N} L(y_i, \hat{f}^{*b}(x_i)).$$
  (7.54)
 
-However, it is easy to see that Err<sub>boot</sub> does not provide a good estimate in general. The reason is that the bootstrap datasets are acting as the training samples, while the original training set is acting as the test sample, and these two samples have observations in common. This overlap can make overfit predictions look unrealistically good, and is the reason that cross-validation explicitly uses non-overlapping data for the training and test samples. Consider for example a 1-nearest neighbor classifier applied to a two-class classification problem with the same number of observations in
+However, it is easy to see that Err$_{boot}$ does not provide a good estimate in general. The reason is that the bootstrap datasets are acting as the training samples, while the original training set is acting as the test sample, and these two samples have observations in common. This overlap can make overfit predictions look unrealistically good, and is the reason that cross-validation explicitly uses non-overlapping data for the training and test samples. Consider for example a 1-nearest neighbor classifier applied to a two-class classification problem with the same number of observations in
 
 each class, in which the predictors and class labels are in fact independent. Then the true error rate is 0.5. But the contributions to the bootstrap estimate  $\widehat{\text{Err}}_{\text{boot}}$  will be zero unless the observation i does not appear in the bootstrap sample b. In this latter case it will have the correct expectation 0.5. Now
 
@@ -631,7 +631,9 @@ Pr{observation
 $$i \in \text{bootstrap sample } b$$
 } =  $1 - \left(1 - \frac{1}{N}\right)^N$   
   $\approx 1 - e^{-1}$   
- = 0.632. (7.55)
+$$
+= 0.632. (7.55)
+$$
 
 Hence the expectation of  $\widehat{\text{Err}}_{\text{boot}}$  is about  $0.5 \times 0.368 = 0.184$ , far below the correct error rate 0.5.
 
@@ -652,7 +654,7 @@ The derivation of the .632 estimator is complex; intuitively it pulls the leave-
 
 The .632 estimator works well in "light fitting" situations, but can break down in overfit ones. Here is an example due to Breiman et al. (1984). Suppose we have two equal-size classes, with the targets independent of the class labels, and we apply a one-nearest neighbor rule. Then  $\overline{\text{err}} = 0$ ,
 
- $\widehat{\rm Err}^{(1)}=0.5$  and so  $\widehat{\rm Err}^{(.632)}=.632\times0.5=.316.$  However, the true error rate is 0.5.
+ $\widehat{\mathrm Err}^{(1)}=0.5$  and so  $\widehat{\mathrm Err}^{(.632)}=.632\times0.5=.316.$  However, the true error rate is 0.5.
 
 One can improve the .632 estimator by taking into account the amount of overfitting. First we define  $\gamma$  to be the *no-information error rate*: this is the error rate of our prediction rule if the inputs and class labels were independent. An estimate of  $\gamma$  is obtained by evaluating the prediction rule on all possible combinations of targets  $y_i$  and predictors  $x_{i'}$ 
 
@@ -679,11 +681,11 @@ Figure 7.13 shows the results of tenfold cross-validation and the .632+ bootstra
 
 ![Figure 7.13](../figures/_page_271_Figure_2.jpeg)
  
-FIGURE 7.13. Boxplots show the distribution of the relative error 100 · [Err<sup>α</sup><sup>ˆ</sup> − min<sup>α</sup> Err(α)]/[max<sup>α</sup> Err(α) − min<sup>α</sup> Err(α)] over the four scenarios of Figure 7.3. This is the error in using the chosen model relative to the best model. There are 100 training sets represented in each boxplot.
+FIGURE 7.13. Boxplots show the distribution of the relative error 100 $\cdot$ [Err$^{\alpha}$$^{ˆ}$ − min$^{\alpha}$ Err($\alpha$)]/[max$^{\alpha}$ Err($\alpha$) − min$^{\alpha}$ Err($\alpha$)] over the four scenarios of Figure 7.3. This is the error in using the chosen model relative to the best model. There are 100 training sets represented in each boxplot.
 
 reg/KNN reg/linear class/KNN class/linear
 
-Figure 7.13 shows boxplots of 100 · [Errα<sup>ˆ</sup> − min<sup>α</sup> Err(α)]/[max<sup>α</sup> Err(α) − min<sup>α</sup> Err(α)], the error in using the chosen model relative to the best model. There are 100 different training sets represented in each boxplot. Both measures perform well overall, perhaps the same or slightly worse than the AIC in Figure 7.7.
+Figure 7.13 shows boxplots of 100 $\cdot$ [Err$\alpha$$^{ˆ}$ − min$^{\alpha}$ Err($\alpha$)]/[max$^{\alpha}$ Err($\alpha$) − min$^{\alpha}$ Err($\alpha$)], the error in using the chosen model relative to the best model. There are 100 different training sets represented in each boxplot. Both measures perform well overall, perhaps the same or slightly worse than the AIC in Figure 7.7.
 
 Our conclusion is that for these particular problems and fitting methods, minimization of either AIC, cross-validation or bootstrap yields a model fairly close to the best available. Note that for the purpose of model selection, any of the measures could be biased and it wouldn't affect things, as long as the bias did not change the relative performance of the methods. For example, the addition of a constant to any of the measures would not change the resulting chosen model. However, for many adaptive, nonlinear techniques (like trees), estimation of the effective number of parameters is very difficult. This makes methods like AIC impractical and leaves us with cross-validation or bootstrap as the methods of choice.
 
@@ -693,11 +695,11 @@ A different question is: how well does each method estimate test error? On the a
 
 ![Conditional or Expected Test Error](../figures/_page_272_Picture_4.jpeg)
 
-Figures 7.14 and 7.15 examine the question of whether cross-validation does a good job in estimating Err<sup>T</sup> , the error conditional on a given training set T (expression (7.15) on page 228), as opposed to the expected test error. For each of 100 training sets generated from the "reg/linear" setting in the top-right panel of Figure 7.3, Figure 7.14 shows the conditional error curves Err<sup>T</sup> as a function of subset size (top left). The next two panels show 10-fold and N-fold cross-validation, the latter also known as leave-one-out (LOO). The thick red curve in each plot is the expected error Err, while the thick black curves are the expected cross-validation curves. The lower right panel shows how well cross-validation approximates the conditional and expected error.
+Figures 7.14 and 7.15 examine the question of whether cross-validation does a good job in estimating Err$^{T}$ , the error conditional on a given training set T (expression (7.15) on page 228), as opposed to the expected test error. For each of 100 training sets generated from the "reg/linear" setting in the top-right panel of Figure 7.3, Figure 7.14 shows the conditional error curves Err$^{T}$ as a function of subset size (top left). The next two panels show 10-fold and N-fold cross-validation, the latter also known as leave-one-out (LOO). The thick red curve in each plot is the expected error Err, while the thick black curves are the expected cross-validation curves. The lower right panel shows how well cross-validation approximates the conditional and expected error.
 
-One might have expected N-fold CV to approximate Err<sup>T</sup> well, since it almost uses the full training sample to fit a new test point. 10-fold CV, on the other hand, might be expected to estimate Err well, since it averages over somewhat different training sets. From the figure it appears 10-fold does a better job than N-fold in estimating Err<sup>T</sup> , and estimates Err even better. Indeed, the similarity of the two black curves with the red curve suggests both CV curves are approximately unbiased for Err, with 10-fold having less variance. Similar trends were reported by Efron (1983).
+One might have expected N-fold CV to approximate Err$^{T}$ well, since it almost uses the full training sample to fit a new test point. 10-fold CV, on the other hand, might be expected to estimate Err well, since it averages over somewhat different training sets. From the figure it appears 10-fold does a better job than N-fold in estimating Err$^{T}$ , and estimates Err even better. Indeed, the similarity of the two black curves with the red curve suggests both CV curves are approximately unbiased for Err, with 10-fold having less variance. Similar trends were reported by Efron (1983).
 
-Figure 7.15 shows scatterplots of both 10-fold and N-fold cross-validation error estimates versus the true conditional error for the 100 simulations. Although the scatterplots do not indicate much correlation, the lower right panel shows that for the most part the correlations are negative, a curious phenomenon that has been observed before. This negative correlation explains why neither form of CV estimates Err<sup>T</sup> well. The broken lines in each plot are drawn at Err(p), the expected error for the best subset of size p. We see again that both forms of CV are approximately unbiased for expected error, but the variation in test error for different training sets is quite substantial.
+Figure 7.15 shows scatterplots of both 10-fold and N-fold cross-validation error estimates versus the true conditional error for the 100 simulations. Although the scatterplots do not indicate much correlation, the lower right panel shows that for the most part the correlations are negative, a curious phenomenon that has been observed before. This negative correlation explains why neither form of CV estimates Err$^{T}$ well. The broken lines in each plot are drawn at Err(p), the expected error for the best subset of size p. We see again that both forms of CV are approximately unbiased for expected error, but the variation in test error for different training sets is quite substantial.
 
 Among the four experimental conditions in 7.3, this "reg/linear" scenario showed the highest correlation between actual and predicted test error. This
 
@@ -723,7 +725,7 @@ Cherkassky and Ma (2003) published a study on the performance of SRM for model s
 
 Ex. 7.1 Derive the estimate of in-sample error (7.24).
 
-Ex. 7.2 For 0–1 loss with Y ∈ {0, 1} and Pr(Y = 1|x0) = f(x0), show that
+Ex. 7.2 For 0–1 loss with Y $\in$ {0, 1} and Pr(Y = 1|x0) = f(x0), show that
 
 $$\operatorname{Err}(x_0) = \operatorname{Pr}(Y \neq \hat{G}(x_0)|X = x_0)$$
 

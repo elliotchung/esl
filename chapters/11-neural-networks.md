@@ -6,12 +6,12 @@ In this chapter we describe a class of learning methods that was developed separ
 
 # 11.2 Projection Pursuit Regression
 
-As in our generic supervised learning problem, assume we have an input vector X with p components, and a target Y . Let ωm, m = 1, 2, . . . , M, be unit p-vectors of unknown parameters. The projection pursuit regression (PPR) model has the form
+As in our generic supervised learning problem, assume we have an input vector X with p components, and a target Y . Let $\omega$m, m = 1, 2, . . . , M, be unit p-vectors of unknown parameters. The projection pursuit regression (PPR) model has the form
 
 $$f(X) = \sum_{m=1}^{M} g_m(\omega_m^T X).$$
  (11.1)
 
-This is an additive model, but in the derived features V<sup>m</sup> = ω T <sup>m</sup>X rather than the inputs themselves. The functions g<sup>m</sup> are unspecified and are esti-
+This is an additive model, but in the derived features V$^{m}$ = $\omega$ T $^{m}$X rather than the inputs themselves. The functions g$^{m}$ are unspecified and are esti-
 
 ![FIGURE 11.1. Perspective plots of two ridge functions.](../figures/_page_408_Figure_2.jpeg)
 
@@ -34,7 +34,7 @@ over functions  $g_m$  and direction vectors  $\omega_m$ , m = 1, 2, ..., M. As 
 
 Consider just one term (M = 1, and drop the subscript). Given the direction vector  $\omega$ , we form the derived variables  $v_i = \omega^T x_i$ . Then we have a one-dimensional smoothing problem, and we can apply any scatterplot smoother, such as a smoothing spline, to obtain an estimate of g.
 
-On the other hand, given g, we want to minimize (11.2) over  $\omega$ . A Gauss–Newton search is convenient for this task. This is a quasi-Newton method, in which the part of the Hessian involving the second derivative of g is discarded. It can be simply derived as follows. Let  $\omega_{\rm old}$  be the current estimate for  $\omega$ . We write
+On the other hand, given g, we want to minimize (11.2) over  $\omega$ . A Gauss–Newton search is convenient for this task. This is a quasi-Newton method, in which the part of the Hessian involving the second derivative of g is discarded. It can be simply derived as follows. Let  $\omega_{\mathrm old}$  be the current estimate for  $\omega$ . We write
 
 $$g(\omega^T x_i) \approx g(\omega_{\text{old}}^T x_i) + g'(\omega_{\text{old}}^T x_i)(\omega - \omega_{\text{old}})^T x_i$$
  (11.3)
@@ -44,7 +44,7 @@ to give
 $$\sum_{i=1}^{N} \left[ y_i - g(\omega^T x_i) \right]^2 \approx \sum_{i=1}^{N} g'(\omega_{\text{old}}^T x_i)^2 \left[ \left( \omega_{\text{old}}^T x_i + \frac{y_i - g(\omega_{\text{old}}^T x_i)}{g'(\omega_{\text{old}}^T x_i)} \right) - \omega^T x_i \right]^2.$$
 (11.4)
 
-To minimize the right-hand side, we carry out a least squares regression with target  $\omega_{\rm old}^T x_i + (y_i - g(\omega_{\rm old}^T x_i))/g'(\omega_{\rm old}^T x_i)$  on the input  $x_i$ , with weights  $g'(\omega_{\rm old}^T x_i)^2$  and no intercept (bias) term. This produces the updated coefficient vector  $\omega_{\rm new}$ .
+To minimize the right-hand side, we carry out a least squares regression with target  $\omega_{\mathrm old}^T x_i + (y_i - g(\omega_{\mathrm old}^T x_i))/g'(\omega_{\mathrm old}^T x_i)$  on the input  $x_i$ , with weights  $g'(\omega_{\mathrm old}^T x_i)^2$  and no intercept (bias) term. This produces the updated coefficient vector  $\omega_{\mathrm new}$ .
 
 These two steps, estimation of g and  $\omega$ , are iterated until convergence. With more than one term in the PPR model, the model is built in a forward stage-wise manner, adding a pair  $(\omega_m, g_m)$  at each stage.
 
@@ -61,11 +61,11 @@ There are many other applications, such as density estimation (Friedman et al., 
 
 The term neural network has evolved to encompass a large class of models and learning methods. Here we describe the most widely used "vanilla" neural net, sometimes called the single hidden layer back-propagation network, or single layer perceptron. There has been a great deal of hype surrounding neural networks, making them seem magical and mysterious. As we make clear in this section, they are just nonlinear statistical models, much like the projection pursuit regression model discussed above.
 
-A neural network is a two-stage regression or classification model, typically represented by a network diagram as in Figure 11.2. This network applies both to regression or classification. For regression, typically K = 1 and there is only one output unit Y<sup>1</sup> at the top. However, these networks can handle multiple quantitative responses in a seamless fashion, so we will deal with the general case.
+A neural network is a two-stage regression or classification model, typically represented by a network diagram as in Figure 11.2. This network applies both to regression or classification. For regression, typically K = 1 and there is only one output unit Y$^{1}$ at the top. However, these networks can handle multiple quantitative responses in a seamless fashion, so we will deal with the general case.
 
 For K-class classification, there are K units at the top, with the kth unit modeling the probability of class k. There are K target measurements Yk, k = 1, . . . , K, each being coded as a 0 − 1 variable for the kth class.
 
-Derived features Z<sup>m</sup> are created from linear combinations of the inputs, and then the target Y<sup>k</sup> is modeled as a function of linear combinations of the Zm,
+Derived features Z$^{m}$ are created from linear combinations of the inputs, and then the target Y$^{k}$ is modeled as a function of linear combinations of the Zm,
 
 $$Z_{m} = \sigma(\alpha_{0m} + \alpha_{m}^{T}X), \ m = 1, \dots, M,$$
 
@@ -76,7 +76,7 @@ $$f_{k}(X) = g_{k}(T), \ k = 1, \dots, K,$$
 
 where Z = (Z1, Z2, . . . , ZM), and T = (T1, T2, . . . , TK).
 
-The activation function σ(v) is usually chosen to be the sigmoid σ(v) = 1/(1 + e −v ); see Figure 11.3 for a plot of 1/(1 + e −v ). Sometimes Gaussian radial basis functions (Chapter 6) are used for the σ(v), producing what is known as a radial basis function network.
+The activation function $\sigma$(v) is usually chosen to be the sigmoid $\sigma$(v) = 1/(1 + e −v ); see Figure 11.3 for a plot of 1/(1 + e −v ). Sometimes Gaussian radial basis functions (Chapter 6) are used for the $\sigma$(v), producing what is known as a radial basis function network.
 
 Neural network diagrams like Figure 11.2 are sometimes drawn with an additional bias unit feeding into every unit in the hidden and output layers.
 
@@ -95,25 +95,25 @@ This is of course exactly the transformation used in the multilogit model (Secti
 
 The units in the middle of the network, computing the derived features  $Z_m$ , are called *hidden units* because the values  $Z_m$  are not directly observed. In general there can be more than one hidden layer, as illustrated in the example at the end of this chapter. We can think of the  $Z_m$  as a basis expansion of the original inputs X; the neural network is then a standard linear model, or linear multilogit model, using these transformations as inputs. There is, however, an important enhancement over the basis-expansion techniques discussed in Chapter 5; here the parameters of the basis functions are learned from the data.
 
-![FIGURE 11.3. Plot of the sigmoid function σ(v) = 1/(1+exp(−v)) (red curve).](../figures/_page_412_Figure_2.jpeg)
+![FIGURE 11.3. Plot of the sigmoid function $\sigma$(v) = 1/(1+exp(−v)) (red curve).](../figures/_page_412_Figure_2.jpeg)
 
-FIGURE 11.3. Plot of the sigmoid function σ(v) = 1/(1+exp(−v)) (red curve), commonly used in the hidden layer of a neural network. Included are σ(sv) for s = 1 2 (blue curve) and s = 10 (purple curve). The scale parameter s controls the activation rate, and we can see that large s amounts to a hard activation at v = 0. Note that σ(s(v − v0)) shifts the activation threshold from 0 to v0.
+FIGURE 11.3. Plot of the sigmoid function $\sigma$(v) = 1/(1+exp(−v)) (red curve), commonly used in the hidden layer of a neural network. Included are $\sigma$(sv) for s = 1 2 (blue curve) and s = 10 (purple curve). The scale parameter s controls the activation rate, and we can see that large s amounts to a hard activation at v = 0. Note that $\sigma$(s(v − v0)) shifts the activation threshold from 0 to v0.
 
-Notice that if σ is the identity function, then the entire model collapses to a linear model in the inputs. Hence a neural network can be thought of as a nonlinear generalization of the linear model, both for regression and classification. By introducing the nonlinear transformation σ, it greatly enlarges the class of linear models. In Figure 11.3 we see that the rate of activation of the sigmoid depends on the norm of αm, and if kαmk is very small, the unit will indeed be operating in the linear part of its activation function.
+Notice that if $\sigma$ is the identity function, then the entire model collapses to a linear model in the inputs. Hence a neural network can be thought of as a nonlinear generalization of the linear model, both for regression and classification. By introducing the nonlinear transformation $\sigma$, it greatly enlarges the class of linear models. In Figure 11.3 we see that the rate of activation of the sigmoid depends on the norm of $\alpha$m, and if k$\alpha$mk is very small, the unit will indeed be operating in the linear part of its activation function.
 
-Notice also that the neural network model with one hidden layer has exactly the same form as the projection pursuit model described above. The difference is that the PPR model uses nonparametric functions gm(v), while the neural network uses a far simpler function based on σ(v), with three free parameters in its argument. In detail, viewing the neural network model as a PPR model, we identify
+Notice also that the neural network model with one hidden layer has exactly the same form as the projection pursuit model described above. The difference is that the PPR model uses nonparametric functions gm(v), while the neural network uses a far simpler function based on $\sigma$(v), with three free parameters in its argument. In detail, viewing the neural network model as a PPR model, we identify
 
 $$g_m(\omega_m^T X) = \beta_m \sigma(\alpha_{0m} + \alpha_m^T X)$$
   
 =  $\beta_m \sigma(\alpha_{0m} + ||\alpha_m||(\omega_m^T X)),$  (11.7)
 
-where ω<sup>m</sup> = αm/kαmk is the mth unit-vector. Since σβ,α0,s(v) = βσ(α<sup>0</sup> + sv) has lower complexity than a more general nonparametric g(v), it is not surprising that a neural network might use 20 or 100 such functions, while the PPR model typically uses fewer terms (M = 5 or 10, for example).
+where $\omega$$^{m}$ = $\alpha$m/k$\alpha$mk is the mth unit-vector. Since $\sigma$$\beta$,$\alpha$0,s(v) = $\beta$$\sigma$($\alpha$$^{0}$ + sv) has lower complexity than a more general nonparametric g(v), it is not surprising that a neural network might use 20 or 100 such functions, while the PPR model typically uses fewer terms (M = 5 or 10, for example).
 
-Finally, we note that the name "neural networks" derives from the fact that they were first developed as models for the human brain. Each unit represents a neuron, and the connections (links in Figure 11.2) represent synapses. In early models, the neurons fired when the total signal passed to that unit exceeded a certain threshold. In the model above, this corresponds to use of a step function for σ(Z) and gm(T). Later the neural network was recognized as a useful tool for nonlinear statistical modeling, and for this purpose the step function is not smooth enough for optimization. Hence the step function was replaced by a smoother threshold function, the sigmoid in Figure 11.3.
+Finally, we note that the name "neural networks" derives from the fact that they were first developed as models for the human brain. Each unit represents a neuron, and the connections (links in Figure 11.2) represent synapses. In early models, the neurons fired when the total signal passed to that unit exceeded a certain threshold. In the model above, this corresponds to use of a step function for $\sigma$(Z) and gm(T). Later the neural network was recognized as a useful tool for nonlinear statistical modeling, and for this purpose the step function is not smooth enough for optimization. Hence the step function was replaced by a smoother threshold function, the sigmoid in Figure 11.3.
 
 # 11.4 Fitting Neural Networks
 
-The neural network model has unknown parameters, often called weights, and we seek values for them that make the model fit the training data well. We denote the complete set of weights by θ, which consists of
+The neural network model has unknown parameters, often called weights, and we seek values for them that make the model fit the training data well. We denote the complete set of weights by $\theta$, which consists of
 
 $$\{\alpha_{0m}, \alpha_m; \ m = 1, 2, \dots, M\} \ M(p+1) \text{ weights},$$
   
@@ -128,11 +128,11 @@ For classification we use either squared error or cross-entropy (deviance):
 
 $$R(\theta) = -\sum_{i=1}^{N} \sum_{k=1}^{K} y_{ik} \log f_k(x_i), \qquad (11.10)$$
 
-and the corresponding classifier is G(x) = argmax<sup>k</sup> fk(x). With the softmax activation function and the cross-entropy error function, the neural network model is exactly a linear logistic regression model in the hidden units, and all the parameters are estimated by maximum likelihood.
+and the corresponding classifier is G(x) = argmax$^{k}$ fk(x). With the softmax activation function and the cross-entropy error function, the neural network model is exactly a linear logistic regression model in the hidden units, and all the parameters are estimated by maximum likelihood.
 
-Typically we don't want the global minimizer of R(θ), as this is likely to be an overfit solution. Instead some regularization is needed: this is achieved directly through a penalty term, or indirectly by early stopping. Details are given in the next section.
+Typically we don't want the global minimizer of R($\theta$), as this is likely to be an overfit solution. Instead some regularization is needed: this is achieved directly through a penalty term, or indirectly by early stopping. Details are given in the next section.
 
-The generic approach to minimizing R(θ) is by gradient descent, called back-propagation in this setting. Because of the compositional form of the model, the gradient can be easily derived using the chain rule for differentiation. This can be computed by a forward and backward sweep over the network, keeping track only of quantities local to each unit.
+The generic approach to minimizing R($\theta$) is by gradient descent, called back-propagation in this setting. Because of the compositional form of the model, the gradient can be easily derived using the chain rule for differentiation. This can be computed by a forward and backward sweep over the network, keeping track only of quantities local to each unit.
 
 Here is back-propagation in detail for squared error loss. Let  $z_{mi} = \sigma(\alpha_{0m} + \alpha_m^T x_i)$ , from (11.5) and let  $z_i = (z_{1i}, z_{2i}, \dots, z_{Mi})$ . Then we have
 
@@ -192,12 +192,12 @@ units localize to directions and introduce nonlinearities where needed. Use of e
 
 Often neural networks have too many weights and will overfit the data at the global minimum of R. In early developments of neural networks, either by design or by accident, an early stopping rule was used to avoid overfitting. Here we train the model only for a while, and stop well before we approach the global minimum. Since the weights start at a highly regularized (linear) solution, this has the effect of shrinking the final model toward a linear model. A validation dataset is useful for determining when to stop, since we expect the validation error to start increasing.
 
-A more explicit method for regularization is weight decay, which is analogous to ridge regression used for linear models (Section 3.4.1). We add a penalty to the error function R(θ) + λJ(θ), where
+A more explicit method for regularization is weight decay, which is analogous to ridge regression used for linear models (Section 3.4.1). We add a penalty to the error function R($\theta$) + $\lambda$J($\theta$), where
 
 $$J(\theta) = \sum_{k,m} \beta_{km}^2 + \sum_{m,\ell} \alpha_{m\ell}^2$$
  (11.16)
 
-and λ ≥ 0 is a tuning parameter. Larger values of λ will tend to shrink the weights toward zero: typically cross-validation is used to estimate λ. The effect of the penalty is to simply add terms 2βkm and 2αmℓ to the respective gradient expressions (11.13). Other forms for the penalty have been proposed, for example,
+and $\lambda$ $\ge$ 0 is a tuning parameter. Larger values of $\lambda$ will tend to shrink the weights toward zero: typically cross-validation is used to estimate $\lambda$. The effect of the penalty is to simply add terms 2$\beta$km and 2$\alpha$m$\ell$ to the respective gradient expressions (11.13). Other forms for the penalty have been proposed, for example,
 
 $$J(\theta) = \sum_{k,m} \frac{\beta_{km}^2}{1 + \beta_{km}^2} + \sum_{m,\ell} \frac{\alpha_{m\ell}^2}{1 + \alpha_{m\ell}^2},$$
  (11.17)
@@ -232,7 +232,7 @@ Generally speaking it is better to have too many hidden units than too few. With
 
 # 11.5.5 Multiple Minima
 
-The error function R(θ) is nonconvex, possessing many local minima. As a result, the final solution obtained is quite dependent on the choice of starting weights. One must at least try a number of random starting configurations, and choose the solution giving lowest (penalized) error. Probably a better approach is to use the average predictions over the collection of networks as the final prediction (Ripley, 1996). This is preferable to averaging the weights, since the nonlinearity of the model implies that this averaged solution could be quite poor. Another approach is via *bagging*, which averages the predictions of networks training from randomly perturbed versions of the training data. This is described in Section 8.7.
+The error function R($\theta$) is nonconvex, possessing many local minima. As a result, the final solution obtained is quite dependent on the choice of starting weights. One must at least try a number of random starting configurations, and choose the solution giving lowest (penalized) error. Probably a better approach is to use the average predictions over the collection of networks as the final prediction (Ripley, 1996). This is preferable to averaging the weights, since the nonlinearity of the model implies that this averaged solution could be quite poor. Another approach is via *bagging*, which averages the predictions of networks training from randomly perturbed versions of the training data. This is described in Section 8.7.
 
 # 11.6 Example: Simulated Data
 
@@ -262,13 +262,13 @@ panel of Figure 11.6 that it does poorly in this case, with the test error stayi
 
 In this example we used a fixed weight decay parameter of 0.0005, representing a mild amount of regularization. The results in the left panel of Figure 11.6 suggest that more regularization is needed with greater numbers of hidden units.
 
-In Figure 11.7 we repeated the experiment for the sum of sigmoids model, with no weight decay in the left panel, and stronger weight decay (λ = 0.1) in the right panel. With no weight decay, overfitting becomes even more severe for larger numbers of hidden units. The weight decay value λ = 0.1 produces good results for all numbers of hidden units, and there does not appear to be overfitting as the number of units increase. Finally, Figure 11.8 shows the test error for a ten hidden unit network, varying the weight decay parameter over a wide range. The value 0.1 is approximately optimal.
+In Figure 11.7 we repeated the experiment for the sum of sigmoids model, with no weight decay in the left panel, and stronger weight decay ($\lambda$ = 0.1) in the right panel. With no weight decay, overfitting becomes even more severe for larger numbers of hidden units. The weight decay value $\lambda$ = 0.1 produces good results for all numbers of hidden units, and there does not appear to be overfitting as the number of units increase. Finally, Figure 11.8 shows the test error for a ten hidden unit network, varying the weight decay parameter over a wide range. The value 0.1 is approximately optimal.
 
-In summary, there are two free parameters to select: the weight decay λ and number of hidden units M. As a learning strategy, one could fix either parameter at the value corresponding to the least constrained model, to ensure that the model is rich enough, and use cross-validation to choose the other parameter. Here the least constrained values are zero weight decay and ten hidden units. Comparing the left panel of Figure 11.7 to Figure 11.8, we see that the test error is less sensitive to the value of the weight
+In summary, there are two free parameters to select: the weight decay $\lambda$ and number of hidden units M. As a learning strategy, one could fix either parameter at the value corresponding to the least constrained model, to ensure that the model is rich enough, and use cross-validation to choose the other parameter. Here the least constrained values are zero weight decay and ten hidden units. Comparing the left panel of Figure 11.7 to Figure 11.8, we see that the test error is less sensitive to the value of the weight
 
 ![FIGURE 11.7. Boxplots of test error, for simulated data example.](../figures/_page_421_Figure_2.jpeg)
 
-FIGURE 11.7. Boxplots of test error, for simulated data example, relative to the Bayes error. True function is a sum of two sigmoids. The test error is displayed for ten different starting weights, for a single hidden layer neural network with the number units as indicated. The two panels represent no weight decay (left) and strong weight decay λ = 0.1 (right).
+FIGURE 11.7. Boxplots of test error, for simulated data example, relative to the Bayes error. True function is a sum of two sigmoids. The test error is displayed for ten different starting weights, for a single hidden layer neural network with the number units as indicated. The two panels represent no weight decay (left) and strong weight decay $\lambda$ = 0.1 (right).
 
 #### Sum of Sigmoids, 10 Hidden Unit Model
 
@@ -278,19 +278,19 @@ FIGURE 11.8. Boxplots of test error, for simulated data example. True function i
 
 ![FIGURE 11.9. Examples of training cases from ZIP code data.](../figures/_page_422_Figure_2.jpeg)
 
-FIGURE 11.9. Examples of training cases from ZIP code data. Each image is a 16 × 16 8-bit grayscale representation of a handwritten digit.
+FIGURE 11.9. Examples of training cases from ZIP code data. Each image is a 16 $\times$ 16 8-bit grayscale representation of a handwritten digit.
 
 decay parameter, and hence cross-validation of this parameter would be preferred.
 
 # 11.7 Example: ZIP Code Data
 
-This example is a character recognition task: classification of handwritten numerals. This problem captured the attention of the machine learning and neural network community for many years, and has remained a benchmark problem in the field. Figure 11.9 shows some examples of normalized handwritten digits, automatically scanned from envelopes by the U.S. Postal Service. The original scanned digits are binary and of different sizes and orientations; the images shown here have been deslanted and size normalized, resulting in 16 × 16 grayscale images (Le Cun et al., 1990). These 256 pixel values are used as inputs to the neural network classifier.
+This example is a character recognition task: classification of handwritten numerals. This problem captured the attention of the machine learning and neural network community for many years, and has remained a benchmark problem in the field. Figure 11.9 shows some examples of normalized handwritten digits, automatically scanned from envelopes by the U.S. Postal Service. The original scanned digits are binary and of different sizes and orientations; the images shown here have been deslanted and size normalized, resulting in 16 $\times$ 16 grayscale images (Le Cun et al., 1990). These 256 pixel values are used as inputs to the neural network classifier.
 
-A black box neural network is not ideally suited to this pattern recognition task, partly because the pixel representation of the images lack certain invariances (such as small rotations of the image). Consequently early attempts with neural networks yielded misclassification rates around 4.5% on various examples of the problem. In this section we show some of the pioneering efforts to handcraft the neural network to overcome some these deficiencies (Le Cun, 1989), which ultimately led to the state of the art in neural network performance(Le Cun et al., 1998)<sup>1</sup> .
+A black box neural network is not ideally suited to this pattern recognition task, partly because the pixel representation of the images lack certain invariances (such as small rotations of the image). Consequently early attempts with neural networks yielded misclassification rates around 4.5% on various examples of the problem. In this section we show some of the pioneering efforts to handcraft the neural network to overcome some these deficiencies (Le Cun, 1989), which ultimately led to the state of the art in neural network performance(Le Cun et al., 1998)$^{1}$ .
 
 Although current digit datasets have tens of thousands of training and test examples, the sample size here is deliberately modest in order to em-
 
-<sup>1</sup>The figures and tables in this example were recreated from Le Cun (1989).
+$^{1}$The figures and tables in this example were recreated from Le Cun (1989).
 
 ![FIGURE 11.10. Architecture of the five networks used in the ZIP code example.](../figures/_page_423_Picture_2.jpeg)
 
@@ -310,7 +310,7 @@ Net-4: Two hidden layers, locally connected with weight sharing.
 
 Net-5: Two hidden layers, locally connected, two levels of weight sharing.
 
-These are depicted in Figure 11.10. Net-1 for example has 256 inputs, one each for the 16×16 input pixels, and ten output units for each of the digits 0–9. The predicted value ˆfk(x) represents the estimated probability that an image x has digit class k, for k = 0, 1, 2, . . . , 9.
+These are depicted in Figure 11.10. Net-1 for example has 256 inputs, one each for the 16$\times$16 input pixels, and ten output units for each of the digits 0–9. The predicted value ˆfk(x) represents the estimated probability that an image x has digit class k, for k = 0, 1, 2, . . . , 9.
 
 ![FIGURE 11.11. Test performance curves, as a function of the number of training epochs.](../figures/_page_424_Figure_2.jpeg)
 
@@ -322,7 +322,7 @@ The training set error for all of the networks was 0%, since in all cases there 
 
 The other three networks have additional features which demonstrate the power and flexibility of the neural network paradigm. They introduce constraints on the network, natural for the problem at hand, which allow for more complex connectivity but fewer parameters.
 
-Net-3 uses local connectivity: this means that each hidden unit is connected to only a small patch of units in the layer below. In the first hidden layer (an 8×8 array), each unit takes inputs from a 3×3 patch of the input layer; for units in the first hidden layer that are one unit apart, their receptive fields overlap by one row or column, and hence are two pixels apart. In the second hidden layer, inputs are from a 5 × 5 patch, and again units that are one unit apart have receptive fields that are two units apart. The weights for all other connections are set to zero. Local connectivity makes each unit responsible for extracting local features from the layer below, and
+Net-3 uses local connectivity: this means that each hidden unit is connected to only a small patch of units in the layer below. In the first hidden layer (an 8$\times$8 array), each unit takes inputs from a 3$\times$3 patch of the input layer; for units in the first hidden layer that are one unit apart, their receptive fields overlap by one row or column, and hence are two pixels apart. In the second hidden layer, inputs are from a 5 $\times$ 5 patch, and again units that are one unit apart have receptive fields that are two units apart. The weights for all other connections are set to zero. Local connectivity makes each unit responsible for extracting local features from the layer below, and
 
 |        | Network Architecture  | Links | Weights | % Correct |
 |--------|-----------------------|-------|---------|-----------|
@@ -342,22 +342,22 @@ Table 11.1 gives the number of links, the number of weights and the optimal test
 
 This network was later outperformed by the tangent distance approach (Simard et al., 1993) described in Section 13.3.3, which explicitly incorporates natural affine invariances. At this point the digit recognition datasets become test beds for every new learning procedure, and researchers worked
 
-hard to drive down the error rates. As of this writing, the best error rates on a large database (60, 000 training, 10, 000 test observations), derived from standard NIST<sup>2</sup> databases, were reported to be the following: (Le Cun et al., 1998):
+hard to drive down the error rates. As of this writing, the best error rates on a large database (60, 000 training, 10, 000 test observations), derived from standard NIST$^{2}$ databases, were reported to be the following: (Le Cun et al., 1998):
 
 - 1.1% for tangent distance with a 1-nearest neighbor classifier (Section 13.3.3);
 - 0.8% for a degree-9 polynomial SVM (Section 12.3);
 - 0.8% for LeNet-5, a more complex version of the convolutional network described here;
 - 0.7% for boosted LeNet-4. Boosting is described in Chapter 8. LeNet-4 is a predecessor of LeNet-5.
 
-Le Cun et al. (1998) report a much larger table of performance results, and it is evident that many groups have been working very hard to bring these test error rates down. They report a standard error of 0.1% on the error estimates, which is based on a binomial average with N = 10, 000 and p ≈ 0.01. This implies that error rates within 0.1—0.2% of one another are statistically equivalent. Realistically the standard error is even higher, since the test data has been implicitly used in the tuning of the various procedures.
+Le Cun et al. (1998) report a much larger table of performance results, and it is evident that many groups have been working very hard to bring these test error rates down. They report a standard error of 0.1% on the error estimates, which is based on a binomial average with N = 10, 000 and p $\approx$ 0.01. This implies that error rates within 0.1—0.2% of one another are statistically equivalent. Realistically the standard error is even higher, since the test data has been implicitly used in the tuning of the various procedures.
 
 # 11.8 Discussion
 
 Both projection pursuit regression and neural networks take nonlinear functions of linear combinations ("derived features") of the inputs. This is a powerful and very general approach for regression and classification, and has been shown to compete well with the best learning methods on many problems.
 
-These tools are especially effective in problems with a high signal-to-noise ratio and settings where prediction without interpretation is the goal. They are less effective for problems where the goal is to describe the physical process that generated the data and the roles of individual inputs. Each input enters into the model in many places, in a nonlinear fashion. Some authors (Hinton, 1989) plot a diagram of the estimated weights into each hidden unit, to try to understand the feature that each unit is extracting. This is limited however by the lack of identifiability of the parameter vectors αm, m = 1, . . . , M. Often there are solutions with α<sup>m</sup> spanning the same linear space as the ones found during training, giving predicted values that
+These tools are especially effective in problems with a high signal-to-noise ratio and settings where prediction without interpretation is the goal. They are less effective for problems where the goal is to describe the physical process that generated the data and the roles of individual inputs. Each input enters into the model in many places, in a nonlinear fashion. Some authors (Hinton, 1989) plot a diagram of the estimated weights into each hidden unit, to try to understand the feature that each unit is extracting. This is limited however by the lack of identifiability of the parameter vectors $\alpha$m, m = 1, . . . , M. Often there are solutions with $\alpha$$^{m}$ spanning the same linear space as the ones found during training, giving predicted values that
 
-<sup>2</sup>The National Institute of Standards and Technology maintain large databases, including handwritten character databases; http://www.nist.gov/srd/.
+$^{2}$The National Institute of Standards and Technology maintain large databases, including handwritten character databases; http://www.nist.gov/srd/.
 
 are roughly the same. Some authors suggest carrying out a principal component analysis of these weights, to try to find an interpretable solution. In general, the difficulty of interpreting these models has limited their use in fields like medicine, where interpretation of the model is very important.
 
@@ -417,7 +417,7 @@ Neal and Zhang (2006) also tried different forms of pre-processing of the featur
 - 1. univariate screening using t-tests, and
 - 2. automatic relevance determination.
 
-In the latter method (ARD), the weights (coefficients) for the jth feature to each of the first hidden layer units all share a common prior variance σ 2 j , and prior mean zero. The posterior distributions for each variance σ 2 j are computed, and the features whose posterior variance concentrates on small values are discarded.
+In the latter method (ARD), the weights (coefficients) for the jth feature to each of the first hidden layer units all share a common prior variance $\sigma$ 2 j , and prior mean zero. The posterior distributions for each variance $\sigma$ 2 j are computed, and the features whose posterior variance concentrates on small values are discarded.
 
 There are thus three main features of this approach that could be important for its success:
 
@@ -434,7 +434,7 @@ Bagging and boosting are non-Bayesian procedures that have some similarity to MC
 $$\hat{f}(\mathbf{x}_{\text{new}}) = \sum_{\ell=1}^{L} w_{\ell} E(Y_{\text{new}} | \mathbf{x}_{\text{new}}, \hat{\theta}_{\ell})$$
  (11.21)
 
-In all cases the ˆθ<sup>ℓ</sup> are a large collection of model parameters. For the Bayesian model the w<sup>ℓ</sup> = 1/L, and the average estimates the posterior mean (11.21) by sampling θ<sup>ℓ</sup> from the posterior distribution. For bagging, w<sup>ℓ</sup> = 1/L as well, and the ˆθ<sup>ℓ</sup> are the parameters refit to bootstrap resamples of the training data. For boosting, the weights are all equal to 1, but the ˆθ<sup>ℓ</sup> are typically chosen in a nonrandom sequential fashion to constantly improve the fit.
+In all cases the ˆ$\theta$$^{\ell}$ are a large collection of model parameters. For the Bayesian model the w$^{\ell}$ = 1/L, and the average estimates the posterior mean (11.21) by sampling $\theta$$^{\ell}$ from the posterior distribution. For bagging, w$^{\ell}$ = 1/L as well, and the ˆ$\theta$$^{\ell}$ are the parameters refit to bootstrap resamples of the training data. For boosting, the weights are all equal to 1, but the ˆ$\theta$$^{\ell}$ are typically chosen in a nonrandom sequential fashion to constantly improve the fit.
 
 #### 11.9.2 Performance Comparisons
 
@@ -452,13 +452,13 @@ Here are the details of the learning methods that were compared:
 
 FIGURE 11.12. Performance of different learning methods on five problems, using both univariate screening of features (top panel) and a reduced feature set from automatic relevance determination. The error bars at the top of each plot have width equal to one standard error of the difference between two error rates. On most of the problems several competitors are within this error bound.
 
-This analysis was carried out by Nicholas Johnson, and full details may be found in Johnson (2008)<sup>3</sup> . The results are shown in Figure 11.12 and Table 11.3.
+This analysis was carried out by Nicholas Johnson, and full details may be found in Johnson (2008)$^{3}$ . The results are shown in Figure 11.12 and Table 11.3.
 
 The figure and table show Bayesian, boosted and bagged neural networks, boosted trees, and random forests, using both the screened and reduced features sets. The error bars at the top of each plot indicate one standard error of the difference between two error rates. Bayesian neural networks again emerge as the winner, although for some datasets the differences between the test error rates is not statistically significant. Random forests performs the best among the competitors using the selected feature set, while the boosted neural networks perform best with the reduced feature set, and nearly match the Bayesian neural net.
 
 The superiority of boosted neural networks over boosted trees suggest that the neural network model is better suited to these particular problems. Specifically, individual features might not be good predictors here
 
-<sup>3</sup>We also thank Isabelle Guyon for help in preparing the results of this section.
+$^{3}$We also thank Isabelle Guyon for help in preparing the results of this section.
 
 |                          |         | Screened Features | ARD Reduced Features |            |  |  |  |
 |--------------------------|---------|-------------------|----------------------|------------|--|--|--|
@@ -497,9 +497,9 @@ We do not discuss theoretical topics such as approximation properties of neural 
 
 # Exercises
 
-Ex. 11.1 Establish the exact correspondence between the projection pursuit regression model (11.1) and the neural network (11.5). In particular, show that the single-layer regression network is equivalent to a PPR model with gm(ω T <sup>m</sup>x) = βmσ(α0<sup>m</sup> + sm(ω T <sup>m</sup>x)), where ω<sup>m</sup> is the mth unit vector. Establish a similar equivalence for a classification network.
+Ex. 11.1 Establish the exact correspondence between the projection pursuit regression model (11.1) and the neural network (11.5). In particular, show that the single-layer regression network is equivalent to a PPR model with gm($\omega$ T $^{m}$x) = $\beta$m$\sigma$($\alpha$0$^{m}$ + sm($\omega$ T $^{m}$x)), where $\omega$$^{m}$ is the mth unit vector. Establish a similar equivalence for a classification network.
 
-Ex. 11.2 Consider a neural network for a quantitative outcome as in (11.5), using squared-error loss and identity output function gk(t) = t. Suppose that the weights α<sup>m</sup> from the input to hidden layer are nearly zero. Show that the resulting model is nearly linear in the inputs.
+Ex. 11.2 Consider a neural network for a quantitative outcome as in (11.5), using squared-error loss and identity output function gk(t) = t. Suppose that the weights $\alpha$$^{m}$ from the input to hidden layer are nearly zero. Show that the resulting model is nearly linear in the inputs.
 
 Ex. 11.3 Derive the forward and backward propagation equations for the cross-entropy loss function.
 
@@ -513,7 +513,7 @@ Ex. 11.4 Consider a neural network for a K class outcome that uses crossentropy 
 
 $$Y = \sigma(a_1^T X) + (a_2^T X)^2 + 0.30 \cdot Z,$$
 
-where σ is the sigmoid function, Z is standard normal, X<sup>T</sup> = (X1, X2), each X<sup>j</sup> being independent standard normal, and a<sup>1</sup> = (3, 3), a<sup>2</sup> = (3, −3). Generate a test sample of size 1000, and plot the training and test error curves as a function of the number of training epochs, for different values of the weight decay parameter. Discuss the overfitting behavior in each case.
+where $\sigma$ is the sigmoid function, Z is standard normal, X$^{T}$ = (X1, X2), each X$^{j}$ being independent standard normal, and a$^{1}$ = (3, 3), a$^{2}$ = (3, −3). Generate a test sample of size 1000, and plot the training and test error curves as a function of the number of training epochs, for different values of the weight decay parameter. Discuss the overfitting behavior in each case.
 
 (c) Vary the number of hidden units in the network, from 1 up to 10, and determine the minimum number needed to perform well for this task.
 

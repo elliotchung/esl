@@ -13,9 +13,9 @@ In the regression setting, a generalized additive model has the form
 $$E(Y|X_1, X_2, \dots, X_p) = \alpha + f_1(X_1) + f_2(X_2) + \dots + f_p(X_p).$$
  (9.1)
 
-As usual X1, X2, . . . , X<sup>p</sup> represent predictors and Y is the outcome; the f<sup>j</sup> 's are unspecified smooth ("nonparametric") functions. If we were to model each function using an expansion of basis functions (as in Chapter 5), the resulting model could then be fit by simple least squares. Our approach here is different: we fit each function using a scatterplot smoother (e.g., a cubic smoothing spline or kernel smoother), and provide an algorithm for simultaneously estimating all p functions (Section 9.1.1).
+As usual X1, X2, . . . , X$^{p}$ represent predictors and Y is the outcome; the f$^{j}$ 's are unspecified smooth ("nonparametric") functions. If we were to model each function using an expansion of basis functions (as in Chapter 5), the resulting model could then be fit by simple least squares. Our approach here is different: we fit each function using a scatterplot smoother (e.g., a cubic smoothing spline or kernel smoother), and provide an algorithm for simultaneously estimating all p functions (Section 9.1.1).
 
-For two-class classification, recall the logistic regression model for binary data discussed in Section 4.4. We relate the mean of the binary response µ(X) = Pr(Y = 1|X) to the predictors via a linear regression model and the logit link function:
+For two-class classification, recall the logistic regression model for binary data discussed in Section 4.4. We relate the mean of the binary response $\mu$(X) = Pr(Y = 1|X) to the predictors via a linear regression model and the logit link function:
 
 $$\log\left(\frac{\mu(X)}{1-\mu(X)}\right) = \alpha + \beta_1 X_1 + \dots + \beta_p X_p. \tag{9.2}$$
 
@@ -23,20 +23,20 @@ The additive logistic regression model replaces each linear term by a more gener
 
 $$\log\left(\frac{\mu(X)}{1-\mu(X)}\right) = \alpha + f_1(X_1) + \dots + f_p(X_p), \tag{9.3}$$
 
-where again each f<sup>j</sup> is an unspecified smooth function. While the nonparametric form for the functions f<sup>j</sup> makes the model more flexible, the additivity is retained and allows us to interpret the model in much the same way as before. The additive logistic regression model is an example of a generalized additive model. In general, the conditional mean µ(X) of a response Y is related to an additive function of the predictors via a link function g:
+where again each f$^{j}$ is an unspecified smooth function. While the nonparametric form for the functions f$^{j}$ makes the model more flexible, the additivity is retained and allows us to interpret the model in much the same way as before. The additive logistic regression model is an example of a generalized additive model. In general, the conditional mean $\mu$(X) of a response Y is related to an additive function of the predictors via a link function g:
 
 $$g[\mu(X)] = \alpha + f_1(X_1) + \dots + f_p(X_p).$$
  (9.4)
 
 Examples of classical link functions are the following:
 
-- g(µ) = µ is the identity link, used for linear and additive models for Gaussian response data.
-- g(µ) = logit(µ) as above, or g(µ) = probit(µ), the probit link function, for modeling binomial probabilities. The probit function is the inverse Gaussian cumulative distribution function: probit(µ) = Φ<sup>−</sup><sup>1</sup> (µ).
-- g(µ) = log(µ) for log-linear or log-additive models for Poisson count data.
+- g($\mu$) = $\mu$ is the identity link, used for linear and additive models for Gaussian response data.
+- g($\mu$) = logit($\mu$) as above, or g($\mu$) = probit($\mu$), the probit link function, for modeling binomial probabilities. The probit function is the inverse Gaussian cumulative distribution function: probit($\mu$) = $\Phi$$^{−}$$^{1}$ ($\mu$).
+- g($\mu$) = log($\mu$) for log-linear or log-additive models for Poisson count data.
 
 All three of these arise from exponential family sampling models, which in addition include the gamma and negative-binomial distributions. These families generate the well-known class of generalized linear models, which are all extended in the same way to generalized additive models.
 
-The functions f<sup>j</sup> are estimated in a flexible manner, using an algorithm whose basic building block is a scatterplot smoother. The estimated function ˆf<sup>j</sup> can then reveal possible nonlinearities in the effect of X<sup>j</sup> . Not all of the functions  $f_j$  need to be nonlinear. We can easily mix in linear and other parametric forms with the nonlinear terms, a necessity when some of the inputs are qualitative variables (factors). The nonlinear terms are not restricted to main effects either; we can have nonlinear components in two or more variables, or separate curves in  $X_j$  for each level of the factor  $X_k$ . Thus each of the following would qualify:
+The functions f$^{j}$ are estimated in a flexible manner, using an algorithm whose basic building block is a scatterplot smoother. The estimated function ˆf$^{j}$ can then reveal possible nonlinearities in the effect of X$^{j}$ . Not all of the functions  $f_j$  need to be nonlinear. We can easily mix in linear and other parametric forms with the nonlinear terms, a necessity when some of the inputs are qualitative variables (factors). The nonlinear terms are not restricted to main effects either; we can have nonlinear components in two or more variables, or separate curves in  $X_j$  for each level of the factor  $X_k$ . Thus each of the following would qualify:
 
 - $g(\mu) = X^T \beta + \alpha_k + f(Z)$ —a semiparametric model, where X is a vector of predictors to be modeled linearly,  $\alpha_k$  the effect for the kth level of a qualitative input V, and the effect of predictor Z is modeled nonparametrically.
 - $g(\mu) = f(X) + g_k(Z)$ —again k indexes the levels of a qualitative input V, and thus creates an interaction term  $g(V,Z) = g_k(Z)$  for the effect of V and Z.
@@ -106,14 +106,14 @@ The functions  $f_1, f_2, \ldots, f_p$  are estimated by a backfitting algorithm
 
 Algorithm 9.2 Local Scoring Algorithm for the Additive Logistic Regression Model.
 
-- 1. Compute starting values: ˆα = log[¯y/(1 − y¯)], where ¯y = ave(yi), the sample proportion of ones, and set <sup>ˆ</sup>f<sup>j</sup> <sup>≡</sup> <sup>0</sup> <sup>∀</sup>j.
-- 2. Define ˆη<sup>i</sup> = ˆα + P j <sup>ˆ</sup>f<sup>j</sup> (xij ) and ˆp<sup>i</sup> = 1/[1 + exp(−ηˆi)]. Iterate:
+- 1. Compute starting values: ˆ$\alpha$ = log[¯y/(1 − y¯)], where ¯y = ave(yi), the sample proportion of ones, and set $^{ˆ}$f$^{j}$ $^{≡}$ $^{0}$ $^{∀}$j.
+- 2. Define ˆ$\eta$$^{i}$ = ˆ$\alpha$ + P j $^{ˆ}$f$^{j}$ (xij ) and ˆp$^{i}$ = 1/[1 + exp(−$\eta$ˆi)]. Iterate:
   - (a) Construct the working target variable
 
 $$z_i = \hat{\eta}_i + \frac{(y_i - \hat{p}_i)}{\hat{p}_i(1 - \hat{p}_i)}.$$
 
-- (b) Construct weights w<sup>i</sup> = ˆpi(1 − pˆi)
-- (c) Fit an additive model to the targets z<sup>i</sup> with weights w<sup>i</sup> , using a weighted backfitting algorithm. This gives new estimates α, ˆ <sup>ˆ</sup>f<sup>j</sup> , <sup>∀</sup><sup>j</sup>
+- (b) Construct weights w$^{i}$ = ˆpi(1 − pˆi)
+- (c) Fit an additive model to the targets z$^{i}$ with weights w$^{i}$ , using a weighted backfitting algorithm. This gives new estimates $\alpha$, ˆ $^{ˆ}$f$^{j}$ , $^{∀}$$^{j}$
 - 3. Continue step 2. until the change in the functions falls below a prespecified threshold.
 
 The additive model fitting in step (2) of Algorithm 9.2 requires a weighted scatterplot smoother. Most smoothing procedures can accept observation weights (Exercise 5.12); see Chapter 3 of Hastie and Tibshirani (1990) for further details.
@@ -145,7 +145,7 @@ free, and george. The idea was that these could be customized for individual use
 - The length of the longest uninterrupted sequence of capital letters: CAPMAX.
 - The sum of the length of uninterrupted sequences of capital letters: CAPTOT.
 
-We coded spam as 1 and email as zero. A test set of size 1536 was randomly chosen, leaving 3065 observations in the training set. A generalized additive model was fit, using a cubic smoothing spline with a nominal four degrees of freedom for each predictor. What this means is that for each predictor X<sup>j</sup> , the smoothing-spline parameter λ<sup>j</sup> was chosen so that trace[S<sup>j</sup> (λ<sup>j</sup> )]−1 = 4, where S<sup>j</sup> (λ) is the smoothing spline operator matrix constructed using the observed values xij , i = 1, . . . , N. This is a convenient way of specifying the amount of smoothing in such a complex model.
+We coded spam as 1 and email as zero. A test set of size 1536 was randomly chosen, leaving 3065 observations in the training set. A generalized additive model was fit, using a cubic smoothing spline with a nominal four degrees of freedom for each predictor. What this means is that for each predictor X$^{j}$ , the smoothing-spline parameter \lambda$^{j}$ was chosen so that trace[S$^{j}$ (\lambda$^{j}$ )]−1 = 4, where S$^{j}$ (\lambda) is the smoothing spline operator matrix constructed using the observed values xij , i = 1, . . . , N. This is a convenient way of specifying the amount of smoothing in such a complex model.
 
 Most of the spam predictors have a very long-tailed distribution. Before fitting the GAM model, we log-transformed each variable (actually log(x+ 0.1)), but the plots in Figure 9.1 are shown as a function of the original variables.
 
@@ -187,13 +187,13 @@ Figure 9.1 shows the estimated functions for the significant predictors appearin
 
 FIGURE 9.1. Spam analysis: estimated functions for significant predictors. The rug plot along the bottom of each frame indicates the observed values of the corresponding predictor. For many of the predictors the nonlinearity picks up the discontinuity at zero.
 
-It is more serious to classify a genuine email message as spam, since then a good email would be filtered out and would not reach the user. We can alter the balance between the class error rates by changing the losses (see Section 2.4). If we assign a loss L<sup>01</sup> for predicting a true class 0 as class 1, and L<sup>10</sup> for predicting a true class 1 as class 0, then the estimated Bayes rule predicts class 1 if its probability is greater than L01/(L<sup>01</sup> + L10). For example, if we take L<sup>01</sup> = 10, L<sup>10</sup> = 1 then the (true) class 0 and class 1 error rates change to 0.8% and 8.7%.
+It is more serious to classify a genuine email message as spam, since then a good email would be filtered out and would not reach the user. We can alter the balance between the class error rates by changing the losses (see Section 2.4). If we assign a loss L$^{01}$ for predicting a true class 0 as class 1, and L$^{10}$ for predicting a true class 1 as class 0, then the estimated Bayes rule predicts class 1 if its probability is greater than L01/(L$^{01}$ + L10). For example, if we take L$^{01}$ = 10, L$^{10}$ = 1 then the (true) class 0 and class 1 error rates change to 0.8% and 8.7%.
 
-More ambitiously, we can encourage the model to fit better data in the class 0 by using weights L<sup>01</sup> for the class 0 observations and L<sup>10</sup> for the class 1 observations. As above, we then use the estimated Bayes rule to predict. This gave error rates of 1.2% and 8.0% in (true) class 0 and class 1, respectively. We discuss below the issue of unequal losses further, in the context of tree-based models.
+More ambitiously, we can encourage the model to fit better data in the class 0 by using weights L$^{01}$ for the class 0 observations and L$^{10}$ for the class 1 observations. As above, we then use the estimated Bayes rule to predict. This gave error rates of 1.2% and 8.0% in (true) class 0 and class 1, respectively. We discuss below the issue of unequal losses further, in the context of tree-based models.
 
 After fitting an additive model, one should check whether the inclusion of some interactions can significantly improve the fit. This can be done "manually," by inserting products of some or all of the significant inputs, or automatically via the MARS procedure (Section 9.4).
 
-This example uses the additive model in an automatic fashion. As a data analysis tool, additive models are often used in a more interactive fashion, adding and dropping terms to determine their effect. By calibrating the amount of smoothing in terms of df<sup>j</sup> , one can move seamlessly between linear models (df<sup>j</sup> = 1) and partially linear models, where some terms are modeled more flexibly. See Hastie and Tibshirani (1990) for more details.
+This example uses the additive model in an automatic fashion. As a data analysis tool, additive models are often used in a more interactive fashion, adding and dropping terms to determine their effect. By calibrating the amount of smoothing in terms of df$^{j}$ , one can move seamlessly between linear models (df$^{j}$ = 1) and partially linear models, where some terms are modeled more flexibly. See Hastie and Tibshirani (1990) for more details.
 
 # 9.1.3 Summary
 
@@ -207,14 +207,14 @@ However additive models can have limitations for large data-mining applications.
 
 Tree-based methods partition the feature space into a set of rectangles, and then fit a simple model (like a constant) in each one. They are conceptually simple yet powerful. We first describe a popular method for tree-based regression and classification called CART, and later contrast it with C4.5, a major competitor.
 
-Let's consider a regression problem with continuous response Y and inputs X<sup>1</sup> and X2, each taking values in the unit interval. The top left panel of Figure 9.2 shows a partition of the feature space by lines that are parallel to the coordinate axes. In each partition element we can model Y with a different constant. However, there is a problem: although each partitioning line has a simple description like X<sup>1</sup> = c, some of the resulting regions are complicated to describe.
+Let's consider a regression problem with continuous response Y and inputs X$^{1}$ and X2, each taking values in the unit interval. The top left panel of Figure 9.2 shows a partition of the feature space by lines that are parallel to the coordinate axes. In each partition element we can model Y with a different constant. However, there is a problem: although each partitioning line has a simple description like X$^{1}$ = c, some of the resulting regions are complicated to describe.
 
-To simplify matters, we restrict attention to recursive binary partitions like that in the top right panel of Figure 9.2. We first split the space into two regions, and model the response by the mean of Y in each region. We choose the variable and split-point to achieve the best fit. Then one or both of these regions are split into two more regions, and this process is continued, until some stopping rule is applied. For example, in the top right panel of Figure 9.2, we first split at X<sup>1</sup> = t1. Then the region X<sup>1</sup> ≤ t<sup>1</sup> is split at X<sup>2</sup> = t<sup>2</sup> and the region X<sup>1</sup> > t<sup>1</sup> is split at X<sup>1</sup> = t3. Finally, the region X<sup>1</sup> > t<sup>3</sup> is split at X<sup>2</sup> = t4. The result of this process is a partition into the five regions R1, R2, . . . , R<sup>5</sup> shown in the figure. The corresponding regression model predicts Y with a constant c<sup>m</sup> in region Rm, that is,
+To simplify matters, we restrict attention to recursive binary partitions like that in the top right panel of Figure 9.2. We first split the space into two regions, and model the response by the mean of Y in each region. We choose the variable and split-point to achieve the best fit. Then one or both of these regions are split into two more regions, and this process is continued, until some stopping rule is applied. For example, in the top right panel of Figure 9.2, we first split at X$^{1}$ = t1. Then the region X$^{1}$ $\le$ t$^{1}$ is split at X$^{2}$ = t$^{2}$ and the region X$^{1}$ > t$^{1}$ is split at X$^{1}$ = t3. Finally, the region X$^{1}$ > t$^{3}$ is split at X$^{2}$ = t4. The result of this process is a partition into the five regions R1, R2, . . . , R$^{5}$ shown in the figure. The corresponding regression model predicts Y with a constant c$^{m}$ in region Rm, that is,
 
 $$\hat{f}(X) = \sum_{m=1}^{5} c_m I\{(X_1, X_2) \in R_m\}.$$
 (9.9)
 
-This same model can be represented by the binary tree in the bottom left panel of Figure 9.2. The full dataset sits at the top of the tree. Observations satisfying the condition at each junction are assigned to the left branch, and the others to the right branch. The terminal nodes or leaves of the tree correspond to the regions R1, R2, . . . , R5. The bottom right panel of Figure 9.2 is a perspective plot of the regression surface from this model. For illustration, we chose the node means c<sup>1</sup> = −5, c<sup>2</sup> = −7, c<sup>3</sup> = 0, c<sup>4</sup> = 2, c<sup>5</sup> = 4 to make this plot.
+This same model can be represented by the binary tree in the bottom left panel of Figure 9.2. The full dataset sits at the top of the tree. Observations satisfying the condition at each junction are assigned to the left branch, and the others to the right branch. The terminal nodes or leaves of the tree correspond to the regions R1, R2, . . . , R5. The bottom right panel of Figure 9.2 is a perspective plot of the regression surface from this model. For illustration, we chose the node means c$^{1}$ = −5, c$^{2}$ = −7, c$^{3}$ = 0, c$^{4}$ = 2, c$^{5}$ = 4 to make this plot.
 
 A key advantage of the recursive binary tree is its interpretability. The feature space partition is fully described by a single tree. With more than two inputs, partitions like that in the top right panel of Figure 9.2 are difficult to draw, but the binary tree representation works in the same way. This representation is also popular among medical scientists, perhaps because it mimics the way that a doctor thinks. The tree stratifies the
 
@@ -226,12 +226,12 @@ population into strata of high and low outcome, on the basis of patient characte
 
 #### 9.2.2 Regression Trees
 
-We now turn to the question of how to grow a regression tree. Our data consists of p inputs and a response, for each of N observations: that is, (x<sup>i</sup> , yi) for i = 1, 2, . . . , N, with x<sup>i</sup> = (xi1, xi2, . . . , xip). The algorithm needs to automatically decide on the splitting variables and split points, and also what topology (shape) the tree should have. Suppose first that we have a partition into M regions R1, R2, . . . , RM, and we model the response as a constant c<sup>m</sup> in each region:
+We now turn to the question of how to grow a regression tree. Our data consists of p inputs and a response, for each of N observations: that is, (x$^{i}$ , yi) for i = 1, 2, . . . , N, with x$^{i}$ = (xi1, xi2, . . . , xip). The algorithm needs to automatically decide on the splitting variables and split points, and also what topology (shape) the tree should have. Suppose first that we have a partition into M regions R1, R2, . . . , RM, and we model the response as a constant c$^{m}$ in each region:
 
 $$f(x) = \sum_{m=1}^{M} c_m I(x \in R_m).$$
  (9.10)
 
-If we adopt as our criterion minimization of the sum of squares <sup>P</sup>(y<sup>i</sup> <sup>−</sup> f(xi))<sup>2</sup> , it is easy to see that the best ˆc<sup>m</sup> is just the average of y<sup>i</sup> in region Rm:
+If we adopt as our criterion minimization of the sum of squares $^{P}$(y$^{i}$ $^{−}$ f(xi))$^{2}$ , it is easy to see that the best ˆc$^{m}$ is just the average of y$^{i}$ in region Rm:
 
 $$\hat{c}_m = \text{ave}(y_i | x_i \in R_m). \tag{9.11}$$
 
@@ -283,15 +283,15 @@ If the target is a classification outcome taking values 1, 2, ..., K, the only c
 
 FIGURE 9.3. Node impurity measures for two-class classification, as a function of the proportion p in class 2. Cross-entropy has been scaled to pass through (0.5, 0.5).
 
-impurity measure Qm(T) defined in (9.15), but this is not suitable for classification. In a node m, representing a region R<sup>m</sup> with N<sup>m</sup> observations, let
+impurity measure Qm(T) defined in (9.15), but this is not suitable for classification. In a node m, representing a region R$^{m}$ with N$^{m}$ observations, let
 
 $$\hat{p}_{mk} = \frac{1}{N_m} \sum_{x_i \in R_m} I(y_i = k),$$
 
-the proportion of class k observations in node m. We classify the observations in node m to class k(m) = arg max<sup>k</sup> pˆmk, the majority class in node m. Different measures Qm(T) of node impurity include the following:
+the proportion of class k observations in node m. We classify the observations in node m to class k(m) = arg max$^{k}$ pˆmk, the majority class in node m. Different measures Qm(T) of node impurity include the following:
 
-Misclassification error: <sup>1</sup> N<sup>m</sup> P i∈R<sup>m</sup> I(y<sup>i</sup> 6= k(m)) = 1 − pˆmk(m) . Gini index: P <sup>k</sup>6=k′ pˆmkpˆmk′ = P<sup>K</sup> <sup>k</sup>=1 pˆmk(1 − pˆmk). Cross-entropy or deviance: − P<sup>K</sup> <sup>k</sup>=1 pˆmk log ˆpmk. (9.17)
+Misclassification error: $^{1}$ N$^{m}$ P i$\in$R$^{m}$ I(y$^{i}$ 6= k(m)) = 1 − pˆmk(m) . Gini index: P $^{k}$6=k′ pˆmkpˆmk′ = P$^{K}$ $^{k}$=1 pˆmk(1 − pˆmk). Cross-entropy or deviance: − P$^{K}$ $^{k}$=1 pˆmk log ˆpmk. (9.17)
 
-For two classes, if p is the proportion in the second class, these three measures are 1 − max(p, 1 − p), 2p(1 − p) and −p log p − (1 − p) log (1 − p), respectively. They are shown in Figure 9.3. All three are similar, but crossentropy and the Gini index are differentiable, and hence more amenable to numerical optimization. Comparing (9.13) and (9.15), we see that we need to weight the node impurity measures by the number Nm<sup>L</sup> and Nm<sup>R</sup> of observations in the two child nodes created by splitting node m.
+For two classes, if p is the proportion in the second class, these three measures are 1 − max(p, 1 − p), 2p(1 − p) and −p log p − (1 − p) log (1 − p), respectively. They are shown in Figure 9.3. All three are similar, but crossentropy and the Gini index are differentiable, and hence more amenable to numerical optimization. Comparing (9.13) and (9.15), we see that we need to weight the node impurity measures by the number Nm$^{L}$ and Nm$^{R}$ of observations in the two child nodes created by splitting node m.
 
 In addition, cross-entropy and the Gini index are more sensitive to changes in the node probabilities than the misclassification rate. For example, in a two-class problem with 400 observations in each class (denote this by (400, 400)), suppose one split created nodes (300, 100) and (100, 300), while
 
@@ -349,11 +349,11 @@ can be viewed as a modification of CART designed to alleviate this lack of smoot
 
 #### Difficulty in Capturing Additive Structure
 
-Another problem with trees is their difficulty in modeling additive structure. In regression, suppose, for example, that Y = c1I(X<sup>1</sup> < t1)+c2I(X<sup>2</sup> < t2) + ε where ε is zero-mean noise. Then a binary tree might make its first split on X<sup>1</sup> near t1. At the next level down it would have to split both nodes on X<sup>2</sup> at t<sup>2</sup> in order to capture the additive structure. This might happen with sufficient data, but the model is given no special encouragement to find such structure. If there were ten rather than two additive effects, it would take many fortuitous splits to recreate the structure, and the data analyst would be hard pressed to recognize it in the estimated tree. The "blame" here can again be attributed to the binary tree structure, which has both advantages and drawbacks. Again the MARS method (Section 9.4) gives up this tree structure in order to capture additive structure.
+Another problem with trees is their difficulty in modeling additive structure. In regression, suppose, for example, that Y = c1I(X$^{1}$ < t1)+c2I(X$^{2}$ < t2) + $\epsilon$ where $\epsilon$ is zero-mean noise. Then a binary tree might make its first split on X$^{1}$ near t1. At the next level down it would have to split both nodes on X$^{2}$ at t$^{2}$ in order to capture the additive structure. This might happen with sufficient data, but the model is given no special encouragement to find such structure. If there were ten rather than two additive effects, it would take many fortuitous splits to recreate the structure, and the data analyst would be hard pressed to recognize it in the estimated tree. The "blame" here can again be attributed to the binary tree structure, which has both advantages and drawbacks. Again the MARS method (Section 9.4) gives up this tree structure in order to capture additive structure.
 
 # 9.2.5 Spam Example (Continued)
 
-We applied the classification tree methodology to the spam example introduced earlier. We used the deviance measure to grow the tree and misclassification rate to prune it. Figure 9.4 shows the 10-fold cross-validation error rate as a function of the size of the pruned tree, along with ±2 standard errors of the mean, from the ten replications. The test error curve is shown in orange. Note that the cross-validation error rates are indexed by a sequence of values of α and not tree size; for trees grown in different folds, a value of α might imply different sizes. The sizes shown at the base of the plot refer to |Tα|, the sizes of the pruned original tree.
+We applied the classification tree methodology to the spam example introduced earlier. We used the deviance measure to grow the tree and misclassification rate to prune it. Figure 9.4 shows the 10-fold cross-validation error rate as a function of the size of the pruned tree, along with $\pm$2 standard errors of the mean, from the ten replications. The test error curve is shown in orange. Note that the cross-validation error rates are indexed by a sequence of values of $\alpha$ and not tree size; for trees grown in different folds, a value of $\alpha$ might imply different sizes. The sizes shown at the base of the plot refer to |T$\alpha$|, the sizes of the pruned original tree.
 
 The error flattens out at around 17 terminal nodes, giving the pruned tree in Figure 9.5. Of the 13 distinct features chosen by the tree, 11 overlap with the 16 significant features in the additive model (Table 9.2). The overall error rate shown in Table 9.3 is about 50% higher than for the additive model in Table 9.1.
 
@@ -361,7 +361,7 @@ Consider the rightmost branches of the tree. We branch to the right with a spam 
 
 ![Figure 9.4](../figures/_page_332_Figure_2.jpeg)
 
-FIGURE 9.4. Results for spam example. The blue curve is the 10-fold cross-validation estimate of misclassification rate as a function of tree size, with standard error bars. The minimum occurs at a tree size with about 17 terminal nodes (using the "one-standard-error" rule). The orange curve is the test error, which tracks the CV error quite closely. The cross-validation is indexed by values of α, shown above. The tree sizes shown below refer to |Tα|, the size of the original tree indexed by α.
+FIGURE 9.4. Results for spam example. The blue curve is the 10-fold cross-validation estimate of misclassification rate as a function of tree size, with standard error bars. The minimum occurs at a tree size with about 17 terminal nodes (using the "one-standard-error" rule). The orange curve is the test error, which tracks the CV error quite closely. The cross-validation is indexed by values of \alpha, shown above. The tree sizes shown below refer to |T\alpha|, the size of the original tree indexed by \alpha.
 
 However, if in addition the phrase hp occurs frequently, then this is likely to be company business and we classify as email. All of the 22 cases in the test set satisfying these criteria were correctly classified. If the second condition is not met, and in addition the average length of repeated capital letters CAPAVE is larger than 2.9, then we classify as spam. Of the 227 test cases, only seven were misclassified.
 
@@ -385,9 +385,9 @@ $$\begin{array}{lcl} \textit{Sensitivity} & = & 100 \times \frac{33.4}{33.4 + 5.
 
 In this analysis we have used equal losses. As before let  $L_{kk'}$  be the loss associated with predicting a class k object as class k'. By varying the relative sizes of the losses  $L_{01}$  and  $L_{10}$ , we increase the sensitivity and decrease the specificity of the rule, or vice versa. In this example, we want to avoid marking good email as spam, and thus we want the specificity to be very high. We can achieve this by setting  $L_{01} > 1$  say, with  $L_{10} = 1$ . The Bayes' rule in each terminal node classifies to class 1 (spam) if the proportion of spam is  $\geq L_{01}/(L_{10} + L_{01})$ , and class zero otherwise. The
 
-receiver operating characteristic curve (ROC) is a commonly used summary for assessing the tradeoff between sensitivity and specificity. It is a plot of the sensitivity versus specificity as we vary the parameters of a classification rule. Varying the loss L<sup>01</sup> between 0.1 and 10, and applying Bayes' rule to the 17-node tree selected in Figure 9.4, produced the ROC curve shown in Figure 9.6. The standard error of each curve near 0.9 is app p roximately 0.9(1 − 0.9)/1536 = 0.008, and hence the standard error of the difference is about 0.01. We see that in order to achieve a specificity of close to 100%, the sensitivity has to drop to about 50%. The area under the curve is a commonly used quantitative summary; extending the curve linearly in each direction so that it is defined over [0, 100], the area is approximately 0.95. For comparison, we have included the ROC curve for the GAM model fit to these data in Section 9.2; it gives a better classification rule for any loss, with an area of 0.98.
+receiver operating characteristic curve (ROC) is a commonly used summary for assessing the tradeoff between sensitivity and specificity. It is a plot of the sensitivity versus specificity as we vary the parameters of a classification rule. Varying the loss L$^{01}$ between 0.1 and 10, and applying Bayes' rule to the 17-node tree selected in Figure 9.4, produced the ROC curve shown in Figure 9.6. The standard error of each curve near 0.9 is app p roximately 0.9(1 − 0.9)/1536 = 0.008, and hence the standard error of the difference is about 0.01. We see that in order to achieve a specificity of close to 100%, the sensitivity has to drop to about 50%. The area under the curve is a commonly used quantitative summary; extending the curve linearly in each direction so that it is defined over [0, 100], the area is approximately 0.95. For comparison, we have included the ROC curve for the GAM model fit to these data in Section 9.2; it gives a better classification rule for any loss, with an area of 0.98.
 
-Rather than just modifying the Bayes rule in the nodes, it is better to take full account of the unequal losses in growing the tree, as was done in Section 9.2. With just two classes 0 and 1, losses may be incorporated into the tree-growing process by using weight Lk,1−<sup>k</sup> for an observation in class k. Here we chose L<sup>01</sup> = 5, L<sup>10</sup> = 1 and fit the same size tree as before (|Tα| = 17). This tree has higher sensitivity at high values of the specificity than the original tree, but does more poorly at the other extreme. Its top few splits are the same as the original tree, and then it departs from it. For this application the tree grown using L<sup>01</sup> = 5 is clearly better than the original tree.
+Rather than just modifying the Bayes rule in the nodes, it is better to take full account of the unequal losses in growing the tree, as was done in Section 9.2. With just two classes 0 and 1, losses may be incorporated into the tree-growing process by using weight Lk,1−$^{k}$ for an observation in class k. Here we chose L$^{01}$ = 5, L$^{10}$ = 1 and fit the same size tree as before (|T\alpha| = 17). This tree has higher sensitivity at high values of the specificity than the original tree, but does more poorly at the other extreme. Its top few splits are the same as the original tree, and then it departs from it. For this application the tree grown using L$^{01}$ = 5 is clearly better than the original tree.
 
 The area under the ROC curve, used above, is sometimes called the cstatistic. Interestingly, it can be shown that the area under the ROC curve is equivalent to the Mann-Whitney U statistic (or Wilcoxon rank-sum test), for the median difference between the prediction scores in the two groups (Hanley and McNeil, 1982). For evaluating the contribution of an additional predictor when added to a standard model, the c-statistic may not be an informative measure. The new predictor can be very significant in terms of the change in model deviance, but show only a small increase in the cstatistic. For example, removal of the highly significant term george from the model of Table 9.2 results in a decrease in the c-statistic of less than 0.01. Instead, it is useful to examine how the additional predictor changes the classification on an individual sample basis. A good discussion of this point appears in Cook (2007).
 
@@ -401,7 +401,7 @@ PRIM also differs from tree-based partitioning methods in that the box definitio
 
 The main box construction method in PRIM works from the top down, starting with a box containing all of the data. The box is compressed along one face by a small amount, and the observations then falling outside the box are peeled off. The face chosen for compression is the one resulting in the largest box mean, after the compression is performed. Then the process is repeated, stopping when the current box contains some minimum number of data points.
 
-This process is illustrated in Figure 9.7. There are 200 data points uniformly distributed over the unit square. The color-coded plot indicates the response Y taking the value 1 (red) when 0.5 < X<sup>1</sup> < 0.8 and 0.4 < X<sup>2</sup> < 0.6. and zero (blue) otherwise. The panels shows the successive boxes found by the top-down peeling procedure, peeling off a proportion α = 0.1 of the remaining data points at each stage.
+This process is illustrated in Figure 9.7. There are 200 data points uniformly distributed over the unit square. The color-coded plot indicates the response Y taking the value 1 (red) when 0.5 < X$^{1}$ < 0.8 and 0.4 < X$^{2}$ < 0.6. and zero (blue) otherwise. The panels shows the successive boxes found by the top-down peeling procedure, peeling off a proportion \alpha = 0.1 of the remaining data points at each stage.
 
 Figure 9.8 shows the mean of the response values in the box, as the box is compressed.
 
@@ -409,7 +409,7 @@ After the top-down sequence is computed, PRIM reverses the process, expanding al
 
 The result of these steps is a sequence of boxes, with different numbers of observation in each box. Cross-validation, combined with the judgment of the data analyst, is used to choose the optimal box size.
 
-Denote by B<sup>1</sup> the indices of the observations in the box found in step 1. The PRIM procedure then removes the observations in B<sup>1</sup> from the training set, and the two-step process—top down peeling, followed by bottom-up pasting—is repeated on the remaining dataset. This entire process is repeated several times, producing a sequence of boxes B1, B2, . . . , Bk. Each box is defined by a set of rules involving a subset of predictors like
+Denote by B$^{1}$ the indices of the observations in the box found in step 1. The PRIM procedure then removes the observations in B$^{1}$ from the training set, and the two-step process—top down peeling, followed by bottom-up pasting—is repeated on the remaining dataset. This entire process is repeated several times, producing a sequence of boxes B1, B2, . . . , Bk. Each box is defined by a set of rules involving a subset of predictors like
 
 $$(a_1 \le X_1 \le b_1)$$
  and  $(b_1 \le X_3 \le b_2)$ .
@@ -429,15 +429,15 @@ FIGURE 9.8. Box mean as a function of number of observations in the box.
 #### Algorithm 9.3 Patient Rule Induction Method.
 
 - 1. Start with all of the training data, and a maximal box containing all of the data.
-- 2. Consider shrinking the box by compressing one face, so as to peel off the proportion α of observations having either the highest values of a predictor X<sup>j</sup> , or the lowest. Choose the peeling that produces the highest response mean in the remaining box. (Typically α = 0.05 or 0.10.)
+- 2. Consider shrinking the box by compressing one face, so as to peel off the proportion \alpha of observations having either the highest values of a predictor X$^{j}$ , or the lowest. Choose the peeling that produces the highest response mean in the remaining box. (Typically \alpha = 0.05 or 0.10.)
 - 3. Repeat step 2 until some minimal number of observations (say 10) remain in the box.
 - 4. Expand the box along any face, as long as the resulting box mean increases.
 - 5. Steps 1–4 give a sequence of boxes, with different numbers of observations in each box. Use cross-validation to choose a member of the sequence. Call the box B1.
-- 6. Remove the data in box B<sup>1</sup> from the dataset and repeat steps 2–5 to obtain a second box, and continue to get as many boxes as desired.
+- 6. Remove the data in box B$^{1}$ from the dataset and repeat steps 2–5 to obtain a second box, and continue to get as many boxes as desired.
 
 variable); a two-class outcome can be handled simply by coding it as 0 and 1. There is no simple way to deal with k > 2 classes simultaneously: one approach is to run PRIM separately for each class versus a baseline class.
 
-An advantage of PRIM over CART is its patience. Because of its binary splits, CART fragments the data quite quickly. Assuming splits of equal size, with N observations it can only make log<sup>2</sup> (N) − 1 splits before running out of data. If PRIM peels off a proportion α of training points at each stage, it can perform approximately − log(N)/ log(1 − α) peeling steps before running out of data. For example, if N = 128 and α = 0.10, then log<sup>2</sup> (N)−1 = 6 while − log(N)/ log(1−α) ≈ 46. Taking into account that there must be an integer number of observations at each stage, PRIM in fact can peel only 29 times. In any case, the ability of PRIM to be more patient should help the top-down greedy algorithm find a better solution.
+An advantage of PRIM over CART is its patience. Because of its binary splits, CART fragments the data quite quickly. Assuming splits of equal size, with N observations it can only make log$^{2}$ (N) − 1 splits before running out of data. If PRIM peels off a proportion \alpha of training points at each stage, it can perform approximately − log(N)/ log(1 − \alpha) peeling steps before running out of data. For example, if N = 128 and \alpha = 0.10, then log$^{2}$ (N)−1 = 6 while − log(N)/ log(1−\alpha) \approx 46. Taking into account that there must be an integer number of observations at each stage, PRIM in fact can peel only 29 times. In any case, the ability of PRIM to be more patient should help the top-down greedy algorithm find a better solution.
 
 # 9.3.1 Spam Example (Continued)
 
@@ -467,7 +467,7 @@ The predictors are listed in order of importance. Interestingly the top splittin
 
 MARS is an adaptive procedure for regression, and is well suited for highdimensional problems (i.e., a large number of inputs). It can be viewed as a generalization of stepwise linear regression or a modification of the CART method to improve the latter's performance in the regression setting. We introduce MARS from the first point of view, and later make the connection to CART.
 
-MARS uses expansions in piecewise linear basis functions of the form (x − t)<sup>+</sup> and (t − x)+. The "+" means positive part, so
+MARS uses expansions in piecewise linear basis functions of the form (x − t)$^{+}$ and (t − x)+. The "+" means positive part, so
 
 $$(x-t)_+ = \begin{cases} x-t, & \text{if } x > t, \\ 0, & \text{otherwise,} \end{cases}$$
  and  $(t-x)_+ = \begin{cases} t-x, & \text{if } x < t, \\ 0, & \text{otherwise.} \end{cases}$ 
@@ -500,7 +500,7 @@ $$\hat{\beta}_{M+1}h_{\ell}(X)\cdot(X_j-t)_+ + \hat{\beta}_{M+2}h_{\ell}(X)\cdot
 
 ![Figure 9.10](../figures/_page_341_Figure_2.jpeg)
 
-FIGURE 9.10. Schematic of the MARS forward model-building procedure. On the left are the basis functions currently in the model: initially, this is the constant function h(X) = 1. On the right are all candidate basis functions to be considered in building the model. These are pairs of piecewise linear basis functions as in Figure 9.9, with knots t at all unique observed values xij of each predictor X<sup>j</sup> . At each stage we consider all products of a candidate pair with a basis function in the model. The product that decreases the residual error the most is added into the current model. Above we illustrate the first three steps of the procedure, with the selected functions shown in red.
+FIGURE 9.10. Schematic of the MARS forward model-building procedure. On the left are the basis functions currently in the model: initially, this is the constant function h(X) = 1. On the right are all candidate basis functions to be considered in building the model. These are pairs of piecewise linear basis functions as in Figure 9.9, with knots t at all unique observed values xij of each predictor X$^{j}$ . At each stage we consider all products of a candidate pair with a basis function in the model. The product that decreases the residual error the most is added into the current model. Above we illustrate the first three steps of the procedure, with the selected functions shown in red.
 
 ![Figure 9.11](../figures/_page_342_Figure_2.jpeg)
 
@@ -529,13 +529,13 @@ savings the MARS procedure instead uses generalized cross-validation. This crite
 $$GCV(\lambda) = \frac{\sum_{i=1}^{N} (y_i - \hat{f}_{\lambda}(x_i))^2}{(1 - M(\lambda)/N)^2}.$$
  (9.20)
 
-The value M(λ) is the effective number of parameters in the model: this accounts both for the number of terms in the models, plus the number of parameters used in selecting the optimal positions of the knots. Some mathematical and simulation results suggest that one should pay a price of three parameters for selecting a knot in a piecewise linear regression.
+The value M(\lambda) is the effective number of parameters in the model: this accounts both for the number of terms in the models, plus the number of parameters used in selecting the optimal positions of the knots. Some mathematical and simulation results suggest that one should pay a price of three parameters for selecting a knot in a piecewise linear regression.
 
-Thus if there are r linearly independent basis functions in the model, and K knots were selected in the forward process, the formula is M(λ) = r+cK, where c = 3. (When the model is restricted to be additive—details below a penalty of c = 2 is used). Using this, we choose the model along the backward sequence that minimizes GCV(λ).
+Thus if there are r linearly independent basis functions in the model, and K knots were selected in the forward process, the formula is M(\lambda) = r+cK, where c = 3. (When the model is restricted to be additive—details below a penalty of c = 2 is used). Using this, we choose the model along the backward sequence that minimizes GCV(\lambda).
 
 Why these piecewise linear basis functions, and why this particular model strategy? A key property of the functions of Figure 9.9 is their ability to operate locally; they are zero over part of their range. When they are multiplied together, as in Figure 9.11, the result is nonzero only over the small part of the feature space where both component functions are nonzero. As a result, the regression surface is built up parsimoniously, using nonzero components locally—only where they are needed. This is important, since one should "spend" parameters carefully in high dimensions, as they can run out quickly. The use of other basis functions such as polynomials, would produce a nonzero product everywhere, and would not work as well.
 
-The second important advantage of the piecewise linear basis function concerns computation. Consider the product of a function in M with each of the N reflected pairs for an input X<sup>j</sup> . This appears to require the fitting of N single-input linear regression models, each of which uses O(N) operations, making a total of O(N<sup>2</sup> ) operations. However, we can exploit the simple form of the piecewise linear function. We first fit the reflected pair with rightmost knot. As the knot is moved successively one position at a time to the left, the basis functions differ by zero over the left part of the domain, and by a constant over the right part. Hence after each such move we can update the fit in O(1) operations. This allows us to try every knot in only O(N) operations.
+The second important advantage of the piecewise linear basis function concerns computation. Consider the product of a function in M with each of the N reflected pairs for an input X$^{j}$ . This appears to require the fitting of N single-input linear regression models, each of which uses O(N) operations, making a total of O(N$^{2}$ ) operations. However, we can exploit the simple form of the piecewise linear function. We first fit the reflected pair with rightmost knot. As the knot is moved successively one position at a time to the left, the basis functions differ by zero over the left part of the domain, and by a constant over the right part. Hence after each such move we can update the fit in O(1) operations. This allows us to try every knot in only O(N) operations.
 
 The forward modeling strategy in MARS is hierarchical, in the sense that multiway products are built up from products involving terms already in the model. For example, a four-way product can only be added to the model if one of its three-way components is already in the model. The philosophy here is that a high-order interaction will likely only exist if some of its lowerorder "footprints" exist as well. This need not be true, but is a reasonable working assumption and avoids the search over an exponentially growing space of alternatives.
 
@@ -612,7 +612,7 @@ Stone et al. (1997) developed a hybrid of MARS called PolyMARS specifically desi
 
 Although they might seem quite different, the MARS and CART strategies actually have strong similarities. Suppose we take the MARS procedure and make the following changes:
 
-- Replace the piecewise linear basis functions by step functions I(x−t > 0) and I(x − t ≤ 0).
+- Replace the piecewise linear basis functions by step functions I(x−t > 0) and I(x − t \le 0).
 - When a model term is involved in a multiplication by a candidate term, it gets replaced by the interaction, and hence is not available for further interactions.
 
 With these changes, the MARS forward procedure is the same as the CART tree-growing algorithm. Multiplying a step function by a pair of reflected step functions is equivalent to splitting a node at the step. The second restriction implies that a node may not be split more than once, and leads to the attractive binary-tree representation of the CART model. On the other hand, it is this restriction that makes it difficult for CART to model additive structures. MARS forgoes the tree structure and gains the ability to capture additive effects.
@@ -684,11 +684,11 @@ the other hand, to our knowledge there are no methods for finding a good tree to
 
 It is quite common to have observations with missing values for one or more input features. The usual approach is to impute (fill-in) the missing values in some way.
 
-However, the first issue in dealing with the problem is determining whether the missing data mechanism has distorted the observed data. Roughly speaking, data are missing at random if the mechanism resulting in its omission is independent of its (unobserved) value. A more precise definition is given in Little and Rubin (2002). Suppose y is the response vector and X is the N × p matrix of inputs (some of which are missing). Denote by Xobs the observed entries in X and let Z = (y, X), Zobs = (y, Xobs). Finally, if R is an indicator matrix with ijth entry 1 if xij is missing and zero otherwise, then the data is said to be missing at random (MAR) if the distribution of R depends on the data Z only through Zobs:
+However, the first issue in dealing with the problem is determining whether the missing data mechanism has distorted the observed data. Roughly speaking, data are missing at random if the mechanism resulting in its omission is independent of its (unobserved) value. A more precise definition is given in Little and Rubin (2002). Suppose y is the response vector and X is the N \times p matrix of inputs (some of which are missing). Denote by Xobs the observed entries in X and let Z = (y, X), Zobs = (y, Xobs). Finally, if R is an indicator matrix with ijth entry 1 if xij is missing and zero otherwise, then the data is said to be missing at random (MAR) if the distribution of R depends on the data Z only through Zobs:
 
 $$Pr(\mathbf{R}|\mathbf{Z},\theta) = Pr(\mathbf{R}|\mathbf{Z}_{obs},\theta). \tag{9.31}$$
 
-Here θ are any parameters in the distribution of R. Data are said to be missing completely at random (MCAR) if the distribution of R doesn't depend on the observed or missing data:
+Here \theta are any parameters in the distribution of R. Data are said to be missing completely at random (MCAR) if the distribution of R doesn't depend on the observed or missing data:
 
 $$\Pr(\mathbf{R}|\mathbf{Z},\theta) = \Pr(\mathbf{R}|\theta). \tag{9.32}$$
 
@@ -716,9 +716,9 @@ With N observations and p predictors, additive model fitting requires some numbe
 
 Trees require pN log N operations for an initial sort for each predictor, and typically another pN log N operations for the split computations. If the splits occurred near the edges of the predictor ranges, this number could increase to N2p.
 
-MARS requires Nm<sup>2</sup> + pmN operations to add a basis function to a model with m terms already present, from a pool of p predictors. Hence to build an M-term model requires NM<sup>3</sup> + pM<sup>2</sup>N computations, which can be quite prohibitive if M is a reasonable fraction of N.
+MARS requires Nm$^{2}$ + pmN operations to add a basis function to a model with m terms already present, from a pool of p predictors. Hence to build an M-term model requires NM$^{3}$ + pM$^{2}$N computations, which can be quite prohibitive if M is a reasonable fraction of N.
 
-Each of the components of an HME are typically inexpensive to fit at each M-step: N p<sup>2</sup> for the regressions, and N p<sup>2</sup>K<sup>2</sup> for a K-class logistic regression. The EM algorithm, however, can take a long time to converge, and so sizable HME models are considered costly to fit.
+Each of the components of an HME are typically inexpensive to fit at each M-step: N p$^{2}$ for the regressions, and N p$^{2}$K$^{2}$ for a K-class logistic regression. The EM algorithm, however, can take a long time to converge, and so sizable HME models are considered costly to fit.
 
 # Bibliographic Notes
 

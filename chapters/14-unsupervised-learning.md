@@ -12,11 +12,11 @@ Conditioning one has
 
 $$\Pr(X, Y) = \Pr(Y|X) \cdot \Pr(X),$$
 
-where Pr(X) is the joint marginal density of the X values alone. In supervised learning Pr(X) is typically of no direct concern. One is interested mainly in the properties of the conditional density Pr(Y |X). Since Y is often of low dimension (usually one), and only its location µ(x) is of interest, the problem is greatly simplified. As discussed in the previous chapters, there are many approaches for successfully addressing supervised learning in a variety of contexts.
+where Pr(X) is the joint marginal density of the X values alone. In supervised learning Pr(X) is typically of no direct concern. One is interested mainly in the properties of the conditional density Pr(Y |X). Since Y is often of low dimension (usually one), and only its location $\mu$(x) is of interest, the problem is greatly simplified. As discussed in the previous chapters, there are many approaches for successfully addressing supervised learning in a variety of contexts.
 
-In this chapter we address unsupervised learning or "learning without a teacher." In this case one has a set of N observations (x1, x2, . . . , x<sup>N</sup> ) of a random p-vector X having joint density Pr(X). The goal is to directly infer the properties of this probability density without the help of a supervisor or teacher providing correct answers or degree-of-error for each observation. The dimension of X is sometimes much higher than in supervised learning, and the properties of interest are often more complicated than simple location estimates. These factors are somewhat mitigated by the fact that X represents all of the variables under consideration; one is not required to infer how the properties of Pr(X) change, conditioned on the changing values of another set of variables.
+In this chapter we address unsupervised learning or "learning without a teacher." In this case one has a set of N observations (x1, x2, . . . , x$^{N}$ ) of a random p-vector X having joint density Pr(X). The goal is to directly infer the properties of this probability density without the help of a supervisor or teacher providing correct answers or degree-of-error for each observation. The dimension of X is sometimes much higher than in supervised learning, and the properties of interest are often more complicated than simple location estimates. These factors are somewhat mitigated by the fact that X represents all of the variables under consideration; one is not required to infer how the properties of Pr(X) change, conditioned on the changing values of another set of variables.
 
-In low-dimensional problems (say p ≤ 3), there are a variety of effective nonparametric methods for directly estimating the density Pr(X) itself at all X-values, and representing it graphically (Silverman, 1986, e.g.). Owing to the curse of dimensionality, these methods fail in high dimensions. One must settle for estimating rather crude global models, such as Gaussian mixtures or various simple descriptive statistics that characterize Pr(X).
+In low-dimensional problems (say p $\le$ 3), there are a variety of effective nonparametric methods for directly estimating the density Pr(X) itself at all X-values, and representing it graphically (Silverman, 1986, e.g.). Owing to the curse of dimensionality, these methods fail in high dimensions. One must settle for estimating rather crude global models, such as Gaussian mixtures or various simple descriptive statistics that characterize Pr(X).
 
 Generally, these descriptive statistics attempt to characterize X-values, or collections of such values, where Pr(X) is relatively large. Principal components, multidimensional scaling, self-organizing maps, and principal curves, for example, attempt to identify low-dimensional manifolds within the X-space that represent high data density. This provides information about the associations among the variables and whether or not they can be considered as functions of a smaller set of "latent" variables. Cluster analysis attempts to find multiple convex regions of the X-space that contain modes of Pr(X). This can tell whether or not Pr(X) can be represented by a mixture of simpler densities representing distinct types or classes of observations. Mixture modeling has a similar goal. Association rules attempt to construct simple descriptions (conjunctive rules) that describe regions of high density in the special case of very high dimensional binary-valued data.
 
@@ -26,9 +26,9 @@ In this chapter we present those unsupervised learning techniques that are among
 
 # 14.2 Association Rules
 
-Association rule analysis has emerged as a popular tool for mining commercial data bases. The goal is to find joint values of the variables X = (X1, X2, . . . , Xp) that appear most frequently in the data base. It is most often applied to binary-valued data X<sup>j</sup> ∈ {0, 1}, where it is referred to as "market basket" analysis. In this context the observations are sales transactions, such as those occurring at the checkout counter of a store. The variables represent all of the items sold in the store. For observation i, each variable X<sup>j</sup> is assigned one of two values; xij = 1 if the jth item is purchased as part of the transaction, whereas xij = 0 if it was not purchased. Those variables that frequently have joint values of one represent items that are frequently purchased together. This information can be quite useful for stocking shelves, cross-marketing in sales promotions, catalog design, and consumer segmentation based on buying patterns.
+Association rule analysis has emerged as a popular tool for mining commercial data bases. The goal is to find joint values of the variables X = (X1, X2, . . . , Xp) that appear most frequently in the data base. It is most often applied to binary-valued data X$^{j}$ $\in$ {0, 1}, where it is referred to as "market basket" analysis. In this context the observations are sales transactions, such as those occurring at the checkout counter of a store. The variables represent all of the items sold in the store. For observation i, each variable X$^{j}$ is assigned one of two values; xij = 1 if the jth item is purchased as part of the transaction, whereas xij = 0 if it was not purchased. Those variables that frequently have joint values of one represent items that are frequently purchased together. This information can be quite useful for stocking shelves, cross-marketing in sales promotions, catalog design, and consumer segmentation based on buying patterns.
 
-More generally, the basic goal of association rule analysis is to find a collection of prototype X-values v1, . . . , v<sup>L</sup> for the feature vector X, such that the probability density Pr(vl) evaluated at each of those values is relatively large. In this general framework, the problem can be viewed as "mode finding" or "bump hunting." As formulated, this problem is impossibly difficult. A natural estimator for each Pr(vl) is the fraction of observations for which X = v<sup>l</sup> . For problems that involve more than a small number of variables, each of which can assume more than a small number of values, the number of observations for which X = v<sup>l</sup> will nearly always be too small for reliable estimation. In order to have a tractable problem, both the goals of the analysis and the generality of the data to which it is applied must be greatly simplified.
+More generally, the basic goal of association rule analysis is to find a collection of prototype X-values v1, . . . , v$^{L}$ for the feature vector X, such that the probability density Pr(vl) evaluated at each of those values is relatively large. In this general framework, the problem can be viewed as "mode finding" or "bump hunting." As formulated, this problem is impossibly difficult. A natural estimator for each Pr(vl) is the fraction of observations for which X = v$^{l}$ . For problems that involve more than a small number of variables, each of which can assume more than a small number of values, the number of observations for which X = v$^{l}$ will nearly always be too small for reliable estimation. In order to have a tractable problem, both the goals of the analysis and the generality of the data to which it is applied must be greatly simplified.
 
 The first simplification modifies the goal. Instead of seeking values x where Pr(x) is large, one seeks regions of the X-space with high probability content relative to their size or support. Let  $S_j$  represent the set of all possible values of the jth variable (its support), and let  $s_j \subseteq S_j$  be a subset of these values. The modified goal can be stated as attempting to find subsets of variable values  $s_1, \ldots, s_p$  such that the probability of each of the variables simultaneously assuming a value within its respective subset,
 
@@ -120,21 +120,21 @@ This could provide information on those items (antecedent) that predicate sales 
 
 Association rules have become a popular tool for analyzing very large commercial data bases in settings where market basket is relevant. That is when the data can be cast in the form of a multidimensional contingency table. The output is in the form of conjunctive rules (14.4) that are easily understood and interpreted. The Apriori algorithm allows this analysis to be applied to huge data bases, much larger that are amenable to other types of analyses. Association rules are among data mining's biggest successes.
 
-Besides the restrictive form of the data to which they can be applied, association rules have other limitations. Critical to computational feasibility is the support threshold (14.6). The number of solution item sets, their size, and the number of passes required over the data can grow exponentially with decreasing size of this lower bound. Thus, rules with high confidence or lift, but low support, will not be discovered. For example, a high confidence rule such as vodka ⇒ caviar will not be uncovered owing to the low sales volume of the consequent caviar.
+Besides the restrictive form of the data to which they can be applied, association rules have other limitations. Critical to computational feasibility is the support threshold (14.6). The number of solution item sets, their size, and the number of passes required over the data can grow exponentially with decreasing size of this lower bound. Thus, rules with high confidence or lift, but low support, will not be discovered. For example, a high confidence rule such as vodka $\Rightarrow$ caviar will not be uncovered owing to the low sales volume of the consequent caviar.
 
 ## 14.2.3 Example: Market Basket Analysis
 
 We illustrate the use of Apriori on a moderately sized demographics data base. This data set consists of N = 9409 questionnaires filled out by shopping mall customers in the San Francisco Bay Area (Impact Resources, Inc., Columbus OH, 1987). Here we use answers to the first 14 questions, relating to demographics, for illustration. These questions are listed in Table 14.1. The data are seen to consist of a mixture of ordinal and (unordered) categorical variables, many of the latter having more than a few values. There are many missing values.
 
-We used a freeware implementation of the Apriori algorithm due to Christian Borgelt<sup>1</sup> . After removing observations with missing values, each ordinal predictor was cut at its median and coded by two dummy variables; each categorical predictor with k categories was coded by k dummy variables. This resulted in a 6876 × 50 matrix of 6876 observations on 50 dummy variables.
+We used a freeware implementation of the Apriori algorithm due to Christian Borgelt$^{1}$ . After removing observations with missing values, each ordinal predictor was cut at its median and coded by two dummy variables; each categorical predictor with k categories was coded by k dummy variables. This resulted in a 6876 $\times$ 50 matrix of 6876 observations on 50 dummy variables.
 
-The algorithm found a total of 6288 association rules, involving ≤ 5 predictors, with support of at least 10%. Understanding this large set of rules is itself a challenging data analysis task. We will not attempt this here, but only illustrate in Figure 14.2 the relative frequency of each dummy variable in the data (top) and the association rules (bottom). Prevalent categories tend to appear more often in the rules, for example, the first category in language (English). However, others such as occupation are under-represented, with the exception of the first and fifth level.
+The algorithm found a total of 6288 association rules, involving $\le$ 5 predictors, with support of at least 10%. Understanding this large set of rules is itself a challenging data analysis task. We will not attempt this here, but only illustrate in Figure 14.2 the relative frequency of each dummy variable in the data (top) and the association rules (bottom). Prevalent categories tend to appear more often in the rules, for example, the first category in language (English). However, others such as occupation are under-represented, with the exception of the first and fifth level.
 
 Here are three examples of association rules found by the Apriori algorithm:
 
 Association rule 1: Support 25%, confidence 99.7% and lift 1.03.
 
-<sup>1</sup>See http://fuzzy.cs.uni-magdeburg.de/∼borgelt.
+$^{1}$See http://fuzzy.cs.uni-magdeburg.de/∼borgelt.
 
 ![Relative frequency of dummy variables](../figures/_page_511_Figure_1.jpeg)
 
@@ -182,13 +182,13 @@ education  $\notin \{college\ graduate,\ graduate\ study\}$
 
 We chose the first and third rules based on their high support. The second rule is an association rule with a high-income consequent, and could be used to try to target high-income individuals.
 
-As stated above, we created dummy variables for each category of the input predictors, for example, Z<sup>1</sup> = I(income < \$40, 000) and Z<sup>2</sup> = I(income ≥ \$40, 000) for below and above the median income. If we were interested only in finding associations with the high-income category, we would include Z<sup>2</sup> but not Z1. This is often the case in actual market basket problems, where we are interested in finding associations with the presence of a relatively rare item, but not associations with its absence.
+As stated above, we created dummy variables for each category of the input predictors, for example, Z$^{1}$ = I(income < \$40, 000) and Z$^{2}$ = I(income \ge \$40, 000) for below and above the median income. If we were interested only in finding associations with the high-income category, we would include Z$^{2}$ but not Z1. This is often the case in actual market basket problems, where we are interested in finding associations with the presence of a relatively rare item, but not associations with its absence.
 
 # 14.2.4 Unsupervised as Supervised Learning
 
 Here we discuss a technique for transforming the density estimation problem into one of supervised function approximation. This forms the basis for the generalized association rules described in the next section.
 
-Let g(x) be the unknown data probability density to be estimated, and g0(x) be a specified probability density function used for reference. For example, g0(x) might be the uniform density over the range of the variables. Other possibilities are discussed below. The data set x1, x2, . . . , x<sup>N</sup> is presumed to be an i.i.d. random sample drawn from g(x). A sample of size N<sup>0</sup> can be drawn from g0(x) using Monte Carlo methods. Pooling these two data sets, and assigning mass w = N0/(N + N0) to those drawn from g(x), and w<sup>0</sup> = N/(N + N0) to those drawn from g0(x), results in a random sample drawn from the mixture density (g(x) + g0(x)) /2. If one assigns the value Y = 1 to each sample point drawn from g(x) and Y = 0 those drawn from g0(x), then
+Let g(x) be the unknown data probability density to be estimated, and g0(x) be a specified probability density function used for reference. For example, g0(x) might be the uniform density over the range of the variables. Other possibilities are discussed below. The data set x1, x2, . . . , x$^{N}$ is presumed to be an i.i.d. random sample drawn from g(x). A sample of size N$^{0}$ can be drawn from g0(x) using Monte Carlo methods. Pooling these two data sets, and assigning mass w = N0/(N + N0) to those drawn from g(x), and w$^{0}$ = N/(N + N0) to those drawn from g0(x), results in a random sample drawn from the mixture density (g(x) + g0(x)) /2. If one assigns the value Y = 1 to each sample point drawn from g(x) and Y = 0 those drawn from g0(x), then
 
 $$\mu(x) = E(Y \mid x) = \frac{g(x)}{g(x) + g_0(x)}$$
 
@@ -200,7 +200,7 @@ can be estimated by supervised learning using the combined sample
 $$(y_1, x_1), (y_2, x_2), \dots, (y_{N+N_0}, x_{N+N_0})$$
  (14.11)
 
-as training data. The resulting estimate ˆµ(x) can be inverted to provide an estimate for g(x)
+as training data. The resulting estimate ˆ$\mu$(x) can be inverted to provide an estimate for g(x)
 
 $$\hat{g}(x) = g_0(x) \frac{\hat{\mu}(x)}{1 - \hat{\mu}(x)}.$$
 (14.12)
@@ -241,19 +241,19 @@ is large. Following the nomenclature of association rule analysis,  $\{(X_j \in 
 
 their range of values, and subsets for categorical variables can involve more than a single value. The ambitious nature of this formulation precludes a thorough search for all generalized item sets with support (14.16) greater than a specified minimum threshold, as was possible in the more restrictive setting of market basket analysis. Heuristic search methods must be employed, and the most one can hope for is to find a useful collection of such generalized item sets.
 
-Both market basket analysis (14.5) and the generalized formulation (14.16) implicitly reference the uniform probability distribution. One seeks item sets that are more frequent than would be expected if all joint data values (x1, x2, . . . , x<sup>N</sup> ) were uniformly distributed. This favors the discovery of item sets whose marginal constituents (X<sup>j</sup> ∈ s<sup>j</sup> ) are individually frequent, that is, the quantity
+Both market basket analysis (14.5) and the generalized formulation (14.16) implicitly reference the uniform probability distribution. One seeks item sets that are more frequent than would be expected if all joint data values (x1, x2, . . . , x$^{N}$ ) were uniformly distributed. This favors the discovery of item sets whose marginal constituents (X$^{j}$ $\in$ s$^{j}$ ) are individually frequent, that is, the quantity
 
 $$\frac{1}{N} \sum_{i=1}^{N} I(x_{ij} \in s_j) \tag{14.17}$$
 
-is large. Conjunctions of frequent subsets (14.17) will tend to appear more often among item sets of high support (14.16) than conjunctions of marginally less frequent subsets. This is why the rule vodka ⇒ caviar is not likely to be discovered in spite of a high association (lift); neither item has high marginal support, so that their joint support is especially small. Reference to the uniform distribution can cause highly frequent item sets with low associations among their constituents to dominate the collection of highest support item sets.
+is large. Conjunctions of frequent subsets (14.17) will tend to appear more often among item sets of high support (14.16) than conjunctions of marginally less frequent subsets. This is why the rule vodka $\Rightarrow$ caviar is not likely to be discovered in spite of a high association (lift); neither item has high marginal support, so that their joint support is especially small. Reference to the uniform distribution can cause highly frequent item sets with low associations among their constituents to dominate the collection of highest support item sets.
 
-Highly frequent subsets s<sup>j</sup> are formed as disjunctions of the most frequent X<sup>j</sup> -values. Using the product of the variable marginal data densities (14.15) as a reference distribution removes the preference for highly frequent values of the individual variables in the discovered item sets. This is because the density ratio g(x)/g0(x) is uniform if there are no associations among the variables (complete independence), regardless of the frequency distribution of the individual variable values. Rules like vodka ⇒ caviar would have a chance to emerge. It is not clear however, how to incorporate reference distributions other than the uniform into the Apriori algorithm. As explained in Section 14.2.4, it is straightforward to generate a sample from the product density (14.15), given the original data set.
+Highly frequent subsets s$^{j}$ are formed as disjunctions of the most frequent X$^{j}$ -values. Using the product of the variable marginal data densities (14.15) as a reference distribution removes the preference for highly frequent values of the individual variables in the discovered item sets. This is because the density ratio g(x)/g0(x) is uniform if there are no associations among the variables (complete independence), regardless of the frequency distribution of the individual variable values. Rules like vodka $\Rightarrow$ caviar would have a chance to emerge. It is not clear however, how to incorporate reference distributions other than the uniform into the Apriori algorithm. As explained in Section 14.2.4, it is straightforward to generate a sample from the product density (14.15), given the original data set.
 
-After choosing a reference distribution, and drawing a sample from it as in (14.11), one has a supervised learning problem with a binary-valued output variable Y ∈ {0, 1}. The goal is to use this training data to find regions
+After choosing a reference distribution, and drawing a sample from it as in (14.11), one has a supervised learning problem with a binary-valued output variable Y $\in$ {0, 1}. The goal is to use this training data to find regions
 
 $$R = \bigcap_{j \in \mathcal{J}} (X_j \in s_j) \tag{14.18}$$
 
-for which the target function µ(x) = E(Y | x) is relatively large. In addition, one might wish to require that the data support of these regions
+for which the target function $\mu$(x) = E(Y | x) is relatively large. In addition, one might wish to require that the data support of these regions
 
 $$T(R) = \int_{x \in R} g(x) dx \qquad (14.19)$$
 
@@ -269,7 +269,7 @@ are candidates for high-support generalized item sets (14.16). The actual (data)
 
 $$T(R) = \bar{y}_t \cdot \frac{N_t}{N + N_0},$$
 
-where N<sup>t</sup> is the number of (pooled) observations within the region represented by the terminal node. By examining the resulting decision tree, one might discover interesting generalized item sets of relatively high-support. These can then be partitioned into antecedents and consequents in a search for generalized association rules of high confidence and/or lift.
+where N$^{t}$ is the number of (pooled) observations within the region represented by the terminal node. By examining the resulting decision tree, one might discover interesting generalized item sets of relatively high-support. These can then be partitioned into antecedents and consequents in a search for generalized association rules of high confidence and/or lift.
 
 Another natural learning method for this purpose is the patient rule induction method PRIM described in Section 9.3. PRIM also produces rules precisely of the form (14.18), but it is especially designed for finding high-support regions that maximize the average target (14.10) value within them, rather than trying to model the target function over the entire data space. It also provides more control over the support/average-target-value tradeoff.
 
@@ -284,7 +284,9 @@ Three of the high-support generalized item sets emerging from the PRIM analysis 
 Item set 1: Support= 24%.
 
 ```
- \begin{bmatrix} & \text{marital status} & = & married \\ & \text{householder status} & = & own \\ & & \text{type of home} & \neq & apartment \end{bmatrix}
+$$
+\begin{bmatrix} & \text{marital status} & = & married \\ & \text{householder status} & = & own \\ & & \text{type of home} & \neq & apartment \end{bmatrix}
+$$
 ```
 
 Item set 2: Support= 24%.
@@ -445,7 +447,7 @@ If the goal is to discover natural groupings in the data, some attributes may ex
 
 Although simple generic prescriptions for choosing the individual attribute dissimilarities  $d_j(x_{ij}, x_{i'j})$  and their weights  $w_j$  can be comforting, there is no substitute for careful thought in the context of each individual problem. Specifying an appropriate dissimilarity measure is far more important in obtaining success with clustering than choice of clustering algorithm. This aspect of the problem is emphasized less in the clustering literature than the algorithms themselves, since it depends on domain knowledge specifics and is less amenable to general research.
 
-Finally, often observations have missing values in one or more of the attributes. The most common method of incorporating missing values in dissimilarity calculations (14.24) is to omit each observation pair xij , x<sup>i</sup> ′j having at least one value missing, when computing the dissimilarity between observations x<sup>i</sup> and x ′ i . This method can fail in the circumstance when both observations have no measured values in common. In this case both observations could be deleted from the analysis. Alternatively, the missing values could be imputed using the mean or median of each attribute over the nonmissing data. For categorical variables, one could consider the value "missing" as just another categorical value, if it were reasonable to consider two objects as being similar if they both have missing values on the same variables.
+Finally, often observations have missing values in one or more of the attributes. The most common method of incorporating missing values in dissimilarity calculations (14.24) is to omit each observation pair xij , x$^{i}$ ′j having at least one value missing, when computing the dissimilarity between observations x$^{i}$ and x ′ i . This method can fail in the circumstance when both observations have no measured values in common. In this case both observations could be deleted from the analysis. Alternatively, the missing values could be imputed using the mean or median of each attribute over the nonmissing data. For categorical variables, one could consider the value "missing" as just another categorical value, if it were reasonable to consider two objects as being similar if they both have missing values on the same variables.
 
 #### 14.3.4 Clustering Algorithms
 
@@ -457,7 +459,7 @@ Mixture modeling is described in Section 6.8. The PRIM algorithm, discussed in S
 
 ## 14.3.5 Combinatorial Algorithms
 
-The most popular clustering algorithms directly assign each observation to a group or cluster without regard to a probability model describing the data. Each observation is uniquely labeled by an integer i ∈ {1, · · ·, N}. A prespecified number of clusters K < N is postulated, and each one is labeled by an integer k ∈ {1, . . . , K}. Each observation is assigned to one and only one cluster. These assignments can be characterized by a manyto-one mapping, or encoder k = C(i), that assigns the ith observation to the kth cluster. One seeks the particular encoder C ∗ (i) that achieves the required goal (details below), based on the dissimilarities d(x<sup>i</sup> , x<sup>i</sup> ′ ) between every pair of observations. These are specified by the user as described above. Generally, the encoder C(i) is explicitly delineated by giving its value (cluster assignment) for each observation i. Thus, the "parameters" of the procedure are the individual cluster assignments for each of the N observations. These are adjusted so as to minimize a "loss" function that characterizes the degree to which the clustering goal is not met.
+The most popular clustering algorithms directly assign each observation to a group or cluster without regard to a probability model describing the data. Each observation is uniquely labeled by an integer i $\in$ {1, $\cdot$ $\cdot$ $\cdot$, N}. A prespecified number of clusters K < N is postulated, and each one is labeled by an integer k $\in$ {1, . . . , K}. Each observation is assigned to one and only one cluster. These assignments can be characterized by a manyto-one mapping, or encoder k = C(i), that assigns the ith observation to the kth cluster. One seeks the particular encoder C ∗ (i) that achieves the required goal (details below), based on the dissimilarities d(x$^{i}$ , x$^{i}$ ′ ) between every pair of observations. These are specified by the user as described above. Generally, the encoder C(i) is explicitly delineated by giving its value (cluster assignment) for each observation i. Thus, the "parameters" of the procedure are the individual cluster assignments for each of the N observations. These are adjusted so as to minimize a "loss" function that characterizes the degree to which the clustering goal is not met.
 
 One approach is to directly specify a mathematical loss function and attempt to minimize it through some combinatorial optimization algorithm. Since the goal is to assign close points to the same cluster, a natural loss (or "energy") function would be
 
@@ -472,7 +474,7 @@ or
 
 $$T = W(C) + B(C),$$
 
-where dii′ = d(x<sup>i</sup> , x<sup>i</sup> ′ ). Here T is the total point scatter, which is a constant given the data, independent of cluster assignment. The quantity
+where dii′ = d(x$^{i}$ , x$^{i}$ ′ ). Here T is the total point scatter, which is a constant given the data, independent of cluster assignment. The quantity
 
 $$B(C) = \frac{1}{2} \sum_{k=1}^{K} \sum_{C(i)=k} \sum_{C(i')\neq k} d_{ii'}$$
  (14.29)
@@ -572,7 +574,7 @@ TABLE 14.2. Human tumor data: number of cancer cases of each type, in each of th
 | 1       | 1        | 7     | 6       | 2        | 9        | 1       |
 | 2       | 7        | 2     | 0       | 0        | 0        | 0       |
 
-The data are a 6830 × 64 matrix of real numbers, each representing an expression measurement for a gene (row) and sample (column). Here we cluster the samples, each of which is a vector of length 6830, corresponding to expression values for the 6830 genes. Each sample has a label such as breast (for breast cancer), melanoma, and so on; we don't use these labels in the clustering, but will examine posthoc which labels fall into which clusters.
+The data are a 6830 $\times$ 64 matrix of real numbers, each representing an expression measurement for a gene (row) and sample (column). Here we cluster the samples, each of which is a vector of length 6830, corresponding to expression values for the 6830 genes. Each sample has a label such as breast (for breast cancer), melanoma, and so on; we don't use these labels in the clustering, but will examine posthoc which labels fall into which clusters.
 
 We applied K-means clustering with K running from 1 to 10, and computed the total within-sum of squares for each clustering, shown in Figure 14.8. Typically one looks for a kink in the sum of squares curve (or its logarithm) to locate the optimal number of clusters (see Section 14.3.11). Here there is no clear indication: for illustration we chose K = 3 giving the three clusters shown in Table 14.2.
 
@@ -588,11 +590,11 @@ We see that the procedure is successful at grouping together samples of the same
 
 #### 14.3.9 Vector Quantization
 
-The K-means clustering algorithm represents a key tool in the apparently unrelated area of image and signal compression, particularly in  $vector\ quantization$  or VQ (Gersho and Gray, 1992). The left image in Figure 14.9<sup>2</sup> is a digitized photograph of a famous statistician, Sir Ronald Fisher. It consists of  $1024 \times 1024$  pixels, where each pixel is a grayscale value ranging from 0 to 255, and hence requires 8 bits of storage per pixel. The entire image occupies 1 megabyte of storage. The center image is a VQ-compressed version of the left panel, and requires 0.239 of the storage (at some loss in quality). The right image is compressed even more, and requires only 0.0625 of the storage (at a considerable loss in quality).
+The K-means clustering algorithm represents a key tool in the apparently unrelated area of image and signal compression, particularly in  $vector\ quantization$  or VQ (Gersho and Gray, 1992). The left image in Figure 14.9$^{2}$ is a digitized photograph of a famous statistician, Sir Ronald Fisher. It consists of  $1024 \times 1024$  pixels, where each pixel is a grayscale value ranging from 0 to 255, and hence requires 8 bits of storage per pixel. The entire image occupies 1 megabyte of storage. The center image is a VQ-compressed version of the left panel, and requires 0.239 of the storage (at some loss in quality). The right image is compressed even more, and requires only 0.0625 of the storage (at a considerable loss in quality).
 
 The version of VQ implemented here first breaks the image into small blocks, in this case  $2 \times 2$  blocks of pixels. Each of the  $512 \times 512$  blocks of four
 
-<sup>&</sup>lt;sup>2</sup>This example was prepared by Maya Gupta.
+$ ^{2} $This example was prepared by Maya Gupta.
 
 numbers is regarded as a vector in  $\mathbbm{R}^4$ . A K-means clustering algorithm (also known as Lloyd's algorithm in this context) is run in this space. The center image uses K=200, while the right image K=4. Each of the  $512\times512$  pixel blocks (or points) is approximated by its closest cluster centroid, known as a codeword. The clustering process is called the *encoding* step, and the collection of centroids is called the *codebook*.
 
@@ -684,9 +686,9 @@ $$K^* = \underset{K}{\operatorname{argmin}} \{ K | G(K) \ge G(K+1) - s'_{K+1} \}
 
 ![Gap statistic for simulated data](../figures/_page_538_Figure_2.jpeg)
 
-FIGURE 14.11. (Left panel): observed (green) and expected (blue) values of log W<sup>K</sup> for the simulated data of Figure 14.4. Both curves have been translated to equal zero at one cluster. (Right panel): Gap curve, equal to the difference between the observed and expected values of log WK. The Gap estimate K<sup>∗</sup> is the smallest K producing a gap within one standard deviation of the gap at K + 1; here K<sup>∗</sup> = 2.
+FIGURE 14.11. (Left panel): observed (green) and expected (blue) values of log W$^{K}$ for the simulated data of Figure 14.4. Both curves have been translated to equal zero at one cluster. (Right panel): Gap curve, equal to the difference between the observed and expected values of log WK. The Gap estimate K$^{∗}$ is the smallest K producing a gap within one standard deviation of the gap at K + 1; here K$^{∗}$ = 2.
 
-This gives K<sup>∗</sup> = 2, which looks reasonable from Figure 14.4.
+This gives K$^{∗}$ = 2, which looks reasonable from Figure 14.4.
 
 #### 14.3.12 Hierarchical Clustering
 
@@ -836,15 +838,15 @@ In Figure 14.16 the prototypes are indicated by circles, and the points that pro
 
 ![Wiremesh representation of the fitted SOM model](../figures/_page_549_Figure_2.jpeg)
 
-FIGURE 14.17. Wiremesh representation of the fitted SOM model in IR<sup>3</sup> . The lines represent the horizontal and vertical edges of the topological lattice. The double lines indicate that the surface was folded diagonally back on itself in order to model the red points. The cluster members have been jittered to indicate their color, and the purple points are the node centers.
+FIGURE 14.17. Wiremesh representation of the fitted SOM model in IR$^{3}$ . The lines represent the horizontal and vertical edges of the topological lattice. The double lines indicate that the surface was folded diagonally back on itself in order to model the red points. The cluster members have been jittered to indicate their color, and the purple points are the node centers.
 
 Figure 14.18 shows the reconstruction error, equal to the total sum of squares of each data point around its prototype. For comparison we carried out a K-means clustering with 25 centroids, and indicate its reconstruction error by the horizontal line on the graph. We see that the SOM significantly decreases the error, nearly to the level of the K-means solution. This provides evidence that the two-dimensional constraint used by the SOM is reasonable for this particular dataset.
 
-In the batch version of the SOM, we update each m<sup>j</sup> via
+In the batch version of the SOM, we update each m$^{j}$ via
 
 $$m_j = \frac{\sum w_k x_k}{\sum w_k}. (14.48)$$
 
-The sum is over points x<sup>k</sup> that mapped (i.e., were closest to) neighbors m<sup>k</sup> of m<sup>j</sup> . The weight function may be rectangular, that is, equal to 1 for the neighbors of mk, or may decrease smoothly with distance kℓk−ℓjk as before. If the neighborhood size is chosen small enough so that it consists only of mk, with rectangular weights, this reduces to the K-means clustering procedure described earlier. It can also be thought of as a discrete version of principal curves and surfaces, described in Section 14.5.
+The sum is over points x$^{k}$ that mapped (i.e., were closest to) neighbors m$^{k}$ of m$^{j}$ . The weight function may be rectangular, that is, equal to 1 for the neighbors of mk, or may decrease smoothly with distance k$\ell$k−$\ell$jk as before. If the neighborhood size is chosen small enough so that it consists only of mk, with rectangular weights, this reduces to the K-means clustering procedure described earlier. It can also be thought of as a discrete version of principal curves and surfaces, described in Section 14.5.
 
 ![Reconstruction error for the SOM](../figures/_page_550_Figure_2.jpeg)
 
@@ -922,12 +924,12 @@ Figure 14.23 shows the first two principal components of these data. For each of
 
 FIGURE 14.22. A sample of 130 handwritten 3's shows a variety of writing styles.
 
-those images close to the vertices of the grid, where the distance measure focuses mainly on these projected coordinates, but gives some weight to the components in the orthogonal subspace. The right plot shows the images corresponding to these circled points. This allows us to visualize the nature of the first two principal components. We see that the v<sup>1</sup> (horizontal movement) mainly accounts for the lengthening of the lower tail of the three, while v<sup>2</sup> (vertical movement) accounts for character thickness. In terms of the parametrized model (14.49), this two-component model has the form
+those images close to the vertices of the grid, where the distance measure focuses mainly on these projected coordinates, but gives some weight to the components in the orthogonal subspace. The right plot shows the images corresponding to these circled points. This allows us to visualize the nature of the first two principal components. We see that the v$^{1}$ (horizontal movement) mainly accounts for the lengthening of the lower tail of the three, while v$^{2}$ (vertical movement) accounts for character thickness. In terms of the parametrized model (14.49), this two-component model has the form
 
 $$\hat{f}(\lambda) = \bar{x} + \lambda_1 v_1 + \lambda_2 v_2 
 = + \lambda_1 \cdot + \lambda_2 \cdot . \qquad (14.55)$$
 
-Here we have displayed the first two principal component directions, v<sup>1</sup> and v2, as images. Although there are a possible 256 principal components, approximately 50 account for 90% of the variation in the threes, 12 account for 63%. Figure 14.24 compares the singular values to those obtained for equivalent uncorrelated data, obtained by randomly scrambling each column of X. The pixels in a digitized image are inherently correlated, and since these are all the same digit the correlations are even stronger.
+Here we have displayed the first two principal component directions, v$^{1}$ and v2, as images. Although there are a possible 256 principal components, approximately 50 account for 90% of the variation in the threes, 12 account for 63%. Figure 14.24 compares the singular values to those obtained for equivalent uncorrelated data, obtained by randomly scrambling each column of X. The pixels in a digitized image are inherently correlated, and since these are all the same digit the correlations are even stronger.
 
 ![First two principal components of handwritten 3s](../figures/_page_556_Figure_2.jpeg)
 
@@ -943,19 +945,19 @@ Example: Procrustes Transformations and Shape Averaging
 
 ![Procrustes transformation of handwritten Ss](../figures/_page_557_Figure_4.jpeg)
 
-FIGURE 14.25. (Left panel:) Two different digitized handwritten Ss, each represented by 96 corresponding points in IR<sup>2</sup> . The green S has been deliberately rotated and translated for visual effect. (Right panel:) A Procrustes transformation applies a translation and rotation to best match up the two set of points.
+FIGURE 14.25. (Left panel:) Two different digitized handwritten Ss, each represented by 96 corresponding points in IR$^{2}$ . The green S has been deliberately rotated and translated for visual effect. (Right panel:) A Procrustes transformation applies a translation and rotation to best match up the two set of points.
 
-Figure 14.25 represents two sets of points, the orange and green, in the same plot. In this instance these points represent two digitized versions of a handwritten S, extracted from the signature of a subject "Suresh." Figure 14.26 shows the entire signatures from which these were extracted (third and fourth panels). The signatures are recorded dynamically using touch-screen devices, familiar sights in modern supermarkets. There are N = 96 points representing each S, which we denote by the N ×2 matrices X<sup>1</sup> and X2. There is a correspondence between the points—the ith rows of X<sup>1</sup> and X<sup>2</sup> are meant to represent the same positions along the two S's. In the language of morphometrics, these points represent landmarks on the two objects. How one finds such corresponding landmarks is in general difficult and subject specific. In this particular case we used dynamic time warping of the speed signal along each signature (Hastie et al., 1992), but will not go into details here.
+Figure 14.25 represents two sets of points, the orange and green, in the same plot. In this instance these points represent two digitized versions of a handwritten S, extracted from the signature of a subject "Suresh." Figure 14.26 shows the entire signatures from which these were extracted (third and fourth panels). The signatures are recorded dynamically using touch-screen devices, familiar sights in modern supermarkets. There are N = 96 points representing each S, which we denote by the N $\times$2 matrices X$^{1}$ and X2. There is a correspondence between the points—the ith rows of X$^{1}$ and X$^{2}$ are meant to represent the same positions along the two S's. In the language of morphometrics, these points represent landmarks on the two objects. How one finds such corresponding landmarks is in general difficult and subject specific. In this particular case we used dynamic time warping of the speed signal along each signature (Hastie et al., 1992), but will not go into details here.
 
-In the right panel we have applied a translation and rotation to the green points so as best to match the orange—a so-called Procrustes<sup>3</sup> transformation (Mardia et al., 1979, for example).
+In the right panel we have applied a translation and rotation to the green points so as best to match the orange—a so-called Procrustes$^{3}$ transformation (Mardia et al., 1979, for example).
 
 Consider the problem
 
 $$\min_{\mu, \mathbf{R}} ||\mathbf{X}_2 - (\mathbf{X}_1 \mathbf{R} + \mathbf{1}\mu^T)||_F, \tag{14.56}$$
 
-<sup>3</sup>Procrustes was an African bandit in Greek mythology, who stretched or squashed his visitors to fit his iron bed (eventually killing them).
+$^{3}$Procrustes was an African bandit in Greek mythology, who stretched or squashed his visitors to fit his iron bed (eventually killing them).
 
-with  $\mathbf{X}_1$  and  $\mathbf{X}_2$  both  $N \times p$  matrices of corresponding points,  $\mathbf{R}$  an orthonormal  $p \times p$  matrix<sup>4</sup>, and  $\mu$  a p-vector of location coordinates. Here  $||\mathbf{X}||_F^2 = \operatorname{trace}(\mathbf{X}^T\mathbf{X})$  is the squared *Frobenius* matrix norm.
+with  $\mathbf{X}_1$  and  $\mathbf{X}_2$  both  $N \times p$  matrices of corresponding points,  $\mathbf{R}$  an orthonormal  $p \times p$  matrix$^{4}$, and  $\mu$  a p-vector of location coordinates. Here  $||\mathbf{X}||_F^2 = \operatorname{trace}(\mathbf{X}^T\mathbf{X})$  is the squared *Frobenius* matrix norm.
 
 Let  $\bar{x}_1$  and  $\bar{x}_2$  be the column mean vectors of the matrices, and  $\tilde{\mathbf{X}}_1$  and  $\tilde{\mathbf{X}}_2$  be the versions of these matrices with the means removed. Consider the SVD  $\tilde{\mathbf{X}}_1^T \tilde{\mathbf{X}}_2 = \mathbf{U} \mathbf{D} \mathbf{V}^T$ . Then the solution to (14.56) is given by (Exercise 14.8)
 
@@ -987,7 +989,7 @@ Figure 14.26 shows a simple example with three shapes. Note that we can only exp
 
 Most generally we can define the affine-invariant average of a set of shapes via
 
-<sup>&</sup>lt;sup>4</sup>To simplify matters, we consider only orthogonal matrices which include reflections as well as rotations [the O(p) group]; although reflections are unlikely here, these methods can be restricted further to allow only rotations [SO(p) group].
+$ ^{4} $To simplify matters, we consider only orthogonal matrices which include reflections as well as rotations [the O(p) group]; although reflections are unlikely here, these methods can be restricted further to allow only rotations [SO(p) group].
 
 ![Procrustes average of signatures](../figures/_page_559_Picture_2.jpeg)
 
@@ -1079,9 +1081,9 @@ $$= \frac{1}{2} \sum_{i=1}^{N} \sum_{i'=1}^{N} w_{ii'} (f_{i} - f_{i'})^{2}. \ta
 
 Formula 14.64 suggests that a small value of  $\mathbf{f}^T \mathbf{L} \mathbf{f}$  will be achieved if pairs of points with large adjacencies have coordinates  $f_i$  and  $f_{i'}$  close together.
 
-Since  $\mathbf{1}^T \mathbf{L} \mathbf{1} = 0$  for any graph, the constant vector is a trivial eigenvector with eigenvalue zero. Not so obvious is the fact that if the graph is connected<sup>5</sup>, it is the *only* zero eigenvector (Exercise 14.21). Generalizing this argument, it is easy to show that for a graph with m connected components,
+Since  $\mathbf{1}^T \mathbf{L} \mathbf{1} = 0$  for any graph, the constant vector is a trivial eigenvector with eigenvalue zero. Not so obvious is the fact that if the graph is connected$^{5}$, it is the *only* zero eigenvector (Exercise 14.21). Generalizing this argument, it is easy to show that for a graph with m connected components,
 
-<sup>&</sup>lt;sup>5</sup>A graph is connected if any two nodes can be reached via a path of connected nodes.
+$ ^{5} $A graph is connected if any two nodes can be reached via a path of connected nodes.
 
 ![Spectral clustering toy example](../figures/_page_564_Figure_2.jpeg)
 
@@ -1110,7 +1112,7 @@ We can gain more insight into kernel PCA by viewing the  $\mathbf{z}_m$  as samp
 $$\max_{g_1 \in \mathcal{H}_K} \operatorname{Var}_{\mathcal{T}} g_1(X) \text{ subject to } ||g_1||_{\mathcal{H}_K} = 1$$
  (14.66)
 
-Here  $\operatorname{Var}_{\mathcal{T}}$  refers to the sample variance over training data  $\mathcal{T}$ . The norm constraint  $||g_1||_{\mathcal{H}_K} = 1$  controls the size and roughness of the function  $g_1$ , as dictated by the kernel K. As in the regression case it can be shown that the solution to (14.66) is finite dimensional with representation  $g_1(x) = \sum_{j=1}^N c_j K(x, x_j)$ . Exercise 14.17 shows that the solution is defined by  $\hat{c}_j = \alpha_{j1}, \ j = 1, \ldots, N$  above. The second principal component function is defined in a similar way, with the additional constraint that  $\langle g_1, g_2 \rangle_{\mathcal{H}_K} = 0$ , and so on.<sup>6</sup>
+Here  $\operatorname{Var}_{\mathcal{T}}$  refers to the sample variance over training data  $\mathcal{T}$ . The norm constraint  $||g_1||_{\mathcal{H}_K} = 1$  controls the size and roughness of the function  $g_1$ , as dictated by the kernel K. As in the regression case it can be shown that the solution to (14.66) is finite dimensional with representation  $g_1(x) = \sum_{j=1}^N c_j K(x, x_j)$ . Exercise 14.17 shows that the solution is defined by  $\hat{c}_j = \alpha_{j1}, \ j = 1, \ldots, N$  above. The second principal component function is defined in a similar way, with the additional constraint that  $\langle g_1, g_2 \rangle_{\mathcal{H}_K} = 0$ , and so on.$^{6}$
 
 Schölkopf et al. (1999) demonstrate the use of kernel principal components as features for handwritten-digit classification, and show that they can improve the performance of a classifier when these are used instead of linear principal components.
 
@@ -1129,7 +1131,7 @@ This is almost the same as the Laplacian (14.63), the differences being the cent
 
 Figure 14.30 examines the performance of kernel principal components in the toy example of Figure 14.29. In the upper left panel we used the radial kernel with c=2, the same value that was used in spectral clustering. This does not separate the groups, but with c=10 (upper right panel), the first component separates the groups well. In the lower-left panel we applied kernel PCA using the nearest-neighbor radial kernel **W** from spectral clustering. In the lower right panel we use the kernel matrix itself as the
 
-<sup>&</sup>lt;sup>6</sup>This section benefited from helpful discussions with Jonathan Taylor.
+$ ^{6} $This section benefited from helpful discussions with Jonathan Taylor.
 
 ![Kernel PCA on toy example](../figures/_page_567_Figure_2.jpeg)
 
@@ -1174,13 +1176,13 @@ $$\sum_{i=1}^{N} ||x_i - \mathbf{\Theta} \mathbf{V}^T x_i||^2 + \lambda \sum_{k=
 
 subject to  $\mathbf{\Theta}^T \mathbf{\Theta} = \mathbf{I}_K$ . Here **V** is a  $p \times K$  matrix with columns  $v_k$  and  $\mathbf{\Theta}$  is also  $p \times K$ .
 
-Criterion (14.71) is not jointly convex in  $\mathbf{V}$  and  $\mathbf{\Theta}$ , but it is convex in each parameter with the other parameter fixed<sup>7</sup>. Minimization over  $\mathbf{V}$  with  $\mathbf{\Theta}$  fixed is equivalent to K elastic net problems (Section 18.4) and can be done efficiently. On the other hand, minimization over  $\mathbf{\Theta}$  with  $\mathbf{V}$  fixed is a version of the Procrustes problem (14.56), and is solved by a simple SVD calculation (Exercise 14.12). These steps are alternated until convergence.
+Criterion (14.71) is not jointly convex in  $\mathbf{V}$  and  $\mathbf{\Theta}$ , but it is convex in each parameter with the other parameter fixed$^{7}$. Minimization over  $\mathbf{V}$  with  $\mathbf{\Theta}$  fixed is equivalent to K elastic net problems (Section 18.4) and can be done efficiently. On the other hand, minimization over  $\mathbf{\Theta}$  with  $\mathbf{V}$  fixed is a version of the Procrustes problem (14.56), and is solved by a simple SVD calculation (Exercise 14.12). These steps are alternated until convergence.
 
-Figure 14.31 shows an example of sparse principal components analysis using (14.71), taken from Sjöstrand et al. (2007). Here the shape of the mid-sagittal cross-section of the corpus callosum (CC) is related to various clinical parameters in a study involving 569 elderly persons<sup>8</sup>. In this exam-
+Figure 14.31 shows an example of sparse principal components analysis using (14.71), taken from Sjöstrand et al. (2007). Here the shape of the mid-sagittal cross-section of the corpus callosum (CC) is related to various clinical parameters in a study involving 569 elderly persons$^{8}$. In this exam-
 
-<sup>&</sup>lt;sup>7</sup>Note that the usual principal component criterion, for example (14.50), is not jointly convex in the parameters either. Nevertheless, the solution is well defined and an efficient algorithm is available.
+$ ^{7} $Note that the usual principal component criterion, for example (14.50), is not jointly convex in the parameters either. Nevertheless, the solution is well defined and an efficient algorithm is available.
 
-<sup>&</sup>lt;sup>8</sup>We thank Rasmus Larsen and Karl Sjöstrand for suggesting this application, and supplying us with the postscript figures reproduced here.
+$ ^{8} $We thank Rasmus Larsen and Karl Sjöstrand for suggesting this application, and supplying us with the postscript figures reproduced here.
 
 ![Mid-sagittal brain slice with landmarks](../figures/_page_570_Picture_2.jpeg)
 
@@ -1216,11 +1218,11 @@ $$h_{kj} \leftarrow h_{kj} \frac{\sum_{i=1}^{N} w_{ik} x_{ij} / (\mathbf{WH})_{i
 
 This algorithm can be derived as a minorization procedure for maximizing  $L(\mathbf{W}, \mathbf{H})$  (Exercise 14.23) and is also related to the iterative-proportional-scaling algorithm for log-linear models (Exercise 14.24).
 
-Figure 14.33 shows an example taken from Lee and Seung (1999)<sup>9</sup>, comparing non-negative matrix factorization (NMF), vector quantization (VQ, equivalent to k-means clustering) and principal components analysis (PCA). The three learning methods were applied to a database of N=2,429 facial images, each consisting of  $19\times19$  pixels, resulting in a  $2,429\times381$  matrix  $\mathbf{X}$ . As shown in the  $7\times7$  array of montages (each a  $19\times19$  image), each method has learned a set of r=49 basis images. Positive values are illustrated with black pixels and negative values with red pixels. A particular instance of a face, shown at top right, is approximated by a linear superposition of basis images. The coefficients of the linear superposition are shown next to each montage, in a  $7\times7$  array<sup>10</sup>, and the resulting superpositions are shown to the right of the equality sign. The authors point
+Figure 14.33 shows an example taken from Lee and Seung (1999)$^{9}$, comparing non-negative matrix factorization (NMF), vector quantization (VQ, equivalent to k-means clustering) and principal components analysis (PCA). The three learning methods were applied to a database of N=2,429 facial images, each consisting of  $19\times19$  pixels, resulting in a  $2,429\times381$  matrix  $\mathbf{X}$ . As shown in the  $7\times7$  array of montages (each a  $19\times19$  image), each method has learned a set of r=49 basis images. Positive values are illustrated with black pixels and negative values with red pixels. A particular instance of a face, shown at top right, is approximated by a linear superposition of basis images. The coefficients of the linear superposition are shown next to each montage, in a  $7\times7$  array$^{10}$, and the resulting superpositions are shown to the right of the equality sign. The authors point
 
-<sup>&</sup>lt;sup>9</sup>We thank Sebastian Seung for providing this image.
+$ ^{9} $We thank Sebastian Seung for providing this image.
 
- $<sup>^{10}\</sup>text{These}~7\times7$  arrangements allow for a compact display, and have no structural significance.
+ $$^{^{10}\}$text{These}~7\times7$  arrangements allow for a compact display, and have no structural significance.
 
 out that unlike VQ and PCA, NMF learns to represent faces with a set of basis images resembling parts of faces.
 
@@ -1252,13 +1254,13 @@ FIGURE 14.33. Non-negative matrix factorization (NMF), vector quantization (VQ, 
 
 ![Non-uniqueness of NMF](../figures/_page_574_Figure_2.jpeg)
 
-FIGURE 14.34. Non-uniqueness of the non-negative matrix factorization. There are 11 data points in two dimensions. Any choice of the basis vectors h<sup>1</sup> and h<sup>2</sup> in the open space between the coordinate axes and data, gives an exact reconstruction of the data.
+FIGURE 14.34. Non-uniqueness of the non-negative matrix factorization. There are 11 data points in two dimensions. Any choice of the basis vectors h$^{1}$ and h$^{2}$ in the open space between the coordinate axes and data, gives an exact reconstruction of the data.
 
 Figure 14.35 shows an example with simulated data in two dimensions. The top panel displays the results of archetypal analysis, while the bottom panel shows the results from K-means clustering. In order to best reconstruct the data from convex combinations of the prototypes, it pays to locate the prototypes on the convex hull of the data. This is seen in the top panels of Figure 14.35 and is the case in general, as proven by Cutler and Breiman (1994). K-means clustering, shown in the bottom panels, chooses prototypes in the middle of the data cloud.
 
 We can think of K-means clustering as a special case of the archetypal model, in which each row of W has a single one and the rest of the entries are zero.
 
-Notice also that the archetypal model (14.75) has the same general form as the non-negative matrix factorization model (14.72). However, the two models are applied in different settings, and have somewhat different goals. Non-negative matrix factorization aims to approximate the columns of the data matrix X, and the main output of interest are the columns of W representing the primary non-negative components in the data. Archetypal analysis focuses instead on the approximation of the rows of X using the rows of H, which represent the archetypal data points. Non-negative matrix factorization also assumes that r ≤ p. With r = p, we can get an exact reconstruction simply choosing W to be the data X with columns scaled so that they sum to 1. In contrast, archetypal analysis requires r ≤ N, but allows r > p. In Figure 14.35, for example, p = 2, N = 50 while r = 2, 4 or 8. The additional constraint (14.76) implies that the archetypal approximation will not be perfect, even if r > p.
+Notice also that the archetypal model (14.75) has the same general form as the non-negative matrix factorization model (14.72). However, the two models are applied in different settings, and have somewhat different goals. Non-negative matrix factorization aims to approximate the columns of the data matrix X, and the main output of interest are the columns of W representing the primary non-negative components in the data. Archetypal analysis focuses instead on the approximation of the rows of X using the rows of H, which represent the archetypal data points. Non-negative matrix factorization also assumes that r \le p. With r = p, we can get an exact reconstruction simply choosing W to be the data X with columns scaled so that they sum to 1. In contrast, archetypal analysis requires r \le N, but allows r > p. In Figure 14.35, for example, p = 2, N = 50 while r = 2, 4 or 8. The additional constraint (14.76) implies that the archetypal approximation will not be perfect, even if r > p.
 
 Figure 14.36 shows the results of archetypal analysis applied to the database of 3's displayed in Figure 14.22. The three rows in Figure 14.36 are the resulting archetypes from three runs, specifying two, three and four
 
@@ -1286,7 +1288,7 @@ Factor analysis is a classical technique developed in the statistical literature
 
 ## 14.7.1 Latent Variables and Factor Analysis
 
-The singular-value decomposition X = UDV<sup>T</sup> (14.54) has a latent variable representation. Writing S = √ NU and A<sup>T</sup> = DV<sup>T</sup> / √ N, we have X = SA<sup>T</sup> , and hence each of the columns of X is a linear combination of the columns of S. Now since U is orthogonal, and assuming as before that the columns of X (and hence U) each have mean zero, this implies that the columns of S have zero mean, are uncorrelated and have unit variance. In terms of random variables, we can interpret the SVD, or the corresponding principal component analysis (PCA) as an estimate of a latent variable model
+The singular-value decomposition X = UDV$^{T}$ (14.54) has a latent variable representation. Writing S = \sqrt{} NU and A$^{T}$ = DV$^{T}$ / \sqrt{} N, we have X = SA$^{T}$ , and hence each of the columns of X is a linear combination of the columns of S. Now since U is orthogonal, and assuming as before that the columns of X (and hence U) each have mean zero, this implies that the columns of S have zero mean, are uncorrelated and have unit variance. In terms of random variables, we can interpret the SVD, or the corresponding principal component analysis (PCA) as an estimate of a latent variable model
 
 $$X_{1} = a_{11}S_{1} + a_{12}S_{2} + \dots + a_{1p}S_{p}$$
 
@@ -1325,19 +1327,19 @@ $$\mathbf{\Sigma} = \mathbf{A}\mathbf{A}^T + \mathbf{D}_{\varepsilon},\tag{14.81
 
 where  $\mathbf{D}_{\varepsilon} = \mathrm{diag}[\mathrm{Var}(\varepsilon_1), \ldots, \mathrm{Var}(\varepsilon_p)]$ . The  $S_{\ell}$  being Gaussian and uncorrelated makes them statistically independent random variables. Thus a battery of educational test scores would be thought to be driven by the independent underlying factors such as *intelligence*, *drive* and so on. The columns of  $\mathbf{A}$  are referred to as the *factor loadings*, and are used to name and interpret the factors.
 
-Unfortunately the identifiability issue (14.79) remains, since A and AR<sup>T</sup> are equivalent in (14.81) for any q × q orthogonal R. This leaves a certain subjectivity in the use of factor analysis, since the user can search for rotated versions of the factors that are more easily interpretable. This aspect has left many analysts skeptical of factor analysis, and may account for its lack of popularity in contemporary statistics. Although we will not go into details here, the SVD plays a key role in the estimation of (14.81). For example, if the Var(ε<sup>j</sup> ) are all assumed to be equal, the leading q components of the SVD identify the subspace determined by A.
+Unfortunately the identifiability issue (14.79) remains, since A and AR$^{T}$ are equivalent in (14.81) for any q \times q orthogonal R. This leaves a certain subjectivity in the use of factor analysis, since the user can search for rotated versions of the factors that are more easily interpretable. This aspect has left many analysts skeptical of factor analysis, and may account for its lack of popularity in contemporary statistics. Although we will not go into details here, the SVD plays a key role in the estimation of (14.81). For example, if the Var(\epsilon$^{j}$ ) are all assumed to be equal, the leading q components of the SVD identify the subspace determined by A.
 
-Because of the separate disturbances ε<sup>j</sup> for each X<sup>j</sup> , factor analysis can be seen to be modeling the correlation structure of the X<sup>j</sup> rather than the covariance structure. This can be easily seen by standardizing the covariance structure in (14.81) (Exercise 14.14). This is an important distinction between factor analysis and PCA, although not central to the discussion here. Exercise 14.15 discusses a simple example where the solutions from factor analysis and PCA differ dramatically because of this distinction.
+Because of the separate disturbances \epsilon$^{j}$ for each X$^{j}$ , factor analysis can be seen to be modeling the correlation structure of the X$^{j}$ rather than the covariance structure. This can be easily seen by standardizing the covariance structure in (14.81) (Exercise 14.14). This is an important distinction between factor analysis and PCA, although not central to the discussion here. Exercise 14.15 discusses a simple example where the solutions from factor analysis and PCA differ dramatically because of this distinction.
 
 # 14.7.2 Independent Component Analysis
 
-The independent component analysis (ICA) model has exactly the same form as (14.78), except the S<sup>ℓ</sup> are assumed to be statistically independent rather than uncorrelated. Intuitively, lack of correlation determines the second-degree cross-moments (covariances) of a multivariate distribution, while in general statistical independence determines all of the crossmoments. These extra moment conditions allow us to identify the elements of A uniquely. Since the multivariate Gaussian distribution is determined by its second moments alone, it is the exception, and any Gaussian independent components can be determined only up to a rotation, as before. Hence identifiability problems in (14.78) and (14.80) can be avoided if we assume that the S<sup>ℓ</sup> are independent and non-Gaussian.
+The independent component analysis (ICA) model has exactly the same form as (14.78), except the S$^{\ell}$ are assumed to be statistically independent rather than uncorrelated. Intuitively, lack of correlation determines the second-degree cross-moments (covariances) of a multivariate distribution, while in general statistical independence determines all of the crossmoments. These extra moment conditions allow us to identify the elements of A uniquely. Since the multivariate Gaussian distribution is determined by its second moments alone, it is the exception, and any Gaussian independent components can be determined only up to a rotation, as before. Hence identifiability problems in (14.78) and (14.80) can be avoided if we assume that the S$^{\ell}$ are independent and non-Gaussian.
 
-Here we will discuss the full p-component model as in (14.78), where the S<sup>ℓ</sup> are independent with unit variance; ICA versions of the factor analysis model (14.80) exist as well. Our treatment is based on the survey article by Hyv¨arinen and Oja (2000).
+Here we will discuss the full p-component model as in (14.78), where the S$^{\ell}$ are independent with unit variance; ICA versions of the factor analysis model (14.80) exist as well. Our treatment is based on the survey article by Hyv¨arinen and Oja (2000).
 
-We wish to recover the mixing matrix A in X = AS. Without loss of generality, we can assume that X has already been whitened to have Cov(X) = I; this is typically achieved via the SVD described above. This in turn implies that A is orthogonal, since S also has covariance I. So solving the ICA problem amounts to finding an orthogonal A such that the components of the vector random variable S = A<sup>T</sup> X are independent (and non-Gaussian).
+We wish to recover the mixing matrix A in X = AS. Without loss of generality, we can assume that X has already been whitened to have Cov(X) = I; this is typically achieved via the SVD described above. This in turn implies that A is orthogonal, since S also has covariance I. So solving the ICA problem amounts to finding an orthogonal A such that the components of the vector random variable S = A$^{T}$ X are independent (and non-Gaussian).
 
-Figure 14.37 shows the power of ICA in separating two mixed signals. This is an example of the classical cocktail party problem, where different microphones X<sup>j</sup> pick up mixtures of different independent sources S<sup>ℓ</sup> (music, speech from different speakers, etc.). ICA is able to perform blind
+Figure 14.37 shows the power of ICA in separating two mixed signals. This is an example of the classical cocktail party problem, where different microphones X$^{j}$ pick up mixtures of different independent sources S$^{\ell}$ (music, speech from different speakers, etc.). ICA is able to perform blind
 
 ![ICA vs PCA on time-series data](../figures/_page_579_Figure_2.jpeg)
 
@@ -1405,11 +1407,11 @@ For each ICA component we have highlighted two of the extreme digits, as well as
 
 ICA has become an important tool in the study of brain dynamics—the example we present here uses ICA to untangle the components of signals in multi-channel electroencephalographic (EEG) data (Onton and Makeig, 2006).
 
-Subjects wear a cap embedded with a lattice of 100 EEG electrodes, which record brain activity at different locations on the scalp. Figure 14.41<sup>11</sup> (top panel) shows 15 seconds of output from a subset of nine of these electrodes from a subject performing a standard "two-back" learning task over a 30 minute period. The subject is presented with a letter (B, H, J, C, F, or K) at roughly 1500-ms intervals, and responds by pressing one of two buttons to indicate whether the letter presented is the same or different from that presented two steps back. Depending on the answer, the subject earns or loses points, and occasionally earns bonus or loses penalty points. The time-course data show spatial correlation in the EEG signals—the signals of nearby sensors look very similar.
+Subjects wear a cap embedded with a lattice of 100 EEG electrodes, which record brain activity at different locations on the scalp. Figure 14.41$^{11}$ (top panel) shows 15 seconds of output from a subset of nine of these electrodes from a subject performing a standard "two-back" learning task over a 30 minute period. The subject is presented with a letter (B, H, J, C, F, or K) at roughly 1500-ms intervals, and responds by pressing one of two buttons to indicate whether the letter presented is the same or different from that presented two steps back. Depending on the answer, the subject earns or loses points, and occasionally earns bonus or loses penalty points. The time-course data show spatial correlation in the EEG signals—the signals of nearby sensors look very similar.
 
 The key assumption here is that signals recorded at each scalp electrode are a mixture of independent potentials arising from different cortical ac-
 
-<sup>11</sup>Reprinted from Progress in Brain Research, Vol. 159, Julie Onton and Scott Makeig, "Information based modeling of event-related brain dynamics," Page 106 , Copyright (2006), with permission from Elsevier. We thank Julie Onton and Scott Makeig for supplying an electronic version of the image.
+$^{11}$Reprinted from Progress in Brain Research, Vol. 159, Julie Onton and Scott Makeig, "Information based modeling of event-related brain dynamics," Page 106 , Copyright (2006), with permission from Elsevier. We thank Julie Onton and Scott Makeig for supplying an electronic version of the image.
 
 tivities, as well as non-cortical artifact domains; see the reference for a detailed overview of ICA in this domain.
 
@@ -1434,7 +1436,7 @@ so here we present an approach that estimates this density directly using genera
 
 ![EEG data and ICA components](../figures/_page_584_Figure_2.jpeg)
 
-FIGURE 14.41. Fifteen seconds of EEG data (of 1917 seconds) at nine (of 100) scalp channels (top panel), as well as nine ICA components (lower panel). While nearby electrodes record nearly identical mixtures of brain and non-brain activity, ICA components are temporally distinct. The colored scalps represent the ICA unmixing coefficients aˆ<sup>j</sup> as a heatmap, showing brain or scalp location of the source.
+FIGURE 14.41. Fifteen seconds of EEG data (of 1917 seconds) at nine (of 100) scalp channels (top panel), as well as nine ICA components (lower panel). While nearby electrodes record nearly identical mixtures of brain and non-brain activity, ICA components are temporally distinct. The colored scalps represent the ICA unmixing coefficients aˆ$^{j}$ as a heatmap, showing brain or scalp location of the source.
 
 Hastie and Tibshirani (2003), and the method is implemented in the R package ProDenICA, available from CRAN.
 
@@ -1512,7 +1514,7 @@ Our ProDenICA algorithm works as well as FastICA on the artificial time series d
 
 Figure 14.42 shows the results of a simulation comparing ProDenICA to FastICA, and another semi-parametric competitor KernelICA (Bach and Jordan, 2002). The left panel shows the 18 distributions used as a basis of comparison. For each distribution, we generated a pair of independent components (N=1024), and a random mixing matrix in  $\mathbb{R}^2$  with condition number between 1 and 2. We used our R implementations of FastICA, using the negentropy criterion (14.87), and ProDenICA. For KernelICA we used
 
-the authors MATLAB code.<sup>12</sup> Since the search criteria are nonconvex, we used five random starts for each method. Each of the algorithms delivers an orthogonal mixing matrix  $\mathbf{A}$  (the data were *pre-whitened*), which is available for comparison with the generating orthogonalized mixing matrix  $\mathbf{A}_0$ . We used the Amari metric (Bach and Jordan, 2002) as a measure of the closeness of the two frames:
+the authors MATLAB code.$^{12}$ Since the search criteria are nonconvex, we used five random starts for each method. Each of the algorithms delivers an orthogonal mixing matrix  $\mathbf{A}$  (the data were *pre-whitened*), which is available for comparison with the generating orthogonalized mixing matrix  $\mathbf{A}_0$ . We used the Amari metric (Bach and Jordan, 2002) as a measure of the closeness of the two frames:
 
 $$d(\mathbf{A}_0, \mathbf{A}) = \frac{1}{2p} \sum_{i=1}^{p} \left( \frac{\sum_{j=1}^{p} |r_{ij}|}{\max_{j} |r_{ij}|} - 1 \right) + \frac{1}{2p} \sum_{j=1}^{p} \left( \frac{\sum_{i=1}^{p} |r_{ij}|}{\max_{i} |r_{ij}|} - 1 \right), (14.97)$$
 
@@ -1524,16 +1526,16 @@ Both self-organizing maps and principal curves and surfaces map data points in  
 
 We start with observations  $x_1, x_2, \ldots, x_N \in \mathbb{R}^p$ , and let  $d_{ij}$  be the distance between observations i and j. Often we choose Euclidean distance  $d_{ij} = ||x_i - x_j||$ , but other distances may be used. Further, in some applications we may not even have available the data points  $x_i$ , but only have some dissimilarity measure  $d_{ij}$  (see Section 14.3.10). For example, in a wine tasting experiment,  $d_{ij}$  might be a measure of how different a subject judged wines i and j, and the subject provides such a measure for all pairs of wines i, j. MDS requires only the dissimilarities  $d_{ij}$ , in contrast to the SOM and principal curves and surfaces which need the data points  $x_i$ .
 
-Multidimensional scaling seeks values  $z_1, z_2, \dots, z_N \in \mathbb{R}^k$  to minimize the so-called *stress function*<sup>13</sup>
+Multidimensional scaling seeks values  $z_1, z_2, \dots, z_N \in \mathbb{R}^k$  to minimize the so-called *stress function*$^{13}$
 
 $$S_M(z_1, z_2, \dots, z_N) = \sum_{i \neq i'} (d_{ii'} - ||z_i - z_{i'}||)^2.$$
  (14.98)
 
 This is known as *least squares* or *Kruskal–Shephard* scaling. The idea is to find a lower-dimensional representation of the data that preserves the pairwise distances as well as possible. Notice that the approximation is
 
-<sup>&</sup>lt;sup>12</sup>Francis Bach kindly supplied this code, and helped us set up the simulations.
+$ ^{12} $Francis Bach kindly supplied this code, and helped us set up the simulations.
 
- $<sup>^{13}</sup>$ Some authors define stress as the square-root of  $S_M$ ; since it does not affect the optimization, we leave it squared to make comparisons with other criteria simpler.
+ $$^{^{13}}$$ Some authors define stress as the square-root of  $S_M$ ; since it does not affect the optimization, we leave it squared to make comparisons with other criteria simpler.
 
 in terms of the distances rather than squared distances (which results in slightly messier algebra). A gradient descent algorithm is used to minimize  $S_M$ .
 
@@ -1549,7 +1551,7 @@ In classical scaling, we instead start with similarities  $s_{ii'}$ : often we u
 $$S_C(z_1, z_2, \dots, z_N) = \sum_{i,i'} (s_{ii'} - \langle z_i - \bar{z}, z_{i'} - \bar{z} \rangle)^2$$
  (14.100)
 
-over  $z_1, z_2, \ldots, z_N \in \mathbb{R}^k$ . This is attractive because there is an explicit solution in terms of eigenvectors: see Exercise 14.11. If we have distances rather than inner-products, we can convert them to centered inner-products if the distances are *Euclidean*;<sup>14</sup> see (18.31) on page 671 in Chapter 18. If the similarities are in fact centered inner-products, classical scaling is exactly equivalent to principal components, an inherently linear dimension-reduction technique. Classical scaling is not equivalent to least squares scaling; the loss functions are different, and the mapping can be nonlinear.
+over  $z_1, z_2, \ldots, z_N \in \mathbb{R}^k$ . This is attractive because there is an explicit solution in terms of eigenvectors: see Exercise 14.11. If we have distances rather than inner-products, we can convert them to centered inner-products if the distances are *Euclidean*;$^{14}$ see (18.31) on page 671 in Chapter 18. If the similarities are in fact centered inner-products, classical scaling is exactly equivalent to principal components, an inherently linear dimension-reduction technique. Classical scaling is not equivalent to least squares scaling; the loss functions are different, and the mapping can be nonlinear.
 
 Least squares and classical scaling are referred to as *metric* scaling methods, in the sense that the actual dissimilarities or similarities are approximated. *Shephard–Kruskal nonmetric scaling* effectively uses only ranks. Nonmetric scaling seeks to minimize the stress function
 
@@ -1560,7 +1562,7 @@ over the  $z_i$  and an arbitrary increasing function  $\theta$ . With  $\theta$
 
 Like the self-organizing map and principal surfaces, multidimensional scaling represents high-dimensional data in a low-dimensional coordinate system. Principal surfaces and SOMs go a step further, and approximate the original data by a low-dimensional manifold, parametrized in the low dimensional coordinate system. In a principal surface and SOM, points
 
- $<sup>^{14}{\</sup>rm An}~N\times N$  distance matrix is Euclidean if the entries represent pairwise Euclidean distances between N points in some dimensional space.
+ $$^{^{14}{\}$rm An}~N\times N$  distance matrix is Euclidean if the entries represent pairwise Euclidean distances between N points in some dimensional space.
 
 ![Classical MDS on half-sphere data](../figures/_page_590_Figure_2.jpeg)
 
@@ -1622,11 +1624,11 @@ FIGURE 14.45. Images of faces mapped into the embedding space described by the f
 $$S_L(z_1, z_2, \dots, z_N) = \sum_{(i, i') \in \mathcal{N}} (d_{ii'} - ||z_i - z_{i'}||)^2 - \tau \sum_{(i, i') \notin \mathcal{N}} ||z_i - z_{i'}||,$$
 (14.106)
 
-where τ = 2wD. The first term in (14.106) tries to preserve local structure in the data, while the second term encourages the representations z<sup>i</sup> , z<sup>i</sup> ′ for pairs (i, i′ ) that are non-neighbors to be farther apart. Local MDS minimizes the stress function (14.106) over z<sup>i</sup> , for fixed values of the number of neighbors K and the tuning parameter τ .
+where $\tau$ = 2wD. The first term in (14.106) tries to preserve local structure in the data, while the second term encourages the representations z$^{i}$ , z$^{i}$ ′ for pairs (i, i′ ) that are non-neighbors to be farther apart. Local MDS minimizes the stress function (14.106) over z$^{i}$ , for fixed values of the number of neighbors K and the tuning parameter $\tau$ .
 
-The right panel of Figure 14.44 shows the result of local MDS, using k = 2 neighbors and τ = 0.01. We used coordinate descent with multiple starting values to find a good minimum of the (nonconvex) stress function (14.106). The ordering of the points along the curve has been largely preserved,
+The right panel of Figure 14.44 shows the result of local MDS, using k = 2 neighbors and $\tau$ = 0.01. We used coordinate descent with multiple starting values to find a good minimum of the (nonconvex) stress function (14.106). The ordering of the points along the curve has been largely preserved,
 
-Figure 14.45 shows a more interesting application of one of these methods (LLE)15. The data consist of 1965 photographs, digitized as 20 <sup>×</sup> <sup>28</sup> grayscale images. The result of the first two-coordinates of LLE are shown and reveal some variability in pose and expression. Similar pictures were produced by local MDS.
+Figure 14.45 shows a more interesting application of one of these methods (LLE)15. The data consist of 1965 photographs, digitized as 20 $^{\times}$ $^{28}$ grayscale images. The result of the first two-coordinates of LLE are shown and reveal some variability in pose and expression. Similar pictures were produced by local MDS.
 
 In experiments reported in Chen and Buja (2008), local MDS shows superior performance, as compared to ISOMAP and LLE. They also demonstrate the usefulness of local MDS for graph layout. There are also close connections between the methods discussed here, spectral clustering (Section 14.5.3) and kernel PCA (Section 14.5.4).
 
@@ -1638,7 +1640,7 @@ We suppose that we have N web pages and wish to rank them in terms of importance
 
 The PageRank algorithm considers a webpage to be important if many other webpages point to it. However the linking webpages that point to a given page are not treated equally: the algorithm also takes into account both the importance (PageRank) of the linking pages and the number of outgoing links that they have. Linking pages with higher PageRank are given more weight, while pages with more outgoing links are given less weight. These ideas lead to a recursive definition for PageRank, detailed next.
 
-<sup>15</sup>Sam Roweis and Lawrence Saul kindly provided this figure.
+$^{15}$Sam Roweis and Lawrence Saul kindly provided this figure.
 
 Let  $L_{ij} = 1$  if page j points to page i, and zero otherwise. Let  $c_j = \sum_{i=1}^{N} L_{ij}$  equal the number of pages pointed to by page j (number of outlinks). Then the Google  $PageRanks\ p_i$  are defined by the recursive relationship
 
@@ -1731,19 +1733,33 @@ Ex. 14.5 Generate data with three features, with 30 data points in each of three
 ```
 = U(-\pi/8, \pi/8)
 \theta_1
-      = U(0, 2\pi)
+$$
+= U(0, 2\pi)
+$$
 \phi_1
-      = \sin(\theta_1)\cos(\phi_1) + W_{11}
+$$
+= \sin(\theta_1)\cos(\phi_1) + W_{11}
+$$
 x_1
-      = \sin(\theta_1)\sin(\phi_1) + W_{12}
+$$
+= \sin(\theta_1)\sin(\phi_1) + W_{12}
+$$
 y_1
-      = \cos(\theta_1) + W_{13}
+$$
+= \cos(\theta_1) + W_{13}
+$$
 z_1
 \theta_2
-      = U(\pi/2 - \pi/4, \pi/2 + \pi/4)
-      = U(-\pi/4, \pi/4)
+$$
+= U(\pi/2 - \pi/4, \pi/2 + \pi/4)
+$$
+$$
+= U(-\pi/4, \pi/4)
+$$
 \phi_2
-      = \sin(\theta_2)\cos(\phi_2) + W_{21}
+$$
+= \sin(\theta_2)\cos(\phi_2) + W_{21}
+$$
 x_2
       =
             \sin(\theta_2)\sin(\phi_2) + W_{22}
@@ -1752,9 +1768,13 @@ y_2
 22
             U(\pi/2 - \pi/4, \pi/2 + \pi/4)
 \theta_3
-      = U(\pi/2 - \pi/4, \pi/2 + \pi/4)
+$$
+= U(\pi/2 - \pi/4, \pi/2 + \pi/4)
+$$
 \phi_3
-      = \sin(\theta_3)\cos(\phi_3) + W_{31}
+$$
+= \sin(\theta_3)\cos(\phi_3) + W_{31}
+$$
 x_3
       =
             \sin(\theta_3)\sin(\phi_3) + W_{32}
@@ -1789,7 +1809,7 @@ Ex. 14.11 Classical multidimensional scaling. Let **S** be the centered inner pr
 Ex. 14.12 Consider the sparse PCA criterion (14.71).
 
 - 1. Show that with  $\Theta$  fixed, solving for  $\mathbf{V}$  amounts to K separate elasticnet regression problems, with responses the K elements of  $\Theta^T x_i$ .
-- 2. Show that with  ${\bf V}$  fixed, solving for  ${\bf \Theta}$  amounts to a reduced-rank version of the Procrustes problem, which reduces to
+- 2. Show that with  ${\mathbf V}$  fixed, solving for  ${\mathbf \Theta}$  amounts to a reduced-rank version of the Procrustes problem, which reduces to
 
 $$\max_{\mathbf{\Theta}} \operatorname{trace}(\mathbf{\Theta}^T \mathbf{M}) \text{ subject to } \mathbf{\Theta}^T \mathbf{\Theta} = \mathbf{I}_K, \tag{14.116}$$
 
@@ -1881,7 +1901,7 @@ $$- \sum_{i=1}^{N} \sum_{j=1}^{p} \sum_{k=1}^{r} w_{ik} h_{kj}$$
 
 minorizes L(W, H).
 
-(c) Set the partial derivatives of <sup>g</sup>(W, <sup>H</sup> <sup>|</sup> <sup>W</sup><sup>s</sup> , H<sup>s</sup> ) to zero and hence derive the updating steps (14.74).
+(c) Set the partial derivatives of $^{g}$(W, $^{H}$ $^{|}$ $^{W}$$^{s}$ , H$^{s}$ ) to zero and hence derive the updating steps (14.74).
 
 Ex. 14.24 Consider the non-negative matrix factorization (14.72) in the rank one case (r = 1).
 
@@ -1892,7 +1912,7 @@ $$w_{i} \leftarrow w_{i} \frac{\sum_{j=1}^{p} x_{ij}}{\sum_{j=1}^{p} w_{i} h_{j}
 $$h_{j} \leftarrow h_{j} \frac{\sum_{i=1}^{N} x_{ij}}{\sum_{i=1}^{N} w_{i} h_{j}}$$
 (14.121)
 
-where w<sup>i</sup> = wi1, h<sup>j</sup> = h1<sup>j</sup> . This is an example of the iterative proportional scaling procedure, applied to the independence model for a two-way contingency table (Fienberg, 1977, for example).
+where w$^{i}$ = wi1, h$^{j}$ = h1$^{j}$ . This is an example of the iterative proportional scaling procedure, applied to the independence model for a two-way contingency table (Fienberg, 1977, for example).
 
 (b) Show that the final iterates have the explicit form
 

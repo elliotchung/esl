@@ -6,7 +6,7 @@ We have already made use of models linear in the input features, both for regres
 
 In this chapter and the next we discuss popular methods for moving beyond linearity. The core idea in this chapter is to augment/replace the vector of inputs X with additional variables, which are transformations of X, and then use linear models in this new space of derived input features.
 
-Denote by hm(X) : IR<sup>p</sup> 7→ IR the mth transformation of X, m = 1, . . . , M. We then model
+Denote by hm(X) : IR$^{p}$ 7$\to$ IR the mth transformation of X, m = 1, . . . , M. We then model
 
 $$f(X) = \sum_{m=1}^{M} \beta_m h_m(X),$$
  (5.1)
@@ -69,7 +69,7 @@ $$h_1(X) = 1, \quad h_3(X) = X^2, \quad h_5(X) = (X - \xi_1)_+^3,$$
 
 There are six basis functions corresponding to a six-dimensional linear space of functions. A quick check confirms the parameter count:  $(3 \text{ regions}) \times (4 \text{ parameters per region}) - (2 \text{ knots}) \times (3 \text{ constraints per knot}) = 6.$ 
 
-More generally, an order-M spline with knots ξ<sup>j</sup> , j = 1, . . . , K is a piecewise-polynomial of order M, and has continuous derivatives up to order M − 2. A cubic spline has M = 4. In fact the piecewise-constant function in Figure 5.1 is an order-1 spline, while the continuous piecewise linear function is an order-2 spline. Likewise the general form for the truncated-power basis set would be
+More generally, an order-M spline with knots ξ$^{j}$ , j = 1, . . . , K is a piecewise-polynomial of order M, and has continuous derivatives up to order M − 2. A cubic spline has M = 4. In fact the piecewise-constant function in Figure 5.1 is an order-1 spline, while the continuous piecewise linear function is an order-2 spline. Likewise the general form for the truncated-power basis set would be
 
 $$h_j(X) = X^{j-1}, j = 1, \dots, M,$$
   
@@ -77,7 +77,7 @@ $$h_j(X) = X^{j-1}, j = 1, \dots, M,$$
 
 It is claimed that cubic splines are the lowest-order spline for which the knot-discontinuity is not visible to the human eye. There is seldom any good reason to go beyond cubic-splines, unless one is interested in smooth derivatives. In practice the most widely used orders are M = 1, 2 and 4.
 
-These fixed-knot splines are also known as regression splines. One needs to select the order of the spline, the number of knots and their placement. One simple approach is to parameterize a family of splines by the number of basis functions or degrees of freedom, and have the observations x<sup>i</sup> determine the positions of the knots. For example, the expression bs(x,df=7) in R generates a basis matrix of cubic-spline functions evaluated at the N observations in <sup>x</sup>, with the 7−3 = 4<sup>1</sup> interior knots at the appropriate percentiles of x (20, 40, 60 and 80th.) One can be more explicit, however; bs(x, degree=1, knots = c(0.2, 0.4, 0.6)) generates a basis for linear splines, with three interior knots, and returns an N × 4 matrix.
+These fixed-knot splines are also known as regression splines. One needs to select the order of the spline, the number of knots and their placement. One simple approach is to parameterize a family of splines by the number of basis functions or degrees of freedom, and have the observations x$^{i}$ determine the positions of the knots. For example, the expression bs(x,df=7) in R generates a basis matrix of cubic-spline functions evaluated at the N observations in $^{x}$, with the 7−3 = 4$^{1}$ interior knots at the appropriate percentiles of x (20, 40, 60 and 80th.) One can be more explicit, however; bs(x, degree=1, knots = c(0.2, 0.4, 0.6)) generates a basis for linear splines, with three interior knots, and returns an N $\times$ 4 matrix.
 
 Since the space of spline functions of a particular order and knot sequence is a vector space, there are many equivalent bases for representing them (just as there are for ordinary polynomials.) While the truncated power basis is conceptually simple, it is not too attractive numerically: powers of large numbers can lead to severe rounding problems. The B-spline basis, described in the Appendix to this chapter, allows for efficient computations even when the number of knots K is large.
 
@@ -85,7 +85,7 @@ Since the space of spline functions of a particular order and knot sequence is a
 
 We know that the behavior of polynomials fit to data tends to be erratic near the boundaries, and extrapolation can be dangerous. These problems are exacerbated with splines. The polynomials fit beyond the boundary knots behave even more wildly than the corresponding global polynomials in that region. This can be conveniently summarized in terms of the pointwise variance of spline functions fit by least squares (see the example in the next section for details on these variance calculations). Figure 5.3 compares
 
-<sup>1</sup>A cubic spline with four knots is eight-dimensional. The bs() function omits by default the constant term in the basis, since terms like this are typically included with other terms in the model.
+$^{1}$A cubic spline with four knots is eight-dimensional. The bs() function omits by default the constant term in the basis, since terms like this are typically included with other terms in the model.
 
 ![FIGURE 5.3](../figures/_page_163_Figure_2.jpeg)
 
@@ -183,9 +183,9 @@ In the previous example, we constructed a  $p \times M$  basis matrix  $\mathbf{
 
 Preprocessing of high-dimensional features is a very general and powerful method for improving the performance of a learning algorithm. The preprocessing need not be linear as it was above, but can be a general
 
-(nonlinear) function of the form x <sup>∗</sup> = g(x). The derived features x ∗ can then be used as inputs into any (linear or nonlinear) learning procedure.
+(nonlinear) function of the form x $^{∗}$ = g(x). The derived features x ∗ can then be used as inputs into any (linear or nonlinear) learning procedure.
 
-For example, for signal or image recognition a popular approach is to first transform the raw features via a wavelet transform x <sup>∗</sup> = H<sup>T</sup> x (Section 5.9) and then use the features x <sup>∗</sup> as inputs into a neural network (Chapter 11). Wavelets are effective in capturing discrete jumps or edges, and the neural network is a powerful tool for constructing nonlinear functions of these features for predicting the target variable. By using domain knowledge to construct appropriate features, one can often improve upon a learning method that has only the raw features x at its disposal.
+For example, for signal or image recognition a popular approach is to first transform the raw features via a wavelet transform x $^{∗}$ = H$^{T}$ x (Section 5.9) and then use the features x $^{∗}$ as inputs into a neural network (Chapter 11). Wavelets are effective in capturing discrete jumps or edges, and the neural network is a powerful tool for constructing nonlinear functions of these features for predicting the target variable. By using domain knowledge to construct appropriate features, one can often improve upon a learning method that has only the raw features x at its disposal.
 
 # 5.4 Smoothing Splines
 
@@ -194,15 +194,15 @@ Here we discuss a spline basis method that avoids the knot selection problem com
 $$RSS(f,\lambda) = \sum_{i=1}^{N} \{y_i - f(x_i)\}^2 + \lambda \int \{f''(t)\}^2 dt,$$
  (5.9)
 
-where λ is a fixed smoothing parameter. The first term measures closeness to the data, while the second term penalizes curvature in the function, and λ establishes a tradeoff between the two. Two special cases are:
+where $\lambda$ is a fixed smoothing parameter. The first term measures closeness to the data, while the second term penalizes curvature in the function, and $\lambda$ establishes a tradeoff between the two. Two special cases are:
 
-λ = 0 : f can be any function that interpolates the data.
+$\lambda$ = 0 : f can be any function that interpolates the data.
 
-λ = ∞ : the simple least squares line fit, since no second derivative can be tolerated.
+$\lambda$ = $\infty$ : the simple least squares line fit, since no second derivative can be tolerated.
 
-These vary from very rough to very smooth, and the hope is that λ ∈ (0,∞) indexes an interesting class of functions in between.
+These vary from very rough to very smooth, and the hope is that $\lambda$ $\in$ (0,$\infty$) indexes an interesting class of functions in between.
 
-The criterion (5.9) is defined on an infinite-dimensional function space in fact, a Sobolev space of functions for which the second term is defined. Remarkably, it can be shown that (5.9) has an explicit, finite-dimensional, unique minimizer which is a natural cubic spline with knots at the unique values of the x<sup>i</sup> , i = 1, . . . , N (Exercise 5.7). At face value it seems that the family is still over-parametrized, since there are as many as N knots, which implies N degrees of freedom. However, the penalty term translates to a penalty on the spline coefficients, which are shrunk some of the way toward the linear fit.
+The criterion (5.9) is defined on an infinite-dimensional function space in fact, a Sobolev space of functions for which the second term is defined. Remarkably, it can be shown that (5.9) has an explicit, finite-dimensional, unique minimizer which is a natural cubic spline with knots at the unique values of the x$^{i}$ , i = 1, . . . , N (Exercise 5.7). At face value it seems that the family is still over-parametrized, since there are as many as N knots, which implies N degrees of freedom. However, the penalty term translates to a penalty on the spline coefficients, which are shrunk some of the way toward the linear fit.
 
 Since the solution is a natural spline, we can write it as
 
@@ -436,7 +436,7 @@ FIGURE 5.10. A tensor product basis of B-splines, showing some selected pairs. E
 
 Figure 5.10 illustrates a tensor product basis using B-splines. The coefficients can be fit by least squares, as before. This can be generalized to d dimensions, but note that the dimension of the basis grows exponentially fast—yet another manifestation of the curse of dimensionality. The MARS procedure discussed in Chapter 9 is a greedy forward algorithm for including only those tensor products that are deemed necessary by least squares.
 
-Figure 5.11 illustrates the difference between additive and tensor product (natural) splines on the simulated classification example from Chapter 2. A logistic regression model logit[Pr(T|x)] = h(x) T θ is fit to the binary response, and the estimated decision boundary is the contour h(x) <sup>T</sup> ˆθ = 0. The tensor product basis can achieve more flexibility at the decision boundary, but introduces some spurious structure along the way.
+Figure 5.11 illustrates the difference between additive and tensor product (natural) splines on the simulated classification example from Chapter 2. A logistic regression model logit[Pr(T|x)] = h(x) T $\theta$ is fit to the binary response, and the estimated decision boundary is the contour h(x) $^{T}$ ˆ$\theta$ = 0. The tensor product basis can achieve more flexibility at the decision boundary, but introduces some spurious structure along the way.
 
 #### Additive Natural Cubic Splines - 4 df each
 
@@ -485,7 +485,7 @@ More generally one can represent  $f \in \mathbb{R}^d$  as an expansion in any a
 
 growth in basis functions as the dimension increases, and typically we have to reduce the number of functions per coordinate accordingly.
 
-The additive spline models discussed in Chapter 9 are a restricted class of multidimensional splines. They can be represented in this general formulation as well; that is, there exists a penalty J[f] that guarantees that the solution has the form f(X) = α + f1(X1) + · · · + fd(Xd) and that each of the functions f<sup>j</sup> are univariate splines. In this case the penalty is somewhat degenerate, and it is more natural to assume that f is additive, and then simply impose an additional penalty on each of the component functions:
+The additive spline models discussed in Chapter 9 are a restricted class of multidimensional splines. They can be represented in this general formulation as well; that is, there exists a penalty J[f] that guarantees that the solution has the form f(X) = $\alpha$ + f1(X1) + $\cdot$ $\cdot$ $\cdot$ + fd(Xd) and that each of the functions f$^{j}$ are univariate splines. In this case the penalty is somewhat degenerate, and it is more natural to assume that f is additive, and then simply impose an additional penalty on each of the component functions:
 
 $$J[f] = J(f_1 + f_2 + \dots + f_d)$$
 
@@ -663,7 +663,7 @@ Figure 5.13 illustrates radial kernels in  $\mathbb{R}^1$  using the first coord
 
 Figure 5.14 illustrates the implicit feature space for the radial kernel with  $x \in \mathbb{R}^1$ . We computed the  $200 \times 200$  kernel matrix  $\mathbf{K}$ , and its eigendecomposition  $\mathbf{\Phi}\mathbf{D}_{\gamma}\mathbf{\Phi}^T$ . We can think of the columns of  $\mathbf{\Phi}$  and the corresponding eigenvalues in  $\mathbf{D}_{\gamma}$  as empirical estimates of the eigen expansion  $(5.45)^2$ . Although the eigenvectors are discrete, we can represent them as functions on  $\mathbb{R}^1$  (Exercise 5.17). Figure 5.15 shows the largest 50 eigenvalues of  $\mathbf{K}$ . The leading eigenfunctions are smooth, and they are successively more wiggly as the order increases. This brings to life the penalty in (5.49), where we see the coefficients of higher-order functions get penalized more than lower-order ones. The right panel in Figure 5.14 shows the correspond-
 
-<sup>&</sup>lt;sup>2</sup>The  $\ell$ th column of  $\Phi$  is an estimate of  $\phi_{\ell}$ , evaluated at each of the N observations. Alternatively, the ith row of  $\Phi$  is the estimated vector of basis functions  $\phi(x_i)$ , evaluated at the point  $x_i$ . Although in principle, there can be infinitely many elements in  $\phi$ , our estimate has at most N elements.
+$ ^{2} $The  $\ell$ th column of  $\Phi$  is an estimate of  $\phi_{\ell}$ , evaluated at each of the N observations. Alternatively, the ith row of  $\Phi$  is the estimated vector of basis functions  $\phi(x_i)$ , evaluated at the point  $x_i$ . Although in principle, there can be infinitely many elements in  $\phi$ , our estimate has at most N elements.
 
 ![FIGURE 5.14](../figures/_page_191_Figure_2.jpeg)
 
@@ -783,7 +783,7 @@ Notice the similarity between the SURE criterion (5.68) on page 179, and the smo
 
 More generally smoothing splines achieve compression of the original signal by imposing smoothness, while wavelets impose sparsity. Figure 5.19 compares a wavelet fit (using SURE shrinkage) to a smoothing spline fit (using cross-validation) on two examples different in nature. For the NMR data in the upper panel, the smoothing spline introduces detail everywhere in order to capture the detail in the isolated spikes; the wavelet fit nicely localizes the spikes. In the lower panel, the true function is smooth, and the noise is relatively high. The wavelet fit has let in some additional and unnecessary wiggles—a price it pays in variance for the additional adaptivity.
 
-The wavelet transform is not performed by matrix multiplication as in y <sup>∗</sup> = W<sup>T</sup> y. In fact, using clever pyramidal schemes y ∗ can be obtained in O(N) computations, which is even faster than the N log(N) of the fast Fourier transform (FFT). While the general construction is beyond the scope of this book, it is easy to see for the Haar basis (Exercise 5.19). Likewise, the inverse wavelet transform Wθˆ is also O(N).
+The wavelet transform is not performed by matrix multiplication as in y $^{∗}$ = W$^{T}$ y. In fact, using clever pyramidal schemes y ∗ can be obtained in O(N) computations, which is even faster than the N log(N) of the fast Fourier transform (FFT). While the general construction is beyond the scope of this book, it is easy to see for the Haar basis (Exercise 5.19). Likewise, the inverse wavelet transform W$\theta$ˆ is also O(N).
 
 This has been a very brief glimpse of this vast and growing field. There is a very large mathematical and computational base built on wavelets. Modern image compression is often performed using two-dimensional wavelet representations.
 
@@ -831,7 +831,7 @@ Ex. 5.6 Suppose you wish to fit a periodic function, with a known period T. Desc
 
 Ex. 5.7 Derivation of smoothing splines (Green and Silverman, 1994). Suppose that  $N \geq 2$ , and that g is the natural cubic spline interpolant to the pairs  $\{x_i, z_i\}_1^N$ , with  $a < x_1 < \cdots < x_N < b$ . This is a natural spline
 
-with a knot at every x<sup>i</sup> ; being an N-dimensional space of functions, we can determine the coefficients such that it interpolates the sequence z<sup>i</sup> exactly. Let ˜g be any other differentiable function on [a, b] that interpolates the N pairs.
+with a knot at every x$^{i}$ ; being an N-dimensional space of functions, we can determine the coefficients such that it interpolates the sequence z$^{i}$ exactly. Let ˜g be any other differentiable function on [a, b] that interpolates the N pairs.
 
 (a) Let h(x) = ˜g(x) − g(x). Use integration by parts and the fact that g is a natural cubic spline to show that
 
@@ -848,13 +848,13 @@ and that equality can only hold if h is identically zero in [a, b].
 
 $$\min_{f} \left[ \sum_{i=1}^{N} (y_i - f(x_i))^2 + \lambda \int_{a}^{b} f''(t)^2 dt \right].$$
 
-Use (b) to argue that the minimizer must be a cubic spline with knots at each of the x<sup>i</sup> .
+Use (b) to argue that the minimizer must be a cubic spline with knots at each of the x$^{i}$ .
 
 Ex. 5.8 In the appendix to this chapter we show how the smoothing spline computations could be more efficiently carried out using a (N + 4) dimensional basis of B-splines. Describe a slightly simpler scheme using a (N + 2) dimensional B-spline basis defined on the N − 2 interior knots.
 
-Ex. 5.9 Derive the Reinsch form S<sup>λ</sup> = (I+λK) −1 for the smoothing spline.
+Ex. 5.9 Derive the Reinsch form S$^{\lambda}$ = (I+$\lambda$K) −1 for the smoothing spline.
 
-Ex. 5.10 Derive an expression for Var( ˆfλ(x0)) and bias( ˆfλ(x0)). Using the example (5.22), create a version of Figure 5.9 where the mean and several (pointwise) quantiles of ˆfλ(x) are shown.
+Ex. 5.10 Derive an expression for Var( ˆf$\lambda$(x0)) and bias( ˆf$\lambda$(x0)). Using the example (5.22), create a version of Figure 5.9 where the mean and several (pointwise) quantiles of ˆf$\lambda$(x) are shown.
 
 Ex. 5.11 Prove that for a smoothing spline the null space of K is spanned by functions linear in X.
 
@@ -863,7 +863,7 @@ Ex. 5.12 Characterize the solution to the following problem,
 $$\min_{f} RSS(f, \lambda) = \sum_{i=1}^{N} w_i \{y_i - f(x_i)\}^2 + \lambda \int \{f''(t)\}^2 dt,$$
  (5.73)
 
-where the w<sup>i</sup> ≥ 0 are observation weights.
+where the w$^{i}$ $\ge$ 0 are observation weights.
 
 Characterize the solution to the smoothing spline problem (5.9) when the training data have ties in X.
 
@@ -915,7 +915,7 @@ Ex. 5.17 Show how to convert the discrete eigen-decomposition of K in Section 5.
 
 Ex. 5.18 The wavelet function ψ(x) of the symmlet-p wavelet basis has vanishing moments up to order p. Show that this implies that polynomials of order p are represented exactly in V0, defined on page 176.
 
-Ex. 5.19 Show that the Haar wavelet transform of a signal of length N = 2<sup>J</sup> can be computed in O(N) computations.
+Ex. 5.19 Show that the Haar wavelet transform of a signal of length N = 2$^{J}$ can be computed in O(N) computations.
 
 # Appendix: Computations for Splines
 
@@ -925,15 +925,15 @@ In this Appendix, we describe the B-spline basis for representing polynomial spl
 
 ## B-splines
 
-Before we can get started, we need to augment the knot sequence defined in Section 5.2. Let ξ<sup>0</sup> < ξ<sup>1</sup> and ξ<sup>K</sup> < ξK+1 be two boundary knots, which typically define the domain over which we wish to evaluate our spline. We now define the augmented knot sequence τ such that
+Before we can get started, we need to augment the knot sequence defined in Section 5.2. Let ξ$^{0}$ < ξ$^{1}$ and ξ$^{K}$ < ξK+1 be two boundary knots, which typically define the domain over which we wish to evaluate our spline. We now define the augmented knot sequence $\tau$ such that
 
-- τ<sup>1</sup> ≤ τ<sup>2</sup> ≤ · · · ≤ τ<sup>M</sup> ≤ ξ0;
-- τj+<sup>M</sup> = ξ<sup>j</sup> , j = 1, · · · , K;
-- ξK+1 ≤ τK+M+1 ≤ τK+M+2 ≤ · · · ≤ τK+2M.
+- $\tau$$^{1}$ $\le$ $\tau$$^{2}$ $\le$ $\cdot$ $\cdot$ $\cdot$ $\le$ $\tau$$^{M}$ $\le$ ξ0;
+- $\tau$j+$^{M}$ = ξ$^{j}$ , j = 1, $\cdot$ $\cdot$ $\cdot$ , K;
+- ξK+1 $\le$ $\tau$K+M+1 $\le$ $\tau$K+M+2 $\le$ $\cdot$ $\cdot$ $\cdot$ $\le$ $\tau$K+2M.
 
-The actual values of these additional knots beyond the boundary are arbitrary, and it is customary to make them all the same and equal to ξ<sup>0</sup> and ξK+1, respectively.
+The actual values of these additional knots beyond the boundary are arbitrary, and it is customary to make them all the same and equal to ξ$^{0}$ and ξK+1, respectively.
 
-Denote by Bi,m(x) the ith B-spline basis function of order m for the knot-sequence τ , m ≤ M. They are defined recursively in terms of divided differences as follows:
+Denote by Bi,m(x) the ith B-spline basis function of order m for the knot-sequence $\tau$ , m $\le$ M. They are defined recursively in terms of divided differences as follows:
 
 $$B_{i,1}(x) = \begin{cases} 1 & \text{if } \tau_i \le x < \tau_{i+1} \\ 0 & \text{otherwise} \end{cases}$$
  (5.77)

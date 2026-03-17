@@ -8,21 +8,21 @@ To get us started, Figure 18.1 summarizes a small simulation study that demonstr
 
 $$Y = \sum_{j=1}^{p} X_j \beta_j + \sigma \varepsilon \tag{18.1}$$
 
-where ε was generated from a standard Gaussian distribution. For each dataset, the set of coefficients β<sup>j</sup> were also generated from a standard Gaussian distribution. We investigated three cases: p = 20, 100, and 1000. The standard deviation σ was chosen in each case so that the signal-to-noise ratio Var[E(<sup>Y</sup> <sup>|</sup>X)]/σ<sup>2</sup> equaled 2. As a result, the number of significant uni-
+where $\epsilon$ was generated from a standard Gaussian distribution. For each dataset, the set of coefficients $\beta$$^{j}$ were also generated from a standard Gaussian distribution. We investigated three cases: p = 20, 100, and 1000. The standard deviation $\sigma$ was chosen in each case so that the signal-to-noise ratio Var[E($^{Y}$ $^{|}$X)]/$\sigma$$^{2}$ equaled 2. As a result, the number of significant uni-
 
 ![Figure 18.1: Test-error results for simulation experiments](../figures/_page_668_Figure_2.jpeg)
 
 **FIGURE 18.1.** Test-error results for simulation experiments. Shown are boxplots of the relative test errors over 100 simulations, for three different values of p, the number of features. The relative error is the test error divided by the Bayes error,  $\sigma^2$ . From left to right, results are shown for ridge regression with three different values of the regularization parameter  $\lambda$ : 0.001, 100 and 1000. The (average) effective degrees of freedom in the fit is indicated below each plot.
 
-variate regression coefficients<sup>1</sup> was 9, 33 and 331, respectively, averaged over the 100 simulation runs. The p=1000 case is designed to mimic the kind of data that we might see in a high-dimensional genomic or proteomic dataset, for example.
+variate regression coefficients$^{1}$ was 9, 33 and 331, respectively, averaged over the 100 simulation runs. The p=1000 case is designed to mimic the kind of data that we might see in a high-dimensional genomic or proteomic dataset, for example.
 
 We fit a ridge regression to the data, with three different values for the regularization parameter  $\lambda$ : 0.001, 100, and 1000. When  $\lambda=0.001$ , this is nearly the same as least squares regression, with a little regularization just to ensure that the problem is non-singular when p>N. Figure 18.1 shows boxplots of the relative test error achieved by the different estimators in each scenario. The corresponding average degrees of freedom used in each ridge-regression fit is indicated (computed using formula (3.50) on page  $68^2$ ). The degrees of freedom is a more interpretable parameter than  $\lambda$ . We see that ridge regression with  $\lambda=0.001$  (20 df) wins when p=20;  $\lambda=100$  (35 df) wins when p=100, and  $\lambda=1000$  (43 df) wins when p=1000.
 
 Here is an explanation for these results. When p = 20, we fit all the way and we can identify as many of the significant coefficients as possible with
 
-<sup>&</sup>lt;sup>1</sup>We call a regression coefficient significant if  $|\hat{\beta}_j/\hat{se}_j| \geq 2$ , where  $\hat{\beta}_j$  is the estimated (univariate) coefficient and  $\hat{se}_j$  is its estimated standard error.
+$ ^{1} $We call a regression coefficient significant if  $|\hat{\beta}_j/\hat{se}_j| \geq 2$ , where  $\hat{\beta}_j$  is the estimated (univariate) coefficient and  $\hat{se}_j$  is its estimated standard error.
 
-<sup>&</sup>lt;sup>2</sup>For a fixed value of the regularization parameter  $\lambda$ , the degrees of freedom depends on the observed predictor values in each simulation. Hence we compute the average degrees of freedom over simulations.
+$ ^{2} $For a fixed value of the regularization parameter  $\lambda$ , the degrees of freedom depends on the observed predictor values in each simulation. Hence we compute the average degrees of freedom over simulations.
 
 low bias. When p=100, we can identify some non-zero coefficients using moderate shrinkage. Finally, when p=1000, even though there are many nonzero coefficients, we don't have a hope for finding them and we need to shrink all the way down. As evidence of this, let  $t_j = \hat{\beta}_j/\hat{\text{se}}_j$ , where  $\hat{\beta}_j$  is the ridge regression estimate and  $\hat{\text{se}}_j$  its estimated standard error. Then using the optimal ridge parameter in each of the three cases, the median value of  $|t_j|$  was 2.0, 0.6 and 0.2, and the average number of  $|t_j|$  values exceeding 2 was equal to 9.8, 1.2 and 0.0.
 
@@ -108,7 +108,7 @@ available for 16,063 genes.
 
 Centroids: Average Expression Centered at Overall Centroid
 
-FIGURE 18.4. (Top): Error curves for the SRBCT data. Shown are the training, 10-fold cross-validation, and test misclassification errors as the threshold parameter ∆ is varied. The value ∆ = 4.34 is chosen by CV, resulting in a subset of 43 selected genes. (Bottom): Four centroids profiles dkj for the SRBCT data (gray), relative to the overall centroid. Each centroid has 2308 components, and we see considerable noise. The blue bars are shrunken versions d ′ kj of these centroids, obtained by soft-thresholding the gray bars, using ∆ = 4.3.
+FIGURE 18.4. (Top): Error curves for the SRBCT data. Shown are the training, 10-fold cross-validation, and test misclassification errors as the threshold parameter $\Delta$ is varied. The value $\Delta$ = 4.34 is chosen by CV, resulting in a subset of 43 selected genes. (Bottom): Four centroids profiles dkj for the SRBCT data (gray), relative to the overall centroid. Each centroid has 2308 components, and we see considerable noise. The blue bars are shrunken versions d ′ kj of these centroids, obtained by soft-thresholding the gray bars, using $\Delta$ = 4.3.
 
 **TABLE 18.1.** Prediction results for microarray data with 14 cancer classes. Method 1 is described in Section 18.2. Methods 2, 3 and 6 are discussed in Section 18.3, while 4, 7 and 8 are discussed in Section 18.4. Method 5 is described in Section 13.3. The elastic-net penalized multinomial does the best on the test data, but the standard error of each test-error estimate is about 3, so such comparisons are inconclusive.
 
@@ -242,11 +242,11 @@ $$\max_{\{\beta_{0k}, \beta_k \in \mathbb{R}^p\}_1^K} \left[ \sum_{i=1}^N \log \
 
 compare with (18.11). Their algorithm computes the exact solution at a pre-chosen sequence of values for  $\lambda$  by cyclical coordinate descent (Section 3.8.6), and exploits the fact that solutions are sparse when  $p \gg N$ ,
 
-as well as the fact that solutions for neighboring values of λ tend to be very similar. This method was used in line (7) of Table 18.1, with the overall tuning parameter λ chosen by cross-validation. The performance was similar to that of the best methods, except here the automatic feature selection chose 269 genes altogether. A similar approach is used in Genkin et al. (2007); although they present their model from a Bayesian point of view, they in fact compute the posterior mode, which solves the penalized maximum-likelihood problem.
+as well as the fact that solutions for neighboring values of $\lambda$ tend to be very similar. This method was used in line (7) of Table 18.1, with the overall tuning parameter $\lambda$ chosen by cross-validation. The performance was similar to that of the best methods, except here the automatic feature selection chose 269 genes altogether. A similar approach is used in Genkin et al. (2007); although they present their model from a Bayesian point of view, they in fact compute the posterior mode, which solves the penalized maximum-likelihood problem.
 
 ![Figure 18.5: Regularized logistic regression paths for the leukemia data](../figures/_page_680_Figure_3.jpeg)
 
-FIGURE 18.5. Regularized logistic regression paths for the leukemia data. The left panel is the lasso path, the right panel the elastic-net path with α = 0.8. At the ends of the path (extreme left), there are 19 nonzero coefficients for the lasso, and 39 for the elastic net. The averaging effect of the elastic net results in more non-zero coefficients than the lasso, but with smaller magnitudes.
+FIGURE 18.5. Regularized logistic regression paths for the leukemia data. The left panel is the lasso path, the right panel the elastic-net path with $\alpha$ = 0.8. At the ends of the path (extreme left), there are 19 nonzero coefficients for the lasso, and 39 for the elastic net. The averaging effect of the elastic net results in more non-zero coefficients than the lasso, but with smaller magnitudes.
 
 In genomic applications, there are often strong correlations among the variables; genes tend to operate in molecular pathways. The lasso penalty is somewhat indifferent to the choice among a set of strong but correlated variables (Exercise 3.28). The ridge penalty, on the other hand, tends to shrink the coefficients of correlated variables toward each other (Exercise 3.29 on page 99). The elastic net penalty (Zou and Hastie, 2005) is a compromise, and has the form
 
@@ -268,15 +268,15 @@ The parameter  $\alpha$  determines the mix of the penalties, and is often prech
 
 Figure 18.5 shows the lasso and elastic-net coefficient paths on the two-class leukemia data (Golub et al., 1999). There are 7129 gene-expression measurements on 38 samples, 27 of them in class ALL (acute lymphocytic leukemia), and 11 in class AML (acute myelogenous leukemia). There is also a test set with 34 samples (20, 14). Since the data are linearly separable, the solution is undefined at  $\lambda=0$  (Exercise 18.11), and degrades for very small values of  $\lambda$ . Hence the paths have been truncated as the fitted probabilities approach 0 and 1. There are 19 non-zero coefficients in the left plot, and 39 in the right. Figure 18.6 (left panel) shows the misclas-
 
-sification errors for the lasso logistic regression on the training and test data, as well as for 10-fold cross-validation on the training data. The right panel uses binomial deviance to measure errors, and is much smoother. The small sample sizes lead to considerable sampling variance in these curves, even though individual curves are relatively smooth (see, for example, Figure 7.1 on page 220). Both of these plots suggest that the limiting solution λ ↓ 0 is adequate, leading to 3/34 misclassifications in the test set. The corresponding figures for the elastic net are qualitatively similar and are not shown.
+sification errors for the lasso logistic regression on the training and test data, as well as for 10-fold cross-validation on the training data. The right panel uses binomial deviance to measure errors, and is much smoother. The small sample sizes lead to considerable sampling variance in these curves, even though individual curves are relatively smooth (see, for example, Figure 7.1 on page 220). Both of these plots suggest that the limiting solution $\lambda$ ↓ 0 is adequate, leading to 3/34 misclassifications in the test set. The corresponding figures for the elastic net are qualitatively similar and are not shown.
 
-For p ≫ N, the limiting coefficients diverge for all regularized logistic regression models, so in practical software implementations a minimum value for λ > 0 is either explicitly or implicitly set. However, renormalized versions of the coefficients converge, and these limiting solutions can be thought of as interesting alternatives to the linear optimal separating hyperplane (SVM). With α = 0 the limiting solution coincides with the SVM (see end of Section 18.3.2), but all the 7129 genes are selected. With α = 1, the limiting solution coincides with an L<sup>1</sup> separating hyperplane (Rosset et al., 2004a), and includes at most 38 genes. As α decreases from 1, the elastic-net solutions include more genes in the separating hyperplane.
+For p ≫ N, the limiting coefficients diverge for all regularized logistic regression models, so in practical software implementations a minimum value for $\lambda$ > 0 is either explicitly or implicitly set. However, renormalized versions of the coefficients converge, and these limiting solutions can be thought of as interesting alternatives to the linear optimal separating hyperplane (SVM). With $\alpha$ = 0 the limiting solution coincides with the SVM (see end of Section 18.3.2), but all the 7129 genes are selected. With $\alpha$ = 1, the limiting solution coincides with an L$^{1}$ separating hyperplane (Rosset et al., 2004a), and includes at most 38 genes. As $\alpha$ decreases from 1, the elastic-net solutions include more genes in the separating hyperplane.
 
 #### 18.4.1 Application of Lasso to Protein Mass Spectroscopy
 
 Protein mass spectrometry has become a popular technology for analyzing the proteins in blood, and can be used to diagnose a disease or understand the processes underlying it.
 
-For each blood serum sample i, we observe the intensity xij for many time of flight values t<sup>j</sup> . This intensity is related to the number of particles observed to take approximately t<sup>j</sup> time to pass from the emitter to the detector during a cycle of operation of the machine. The time of flight has a known relationship to the mass over charge ratio (m/z) of the constituent proteins in the blood. Hence the identification of a peak in the spectrum at a certain t<sup>j</sup> tells us that there is a protein with a corresponding mass and charge. The identity of this protein can then be determined by other means.
+For each blood serum sample i, we observe the intensity xij for many time of flight values t$^{j}$ . This intensity is related to the number of particles observed to take approximately t$^{j}$ time to pass from the emitter to the detector during a cycle of operation of the machine. The time of flight has a known relationship to the mass over charge ratio (m/z) of the constituent proteins in the blood. Hence the identification of a peak in the spectrum at a certain t$^{j}$ tells us that there is a protein with a corresponding mass and charge. The identity of this protein can then be determined by other means.
 
 Figure 18.7 shows an example taken from Adam et al. (2003). It shows the average spectra for healthy patients and those with prostate cancer. There are 16,898 m/z sites in total, ranging in value from 2000 to 40,000. The full dataset consists of 157 healthy patients and 167 with cancer, and the goal is to find m/z sites that discriminate between the two groups. This is an example of functional data; the predictors can be viewed as a function of m/z. There has been much interest in this problem in the past few years; see e.g. Petricoin et al. (2002).
 
@@ -290,11 +290,11 @@ est shrunken centroids and lasso regression to the data, with the results for bo
 
 By fitting harder to the data, the lasso achieves a considerably lower test error rate. However, it may not provide a scientifically useful solution. Ideally, protein mass spectrometry resolves a biological sample into its constituent proteins, and these should appear as peaks in the spectra. The lasso doesn't treat peaks in any special way, so not surprisingly only some of the non-zero lasso weights were situated near peaks in the spectra. Furthermore, the same protein may yield a peak at slightly different m/z values in different spectra. In order to identify common peaks, some kind of m/z warping is needed from sample to sample.
 
-To address this, we applied a standard peak-extraction algorithm to each spectrum, yielding a total of 5178 peaks in the 217 training spectra. Our idea was to pool the collection of peaks from all patients, and hence construct a set of common peaks. For this purpose, we applied hierarchical clustering to the positions of these peaks along the log m/z axis. We cut the resulting dendrogram horizontally at height log(0.005)<sup>3</sup> , and computed averages of the peak positions in each resulting cluster. This process yielded 728 common clusters and their corresponding peak centers.
+To address this, we applied a standard peak-extraction algorithm to each spectrum, yielding a total of 5178 peaks in the 217 training spectra. Our idea was to pool the collection of peaks from all patients, and hence construct a set of common peaks. For this purpose, we applied hierarchical clustering to the positions of these peaks along the log m/z axis. We cut the resulting dendrogram horizontally at height log(0.005)$^{3}$ , and computed averages of the peak positions in each resulting cluster. This process yielded 728 common clusters and their corresponding peak centers.
 
-Given these 728 common peaks, we determined which of these were present in each individual spectrum, and if present, the height of the peak. A peak height of zero was assigned if that peak was not found. This produced a 217 × 728 matrix of peak heights as features, which was used in a lasso regression. We scored the test spectra for the same 728 peaks.
+Given these 728 common peaks, we determined which of these were present in each individual spectrum, and if present, the height of the peak. A peak height of zero was assigned if that peak was not found. This produced a 217 $\times$ 728 matrix of peak heights as features, which was used in a lasso regression. We scored the test spectra for the same 728 peaks.
 
-<sup>3</sup>Use of the value 0.005 means that peaks with positions less than 0.5% apart are considered the same peak, a fairly common assumption.
+$^{3}$Use of the value 0.005 means that peaks with positions less than 0.5% apart are considered the same peak, a fairly common assumption.
 
 | Method                        | Test Errors/108 | Number of Sites |
 |-------------------------------|-----------------|-----------------|
@@ -319,9 +319,9 @@ The above methods tend to smooth the coefficients uniformly. Here we present a m
 $$\min_{\beta \in \mathbb{R}^p} \left\{ \sum_{i=1}^N (y_i - \beta_0 - \sum_{j=1}^p x_{ij} \beta_j)^2 + \lambda_1 \sum_{j=1}^p |\beta_j| + \lambda_2 \sum_{j=1}^{p-1} |\beta_{j+1} - \beta_j| \right\}.$$
  (18.22)
 
-This criterion is strictly convex in β, so a unique solution exists. The first penalty encourages the solution to be sparse, while the second encourages it to be smooth in the index j.
+This criterion is strictly convex in $\beta$, so a unique solution exists. The first penalty encourages the solution to be sparse, while the second encourages it to be smooth in the index j.
 
-The difference penalty in (18.22) assumes an uniformly spaced index j. If instead the underlying index variable t has nonuniform values t<sup>j</sup> , a natural generalization of (18.22) would be based on divided differences
+The difference penalty in (18.22) assumes an uniformly spaced index j. If instead the underlying index variable t has nonuniform values t$^{j}$ , a natural generalization of (18.22) would be based on divided differences
 
 ![Figure 18.8: Fused lasso applied to CGH data](../figures/_page_685_Figure_2.jpeg)
 
@@ -343,7 +343,7 @@ There is also a two-dimensional version of the fused lasso, in which the paramet
 
 # 18.5 Classification When Features are Unavailable
 
-In some applications the objects under study are more abstract in nature, and it is not obvious how to define a feature vector. As long as we can fill in an N ×N proximity matrix of similarities between pairs of objects in our database, it turns out we can put to use many of the classifiers in our arsenal by interpreting the proximities as inner-products. Protein structures fall into this category, and we explore an example in Section 18.5.1 below.
+In some applications the objects under study are more abstract in nature, and it is not obvious how to define a feature vector. As long as we can fill in an N $\times$N proximity matrix of similarities between pairs of objects in our database, it turns out we can put to use many of the classifiers in our arsenal by interpreting the proximities as inner-products. Protein structures fall into this category, and we explore an example in Section 18.5.1 below.
 
 In other applications, such as document classification, feature vectors are available but can be extremely high-dimensional. Here we may not wish to compute with such high-dimensional data, but rather store the innerproducts between pairs of documents. Often these inner-products can be approximated by sampling techniques.
 
@@ -363,21 +363,21 @@ To construct our features, we count the number of times that a given sequence of
 
 $$\Phi_m(x) = \{\phi_a(x)\}_{a \in \mathcal{A}_m} \tag{18.25}$$
 
-where A<sup>m</sup> is the set of subsequences of length m, and φa(x) is the number of times that "a" occurs in our string x. Using this, we define the inner product
+where A$^{m}$ is the set of subsequences of length m, and φa(x) is the number of times that "a" occurs in our string x. Using this, we define the inner product
 
 $$K_m(x_1, x_2) = \langle \Phi_m(x_1), \Phi_m(x_2) \rangle, \qquad (18.26)$$
 
 which measures the similarity between the two strings x1, x2. This can be used to drive, for example, a support vector classifier for classifying strings into different protein classes.
 
-Now the number of possible sequences <sup>a</sup> is |Am<sup>|</sup> = 20m, which can be very large for moderate m, and the vast majority of the subsequences do not match the strings in our training set. It turns out that we can compute the N × N inner-product matrix or string kernel K<sup>m</sup> (18.26) efficiently using tree-structures, without actually computing the individual vectors. This methodology, and the data to follow, come from Leslie et al. (2004).<sup>4</sup>
+Now the number of possible sequences $^{a}$ is |Am$^{|}$ = 20m, which can be very large for moderate m, and the vast majority of the subsequences do not match the strings in our training set. It turns out that we can compute the N $\times$ N inner-product matrix or string kernel K$^{m}$ (18.26) efficiently using tree-structures, without actually computing the individual vectors. This methodology, and the data to follow, come from Leslie et al. (2004).$^{4}$
 
-The data consist of 1708 proteins in two classes— negative (1663) and positive (45). The two examples above, which we will call "x1" and "x2", are from this set. We have marked the occurrences of subsequence LQE, which appears in both proteins. There are 20<sup>3</sup> possible subsequences, so Φ3(x) will be a vector of length 8000. For this example φLQE(x1) = 1 and φLQE(x2) = 2.
+The data consist of 1708 proteins in two classes— negative (1663) and positive (45). The two examples above, which we will call "x1" and "x2", are from this set. We have marked the occurrences of subsequence LQE, which appears in both proteins. There are 20$^{3}$ possible subsequences, so $\Phi$3(x) will be a vector of length 8000. For this example φLQE(x1) = 1 and φLQE(x2) = 2.
 
-Using software from Leslie et al. (2004), we computed the string kernel for m = 4, which was then used in a support vector classifier to find the maximal margin solution in this 20<sup>4</sup> = 160, 000-dimensional feature space. We used 10-fold cross-validation to compute the SVM predictions on all of the training data. The orange curve in Figure 18.9 shows the cross-validated ROC curve for the support vector classifier, computed by varying the cutpoint on the real-valued predictions from the cross-validated support vector classifier. The area under the curve is 0.84. Leslie et al. (2004) show that the string kernel method is competitive with, but perhaps not as accurate as, more specialized methods for protein string matching.
+Using software from Leslie et al. (2004), we computed the string kernel for m = 4, which was then used in a support vector classifier to find the maximal margin solution in this 20$^{4}$ = 160, 000-dimensional feature space. We used 10-fold cross-validation to compute the SVM predictions on all of the training data. The orange curve in Figure 18.9 shows the cross-validated ROC curve for the support vector classifier, computed by varying the cutpoint on the real-valued predictions from the cross-validated support vector classifier. The area under the curve is 0.84. Leslie et al. (2004) show that the string kernel method is competitive with, but perhaps not as accurate as, more specialized methods for protein string matching.
 
 Many other classifiers can be computed using only the information in the kernel matrix; some details are given in the next section. The results for the nearest centroid classifier (green), and distance-weighted one-nearest neighbors (blue) are shown in Figure 18.9. Their performance is similar to that of the support vector classifier.
 
-<sup>4</sup>We thank Christina Leslie for her help and for providing the data, which is available on our book website.
+$^{4}$We thank Christina Leslie for her help and for providing the data, which is available on our book website.
 
 #### **ROC Curves for String Kernel**
 
@@ -396,7 +396,7 @@ $$||x_i - x_{i'}||^2 = \langle x_i, x_i \rangle + \langle x_{i'}, x_{i'} \rangle
 
 A variation of 1-NN classification is used in Figure 18.9, which produces a continuous discriminant score needed to construct a ROC curve. This distance-weighted 1-NN makes use of the distance of a test points to the closest member of each class; see Exercise 18.14.
 
-Nearest-centroid classification follows easily as well. For training pairs (x<sup>i</sup> , gi), i = 1, . . . , N, a test point x0, and class centroids ¯xk, k = 1, . . . , K we can write
+Nearest-centroid classification follows easily as well. For training pairs (x$^{i}$ , gi), i = 1, . . . , N, a test point x0, and class centroids ¯xk, k = 1, . . . , K we can write
 
 $$||x_0 - \bar{x}_k||^2 = \langle x_0, x_0 \rangle - \frac{2}{N_k} \sum_{g_i = k} \langle x_0, x_i \rangle + \frac{1}{N_k^2} \sum_{g_i = k} \sum_{g_{i'} = k} \langle x_i, x_{i'} \rangle, \quad (18.28)$$
 
@@ -456,7 +456,7 @@ Some of these terms make sense: for example "frequentist" and "Bayesian" reflect
 
 We then applied the support vector classifier with linear kernel and no regularization, using the "all pairs" (ovo) method to handle the three classes (regularization of the SVM did not improve its performance). The result is shown in Table 18.3. It does somewhat worse than the nearest shrunken centroid classifier.
 
-As mentioned, the first line of Table 18.3 represents nearest shrunken centroids (with no shrinkage). Denote by s<sup>j</sup> the pooled within-class standard deviation for feature j, and s<sup>0</sup> the median of the s<sup>j</sup> values. Then line (1) also corresponds to nearest centroid classification, after first standardizing each feature by s<sup>j</sup> + s<sup>0</sup> [recall (18.4) on page 652].
+As mentioned, the first line of Table 18.3 represents nearest shrunken centroids (with no shrinkage). Denote by s$^{j}$ the pooled within-class standard deviation for feature j, and s$^{0}$ the median of the s$^{j}$ values. Then line (1) also corresponds to nearest centroid classification, after first standardizing each feature by s$^{j}$ + s$^{0}$ [recall (18.4) on page 652].
 
 Line (3) shows that the performance of nearest medoids is very poor, something which surprised us. It is perhaps due to the small sample sizes and high dimensions, with medoids having much higher variance than means. The performance of the one-nearest neighbor classifier is also poor.
 
@@ -503,10 +503,10 @@ FIGURE 18.14. Supervised principal components on the lymphoma data. The left pan
 #### Algorithm 18.1 Supervised Principal Components.
 
 - 1. Compute the standardized univariate regression coefficients for the outcome as a function of each feature separately.
-- 2. For each value of the threshold θ from the list 0 ≤ θ<sup>1</sup> < θ<sup>2</sup> < · · · < θK:
-  - (a) Form a reduced data matrix consisting of only those features whose univariate coefficient exceeds θ in absolute value, and compute the first m principal components of this matrix.
+- 2. For each value of the threshold $\theta$ from the list 0 $\le$ $\theta$$^{1}$ < $\theta$$^{2}$ < $\cdot$ $\cdot$ $\cdot$ < $\theta$K:
+  - (a) Form a reduced data matrix consisting of only those features whose univariate coefficient exceeds $\theta$ in absolute value, and compute the first m principal components of this matrix.
   - (b) Use these principal components in a regression model to predict the outcome.
-- 3. Pick θ (and m) by cross-validation.
+- 3. Pick $\theta$ (and m) by cross-validation.
 
 step (2b). For survival problems, Cox's proportional hazards regression model is widely used; hence we use the score test from this model in step (1) and the multivariate Cox model in step (2b). The details are not essential for understanding the basic method; they may be found in Bair et al. (2006).
 
@@ -556,7 +556,7 @@ and can be thought of as an estimate of the latent factor U in model (18.33). In
 
 $$\hat{\mathbf{u}} = \frac{1}{d^2} \sum_{j \in \mathcal{P}} \langle \hat{\mathbf{u}}, \mathbf{x}_j \rangle \mathbf{x}_j, \tag{18.35}$$
 
-where d is the leading singular value of X<sup>P</sup> . This follows from the definition of the leading principal component. Hence thresholded PLS uses weights which are the inner product of y with each of the features, while supervised principal components uses the features to derive a "self-consistent" estimate uˆ. Since many features contribute to the estimate uˆ, rather than just the single outcome y, we can expect uˆ to be less noisy than z. In fact, if there are p<sup>1</sup> features in the set P, and N, p and p<sup>1</sup> go to infinity with p1/N → 0, then it can be shown using the techniques in Bair et al. (2006) that
+where d is the leading singular value of X$^{P}$ . This follows from the definition of the leading principal component. Hence thresholded PLS uses weights which are the inner product of y with each of the features, while supervised principal components uses the features to derive a "self-consistent" estimate uˆ. Since many features contribute to the estimate uˆ, rather than just the single outcome y, we can expect uˆ to be less noisy than z. In fact, if there are p$^{1}$ features in the set P, and N, p and p$^{1}$ go to infinity with p1/N $\to$ 0, then it can be shown using the techniques in Bair et al. (2006) that
 
 $$\mathbf{z} = \mathbf{u} + O_p(1)$$
 
@@ -591,20 +591,20 @@ the former showing consistently lower test errors.
 
 ![Figure 18.16: Root mean squared test error for supervised principal components](../figures/_page_700_Figure_2.jpeg)
 
-FIGURE 18.16. Root mean squared test error (± one standard error), for supervised principal components and thresholded PLS on 100 realizations from model (18.37). All methods use one component, and the errors are relative to the noise standard deviation (the Bayes error is 1.0). For both methods, different values for the filtering threshold were tried and the number of features retained is shown on the horizontal axis. The extreme right points correspond to regular principal components and partial least squares, using all the genes.
+FIGURE 18.16. Root mean squared test error ($\pm$ one standard error), for supervised principal components and thresholded PLS on 100 realizations from model (18.37). All methods use one component, and the errors are relative to the noise standard deviation (the Bayes error is 1.0). For both methods, different values for the filtering threshold were tried and the number of features retained is shown on the horizontal axis. The extreme right points correspond to regular principal components and partial least squares, using all the genes.
 of features, it may be that some of the omitted features have sizable inner products with the supervised principal component (and could act as a good surrogate). In addition, highly correlated features will tend to be chosen together, and there may be great deal of redundancy in the set of selected features.
 
 The lasso (Sections 18.4 and 3.4.2), on the other hand, produces a sparse model from the data. How do the test errors of the two methods compare on the simulated example of the last section? Figure 18.17 shows the test errors for one realization from model (18.37) for the lasso, supervised principal components, and the pre-conditioned lasso (described below).
 
 We see that supervised principal components (orange curve) reaches its lowest error when about 50 features are included in the model, which is the correct number for the simulation. Although a linear model in the first 50 features is optimal, the lasso (green) is adversely affected by the large number of noisy features, and starts overfitting when far fewer are in the model.
 
-Can we get the low test error of supervised principal components along with the sparsity of the lasso? This is the goal of pre-conditioning (Paul et al., 2008). In this approach, one first computes the supervised principal component predictor ˆy<sup>i</sup> for each observation in the training set (with the
+Can we get the low test error of supervised principal components along with the sparsity of the lasso? This is the goal of pre-conditioning (Paul et al., 2008). In this approach, one first computes the supervised principal component predictor ˆy$^{i}$ for each observation in the training set (with the
 
 ![Figure 18.17: Test errors for the lasso, supervised principal components, and pre-conditioned lasso](../figures/_page_701_Figure_2.jpeg)
 
 FIGURE 18.17. Test errors for the lasso, supervised principal components, and pre-conditioned lasso, for one realization from model (18.37). Each model is indexed by the number of non-zero features. The supervised principal component path is truncated at 250 features. The lasso self-truncates at 100, the sample size (see Section 18.4). In this case, the pre-conditioned lasso achieves the lowest error with about 25 features.
 
-threshold selected by cross-validation). Then we apply the lasso with ˆy<sup>i</sup> as the outcome variable, in place of the usual outcome y<sup>i</sup> . All features are used in the lasso fit, not just those that were retained in the thresholding step in supervised principal components. The idea is that by first denoising the outcome variable, the lasso should not be as adversely affected by the large number of noise features. Figure 18.17 shows that pre-conditioning (purple curve) has been successful here, yielding much lower test error than the usual lasso, and as low (in this case) as for supervised principal components. It also can achieve this using less features. The usual lasso, applied to the raw outcome, starts to overfit more quickly than the pre-conditioned version. Overfitting is not a problem, since the outcome variable has been denoised. We usually select the tuning parameter for the pre-conditioned lasso on more subjective grounds, like parsimony.
+threshold selected by cross-validation). Then we apply the lasso with ˆy$^{i}$ as the outcome variable, in place of the usual outcome y$^{i}$ . All features are used in the lasso fit, not just those that were retained in the thresholding step in supervised principal components. The idea is that by first denoising the outcome variable, the lasso should not be as adversely affected by the large number of noise features. Figure 18.17 shows that pre-conditioning (purple curve) has been successful here, yielding much lower test error than the usual lasso, and as low (in this case) as for supervised principal components. It also can achieve this using less features. The usual lasso, applied to the raw outcome, starts to overfit more quickly than the pre-conditioned version. Overfitting is not a problem, since the outcome variable has been denoised. We usually select the tuning parameter for the pre-conditioned lasso on more subjective grounds, like parsimony.
 
 Pre-conditioning can be applied in a variety of settings, using initial estimates other than supervised principal components and post-processors other than the lasso. More details may be found in Paul et al. (2008).
 
@@ -670,13 +670,13 @@ One of the simplest approaches to multiple testing is the *Bonferroni* method. I
 
 In our example, if we test at level say  $\alpha=0.05$ , then we must use the threshold  $0.05/12,625=3.9\times10^{-6}$ . None of the 12,625 genes had a *p*-value this small.
 
-There are variations to this approach that adjust the individual p-values to achieve an FWER of at most α, with some approaches avoiding the assumption of independence; see, e.g., Dudoit et al. (2002b).
+There are variations to this approach that adjust the individual p-values to achieve an FWER of at most $\alpha$, with some approaches avoiding the assumption of independence; see, e.g., Dudoit et al. (2002b).
 
 #### 18.7.1 The False Discovery Rate
 
 A different approach to multiple testing does not try to control the FWER, but focuses instead on the proportion of falsely significant genes. As we will see, this approach has a strong practical appeal.
 
-Table 18.5 summarizes the theoretical outcomes of M hypothesis tests. Note that the family-wise error rate is Pr(V ≥ 1). Here we instead focus
+Table 18.5 summarizes the theoretical outcomes of M hypothesis tests. Note that the family-wise error rate is Pr(V $\ge$ 1). Here we instead focus
 
 TABLE 18.5. Possible outcomes from M hypothesis tests. Note that V is the number of false-positive tests; the type-I error rate is E(V )/M0. The type-II error rate is E(T)/M1, and the power is 1 − E(T)/M1.
 
@@ -691,13 +691,13 @@ on the false discovery rate
 
 $$FDR = E(V/R). (18.43)$$
 
-In the microarray setting, this is the expected proportion of genes that are incorrectly called significant, among the R genes that are called significant. The expectation is taken over the population from which the data are generated. Benjamini and Hochberg (1995) first proposed the notion of false discovery rate, and gave a testing procedure (Algorithm 18.2) whose FDR is bounded by a user-defined level α. The Benjamini–Hochberg (BH) procedure is based on p-values; these can be obtained from an asymptotic approximation to the test statistic (e.g., Gaussian), or a permutation distribution, as is done here.
+In the microarray setting, this is the expected proportion of genes that are incorrectly called significant, among the R genes that are called significant. The expectation is taken over the population from which the data are generated. Benjamini and Hochberg (1995) first proposed the notion of false discovery rate, and gave a testing procedure (Algorithm 18.2) whose FDR is bounded by a user-defined level $\alpha$. The Benjamini–Hochberg (BH) procedure is based on p-values; these can be obtained from an asymptotic approximation to the test statistic (e.g., Gaussian), or a permutation distribution, as is done here.
 
 If the hypotheses are independent, Benjamini and Hochberg (1995) show that regardless of how many null hypotheses are true and regardless of the distribution of the p-values when the null hypothesis is false, this procedure has the property
 
 $$FDR \le \frac{M_0}{M} \alpha \le \alpha. \tag{18.45}$$
 
-For illustration we chose α = 0.15. Figure 18.19 shows a plot of the ordered p-values p(j) , and the line with slope 0.15/12625.
+For illustration we chose $\alpha$ = 0.15. Figure 18.19 shows a plot of the ordered p-values p(j) , and the line with slope 0.15/12625.
 
 #### Algorithm 18.2 Benjamini-Hochberg (BH) Method.
 
@@ -792,15 +792,15 @@ $$pFDR(\Gamma) = Pr(Z_j = 0 | t_j \in \Gamma). \tag{18.53}$$
 
 Hence under the mixture model (18.51), the pFDR is the posterior probability that the null hypothesis it true, given that test statistic falls in the rejection region for the test; that is, given that we reject the null hypothesis (Exercise 18.20).
 
-The false discovery rate provides a measure of accuracy for tests based on an entire rejection region, such as |t<sup>j</sup> | ≥ 2. But if the FDR of such a test is say 10%, then a gene with say t<sup>j</sup> = 5 will be more significant than a gene with t<sup>j</sup> = 2. Thus it is of interest to derive a local (gene-specific) version of the FDR. The q-value (Storey, 2003) of a test statistic t<sup>j</sup> is defined to be the smallest FDR over all rejection regions that reject t<sup>j</sup> . That is, for symmetric rejection regions, the q-value for t<sup>j</sup> = 2 is defined to be the FDR for the rejection region Γ = {−(∞, −2) ∪ (2,∞)}. Thus the q-value for t<sup>j</sup> = 5 will be smaller than that for t<sup>j</sup> = 2, reflecting the fact that t<sup>j</sup> = 5 is more significant than t<sup>j</sup> = 2. The local false discovery rate (Efron and Tibshirani, 2002) at t = t<sup>0</sup> is defined to be
+The false discovery rate provides a measure of accuracy for tests based on an entire rejection region, such as |t$^{j}$ | $\ge$ 2. But if the FDR of such a test is say 10%, then a gene with say t$^{j}$ = 5 will be more significant than a gene with t$^{j}$ = 2. Thus it is of interest to derive a local (gene-specific) version of the FDR. The q-value (Storey, 2003) of a test statistic t$^{j}$ is defined to be the smallest FDR over all rejection regions that reject t$^{j}$ . That is, for symmetric rejection regions, the q-value for t$^{j}$ = 2 is defined to be the FDR for the rejection region $\Gamma$ = {−($\infty$, −2) ∪ (2,$\infty$)}. Thus the q-value for t$^{j}$ = 5 will be smaller than that for t$^{j}$ = 2, reflecting the fact that t$^{j}$ = 5 is more significant than t$^{j}$ = 2. The local false discovery rate (Efron and Tibshirani, 2002) at t = t$^{0}$ is defined to be
 
 $$\Pr(Z_j = 0 | t_j = t_0). \tag{18.54}$$
 
-This is the (positive) FDR for an infinitesimal rejection region surrounding the value t<sup>j</sup> = t0.
+This is the (positive) FDR for an infinitesimal rejection region surrounding the value t$^{j}$ = t0.
 
 # 18.8 Bibliographic Notes
 
-Many references were given at specific points in this chapter; we give some additional ones here. Dudoit et al. (2002a) give an overview and comparison of discrimination methods for gene expression data. Levina (2002) does some mathematical analysis comparing diagonal LDA to full LDA, as p, N → ∞ with p > N. She shows that with reasonable assumptions diagonal LDA has a lower asymptotic error rate than full LDA. Tibshirani et al. (2001a) and Tibshirani et al. (2003) proposed the nearest shrunken-centroid classifier. Zhu and Hastie (2004) study regularized logistic regression. Highdimensional regression and the lasso are very active areas of research, and many references are given in Section 3.8.5. The fused lasso was proposed by Tibshirani et al. (2005), while Zou and Hastie (2005) introduced the elastic net. Supervised principal components is discussed in Bair and Tibshirani (2004) and Bair et al. (2006). For an introduction to the analysis of censored survival data, see Kalbfleisch and Prentice (1980).
+Many references were given at specific points in this chapter; we give some additional ones here. Dudoit et al. (2002a) give an overview and comparison of discrimination methods for gene expression data. Levina (2002) does some mathematical analysis comparing diagonal LDA to full LDA, as p, N $\to$ $\infty$ with p > N. She shows that with reasonable assumptions diagonal LDA has a lower asymptotic error rate than full LDA. Tibshirani et al. (2001a) and Tibshirani et al. (2003) proposed the nearest shrunken-centroid classifier. Zhu and Hastie (2004) study regularized logistic regression. Highdimensional regression and the lasso are very active areas of research, and many references are given in Section 3.8.5. The fused lasso was proposed by Tibshirani et al. (2005), while Zou and Hastie (2005) introduced the elastic net. Supervised principal components is discussed in Bair and Tibshirani (2004) and Bair et al. (2006). For an introduction to the analysis of censored survival data, see Kalbfleisch and Prentice (1980).
 
 Microarray technology has led to a flurry of statistical research: see for example the books by Speed (2003), Parmigiani et al. (2003), Simon et al. (2004), and Lee (2004).
 
@@ -896,7 +896,7 @@ Ex. 18.19 Consider the data in Table 18.4 of Section (18.7), available from the 
 - (a) Using a symmetric two-sided rejection region based on the t-statistic, compute the plug-in estimate of the FDR for various values of the cut-point.
 - (b) Carry out the BH procedure for various FDR levels  $\alpha$  and show the equivalence of your results, with those from part (a).
 
-- (c) Let (q.25, q.75) be the quartiles of the t-statistics from the permuted datasets. Let ˆπ<sup>0</sup> = {#t<sup>j</sup> ∈ (q.25, q.75)}/(.5M), and set ˆπ<sup>0</sup> = min(ˆπ0, 1). Multiply the FDR estimates from (a) by ˆπ<sup>0</sup> and examine the results.
+- (c) Let (q.25, q.75) be the quartiles of the t-statistics from the permuted datasets. Let ˆ$\pi$$^{0}$ = {#t$^{j}$ $\in$ (q.25, q.75)}/(.5M), and set ˆ$\pi$$^{0}$ = min(ˆ$\pi$0, 1). Multiply the FDR estimates from (a) by ˆ$\pi$$^{0}$ and examine the results.
 - (d) Give a motivation for the estimate in part (c).
 
 (Storey, 2003)
@@ -909,4 +909,4 @@ $$pFDR = E\left(\frac{V}{R}|R>0\right)$$
 $$= \sum_{k=1}^{M} E\left[\frac{V}{R}|R=k\right] \Pr(R=k|R>0)$$
  (18.61)
 
-Use the fact that given R = k, V is a binomial random variable, with k trials and probability of success Pr(H = 0|T ∈ Γ), to complete the proof.
+Use the fact that given R = k, V is a binomial random variable, with k trials and probability of success Pr(H = 0|T $\in$ $\Gamma$), to complete the proof.

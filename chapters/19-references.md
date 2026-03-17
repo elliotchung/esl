@@ -89,8 +89,8 @@
 - Donath, W. E. and Hoffman, A. J. (1973). Lower bounds for the partitioning of graphs, IBM Journal of Research and Development pp. 420–425.
 - Donoho, D. (2006a). Compressed sensing, IEEE Transactions on Information Theory 52(4): 1289–1306.
 
-- Donoho, D. (2006b). For most large underdetermined systems of equations, the minimal ℓ 1 -norm solution is the sparsest solution, Communications on Pure and Applied Mathematics 59: 797–829.
-- Donoho, D. and Elad, M. (2003). Optimally sparse representation from overcomplete dictionaries via ℓ 1 -norm minimization, Proceedings of the National Academy of Sciences 100: 2197–2202.
+- Donoho, D. (2006b). For most large underdetermined systems of equations, the minimal $\ell$ 1 -norm solution is the sparsest solution, Communications on Pure and Applied Mathematics 59: 797–829.
+- Donoho, D. and Elad, M. (2003). Optimally sparse representation from overcomplete dictionaries via $\ell$ 1 -norm minimization, Proceedings of the National Academy of Sciences 100: 2197–2202.
 - Donoho, D. and Johnstone, I. (1994). Ideal spatial adaptation by wavelet shrinkage, Biometrika 81: 425–455.
 - Donoho, D. and Stodden, V. (2004). When does non-negative matrix factorization give a correct decomposition into parts?, in S. Thrun, L. Saul and B. Sch¨olkopf (eds), Advances in Neural Information Processing Systems 16, MIT Press, Cambridge, MA.
 - Duan, N. and Li, K.-C. (1991). Slicing regression: a link-free regression method, Annals of Statistics 19: 505–530.
@@ -400,8 +400,8 @@
 - Wahba, G. (1980). Spline bases, regularization, and generalized crossvalidation for solving approximation problems with large quantities of noisy data, Proceedings of the International Conference on Approximation theory in Honour of George Lorenz, Academic Press, Austin, Texas, pp. 905–912.
 - Wahba, G. (1990). Spline Models for Observational Data, SIAM, Philadelphia.
 - Wahba, G., Lin, Y. and Zhang, H. (2000). GACV for support vector machines, in A. Smola, P. Bartlett, B. Sch¨olkopf and D. Schuurmans (eds), Advances in Large Margin Classifiers, MIT Press, Cambridge, MA., pp. 297–311.
-- Wainwright, M. (2006). Sharp thresholds for noisy and high-dimensional recovery of sparsity using ℓ1-constrained quadratic programming, Technical report, Department of Statistics, University of California, Berkeley.
-- Wainwright, M. J., Ravikumar, P. and Lafferty, J. D. (2007). Highdimensional graphical model selection using ℓ1-regularized logistic regression, in B. Sch¨olkopf, J. Platt and T. Hoffman (eds), Advances in Neural Information Processing Systems 19, MIT Press, Cambridge, MA, pp. 1465–1472.
+- Wainwright, M. (2006). Sharp thresholds for noisy and high-dimensional recovery of sparsity using $\ell$1-constrained quadratic programming, Technical report, Department of Statistics, University of California, Berkeley.
+- Wainwright, M. J., Ravikumar, P. and Lafferty, J. D. (2007). Highdimensional graphical model selection using $\ell$1-regularized logistic regression, in B. Sch¨olkopf, J. Platt and T. Hoffman (eds), Advances in Neural Information Processing Systems 19, MIT Press, Cambridge, MA, pp. 1465–1472.
 - Wasserman, L. (2004). All of Statistics: a Concise Course in Statistical Inference, Springer, New York.
 - Weisberg, S. (1980). Applied Linear Regression, Wiley, New York.
 

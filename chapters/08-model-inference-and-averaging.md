@@ -39,7 +39,7 @@ where we have estimated the noise variance by  $\hat{\sigma}^2 = \sum_{i=1}^N (y
 
 ![B-spline smooth and standard error bands](../figures/_page_281_Figure_2.jpeg)
 
-**FIGURE 8.2.** (Top left:) B-spline smooth of data. (Top right:) B-spline smooth plus and minus 1.96× standard error bands. (Bottom left:) Ten bootstrap replicates of the B-spline smooth. (Bottom right:) B-spline smooth with 95% standard error bands computed from the bootstrap distribution.
+**FIGURE 8.2.** (Top left:) B-spline smooth of data. (Top right:) B-spline smooth plus and minus 1.96$\times$ standard error bands. (Bottom left:) Ten bootstrap replicates of the B-spline smooth. (Bottom right:) B-spline smooth with 95% standard error bands computed from the bootstrap distribution.
 
 tion  $\hat{\mu}(x) = h(x)^T \hat{\beta}$  is
 
@@ -145,12 +145,12 @@ $$2[\ell(\hat{\theta}) - \ell(\theta_0)] \sim \chi_p^2, \tag{8.19}$$
 
 where p is the number of components in  $\theta$ . The resulting  $1-2\alpha$  confidence interval is the set of all  $\theta_0$  such that  $2[\ell(\hat{\theta})-\ell(\theta_0)] \leq \chi_p^{2(1-2\alpha)}$ , where  $\chi_p^{2(1-2\alpha)}$  is the  $1-2\alpha$  percentile of the chi-squared distribution with p degrees of freedom.
 
-Let's return to our smoothing example to see what maximum likelihood yields. The parameters are θ = (β, σ<sup>2</sup> ). The log-likelihood is
+Let's return to our smoothing example to see what maximum likelihood yields. The parameters are $\theta$ = ($\beta$, $\sigma$$^{2}$ ). The log-likelihood is
 
 $$\ell(\theta) = -\frac{N}{2}\log\sigma^2 2\pi - \frac{1}{2\sigma^2} \sum_{i=1}^{N} (y_i - h(x_i)^T \beta)^2.$$
  (8.20)
 
-The maximum likelihood estimate is obtained by setting ∂ℓ/∂β = 0 and ∂ℓ/∂σ<sup>2</sup> = 0, giving
+The maximum likelihood estimate is obtained by setting $\partial$$\ell$/$\partial$$\beta$ = 0 and $\partial$$\ell$/$\partial$$\sigma$$^{2}$ = 0, giving
 
 $$\hat{\beta} = (\mathbf{H}^T \mathbf{H})^{-1} \mathbf{H}^T \mathbf{y},$$
 
@@ -159,21 +159,21 @@ $$\hat{\sigma}^2 = \frac{1}{N} \sum (y_i - \hat{\mu}(x_i))^2,$$
 
 which are the same as the usual estimates given in (8.2) and below (8.3).
 
-The information matrix for θ = (β, σ<sup>2</sup> ) is block-diagonal, and the block corresponding to β is
+The information matrix for $\theta$ = ($\beta$, $\sigma$$^{2}$ ) is block-diagonal, and the block corresponding to $\beta$ is
 
 $$\mathbf{I}(\beta) = (\mathbf{H}^T \mathbf{H}) / \sigma^2, \tag{8.22}$$
 
-so that the estimated variance (H<sup>T</sup> H) <sup>−</sup><sup>1</sup>σˆ <sup>2</sup> agrees with the least squares estimate (8.3).
+so that the estimated variance (H$^{T}$ H) $^{−}$$^{1}$$\sigma$ˆ $^{2}$ agrees with the least squares estimate (8.3).
 
 ## 8.2.3 Bootstrap versus Maximum Likelihood
 
 In essence the bootstrap is a computer implementation of nonparametric or parametric maximum likelihood. The advantage of the bootstrap over the maximum likelihood formula is that it allows us to compute maximum likelihood estimates of standard errors and other quantities in settings where no formulas are available.
 
-In our example, suppose that we adaptively choose by cross-validation the number and position of the knots that define the B-splines, rather than fix them in advance. Denote by λ the collection of knots and their positions. Then the standard errors and confidence bands should account for the adaptive choice of λ, but there is no way to do this analytically. With the bootstrap, we compute the B-spline smooth with an adaptive choice of knots for each bootstrap sample. The percentiles of the resulting curves capture the variability from both the noise in the targets as well as that from λˆ. In this particular example the confidence bands (not shown) don't look much different than the fixed λ bands. But in other problems, where more adaptation is used, this can be an important effect to capture.
+In our example, suppose that we adaptively choose by cross-validation the number and position of the knots that define the B-splines, rather than fix them in advance. Denote by $\lambda$ the collection of knots and their positions. Then the standard errors and confidence bands should account for the adaptive choice of $\lambda$, but there is no way to do this analytically. With the bootstrap, we compute the B-spline smooth with an adaptive choice of knots for each bootstrap sample. The percentiles of the resulting curves capture the variability from both the noise in the targets as well as that from $\lambda$ˆ. In this particular example the confidence bands (not shown) don't look much different than the fixed $\lambda$ bands. But in other problems, where more adaptation is used, this can be an important effect to capture.
 
 # 8.3 Bayesian Methods
 
-In the Bayesian approach to inference, we specify a sampling model Pr(Z|θ) (density or probability mass function) for our data given the parameters, and a prior distribution for the parameters  $\Pr(\theta)$  reflecting our knowledge about  $\theta$  before we see the data. We then compute the posterior distribution
+In the Bayesian approach to inference, we specify a sampling model Pr(Z|$\theta$) (density or probability mass function) for our data given the parameters, and a prior distribution for the parameters  $\Pr(\theta)$  reflecting our knowledge about  $\theta$  before we see the data. We then compute the posterior distribution
 
 $$\Pr(\theta|\mathbf{Z}) = \frac{\Pr(\mathbf{Z}|\theta) \cdot \Pr(\theta)}{\int \Pr(\mathbf{Z}|\theta) \cdot \Pr(\theta) d\theta},$$
 (8.23)
@@ -450,7 +450,7 @@ $$\tilde{P}(\mathbf{Z}^m) = \Pr(\mathbf{Z}^m | \mathbf{Z}, \theta') \tag{8.49}$$
 
 Finally, since  $F(\theta', \vec{P})$  and the observed data log-likelihood agree when  $\tilde{P}(\mathbf{Z}^m) = \Pr(\mathbf{Z}^m | \mathbf{Z}, \theta')$ , maximization of the former accomplishes maximization of the latter. Figure 8.7 shows a schematic view of this process. This view of the EM algorithm leads to alternative maximization proce-
 
-<sup>&</sup>lt;sup>1</sup> (8.46) holds for all  $\theta$ , including  $\theta = \theta'$ .
+$ ^{1} $ (8.46) holds for all  $\theta$ , including  $\theta = \theta'$ .
 
 #### Algorithm 8.3 Gibbs Sampler.
 
@@ -556,7 +556,7 @@ $$= E_{\mathcal{P}}[Y - f_{ag}(x)]^{2} + E_{\mathcal{P}}[\hat{f}^{*}(x) - f_{ag}
 
 $$\geq E_{\mathcal{P}}[Y - f_{ag}(x)]^{2}. \tag{8.52}$$
 
-The extra error on the right-hand side comes from the variance of  $f^*(x)$  around its mean  $f_{\rm ag}(x)$ . Therefore true population aggregation never increases mean squared error. This suggests that bagging—drawing samples from the training data— will often decrease mean-squared error.
+The extra error on the right-hand side comes from the variance of  $f^*(x)$  around its mean  $f_{\mathrm ag}(x)$ . Therefore true population aggregation never increases mean squared error. This suggests that bagging—drawing samples from the training data— will often decrease mean-squared error.
 
 The above argument does not hold for classification under 0-1 loss, because of the nonadditivity of bias and variance. In that setting, bagging a
 
@@ -655,7 +655,7 @@ By perturbing the data, bumping tries to move the fitting procedure around to go
 
 For another example, consider the classification data in Figure 8.13, the notorious *exclusive or* (XOR) problem. There are two classes (blue and orange) and two input features, with the features exhibiting a pure inter-
 
-action. By splitting the data at x<sup>1</sup> = 0 and then splitting each resulting strata at x<sup>2</sup> = 0, (or vice versa) a tree-based classifier could achieve perfect discrimination. However, the greedy, short-sighted CART algorithm (Section 9.2) tries to find the best split on either feature, and then splits the resulting strata. Because of the balanced nature of the data, all initial splits on x<sup>1</sup> or x<sup>2</sup> appear to be useless, and the procedure essentially generates a random split at the top level. The actual split found for these data is shown in the left panel of Figure 8.13. By bootstrap sampling from the data, bumping breaks the balance in the classes, and with a reasonable number of bootstrap samples (here 20), it will by chance produce at least one tree with initial split near either x<sup>1</sup> = 0 or x<sup>2</sup> = 0. Using just 20 bootstrap samples, bumping found the near optimal splits shown in the right panel of Figure 8.13. This shortcoming of the greedy tree-growing algorithm is exacerbated if we add a number of noise features that are independent of the class label. Then the tree-growing algorithm cannot distinguish x<sup>1</sup> or x<sup>2</sup> from the others, and gets seriously lost.
+action. By splitting the data at x$^{1}$ = 0 and then splitting each resulting strata at x$^{2}$ = 0, (or vice versa) a tree-based classifier could achieve perfect discrimination. However, the greedy, short-sighted CART algorithm (Section 9.2) tries to find the best split on either feature, and then splits the resulting strata. Because of the balanced nature of the data, all initial splits on x$^{1}$ or x$^{2}$ appear to be useless, and the procedure essentially generates a random split at the top level. The actual split found for these data is shown in the left panel of Figure 8.13. By bootstrap sampling from the data, bumping breaks the balance in the classes, and with a reasonable number of bootstrap samples (here 20), it will by chance produce at least one tree with initial split near either x$^{1}$ = 0 or x$^{2}$ = 0. Using just 20 bootstrap samples, bumping found the near optimal splits shown in the right panel of Figure 8.13. This shortcoming of the greedy tree-growing algorithm is exacerbated if we add a number of noise features that are independent of the class label. Then the tree-growing algorithm cannot distinguish x$^{1}$ or x$^{2}$ from the others, and gets seriously lost.
 
 Since bumping compares different models on the training data, one must ensure that the models have roughly the same complexity. In the case of trees, this would mean growing trees with the same number of terminal nodes on each bootstrap sample. Bumping can also help in problems where it is difficult to optimize the fitting criterion, perhaps because of a lack of smoothness. The trick is to optimize a different, more convenient criterion over the bootstrap samples, and then choose the model producing the best results for the desired criterion on the training sample.
 
@@ -699,4 +699,4 @@ $$x^{s+1} = \operatorname{argmax}_{x} g(x, x^{s}) \tag{8.63}$$
 
 There are analogous definitions for majorization, for minimizing a function f(x). The resulting algorithms are known as MM algorithms, for "Minorize-Maximize" or "Majorize-Minimize."
 
-Show that the EM algorithm (Section 8.5.2) is an example of an MM algorithm, using Q(θ ′ , θ)+log Pr(Z|θ)−Q(θ, θ) to minorize the observed data log-likelihood ℓ(θ ′ ; Z). (Note that only the first term involves the relevant parameter θ ′ ).
+Show that the EM algorithm (Section 8.5.2) is an example of an MM algorithm, using Q($\theta$ ′ , $\theta$)+log Pr(Z|$\theta$)−Q($\theta$, $\theta$) to minorize the observed data log-likelihood $\ell$($\theta$ ′ ; Z). (Note that only the first term involves the relevant parameter $\theta$ ′ ).

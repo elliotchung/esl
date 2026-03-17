@@ -101,22 +101,22 @@ $$(N-p-1)\hat{\sigma}^2 \sim \sigma^2 \chi_{N-p-1}^2,$$
 
 a chi-squared distribution with N-p-1 degrees of freedom. In addition  $\hat{\beta}$  and  $\hat{\sigma}^2$  are statistically independent. We use these distributional properties to form tests of hypothesis and confidence intervals for the parameters  $\beta_i$ .
 
-![FIGURE 3.3. The tail probabilities Pr(|Z| > z) for three distributions, t30, t<sup>100</sup> and standard normal. Shown are the appropriate quantiles for testing significance at the p = 0.05 and 0.01 levels. The difference between t and the standard normal becomes negligible for N bigger than about 100.](../figures/_page_66_Figure_2.jpeg)
+![FIGURE 3.3. The tail probabilities Pr(|Z| > z) for three distributions, t30, t$^{100}$ and standard normal. Shown are the appropriate quantiles for testing significance at the p = 0.05 and 0.01 levels. The difference between t and the standard normal becomes negligible for N bigger than about 100.](../figures/_page_66_Figure_2.jpeg)
 
-FIGURE 3.3. The tail probabilities Pr(|Z| > z) for three distributions, t30, t<sup>100</sup> and standard normal. Shown are the appropriate quantiles for testing significance at the p = 0.05 and 0.01 levels. The difference between t and the standard normal becomes negligible for N bigger than about 100.
+FIGURE 3.3. The tail probabilities Pr(|Z| > z) for three distributions, t30, t$^{100}$ and standard normal. Shown are the appropriate quantiles for testing significance at the p = 0.05 and 0.01 levels. The difference between t and the standard normal becomes negligible for N bigger than about 100.
 
-To test the hypothesis that a particular coefficient β<sup>j</sup> = 0, we form the standardized coefficient or Z-score
+To test the hypothesis that a particular coefficient $\beta$$^{j}$ = 0, we form the standardized coefficient or Z-score
 
 $$z_j = \frac{\hat{\beta}_j}{\hat{\sigma}\sqrt{v_j}},\tag{3.12}$$
 
-where v<sup>j</sup> is the jth diagonal element of (X<sup>T</sup> X) −1 . Under the null hypothesis that β<sup>j</sup> = 0, z<sup>j</sup> is distributed as tN−p−<sup>1</sup> (a t distribution with N − p − 1 degrees of freedom), and hence a large (absolute) value of z<sup>j</sup> will lead to rejection of this null hypothesis. If ˆσ is replaced by a known value σ, then z<sup>j</sup> would have a standard normal distribution. The difference between the tail quantiles of a t-distribution and a standard normal become negligible as the sample size increases, and so we typically use the normal quantiles (see Figure 3.3).
+where v$^{j}$ is the jth diagonal element of (X$^{T}$ X) −1 . Under the null hypothesis that $\beta$$^{j}$ = 0, z$^{j}$ is distributed as tN−p−$^{1}$ (a t distribution with N − p − 1 degrees of freedom), and hence a large (absolute) value of z$^{j}$ will lead to rejection of this null hypothesis. If ˆ$\sigma$ is replaced by a known value $\sigma$, then z$^{j}$ would have a standard normal distribution. The difference between the tail quantiles of a t-distribution and a standard normal become negligible as the sample size increases, and so we typically use the normal quantiles (see Figure 3.3).
 
 Often we need to test for the significance of groups of coefficients simultaneously. For example, to test if a categorical variable with k levels can be excluded from a model, we need to test whether the coefficients of the dummy variables used to represent the levels can all be set to zero. Here we use the F statistic,
 
 $$F = \frac{(RSS_0 - RSS_1)/(p_1 - p_0)}{RSS_1/(N - p_1 - 1)},$$
 (3.13)
 
-where RSS<sup>1</sup> is the residual sum-of-squares for the least squares fit of the bigger model with p1+1 parameters, and RSS<sup>0</sup> the same for the nested smaller model with p<sup>0</sup> + 1 parameters, having p<sup>1</sup> −p<sup>0</sup> parameters constrained to be
+where RSS$^{1}$ is the residual sum-of-squares for the least squares fit of the bigger model with p1+1 parameters, and RSS$^{0}$ the same for the nested smaller model with p$^{0}$ + 1 parameters, having p$^{1}$ −p$^{0}$ parameters constrained to be
 
 zero. The F statistic measures the change in residual sum-of-squares per additional parameter in the bigger model, and it is normalized by an estimate of  $\sigma^2$ . Under the Gaussian assumptions, and the null hypothesis that the smaller model is correct, the F statistic will have a  $F_{p_1-p_0,N-p_1-1}$  distribution. It can be shown (Exercise 3.1) that the  $z_i$  in (3.12) are equivalent to the F statistic for dropping the single coefficient  $\beta_j$  from the model. For large N, the quantiles of  $F_{p_1-p_0,N-p_1-1}$  approach those of  $\chi^2_{p_1-p_0}/(p_1-p_0)$ . Similarly, we can isolate  $\beta_j$  in (3.10) to obtain a  $1-2\alpha$  confidence interval
 
@@ -133,9 +133,9 @@ Hence the standard practice of reporting  $\hat{\beta} \pm 2 \cdot \text{se}(\ha
 
 In a similar fashion we can obtain an approximate confidence set for the entire parameter vector  $\beta$ , namely
 
-$$C_{\beta} = \{\beta | (\hat{\beta} - \beta)^T \mathbf{X}^T \mathbf{X} (\hat{\beta} - \beta) \le \hat{\sigma}^2 \chi_{n+1}^{2}^{(1-\alpha)} \}, \tag{3.15}$$
+$$C_{\beta} = \{\beta | (\hat{\beta} - \beta)^T \mathbf{X}^T \mathbf{X} (\hat{\beta} - \beta) \le \hat{\sigma}^2 \chi_{n+1}^2(1-\alpha) \}, \tag{3.15}$$
 
-where  $\chi_{\ell}^{2^{(1-\alpha)}}$  is the  $1-\alpha$  percentile of the chi-squared distribution on  $\ell$  degrees of freedom: for example,  $\chi_{5}^{2^{(1-0.05)}}=11.1, \chi_{5}^{2^{(1-0.1)}}=9.2$ . This confidence set for  $\beta$  generates a corresponding confidence set for the true function  $f(x) = x^T \beta$ , namely  $\{x^T \beta | \beta \in C_\beta\}$  (Exercise 3.2; see also Figure 5.4 in Section 5.2.2 for examples of confidence bands for functions).
+where  $\chi_{\ell}^2(1-\alpha)$  is the  $1-\alpha$  percentile of the chi-squared distribution on  $\ell$  degrees of freedom: for example,  $\chi_{5}^2(1-0.05)=11.1, \chi_{5}^2(1-0.1)=9.2$ . This confidence set for  $\beta$  generates a corresponding confidence set for the true function  $f(x) = x^T \beta$ , namely  $\{x^T \beta | \beta \in C_\beta\}$  (Exercise 3.2; see also Figure 5.4 in Section 5.2.2 for examples of confidence bands for functions).
 
 ### 3.2.1 Example: Prostate Cancer
 
@@ -266,7 +266,7 @@ Step 1 orthogonalizes  $\mathbf{x}$  with respect to  $\mathbf{x}_0 = \mathbf{1}
 
 This recipe generalizes to the case of p inputs, as shown in Algorithm 3.1. Note that the inputs  $\mathbf{z}_0, \dots, \mathbf{z}_{j-1}$  in step 2 are orthogonal, hence the simple regression coefficients computed there are in fact also the multiple regression coefficients.
 
-<sup>&</sup>lt;sup>1</sup>The inner-product notation is suggestive of generalizations of linear regression to different metric spaces, as well as to probability spaces.
+$ ^{1} $The inner-product notation is suggestive of generalizations of linear regression to different metric spaces, as well as to probability spaces.
 
 ![**FIGURE 3.4.** Least squares regression by orthogonalization of the inputs. The vector  $\mathbf{x}_2$  is regressed on the vector  $\mathbf{x}_1$ , leaving the residual vector  $\mathbf{z}$ . The regression of  $\mathbf{y}$  on  $\mathbf{z}$  gives the multiple regression coefficient of  $\mathbf{x}_2$ . Adding together the projections of  $\mathbf{y}$  on each of  $\mathbf{x}_1$  and  $\mathbf{z}$  gives the least squares fit  $\hat{\mathbf{y}}$ .](../figures/_page_72_Figure_2.jpeg)
 
@@ -371,7 +371,7 @@ With subset selection we retain only a subset of the variables, and eliminate th
 
 ### 3.3.1 Best-Subset Selection
 
-Best subset regression finds for each k ∈ {0, 1, 2, . . . , p} the subset of size k that gives smallest residual sum of squares (3.2). An efficient algorithm the leaps and bounds procedure (Furnival and Wilson, 1974)—makes this feasible for p as large as 30 or 40. Figure 3.5 shows all the subset models for the prostate cancer example. The lower boundary represents the models that are eligible for selection by the best-subsets approach. Note that the best subset of size 2, for example, need not include the variable that was in the best subset of size 1 (for this example all the subsets are nested). The best-subset curve (red lower boundary in Figure 3.5) is necessarily decreasing, so cannot be used to select the subset size k. The question of how to choose k involves the tradeoff between bias and variance, along with the more subjective desire for parsimony. There are a number of criteria that one may use; typically we choose the smallest model that minimizes an estimate of the expected prediction error.
+Best subset regression finds for each k $\in$ {0, 1, 2, . . . , p} the subset of size k that gives smallest residual sum of squares (3.2). An efficient algorithm the leaps and bounds procedure (Furnival and Wilson, 1974)—makes this feasible for p as large as 30 or 40. Figure 3.5 shows all the subset models for the prostate cancer example. The lower boundary represents the models that are eligible for selection by the best-subsets approach. Note that the best subset of size 2, for example, need not include the variable that was in the best subset of size 1 (for this example all the subsets are nested). The best-subset curve (red lower boundary in Figure 3.5) is necessarily decreasing, so cannot be used to select the subset size k. The question of how to choose k involves the tradeoff between bias and variance, along with the more subjective desire for parsimony. There are a number of criteria that one may use; typically we choose the smallest model that minimizes an estimate of the expected prediction error.
 
 Many of the other approaches that we discuss in this chapter are similar, in that they use the training data to produce a sequence of models varying in complexity and indexed by a single parameter. In the next section we use
 
@@ -412,7 +412,7 @@ Forward-stagewise regression (FS) is even more constrained than forwardstepwise 
 
 Unlike forward-stepwise regression, none of the other variables are adjusted when a term is added to the model. As a consequence, forward stagewise can take many more than p steps to reach the least squares fit, and historically has been dismissed as being inefficient. It turns out that this "slow fitting" can pay dividends in high-dimensional problems. We see in Section 3.8.1 that both forward stagewise and a variant which is slowed down even further are quite competitive, especially in very highdimensional problems.
 
-Forward-stagewise regression is included in Figure 3.6. In this example it takes over 1000 steps to get all the correlations below 10−<sup>4</sup> . For subset size k, we plotted the error for the last step for which there where k nonzero coefficients. Although it catches up with the best fit, it takes longer to do so.
+Forward-stagewise regression is included in Figure 3.6. In this example it takes over 1000 steps to get all the correlations below 10−$^{4}$ . For subset size k, we plotted the error for the last step for which there where k nonzero coefficients. Although it catches up with the best fit, it takes longer to do so.
 
 ### 3.3.4 Prostate Cancer Data Example (Continued)
 
@@ -582,16 +582,11 @@ Back to the nonorthogonal case; some pictures help understand their relationship
 
 **TABLE 3.4.** Estimators of  $\beta_j$  in the case of orthonormal columns of  $\mathbf{X}$ . M and  $\lambda$  are constants chosen by the corresponding techniques; sign denotes the sign of its argument ( $\pm 1$ ), and  $x_+$  denotes "positive part" of x. Below the table, estimators are shown by broken red lines. The  $45^{\circ}$  line in gray shows the unrestricted estimate for reference.
 
-| ici ciocc. |                         |       |                                        |                                |            |
-|------------|-------------------------|-------|----------------------------------------|--------------------------------|------------|
-|            | Estimator               |       | Formula                                |                                | _          |
-|            | Best subset (size $M$ ) |       | $\hat{\beta}_j \cdot I( \hat{\beta}_j$ |                                |            |
-|            | Ridge                   |       | $\hat{\beta}_j/(1+\lambda)$            | <b>(</b> )                     |            |
-|            | Lasso                   |       | $\operatorname{sign}(\hat{\beta}_j)($  | $ \hat{\beta}_j  - \lambda)_+$ |            |
-| Best Subse | et                      | Ridge | e                                      | I                              | _<br>Lasso |
-| (0,0)      | $ \hat{\beta}_{(M)} $   |       | ,0)                                    |                                | (0,0)      |
-| l          |                         |       |                                        |                                | ١          |
-
+| Estimator | Formula |
+|:----------|:--------|
+| Best subset (size $M$) | $hat{beta}_j cdot I(|hat{beta}_j| ge |hat{beta}_{(M)}|)$ |
+| Ridge | $hat{beta}_j / (1 + lambda)$ |
+| Lasso | $operatorname{sign}(hat{beta}_j)(|hat{beta}_j| - lambda)_+$ |
 ![**FIGURE 3.11.** Estimation picture for the lasso (left) and ridge regression (right). Shown are contours of the error and constraint functions. The solid blue areas are the constraint regions  $|\beta_1| + |\beta_2| \le t$  and  $\beta_1^2 + \beta_2^2 \le t^2$ , respectively, while the red ellipses are the contours of the least squares error function.](../figures/_page_89_Figure_4.jpeg)
 
 **FIGURE 3.11.** Estimation picture for the lasso (left) and ridge regression (right). Shown are contours of the error and constraint functions. The solid blue areas are the constraint regions  $|\beta_1| + |\beta_2| \le t$  and  $\beta_1^2 + \beta_2^2 \le t^2$ , respectively, while the red ellipses are the contours of the least squares error function.
@@ -649,17 +644,17 @@ $$\delta_k = (\mathbf{X}_{\mathcal{A}_k}^T \mathbf{X}_{\mathcal{A}_k})^{-1} \mat
 
 The coefficient profile then evolves as  $\beta_{\mathcal{A}_k}(\alpha) = \beta_{\mathcal{A}_k} + \alpha \cdot \delta_k$ . Exercise 3.23 verifies that the directions chosen in this fashion do what is claimed: keep the correlations tied and decreasing. If the fit vector at the beginning of this step is  $\hat{\mathbf{f}}_k$ , then it evolves as  $\hat{\mathbf{f}}_k(\alpha) = \hat{\mathbf{f}}_k + \alpha \cdot \mathbf{u}_k$ , where  $\mathbf{u}_k = \mathbf{X}_{\mathcal{A}_k}\delta_k$  is the new fit direction. The name "least angle" arises from a geometrical interpretation of this process;  $\mathbf{u}_k$  makes the smallest (and equal) angle with each of the predictors in  $\mathcal{A}_k$  (Exercise 3.24). Figure 3.14 shows the absolute correlations decreasing and joining ranks with each step of the LAR algorithm, using simulated data.
 
-By construction the coefficients in LAR change in a piecewise linear fashion. Figure 3.15 [left panel] shows the LAR coefficient profile evolving as a function of their  $L_1$  arc length <sup>2</sup>. Note that we do not need to take small
+By construction the coefficients in LAR change in a piecewise linear fashion. Figure 3.15 [left panel] shows the LAR coefficient profile evolving as a function of their  $L_1$  arc length $^{2}$. Note that we do not need to take small
 
-<sup>&</sup>lt;sup>2</sup>The  $L_1$  arc-length of a differentiable curve  $\beta(s)$  for  $s \in [0, S]$  is given by  $\text{TV}(\beta, S) = \int_0^S ||\dot{\beta}(s)||_1 ds$ , where  $\dot{\beta}(s) = \partial \beta(s)/\partial s$ . For the piecewise-linear LAR coefficient profile, this amounts to summing the  $L_1$  norms of the changes in coefficients from step to step.
+$ ^{2} $The  $L_1$  arc-length of a differentiable curve  $\beta(s)$  for  $s \in [0, S]$  is given by  $\text{TV}(\beta, S) = \int_0^S ||\dot{\beta}(s)||_1 ds$ , where  $\dot{\beta}(s) = \partial \beta(s)/\partial s$ . For the piecewise-linear LAR coefficient profile, this amounts to summing the  $L_1$  norms of the changes in coefficients from step to step.
 
-![FIGURE 3.14. Progression of the absolute correlations during each step of the LAR procedure, using a simulated data set with six predictors. The labels at the top of the plot indicate which variables enter the active set at each step. The step length are measured in units of L<sup>1</sup> arc length.](../figures/_page_93_Figure_2.jpeg)
+![FIGURE 3.14. Progression of the absolute correlations during each step of the LAR procedure, using a simulated data set with six predictors. The labels at the top of the plot indicate which variables enter the active set at each step. The step length are measured in units of L$^{1}$ arc length.](../figures/_page_93_Figure_2.jpeg)
 
-FIGURE 3.14. Progression of the absolute correlations during each step of the LAR procedure, using a simulated data set with six predictors. The labels at the top of the plot indicate which variables enter the active set at each step. The step length are measured in units of L<sup>1</sup> arc length.
+FIGURE 3.14. Progression of the absolute correlations during each step of the LAR procedure, using a simulated data set with six predictors. The labels at the top of the plot indicate which variables enter the active set at each step. The step length are measured in units of L$^{1}$ arc length.
 
-![FIGURE 3.15. Left panel shows the LAR coefficient profiles on the simulated data, as a function of the L<sup>1</sup> arc length. The right panel shows the Lasso profile. They are identical until the dark-blue coefficient crosses zero at an arc length of about 18.](../figures/_page_93_Figure_4.jpeg)
+![FIGURE 3.15. Left panel shows the LAR coefficient profiles on the simulated data, as a function of the L$^{1}$ arc length. The right panel shows the Lasso profile. They are identical until the dark-blue coefficient crosses zero at an arc length of about 18.](../figures/_page_93_Figure_4.jpeg)
 
-FIGURE 3.15. Left panel shows the LAR coefficient profiles on the simulated data, as a function of the L<sup>1</sup> arc length. The right panel shows the Lasso profile. They are identical until the dark-blue coefficient crosses zero at an arc length of about 18.
+FIGURE 3.15. Left panel shows the LAR coefficient profiles on the simulated data, as a function of the L$^{1}$ arc length. The right panel shows the Lasso profile. They are identical until the dark-blue coefficient crosses zero at an arc length of about 18.
 
 steps and recheck the correlations in step 3; using knowledge of the covariance of the predictors and the piecewise linearity of the algorithm, we can work out the exact step length at the beginning of each step (Exercise 3.25).
 
@@ -709,29 +704,29 @@ $$\mathrm{df}(\hat{\mathbf{y}}) = \frac{1}{\sigma^2} \sum_{i=1}^{N} \mathrm{Cov}
 
 Here  $\text{Cov}(\hat{y}_i, y_i)$  refers to the sampling covariance between the predicted value  $\hat{y}_i$  and its corresponding outcome value  $y_i$ . This makes intuitive sense: the harder that we fit to the data, the larger this covariance and hence  $\text{df}(\hat{\mathbf{y}})$ . Expression (3.60) is a useful notion of degrees of freedom, one that can be applied to any model prediction  $\hat{\mathbf{y}}$ . This includes models that are
 
-![FIGURE 3.16. Comparison of LAR and lasso with forward stepwise, forward stagewise (FS) and incremental forward stagewise (FS0) regression. The setup is the same as in Figure 3.6, except N = 100 here rather than 300. Here the slower FS regression ultimately outperforms forward stepwise. LAR and lasso show similar behavior to FS and FS0. Since the procedures take different numbers of steps (across simulation replicates and methods), we plot the MSE as a function of the fraction of total L<sup>1</sup> arc-length toward the least-squares fit.](../figures/_page_96_Figure_2.jpeg)
+![FIGURE 3.16. Comparison of LAR and lasso with forward stepwise, forward stagewise (FS) and incremental forward stagewise (FS0) regression. The setup is the same as in Figure 3.6, except N = 100 here rather than 300. Here the slower FS regression ultimately outperforms forward stepwise. LAR and lasso show similar behavior to FS and FS0. Since the procedures take different numbers of steps (across simulation replicates and methods), we plot the MSE as a function of the fraction of total L$^{1}$ arc-length toward the least-squares fit.](../figures/_page_96_Figure_2.jpeg)
 
-FIGURE 3.16. Comparison of LAR and lasso with forward stepwise, forward stagewise (FS) and incremental forward stagewise (FS0) regression. The setup is the same as in Figure 3.6, except N = 100 here rather than 300. Here the slower FS regression ultimately outperforms forward stepwise. LAR and lasso show similar behavior to FS and FS0. Since the procedures take different numbers of steps (across simulation replicates and methods), we plot the MSE as a function of the fraction of total L<sup>1</sup> arc-length toward the least-squares fit.
+FIGURE 3.16. Comparison of LAR and lasso with forward stepwise, forward stagewise (FS) and incremental forward stagewise (FS0) regression. The setup is the same as in Figure 3.6, except N = 100 here rather than 300. Here the slower FS regression ultimately outperforms forward stepwise. LAR and lasso show similar behavior to FS and FS0. Since the procedures take different numbers of steps (across simulation replicates and methods), we plot the MSE as a function of the fraction of total L$^{1}$ arc-length toward the least-squares fit.
 
 adaptively fitted to the training data. This definition is motivated and discussed further in Sections 7.4–7.6.
 
-Now for a linear regression with k fixed predictors, it is easy to show that df(yˆ) = k. Likewise for ridge regression, this definition leads to the closed-form expression (3.50) on page 68: df(yˆ) = tr(Sλ). In both these cases, (3.60) is simple to evaluate because the fit yˆ = Hλy is linear in y. If we think about definition (3.60) in the context of a best subset selection of size k, it seems clear that df(yˆ) will be larger than k, and this can be verified by estimating Cov(ˆy<sup>i</sup> , yi)/σ<sup>2</sup> directly by simulation. However there is no closed form method for estimating df(yˆ) for best subset selection.
+Now for a linear regression with k fixed predictors, it is easy to show that df(yˆ) = k. Likewise for ridge regression, this definition leads to the closed-form expression (3.50) on page 68: df(yˆ) = tr(S$\lambda$). In both these cases, (3.60) is simple to evaluate because the fit yˆ = H$\lambda$y is linear in y. If we think about definition (3.60) in the context of a best subset selection of size k, it seems clear that df(yˆ) will be larger than k, and this can be verified by estimating Cov(ˆy$^{i}$ , yi)/$\sigma$$^{2}$ directly by simulation. However there is no closed form method for estimating df(yˆ) for best subset selection.
 
 For LAR and lasso, something magical happens. These techniques are adaptive in a smoother way than best subset selection, and hence estimation of degrees of freedom is more tractable. Specifically it can be shown that after the kth step of the LAR procedure, the effective degrees of freedom of the fit vector is exactly k. Now for the lasso, the (modified) LAR procedure often takes more than p steps, since predictors can drop out. Hence the definition is a little different; for the lasso, at any stage df(yˆ) approximately equals the number of predictors in the model. While this approximation works reasonably well anywhere in the lasso path, for each k it works best at the last model in the sequence that contains k predictors. A detailed study of the degrees of freedom for the lasso may be found in Zou et al. (2007).
 
 ## 3.5 Methods Using Derived Input Directions
 
-In many situations we have a large number of inputs, often very correlated. The methods in this section produce a small number of linear combinations Zm, m = 1, . . . , M of the original inputs X<sup>j</sup> , and the Z<sup>m</sup> are then used in place of the X<sup>j</sup> as inputs in the regression. The methods differ in how the linear combinations are constructed.
+In many situations we have a large number of inputs, often very correlated. The methods in this section produce a small number of linear combinations Zm, m = 1, . . . , M of the original inputs X$^{j}$ , and the Z$^{m}$ are then used in place of the X$^{j}$ as inputs in the regression. The methods differ in how the linear combinations are constructed.
 
 ### 3.5.1 Principal Components Regression
 
-In this approach the linear combinations Z<sup>m</sup> used are the principal components as defined in Section 3.4.1 above.
+In this approach the linear combinations Z$^{m}$ used are the principal components as defined in Section 3.4.1 above.
 
-Principal component regression forms the derived input columns z<sup>m</sup> = Xvm, and then regresses y on z1, z2, . . . , z<sup>M</sup> for some M ≤ p. Since the z<sup>m</sup> are orthogonal, this regression is just a sum of univariate regressions:
+Principal component regression forms the derived input columns z$^{m}$ = Xvm, and then regresses y on z1, z2, . . . , z$^{M}$ for some M $\le$ p. Since the z$^{m}$ are orthogonal, this regression is just a sum of univariate regressions:
 
 $$\hat{\mathbf{y}}_{(M)}^{\text{pcr}} = \bar{y}\mathbf{1} + \sum_{m=1}^{M} \hat{\theta}_{m}\mathbf{z}_{m}, \tag{3.61}$$
 
-where <sup>ˆ</sup>θ<sup>m</sup> <sup>=</sup> <sup>h</sup>zm, <sup>y</sup>i/hzm, <sup>z</sup>mi. Since the <sup>z</sup><sup>m</sup> are each linear combinations of the original x<sup>j</sup> , we can express the solution (3.61) in terms of coefficients of the x<sup>j</sup> (Exercise 3.13):
+where $^{ˆ}$$\theta$$^{m}$ $^{=}$ $^{h}$zm, $^{y}$i/hzm, $^{z}$mi. Since the $^{z}$$^{m}$ are each linear combinations of the original x$^{j}$ , we can express the solution (3.61) in terms of coefficients of the x$^{j}$ (Exercise 3.13):
 
 $$\hat{\beta}^{\text{pcr}}(M) = \sum_{m=1}^{M} \hat{\theta}_m v_m. \tag{3.62}$$
 
@@ -747,7 +742,7 @@ In Figure 3.7 we see that cross-validation suggests seven terms; the resulting m
 
 This technique also constructs a set of linear combinations of the inputs for regression, but unlike principal components regression it uses y (in addition to X) for this construction. Like principal component regression, partial least squares (PLS) is not scale invariant, so we assume that each  $\mathbf{x}_i$  is standardized to have mean 0 and variance 1. PLS begins by computing  $\hat{\varphi}_{1j} = \langle \mathbf{x}_j, \mathbf{y} \rangle$  for each j. From this we construct the derived input  $\mathbf{z}_1 = \sum_j \hat{\varphi}_{1j} \mathbf{x}_j$ , which is the first partial least squares direction. Hence in the construction of each  $\mathbf{z}_m$ , the inputs are weighted by the strength of their univariate effect on  $y^3$ . The outcome y is regressed on  $z_1$  giving coefficient  $\hat{\theta}_1$ , and then we orthogonalize  $\mathbf{x}_1, \dots, \mathbf{x}_p$  with respect to  $\mathbf{z}_1$ . We continue this process, until  $M \leq p$  directions have been obtained. In this manner, partial least squares produces a sequence of derived, orthogonal inputs or directions  $\mathbf{z}_1, \mathbf{z}_2, \dots, \mathbf{z}_M$ . As with principal-component regression, if we were to construct all M = p directions, we would get back a solution equivalent to the usual least squares estimates; using M < p directions produces a reduced regression. The procedure is described fully in Algorithm 3.3.
 
-<sup>&</sup>lt;sup>3</sup>Since the  $\mathbf{x}_j$  are standardized, the first directions  $\hat{\varphi}_{1j}$  are the univariate regression coefficients (up to an irrelevant constant); this is not the case for subsequent directions.
+$ ^{3} $Since the  $\mathbf{x}_j$  are standardized, the first directions  $\hat{\varphi}_{1j}$  are the univariate regression coefficients (up to an irrelevant constant); this is not the case for subsequent directions.
 
 #### Algorithm 3.3 Partial Least Squares
 
@@ -779,19 +774,19 @@ Further analysis reveals that the variance aspect tends to dominate, and so part
 
 If the input matrix  $\mathbf{X}$  is orthogonal, then partial least squares finds the least squares estimates after m=1 steps. Subsequent steps have no effect
 
-since the ˆϕmj are zero for m > 1 (Exercise 3.14). It can also be shown that the sequence of PLS coefficients for m = 1, 2, . . . , p represents the conjugate gradient sequence for computing the least squares solutions (Exercise 3.18).
+since the ˆ$\phi$mj are zero for m > 1 (Exercise 3.14). It can also be shown that the sequence of PLS coefficients for m = 1, 2, . . . , p represents the conjugate gradient sequence for computing the least squares solutions (Exercise 3.18).
 
 ## 3.6 Discussion: A Comparison of the Selection and Shrinkage Methods
 
-There are some simple settings where we can understand better the relationship between the different methods described above. Consider an example with two correlated inputs X<sup>1</sup> and X2, with correlation ρ. We assume that the true regression coefficients are β<sup>1</sup> = 4 and β<sup>2</sup> = 2. Figure 3.18 shows the coefficient profiles for the different methods, as their tuning parameters are varied. The top panel has ρ = 0.5, the bottom panel ρ = −0.5. The tuning parameters for ridge and lasso vary over a continuous range, while best subset, PLS and PCR take just two discrete steps to the least squares solution. In the top panel, starting at the origin, ridge regression shrinks the coefficients together until it finally converges to least squares. PLS and PCR show similar behavior to ridge, although are discrete and more extreme. Best subset overshoots the solution and then backtracks. The behavior of the lasso is intermediate to the other methods. When the correlation is negative (lower panel), again PLS and PCR roughly track the ridge path, while all of the methods are more similar to one another.
+There are some simple settings where we can understand better the relationship between the different methods described above. Consider an example with two correlated inputs X$^{1}$ and X2, with correlation $\rho$. We assume that the true regression coefficients are $\beta$$^{1}$ = 4 and $\beta$$^{2}$ = 2. Figure 3.18 shows the coefficient profiles for the different methods, as their tuning parameters are varied. The top panel has $\rho$ = 0.5, the bottom panel $\rho$ = −0.5. The tuning parameters for ridge and lasso vary over a continuous range, while best subset, PLS and PCR take just two discrete steps to the least squares solution. In the top panel, starting at the origin, ridge regression shrinks the coefficients together until it finally converges to least squares. PLS and PCR show similar behavior to ridge, although are discrete and more extreme. Best subset overshoots the solution and then backtracks. The behavior of the lasso is intermediate to the other methods. When the correlation is negative (lower panel), again PLS and PCR roughly track the ridge path, while all of the methods are more similar to one another.
 
 It is interesting to compare the shrinkage behavior of these different methods. Recall that ridge regression shrinks all directions, but shrinks low-variance directions more. Principal components regression leaves M high-variance directions alone, and discards the rest. Interestingly, it can be shown that partial least squares also tends to shrink the low-variance directions, but can actually inflate some of the higher variance directions. This can make PLS a little unstable, and cause it to have slightly higher prediction error compared to ridge regression. A full study is given in Frank and Friedman (1993). These authors conclude that for minimizing prediction error, ridge regression is generally preferable to variable subset selection, principal components regression and partial least squares. However the improvement over the latter two methods was only slight.
 
 To summarize, PLS, PCR and ridge regression tend to behave similarly. Ridge regression may be preferred because it shrinks smoothly, rather than in discrete steps. Lasso falls somewhere between ridge regression and best subset regression, and enjoys some of the properties of each.
 
-![FIGURE 3.18. Coefficient profiles from different methods for a simple problem: two inputs with correlation ±0.5, and the true regression coefficients β = (4, 2).](../figures/_page_101_Figure_2.jpeg)
+![FIGURE 3.18. Coefficient profiles from different methods for a simple problem: two inputs with correlation $\pm$0.5, and the true regression coefficients $\beta$ = (4, 2).](../figures/_page_101_Figure_2.jpeg)
 
-FIGURE 3.18. Coefficient profiles from different methods for a simple problem: two inputs with correlation ±0.5, and the true regression coefficients β = (4, 2).
+FIGURE 3.18. Coefficient profiles from different methods for a simple problem: two inputs with correlation $\pm$0.5, and the true regression coefficients $\beta$ = (4, 2).
 
 ## 3.7 Multiple Outcome Shrinkage and Selection
 
@@ -799,7 +794,7 @@ FIGURE 3.18. Coefficient profiles from different methods for a simple problem: t
 
 As noted in Section 3.2.4, the least squares estimates in a multiple-output linear model are simply the individual least squares estimates for each of the outputs.
 
-To apply selection and shrinkage methods in the multiple output case, one could apply a univariate technique individually to each outcome or simultaneously to all outcomes. With ridge regression, for example, we could apply formula (3.44) to each of the K columns of the outcome matrix Y , using possibly different parameters λ, or apply it to all columns using the same value of λ. The former strategy would allow different amounts of regularization to be applied to different outcomes but require estimation of k separate regularization parameters λ1, . . . , λk, while the latter would permit all k outputs to be used in estimating the sole regularization parameter λ.
+To apply selection and shrinkage methods in the multiple output case, one could apply a univariate technique individually to each outcome or simultaneously to all outcomes. With ridge regression, for example, we could apply formula (3.44) to each of the K columns of the outcome matrix Y , using possibly different parameters $\lambda$, or apply it to all columns using the same value of $\lambda$. The former strategy would allow different amounts of regularization to be applied to different outcomes but require estimation of k separate regularization parameters $\lambda$1, . . . , $\lambda$k, while the latter would permit all k outputs to be used in estimating the sole regularization parameter $\lambda$.
 
 Other more sophisticated shrinkage and selection strategies that exploit correlations in the different responses can be helpful in the multiple output case. Suppose for example that among the outputs we have
 
@@ -807,15 +802,15 @@ $$Y_k = f(X) + \varepsilon_k \tag{3.65}$$
 
 $$Y_{\ell} = f(X) + \varepsilon_{\ell}; \tag{3.66}$$
 
-i.e., (3.65) and (3.66) share the same structural part f(X) in their models. It is clear in this case that we should pool our observations on Y<sup>k</sup> and Y<sup>l</sup> to estimate the common f.
+i.e., (3.65) and (3.66) share the same structural part f(X) in their models. It is clear in this case that we should pool our observations on Y$^{k}$ and Y$^{l}$ to estimate the common f.
 
-Combining responses is at the heart of canonical correlation analysis (CCA), a data reduction technique developed for the multiple output case. Similar to PCA, CCA finds a sequence of uncorrelated linear combinations Xvm, m = 1, . . . , M of the x<sup>j</sup> , and a corresponding sequence of uncorrelated linear combinations Yu<sup>m</sup> of the responses yk, such that the correlations
+Combining responses is at the heart of canonical correlation analysis (CCA), a data reduction technique developed for the multiple output case. Similar to PCA, CCA finds a sequence of uncorrelated linear combinations Xvm, m = 1, . . . , M of the x$^{j}$ , and a corresponding sequence of uncorrelated linear combinations Yu$^{m}$ of the responses yk, such that the correlations
 
 $$Corr^2(\mathbf{Y}u_m, \mathbf{X}v_m) \tag{3.67}$$
 
-are successively maximized. Note that at most M = min(K, p) directions can be found. The leading canonical response variates are those linear combinations (derived responses) best predicted by the x<sup>j</sup> ; in contrast, the trailing canonical variates can be poorly predicted by the x<sup>j</sup> , and are candidates for being dropped. The CCA solution is computed using a generalized SVD of the sample cross-covariance matrix Y<sup>T</sup> X/N (assuming Y and X are centered; Exercise 3.20).
+are successively maximized. Note that at most M = min(K, p) directions can be found. The leading canonical response variates are those linear combinations (derived responses) best predicted by the x$^{j}$ ; in contrast, the trailing canonical variates can be poorly predicted by the x$^{j}$ , and are candidates for being dropped. The CCA solution is computed using a generalized SVD of the sample cross-covariance matrix Y$^{T}$ X/N (assuming Y and X are centered; Exercise 3.20).
 
-Reduced-rank regression (Izenman, 1975; van der Merwe and Zidek, 1980) formalizes this approach in terms of a regression model that explicitly pools information. Given an error covariance Cov(ε) = Σ, we solve the following restricted multivariate regression problem:
+Reduced-rank regression (Izenman, 1975; van der Merwe and Zidek, 1980) formalizes this approach in terms of a regression model that explicitly pools information. Given an error covariance Cov($\epsilon$) = $\Sigma$, we solve the following restricted multivariate regression problem:
 
 $$\hat{\mathbf{B}}^{\mathrm{rr}}(m) = \underset{\mathrm{rank}(\mathbf{B})=m}{\operatorname{argmin}} \sum_{i=1}^{N} (y_i - \mathbf{B}^T x_i)^T \mathbf{\Sigma}^{-1} (y_i - \mathbf{B}^T x_i). \tag{3.68}$$
 
@@ -849,32 +844,32 @@ where  $c_m$  is the mth canonical correlation coefficient. Note that as the rat
 
 $$\hat{\mathbf{Y}}^{c+w} = \mathbf{HYS}^{c+w}, \tag{3.74}$$
 
-where S c+w = UΛU<sup>−</sup><sup>1</sup> is the response shrinkage operator.
+where S c+w = UΛU$^{−}$$^{1}$ is the response shrinkage operator.
 
 Breiman and Friedman (1997) also suggested shrinking in both the Y space and X space. This leads to hybrid shrinkage models of the form
 
 $$\hat{\mathbf{Y}}^{\text{ridge,c+w}} = \mathbf{A}_{\lambda} \mathbf{Y} \mathbf{S}^{\text{c+w}}, \tag{3.75}$$
 
-where A<sup>λ</sup> = X(X<sup>T</sup> X+λI) <sup>−</sup>1X<sup>T</sup> is the ridge regression shrinkage operator, as in (3.46) on page 66. Their paper and the discussions thereof contain many more details.
+where A$^{\lambda}$ = X(X$^{T}$ X+$\lambda$I) $^{−}$1X$^{T}$ is the ridge regression shrinkage operator, as in (3.46) on page 66. Their paper and the discussions thereof contain many more details.
 
 ## 3.8 More on the Lasso and Related Path Algorithms
 
-Since the publication of the LAR algorithm (Efron et al., 2004) there has been a lot of activity in developing algorithms for fitting regularization paths for a variety of different problems. In addition, L<sup>1</sup> regularization has taken on a life of its own, leading to the development of the field compressed sensing in the signal-processing literature. (Donoho, 2006a; Candes, 2006). In this section we discuss some related proposals and other path algorithms, starting off with a precursor to the LAR algorithm.
+Since the publication of the LAR algorithm (Efron et al., 2004) there has been a lot of activity in developing algorithms for fitting regularization paths for a variety of different problems. In addition, L$^{1}$ regularization has taken on a life of its own, leading to the development of the field compressed sensing in the signal-processing literature. (Donoho, 2006a; Candes, 2006). In this section we discuss some related proposals and other path algorithms, starting off with a precursor to the LAR algorithm.
 
 ### 3.8.1 Incremental Forward Stagewise Regression
 
 Here we present another LAR-like algorithm, this time focused on forward stagewise regression. Interestingly, efforts to understand a flexible nonlinear regression procedure (boosting) led to a new algorithm for linear models (LAR). In reading the first edition of this book and the forward stagewise
 
-#### Algorithm 3.4 Incremental Forward Stagewise Regression—FSǫ
+#### Algorithm 3.4 Incremental Forward Stagewise Regression—FS$\epsilon$
 
-- 1. Start with the residual r equal to y and β1, β2, . . . , β<sup>p</sup> = 0. All the predictors are standardized to have mean zero and unit norm.
-- 1. Find the predictor x<sup>j</sup> most correlated with r
-- 1. Update β<sup>j</sup> ← β<sup>j</sup> + δ<sup>j</sup> , where δ<sup>j</sup> = ǫ · sign[hx<sup>j</sup> , ri] and ǫ > 0 is a small step size, and set r ← r − δjx<sup>j</sup> .
+- 1. Start with the residual r equal to y and $\beta$1, $\beta$2, . . . , $\beta$$^{p}$ = 0. All the predictors are standardized to have mean zero and unit norm.
+- 1. Find the predictor x$^{j}$ most correlated with r
+- 1. Update $\beta$$^{j}$ ← $\beta$$^{j}$ + $\delta$$^{j}$ , where $\delta$$^{j}$ = $\epsilon$ $\cdot$ sign[hx$^{j}$ , ri] and $\epsilon$ > 0 is a small step size, and set r ← r − $\delta$jx$^{j}$ .
 - 1. Repeat steps 2 and 3 many times, until the residuals are uncorrelated with all the predictors.
 
-Algorithm 16.1 of Chapter 16<sup>4</sup> , our colleague Brad Efron realized that with
+Algorithm 16.1 of Chapter 16$^{4}$ , our colleague Brad Efron realized that with
 
-<sup>4</sup> In the first edition, this was Algorithm 10.4 in Chapter 10.
+$^{4}$ In the first edition, this was Algorithm 10.4 in Chapter 10.
 
 ![**FIGURE 3.19.** Coefficient profiles for the prostate data. The left panel shows incremental forward stagewise regression with step size  $\epsilon = 0.01$ . The right panel shows the infinitesimal version  $FS_0$  obtained letting  $\epsilon \to 0$ . This profile was fit by the modification 3.2b to the LAR Algorithm 3.2. In this example the  $FS_0$  profiles are monotone, and hence identical to those of lasso and LAR.](../figures/_page_105_Figure_2.jpeg)
 
@@ -884,25 +879,25 @@ linear models, one could explicitly construct the piecewise-linear lasso paths o
 
 Consider the linear-regression version of the forward-stagewise boosting algorithm 16.1 proposed in Section 16.1 (page 608). It generates a coefficient profile by repeatedly updating (by a small amount  $\epsilon$ ) the coefficient of the variable most correlated with the current residuals. Algorithm 3.4 gives the details. Figure 3.19 (left panel) shows the progress of the algorithm on the prostate data with step size  $\epsilon = 0.01$ . If  $\delta_j = \langle \mathbf{x}_j, \mathbf{r} \rangle$  (the least-squares coefficient of the residual on jth predictor), then this is exactly the usual forward stagewise procedure (FS) outlined in Section 3.3.3.
 
-Here we are mainly interested in small values of  $\epsilon$ . Letting  $\epsilon \to 0$  gives the right panel of Figure 3.19, which in this case is identical to the lasso path in Figure 3.10. We call this limiting procedure infinitesimal forward stagewise regression or FS<sub>0</sub>. This procedure plays an important role in non-linear, adaptive methods like boosting (Chapters 10 and 16) and is the version of incremental forward stagewise regression that is most amenable to theoretical analysis. Bühlmann and Hothorn (2007) refer to the same procedure as "L2boost", because of its connections to boosting.
+Here we are mainly interested in small values of  $\epsilon$ . Letting  $\epsilon \to 0$  gives the right panel of Figure 3.19, which in this case is identical to the lasso path in Figure 3.10. We call this limiting procedure infinitesimal forward stagewise regression or FS$_{0}$. This procedure plays an important role in non-linear, adaptive methods like boosting (Chapters 10 and 16) and is the version of incremental forward stagewise regression that is most amenable to theoretical analysis. Bühlmann and Hothorn (2007) refer to the same procedure as "L2boost", because of its connections to boosting.
 
 Efron originally thought that the LAR Algorithm 3.2 was an implementation of FS0, allowing each tied predictor a chance to update their coefficients in a balanced way, while remaining tied in correlation. However, he then realized that the LAR least-squares fit amongst the tied predictors can result in coefficients moving in the opposite direction to their correlation, which cannot happen in Algorithm 3.4. The following modification of the LAR algorithm implements FS0:
 
-#### Algorithm 3.2b Least Angle Regression: FS<sup>0</sup> Modification
+#### Algorithm 3.2b Least Angle Regression: FS$^{0}$ Modification
 
 1. Find the new direction by solving the constrained least squares problem
 
 $$\min_{b} ||\mathbf{r} - \mathbf{X}_{\mathcal{A}}b||_2^2 \text{ subject to } b_j s_j \ge 0, \ j \in \mathcal{A},$$
 
-where s<sup>j</sup> is the sign of hx<sup>j</sup> , ri.
+where s$^{j}$ is the sign of hx$^{j}$ , ri.
 
-The modification amounts to a non-negative least squares fit, keeping the signs of the coefficients the same as those of the correlations. One can show that this achieves the optimal balancing of infinitesimal "update turns" for the variables tied for maximal correlation (Hastie et al., 2007). Like lasso, the entire FS<sup>0</sup> path can be computed very efficiently via the LAR algorithm.
+The modification amounts to a non-negative least squares fit, keeping the signs of the coefficients the same as those of the correlations. One can show that this achieves the optimal balancing of infinitesimal "update turns" for the variables tied for maximal correlation (Hastie et al., 2007). Like lasso, the entire FS$^{0}$ path can be computed very efficiently via the LAR algorithm.
 
 As a consequence of these results, if the LAR profiles are monotone nonincreasing or non-decreasing, as they are in Figure 3.19, then all three methods—LAR, lasso, and FS0—give identical profiles. If the profiles are not monotone but do not cross the zero axis, then LAR and lasso are identical.
 
-Since FS<sup>0</sup> is different from the lasso, it is natural to ask if it optimizes a criterion. The answer is more complex than for lasso; the FS<sup>0</sup> coefficient profile is the solution to a differential equation. While the lasso makes optimal progress in terms of reducing the residual sum-of-squares per unit increase in L1-norm of the coefficient vector β, FS<sup>0</sup> is optimal per unit increase in L<sup>1</sup> arc-length traveled along the coefficient path. Hence its coefficient path is discouraged from changing directions too often.
+Since FS$^{0}$ is different from the lasso, it is natural to ask if it optimizes a criterion. The answer is more complex than for lasso; the FS$^{0}$ coefficient profile is the solution to a differential equation. While the lasso makes optimal progress in terms of reducing the residual sum-of-squares per unit increase in L1-norm of the coefficient vector $\beta$, FS$^{0}$ is optimal per unit increase in L$^{1}$ arc-length traveled along the coefficient path. Hence its coefficient path is discouraged from changing directions too often.
 
-FS<sup>0</sup> is more constrained than lasso, and in fact can be viewed as a monotone version of the lasso; see Figure 16.3 on page 614 for a dramatic example. FS<sup>0</sup> may be useful in p ≫ N situations, where its coefficient profiles are much smoother and hence have less variance than those of lasso. More details on FS<sup>0</sup> are given in Section 16.2.3 and Hastie et al. (2007). Figure 3.16 includes FS<sup>0</sup> where its performance is very similar to that of the lasso.
+FS$^{0}$ is more constrained than lasso, and in fact can be viewed as a monotone version of the lasso; see Figure 16.3 on page 614 for a dramatic example. FS$^{0}$ may be useful in p ≫ N situations, where its coefficient profiles are much smoother and hence have less variance than those of lasso. More details on FS$^{0}$ are given in Section 16.2.3 and Hastie et al. (2007). Figure 3.16 includes FS$^{0}$ where its performance is very similar to that of the lasso.
 
 ### 3.8.2 Piecewise-Linear Path Algorithms
 
@@ -915,12 +910,12 @@ with
 $$R(\beta) = \sum_{i=1}^{N} L(y_i, \beta_0 + \sum_{j=1}^{p} x_{ij}\beta_j),$$
  (3.77)
 
-where both the loss function L and the penalty function J are convex. Then the following are sufficient conditions for the solution path βˆ(λ) to be piecewise linear (Rosset and Zhu, 2007):
+where both the loss function L and the penalty function J are convex. Then the following are sufficient conditions for the solution path $\beta$ˆ($\lambda$) to be piecewise linear (Rosset and Zhu, 2007):
 
-- 1. R is quadratic or piecewise-quadratic as a function of β, and
-- 1. J is piecewise linear in β.
+- 1. R is quadratic or piecewise-quadratic as a function of $\beta$, and
+- 1. J is piecewise linear in $\beta$.
 
-This also implies (in principle) that the solution path can be efficiently computed. Examples include squared- and absolute-error loss, "Huberized" losses, and the L1, L<sup>∞</sup> penalties on β. Another example is the "hinge loss" function used in the support vector machine. There the loss is piecewise linear, and the penalty is quadratic. Interestingly, this leads to a piecewiselinear path algorithm in the dual space; more details are given in Section 12.3.5.
+This also implies (in principle) that the solution path can be efficiently computed. Examples include squared- and absolute-error loss, "Huberized" losses, and the L1, L$^{\infty}$ penalties on $\beta$. Another example is the "hinge loss" function used in the support vector machine. There the loss is piecewise linear, and the penalty is quadratic. Interestingly, this leads to a piecewiselinear path algorithm in the dual space; more details are given in Section 12.3.5.
 
 ### 3.8.3 The Dantzig Selector
 
@@ -934,7 +929,7 @@ They call the solution the Dantzig selector (DS). It can be written equivalently
 $$\min_{\beta} ||\mathbf{X}^{T}(\mathbf{y} - \mathbf{X}\beta)||_{\infty} \text{ subject to } ||\beta||_{1} \le t.$$
  (3.79)
 
-Here || · ||<sup>∞</sup> denotes the L<sup>∞</sup> norm, the maximum absolute value of the components of the vector. In this form it resembles the lasso, replacing squared error loss by the maximum absolute value of its gradient. Note that as t gets large, both procedures yield the least squares solution if N < p. If p ≥ N, they both yield the least squares solution with minimum L<sup>1</sup> norm. However for smaller values of t, the DS procedure produces a different path of solutions than the lasso.
+Here || $\cdot$ ||$^{\infty}$ denotes the L$^{\infty}$ norm, the maximum absolute value of the components of the vector. In this form it resembles the lasso, replacing squared error loss by the maximum absolute value of its gradient. Note that as t gets large, both procedures yield the least squares solution if N < p. If p $\ge$ N, they both yield the least squares solution with minimum L$^{1}$ norm. However for smaller values of t, the DS procedure produces a different path of solutions than the lasso.
 
 Candes and Tao (2007) show that the solution to DS is a linear programming problem; hence the name Dantzig selector, in honor of the late George Dantzig, the inventor of the simplex method for linear programming. They also prove a number of interesting mathematical properties for the method, related to its ability to recover an underlying sparse coefficient vector. These same properties also hold for the lasso, as shown later by Bickel et al. (2008).
 
@@ -942,11 +937,11 @@ Unfortunately the operating properties of the DS method are somewhat unsatisfact
 
 ### 3.8.4 The Grouped Lasso
 
-In some problems, the predictors belong to pre-defined groups; for example genes that belong to the same biological pathway, or collections of indicator (dummy) variables for representing the levels of a categorical predictor. In this situation it may be desirable to shrink and select the members of a group together. The grouped lasso is one way to achieve this. Suppose that the p predictors are divided into L groups, with p<sup>ℓ</sup> the number in group ℓ. For ease of notation, we use a matrix X<sup>ℓ</sup> to represent the predictors corresponding to the ℓth group, with corresponding coefficient vector βℓ. The grouped-lasso minimizes the convex criterion
+In some problems, the predictors belong to pre-defined groups; for example genes that belong to the same biological pathway, or collections of indicator (dummy) variables for representing the levels of a categorical predictor. In this situation it may be desirable to shrink and select the members of a group together. The grouped lasso is one way to achieve this. Suppose that the p predictors are divided into L groups, with p$^{\ell}$ the number in group $\ell$. For ease of notation, we use a matrix X$^{\ell}$ to represent the predictors corresponding to the $\ell$th group, with corresponding coefficient vector $\beta$$\ell$. The grouped-lasso minimizes the convex criterion
 
 $$\min_{\beta \in \mathbb{R}^p} \left( ||\mathbf{y} - \beta_0 \mathbf{1} - \sum_{\ell=1}^L \mathbf{X}_{\ell} \beta_{\ell}||_2^2 + \lambda \sum_{\ell=1}^L \sqrt{p_{\ell}} ||\beta_{\ell}||_2 \right), \tag{3.80}$$
 
-where the <sup>√</sup>p<sup>ℓ</sup> terms accounts for the varying group sizes, and || · ||<sup>2</sup> is the Euclidean norm (not squared). Since the Euclidean norm of a vector β<sup>ℓ</sup> is zero only if all of its components are zero, this procedure encourages sparsity at both the group and individual levels. That is, for some values of λ, an entire group of predictors may drop out of the model. This procedure was proposed by Bakin (1999) and Lin and Zhang (2006), and studied and generalized by Yuan and Lin (2007). Generalizations include more general  $L_2$  norms  $||\eta||_K = (\eta^T K \eta)^{1/2}$ , as well as allowing overlapping groups of predictors (Zhao et al., 2008). There are also connections to methods for fitting sparse additive models (Lin and Zhang, 2006; Ravikumar et al., 2008).
+where the $^{\sqrt{}}$p$^{\ell}$ terms accounts for the varying group sizes, and || $\cdot$ ||$^{2}$ is the Euclidean norm (not squared). Since the Euclidean norm of a vector $\beta$$^{\ell}$ is zero only if all of its components are zero, this procedure encourages sparsity at both the group and individual levels. That is, for some values of $\lambda$, an entire group of predictors may drop out of the model. This procedure was proposed by Bakin (1999) and Lin and Zhang (2006), and studied and generalized by Yuan and Lin (2007). Generalizations include more general  $L_2$  norms  $||\eta||_K = (\eta^T K \eta)^{1/2}$ , as well as allowing overlapping groups of predictors (Zhao et al., 2008). There are also connections to methods for fitting sparse additive models (Lin and Zhang, 2006; Ravikumar et al., 2008).
 
 ### 3.8.5 Further Properties of the Lasso
 
@@ -959,9 +954,9 @@ $$\max_{j \in \mathcal{S}^c} ||\mathbf{x}_j^T \mathbf{X}_{\mathcal{S}} (\mathbf{
 
 Here S indexes the subset of features with non-zero coefficients in the true underlying model, and  $X_S$  are the columns of X corresponding to those features. Similarly  $S^c$  are the features with true coefficients equal to zero, and  $X_{S^c}$  the corresponding columns. This says that the least squares coefficients for the columns of  $X_{S^c}$  on  $X_S$  are not too large, that is, the "good" variables S are not too highly correlated with the nuisance variables  $S^c$ .
 
-Regarding the coefficients themselves, the lasso shrinkage causes the estimates of the non-zero coefficients to be biased towards zero, and in general they are not consistent<sup>5</sup>. One approach for reducing this bias is to run the lasso to identify the set of non-zero coefficients, and then fit an unrestricted linear model to the selected set of features. This is not always feasible, if the selected set is large. Alternatively, one can use the lasso to select the set of non-zero predictors, and then apply the lasso again, but using only the selected predictors from the first step. This is known as the relaxed lasso (Meinshausen, 2007). The idea is to use cross-validation to estimate the initial penalty parameter for the lasso, and then again for a second penalty parameter applied to the selected set of predictors. Since
+Regarding the coefficients themselves, the lasso shrinkage causes the estimates of the non-zero coefficients to be biased towards zero, and in general they are not consistent$^{5}$. One approach for reducing this bias is to run the lasso to identify the set of non-zero coefficients, and then fit an unrestricted linear model to the selected set of features. This is not always feasible, if the selected set is large. Alternatively, one can use the lasso to select the set of non-zero predictors, and then apply the lasso again, but using only the selected predictors from the first step. This is known as the relaxed lasso (Meinshausen, 2007). The idea is to use cross-validation to estimate the initial penalty parameter for the lasso, and then again for a second penalty parameter applied to the selected set of predictors. Since
 
- $<sup>^5</sup>$ Statistical consistency means as the sample size grows, the estimates converge to the true values.
+ $$^{^5}$$ Statistical consistency means as the sample size grows, the estimates converge to the true values.
 
 the variables in the second step have less "competition" from noise variables, cross-validation will tend to pick a smaller value for  $\lambda$ , and hence their coefficients will be shrunken less than those in the initial estimate.
 
@@ -996,7 +991,7 @@ $$\tilde{\beta}_j(\lambda) \leftarrow S\left(\sum_{i=1}^N x_{ij}(y_i - \tilde{y}
 
 Here  $S(t,\lambda) = \operatorname{sign}(t)(|t|-\lambda)_+$  is the soft-thresholding operator in Table 3.4 on page 71. The first argument to  $S(\cdot)$  is the simple least-squares coefficient of the partial residual on the standardized variable  $x_{ij}$ . Repeated iteration of (3.84)—cycling through each variable in turn until convergence—yields the lasso estimate  $\hat{\beta}(\lambda)$ .
 
-We can also use this simple algorithm to efficiently compute the lasso solutions at a grid of values of  $\lambda$ . We start with the smallest value  $\lambda_{\rm max}$  for which  $\hat{\beta}(\lambda_{\rm max})=0$ , decrease it a little and cycle through the variables until convergence. Then  $\lambda$  is decreased again and the process is repeated, using the previous solution as a "warm start" for the new value of  $\lambda$ . This can be faster than the LARS algorithm, especially in large problems. A key to its speed is the fact that the quantities in (3.84) can be updated quickly as j varies, and often the update is to leave  $\tilde{\beta}_j=0$ . On the other hand, it delivers solutions over a grid of  $\lambda$  values, rather than the entire solution path. The same kind of algorithm can be applied to the elastic net, the grouped lasso and many other models in which the penalty is a sum of functions of the individual parameters (Friedman et al., 2010). It can also be applied, with some substantial modifications, to the fused lasso (Section 18.4.2); details are in Friedman et al. (2007).
+We can also use this simple algorithm to efficiently compute the lasso solutions at a grid of values of  $\lambda$ . We start with the smallest value  $\lambda_{\mathrm max}$  for which  $\hat{\beta}(\lambda_{\mathrm max})=0$ , decrease it a little and cycle through the variables until convergence. Then  $\lambda$  is decreased again and the process is repeated, using the previous solution as a "warm start" for the new value of  $\lambda$ . This can be faster than the LARS algorithm, especially in large problems. A key to its speed is the fact that the quantities in (3.84) can be updated quickly as j varies, and often the update is to leave  $\tilde{\beta}_j=0$ . On the other hand, it delivers solutions over a grid of  $\lambda$  values, rather than the entire solution path. The same kind of algorithm can be applied to the elastic net, the grouped lasso and many other models in which the penalty is a sum of functions of the individual parameters (Friedman et al., 2010). It can also be applied, with some substantial modifications, to the fused lasso (Section 18.4.2); details are in Friedman et al. (2007).
 
 ## 3.9 Computational Considerations
 

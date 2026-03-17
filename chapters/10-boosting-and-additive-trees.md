@@ -4,7 +4,7 @@
 
 Boosting is one of the most powerful learning ideas introduced in the last twenty years. It was originally designed for classification problems, but as will be seen in this chapter, it can profitably be extended to regression as well. The motivation for boosting was a procedure that combines the outputs of many "weak" classifiers to produce a powerful "committee." From this perspective boosting bears a resemblance to bagging and other committee-based approaches (Section 8.8). However we shall see that the connection is at best superficial and that boosting is fundamentally different.
 
-We begin by describing the most popular boosting algorithm due to Freund and Schapire (1997) called "AdaBoost.M1." Consider a two-class problem, with the output variable coded as Y ∈ {−1, 1}. Given a vector of predictor variables X, a classifier G(X) produces a prediction taking one of the two values {−1, 1}. The error rate on the training sample is
+We begin by describing the most popular boosting algorithm due to Freund and Schapire (1997) called "AdaBoost.M1." Consider a two-class problem, with the output variable coded as Y $\in$ {−1, 1}. Given a vector of predictor variables X, a classifier G(X) produces a prediction taking one of the two values {−1, 1}. The error rate on the training sample is
 
 $$\overline{\text{err}} = \frac{1}{N} \sum_{i=1}^{N} I(y_i \neq G(x_i)),$$
 
@@ -22,9 +22,9 @@ The predictions from all of them are then combined through a weighted majority v
 
 $$G(x) = \operatorname{sign}\left(\sum_{m=1}^{M} \alpha_m G_m(x)\right). \tag{10.1}$$
 
-Here α1, α2, . . . , α<sup>M</sup> are computed by the boosting algorithm, and weight the contribution of each respective Gm(x). Their effect is to give higher influence to the more accurate classifiers in the sequence. Figure 10.1 shows a schematic of the AdaBoost procedure.
+Here $\alpha$1, $\alpha$2, . . . , $\alpha$$^{M}$ are computed by the boosting algorithm, and weight the contribution of each respective Gm(x). Their effect is to give higher influence to the more accurate classifiers in the sequence. Figure 10.1 shows a schematic of the AdaBoost procedure.
 
-The data modifications at each boosting step consist of applying weights w1, w2, . . . , w<sup>N</sup> to each of the training observations (x<sup>i</sup> , yi), i = 1, 2, . . . , N. Initially all of the weights are set to w<sup>i</sup> = 1/N, so that the first step simply trains the classifier on the data in the usual manner. For each successive iteration m = 2, 3, . . . , M the observation weights are individually modified and the classification algorithm is reapplied to the weighted observations. At step m, those observations that were misclassified by the classifier Gm−1(x) induced at the previous step have their weights increased, whereas the weights are decreased for those that were classified correctly. Thus as iterations proceed, observations that are difficult to classify correctly receive ever-increasing influence. Each successive classifier is thereby forced
+The data modifications at each boosting step consist of applying weights w1, w2, . . . , w$^{N}$ to each of the training observations (x$^{i}$ , yi), i = 1, 2, . . . , N. Initially all of the weights are set to w$^{i}$ = 1/N, so that the first step simply trains the classifier on the data in the usual manner. For each successive iteration m = 2, 3, . . . , M the observation weights are individually modified and the classification algorithm is reapplied to the weighted observations. At step m, those observations that were misclassified by the classifier Gm−1(x) induced at the previous step have their weights increased, whereas the weights are decreased for those that were classified correctly. Thus as iterations proceed, observations that are difficult to classify correctly receive ever-increasing influence. Each successive classifier is thereby forced
 
 #### Algorithm 10.1 AdaBoost.M1.
 
@@ -93,7 +93,7 @@ Additive expansions like this are at the heart of many of the learning technique
 
 $$(\beta_m, \gamma_m) = \arg\min_{\beta, \gamma} \sum_{i=1}^N L(y_i, f_{m-1}(x_i) + \beta b(x_i; \gamma)).$$
 
-- (b) Set fm(x) = fm−1(x) + βmb(x; γm).
+- (b) Set fm(x) = fm−1(x) + $\beta$mb(x; γm).
 - For trees, γ parameterizes the split variables and split points at the internal nodes, and the predictions at the terminal nodes.
 
 Typically these models are fit by minimizing a loss function averaged over the training data, such as the squared-error or a likelihood-based loss function,
@@ -107,7 +107,7 @@ $$\min_{\beta,\gamma} \sum_{i=1}^{N} L(y_i, \beta b(x_i; \gamma)). \tag{10.5}$$
 
 # 10.3 Forward Stagewise Additive Modeling
 
-Forward stagewise modeling approximates the solution to (10.4) by sequentially adding new basis functions to the expansion without adjusting the parameters and coefficients of those that have already been added. This is outlined in Algorithm 10.2. At each iteration m, one solves for the optimal basis function b(x; γm) and corresponding coefficient β<sup>m</sup> to add to the current expansion fm−1(x). This produces fm(x), and the process is repeated. Previously added terms are not modified.
+Forward stagewise modeling approximates the solution to (10.4) by sequentially adding new basis functions to the expansion without adjusting the parameters and coefficients of those that have already been added. This is outlined in Algorithm 10.2. At each iteration m, one solves for the optimal basis function b(x; γm) and corresponding coefficient $\beta$$^{m}$ to add to the current expansion fm−1(x). This produces fm(x), and the process is repeated. Previously added terms are not modified.
 
 For squared-error loss
 
@@ -156,11 +156,11 @@ which in turn can be written as
 $$(e^{\beta} - e^{-\beta}) \cdot \sum_{i=1}^{N} w_i^{(m)} I(y_i \neq G(x_i)) + e^{-\beta} \cdot \sum_{i=1}^{N} w_i^{(m)}.$$
  (10.11)
 
-Plugging this G<sup>m</sup> into (10.9) and solving for β one obtains
+Plugging this G$^{m}$ into (10.9) and solving for $\beta$ one obtains
 
 $$\beta_m = \frac{1}{2} \log \frac{1 - \operatorname{err}_m}{\operatorname{err}_m},\tag{10.12}$$
 
-where err<sup>m</sup> is the minimized weighted error rate
+where err$^{m}$ is the minimized weighted error rate
 
 $$\operatorname{err}_{m} = \frac{\sum_{i=1}^{N} w_{i}^{(m)} I(y_{i} \neq G_{m}(x_{i}))}{\sum_{i=1}^{N} w_{i}^{(m)}}.$$
  (10.13)
@@ -174,11 +174,11 @@ which causes the weights for the next iteration to be
 $$w_i^{(m+1)} = w_i^{(m)} \cdot e^{-\beta_m y_i G_m(x_i)}.$$
  (10.14)
 
-Using the fact that −yiGm(xi) = 2 · I(y<sup>i</sup> 6= Gm(xi)) − 1, (10.14) becomes
+Using the fact that −yiGm(xi) = 2 $\cdot$ I(y$^{i}$ 6= Gm(xi)) − 1, (10.14) becomes
 
 $$w_i^{(m+1)} = w_i^{(m)} \cdot e^{\alpha_m I(y_i \neq G_m(x_i))} \cdot e^{-\beta_m}, \qquad (10.15)$$
 
-where α<sup>m</sup> = 2β<sup>m</sup> is the quantity defined at line 2(c) of AdaBoost.M1 (Algorithm 10.1). The factor e <sup>−</sup>β<sup>m</sup> in (10.15) multiplies all weights by the same value, so it has no effect. Thus (10.15) is equivalent to line 2(d) of Algorithm 10.1.
+where $\alpha$$^{m}$ = 2$\beta$$^{m}$ is the quantity defined at line 2(c) of AdaBoost.M1 (Algorithm 10.1). The factor e $^{−}$$\beta$$^{m}$ in (10.15) multiplies all weights by the same value, so it has no effect. Thus (10.15) is equivalent to line 2(d) of Algorithm 10.1.
 
 One can view line 2(a) of the Adaboost.M1 algorithm as a method for approximately solving the minimization in (10.11) and hence (10.10). Hence we conclude that AdaBoost.M1 minimizes the exponential loss criterion (10.8) via a forward-stagewise additive modeling approach.
 
@@ -283,7 +283,7 @@ These considerations suggest that when robustness is a concern, as is especially
 
 FIGURE 10.5. A comparison of three loss functions for regression, plotted as a function of the margin y−f. The Huber loss function combines the good properties of squared-error loss near zero and absolute error loss when |y − f| is large.
 
-exponential loss one performs a weighted fit of the base learner to the output values y<sup>i</sup> , with weights w<sup>i</sup> = exp(−yifm−1(xi)). Using other more robust criteria directly in their place does not give rise to such simple feasible boosting algorithms. However, in Section 10.10.2 we show how one can derive simple elegant boosting algorithms based on any differentiable loss criterion, thereby producing highly robust boosting procedures for data mining.
+exponential loss one performs a weighted fit of the base learner to the output values y$^{i}$ , with weights w$^{i}$ = exp(−yifm−1(xi)). Using other more robust criteria directly in their place does not give rise to such simple feasible boosting algorithms. However, in Section 10.10.2 we show how one can derive simple elegant boosting algorithms based on any differentiable loss criterion, thereby producing highly robust boosting procedures for data mining.
 
 # 10.7 "Off-the-Shelf" Procedures for Data Mining
 
@@ -343,7 +343,7 @@ One sees that for very low frequencies of hp, the log-odds of spam are greatly i
 
 # 10.9 Boosting Trees
 
-Regression and classification trees are discussed in detail in Section 9.2. They partition the space of all joint predictor variable values into disjoint regions R<sup>j</sup> , j = 1, 2, . . . , J, as represented by the terminal nodes of the tree. A constant γ<sup>j</sup> is assigned to each such region and the predictive rule is
+Regression and classification trees are discussed in detail in Section 9.2. They partition the space of all joint predictor variable values into disjoint regions R$^{j}$ , j = 1, 2, . . . , J, as represented by the terminal nodes of the tree. A constant γ$^{j}$ is assigned to each such region and the predictive rule is
 
 $$x \in R_j \Rightarrow f(x) = \gamma_j.$$
 
@@ -363,21 +363,21 @@ Thus a tree can be formally expressed as
 
 $$T(x;\Theta) = \sum_{j=1}^{J} \gamma_j I(x \in R_j), \qquad (10.25)$$
 
-with parameters Θ = {R<sup>j</sup> , γj} J 1 . J is usually treated as a meta-parameter. The parameters are found by minimizing the empirical risk
+with parameters Θ = {R$^{j}$ , γj} J 1 . J is usually treated as a meta-parameter. The parameters are found by minimizing the empirical risk
 
 $$\hat{\Theta} = \arg\min_{\Theta} \sum_{j=1}^{J} \sum_{x_i \in R_j} L(y_i, \gamma_j). \tag{10.26}$$
 
 This is a formidable combinatorial optimization problem, and we usually settle for approximate suboptimal solutions. It is useful to divide the optimization problem into two parts:
 
-Finding γ<sup>j</sup> given R<sup>j</sup> : Given the R<sup>j</sup> , estimating the γ<sup>j</sup> is typically trivial, and often ˆγ<sup>j</sup> = ¯y<sup>j</sup> , the mean of the y<sup>i</sup> falling in region R<sup>j</sup> . For misclassification loss, ˆγ<sup>j</sup> is the modal class of the observations falling in region R<sup>j</sup> .
+Finding γ$^{j}$ given R$^{j}$ : Given the R$^{j}$ , estimating the γ$^{j}$ is typically trivial, and often ˆγ$^{j}$ = ¯y$^{j}$ , the mean of the y$^{i}$ falling in region R$^{j}$ . For misclassification loss, ˆγ$^{j}$ is the modal class of the observations falling in region R$^{j}$ .
 
-Finding R<sup>j</sup> : This is the difficult part, for which approximate solutions are found. Note also that finding the R<sup>j</sup> entails estimating the γ<sup>j</sup> as well. A typical strategy is to use a greedy, top-down recursive partitioning algorithm to find the R<sup>j</sup> . In addition, it is sometimes necessary to approximate (10.26) by a smoother and more convenient criterion for optimizing the R<sup>j</sup> :
+Finding R$^{j}$ : This is the difficult part, for which approximate solutions are found. Note also that finding the R$^{j}$ entails estimating the γ$^{j}$ as well. A typical strategy is to use a greedy, top-down recursive partitioning algorithm to find the R$^{j}$ . In addition, it is sometimes necessary to approximate (10.26) by a smoother and more convenient criterion for optimizing the R$^{j}$ :
 
 $$\tilde{\Theta} = \arg\min_{\Theta} \sum_{i=1}^{N} \tilde{L}(y_i, T(x_i, \Theta)). \tag{10.27}$$
 
-Then given the Rˆ <sup>j</sup> = R˜ <sup>j</sup> , the γ<sup>j</sup> can be estimated more precisely using the original criterion.
+Then given the Rˆ $^{j}$ = R˜ $^{j}$ , the γ$^{j}$ can be estimated more precisely using the original criterion.
 
-In Section 9.2 we described such a strategy for classification trees. The Gini index replaced misclassification loss in the growing of the tree (identifying the R<sup>j</sup> ).
+In Section 9.2 we described such a strategy for classification trees. The Gini index replaced misclassification loss in the growing of the tree (identifying the R$^{j}$ ).
 
 The boosted tree model is a sum of such trees,
 
@@ -473,18 +473,18 @@ $$\tilde{\Theta}_m = \arg\min_{\Theta} \sum_{i=1}^{N} \left( -g_{im} - T(x_i; \T
 
 That is, one fits the tree T to the negative gradient values (10.35) by least squares. As noted in Section 10.9 fast algorithms exist for least squares decision tree induction. Although the solution regions  $\tilde{R}_{jm}$  to (10.37) will not be identical to the regions  $R_{jm}$  that solve (10.29), it is generally similar enough to serve the same purpose. In any case, the forward stagewise
 
-| Setting        | Loss Function              | −∂L(yi<br>, f(xi))/∂f(xi)                                                                                                                                 |
+| Setting        | Loss Function              | −\partialL(yi<br>, f(xi))/\partialf(xi)                                                                                                                                 |
 |----------------|----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Regression     | 1<br>− f(xi)]2<br>[yi<br>2 | yi<br>− f(xi)                                                                                                                                             |
 | Regression     | yi<br>− f(xi)              | sign[yi<br>− f(xi)]                                                                                                                                       |
-| Regression     | Huber                      | yi<br>− f(xi) for<br> yi<br>− f(xi)  ≤<br>δm<br>δmsign[yi<br>− f(xi)] for<br> yi<br>− f(xi) <br>> δm<br>where<br>δm<br>=<br>αth-quantile{ yi<br>− f(xi) } |
+| Regression     | Huber                      | yi<br>− f(xi) for<br> yi<br>− f(xi)  \le<br>\deltam<br>\deltamsign[yi<br>− f(xi)] for<br> yi<br>− f(xi) <br>> \deltam<br>where<br>\deltam<br>=<br>\alphath-quantile{ yi<br>− f(xi) } |
 | Classification | Deviance                   | kth component:<br>I(yi<br>=<br>Gk)<br>− pk(xi)                                                                                                            |
 
 TABLE 10.2. Gradients for commonly used loss functions.
 
 boosting procedure, and top-down decision tree induction, are themselves approximation procedures. After constructing the tree (10.37), the corresponding constants in each region are given by (10.30).
 
-Table 10.2 summarizes the gradients for commonly used loss functions. For squared error loss, the negative gradient is just the ordinary residual −gim = y<sup>i</sup> − fm−1(xi), so that (10.37) on its own is equivalent to standard least-squares boosting. With absolute error loss, the negative gradient is the sign of the residual, so at each iteration (10.37) fits the tree to the sign of the current residuals by least squares. For Huber M-regression, the negative gradient is a compromise between these two (see the table).
+Table 10.2 summarizes the gradients for commonly used loss functions. For squared error loss, the negative gradient is just the ordinary residual −gim = y$^{i}$ − fm−1(xi), so that (10.37) on its own is equivalent to standard least-squares boosting. With absolute error loss, the negative gradient is the sign of the residual, so at each iteration (10.37) fits the tree to the sign of the current residuals by least squares. For Huber M-regression, the negative gradient is a compromise between these two (see the table).
 
 For classification the loss function is the multinomial deviance (10.22), and K least squares trees are constructed at each iteration. Each tree Tkm is fit to its respective negative gradient vector gkm,
 
@@ -499,18 +499,18 @@ Algorithm 10.3 presents the generic gradient tree-boosting algorithm for regress
 
 #### Algorithm 10.3 Gradient Tree Boosting Algorithm.
 
-- 1. Initialize f0(x) = arg min<sup>γ</sup> P<sup>N</sup> <sup>i</sup>=1 L(y<sup>i</sup> , γ).
+- 1. Initialize f0(x) = arg min$^{γ}$ P$^{N}$ $^{i}$=1 L(y$^{i}$ , γ).
 - 2. For m = 1 to M:
   - (a) For i = 1, 2, . . . , N compute
 
 $$r_{im} = -\left[\frac{\partial L(y_i, f(x_i))}{\partial f(x_i)}\right]_{f=f_{m-1}}.$$
 
 - (b) Fit a regression tree to the targets rim giving terminal regions Rjm, j = 1, 2, . . . , Jm.
-- (c) For j = 1, 2, . . . , J<sup>m</sup> compute
+- (c) For j = 1, 2, . . . , J$^{m}$ compute
 
 $$\gamma_{jm} = \arg\min_{\gamma} \sum_{x_i \in R_{jm}} L(y_i, f_{m-1}(x_i) + \gamma).$$
 
-- (d) Update fm(x) = fm−1(x) + P<sup>J</sup><sup>m</sup> <sup>j</sup>=1 γjmI(x ∈ Rjm).
+- (d) Update fm(x) = fm−1(x) + P$^{J}$$^{m}$ $^{j}$=1 γjmI(x \in Rjm).
 - 3. Output ˆf(x) = fM(x).
 
 The algorithm for classification is similar. Lines 2(a)–(d) are repeated K times at each iteration m, once for each class using (10.38). The result at line 3 is K different (coupled) tree expansions fkM(x), k = 1, 2, . . . , K. These produce probabilities via (10.21) or do classification as in (10.20). Details are given in Exercise 10.9. Two basic tuning parameters are the number of iterations M and the sizes of each of the constituent trees Jm, m = 1, 2, . . . , M.
@@ -521,19 +521,19 @@ The original implementation of this algorithm was called MART for "multiple addi
 
 Historically, boosting was considered to be a technique for combining models, here trees. As such, the tree building algorithm was regarded as a primitive that produced models to be combined by the boosting procedure. In this scenario, the optimal size of each tree is estimated separately in the usual manner when it is built (Section 9.2). A very large (oversized) tree is first induced, and then a bottom-up procedure is employed to prune it to the estimated optimal number of terminal nodes. This approach assumes implicitly that each tree is the last one in the expansion (10.28). Except perhaps for the very last tree, this is clearly a very poor assumption. The result is that trees tend to be much too large, especially during the early iterations. This substantially degrades performance and increases computation.
 
-The simplest strategy for avoiding this problem is to restrict all trees to be the same size, J<sup>m</sup> = J ∀m. At each iteration a J-terminal node regression tree is induced. Thus J becomes a meta-parameter of the entire boosting procedure, to be adjusted to maximize estimated performance for the data at hand.
+The simplest strategy for avoiding this problem is to restrict all trees to be the same size, J$^{m}$ = J ∀m. At each iteration a J-terminal node regression tree is induced. Thus J becomes a meta-parameter of the entire boosting procedure, to be adjusted to maximize estimated performance for the data at hand.
 
 One can get an idea of useful values for J by considering the properties of the "target" function
 
 $$\eta = \arg\min_{f} \mathcal{E}_{XY} L(Y, f(X)). \tag{10.39}$$
 
-Here the expected value is over the population joint distribution of (X, Y ). The target function η(x) is the one with minimum prediction risk on future data. This is the function we are trying to approximate.
+Here the expected value is over the population joint distribution of (X, Y ). The target function \eta(x) is the one with minimum prediction risk on future data. This is the function we are trying to approximate.
 
-One relevant property of η(X) is the degree to which the coordinate variables X<sup>T</sup> = (X1, X2, . . . , Xp) interact with one another. This is captured by its ANOVA (analysis of variance) expansion
+One relevant property of \eta(X) is the degree to which the coordinate variables X$^{T}$ = (X1, X2, . . . , Xp) interact with one another. This is captured by its ANOVA (analysis of variance) expansion
 
 $$\eta(X) = \sum_{j} \eta_{j}(X_{j}) + \sum_{jk} \eta_{jk}(X_{j}, X_{k}) + \sum_{jkl} \eta_{jkl}(X_{j}, X_{k}, X_{l}) + \cdots (10.40)$$
 
-The first sum in (10.40) is over functions of only a single predictor variable X<sup>j</sup> . The particular functions η<sup>j</sup> (X<sup>j</sup> ) are those that jointly best approximate η(X) under the loss criterion being used. Each such η<sup>j</sup> (X<sup>j</sup> ) is called the "main effect" of X<sup>j</sup> . The second sum is over those two-variable functions that when added to the main effects best fit η(X). These are called the second-order interactions of each respective variable pair (X<sup>j</sup> , Xk). The third sum represents third-order interactions, and so on. For many problems encountered in practice, low-order interaction effects tend to dominate. When this is the case, models that produce strong higher-order interaction effects, such as large decision trees, suffer in accuracy.
+The first sum in (10.40) is over functions of only a single predictor variable X$^{j}$ . The particular functions \eta$^{j}$ (X$^{j}$ ) are those that jointly best approximate \eta(X) under the loss criterion being used. Each such \eta$^{j}$ (X$^{j}$ ) is called the "main effect" of X$^{j}$ . The second sum is over those two-variable functions that when added to the main effects best fit \eta(X). These are called the second-order interactions of each respective variable pair (X$^{j}$ , Xk). The third sum represents third-order interactions, and so on. For many problems encountered in practice, low-order interaction effects tend to dominate. When this is the case, models that produce strong higher-order interaction effects, such as large decision trees, suffer in accuracy.
 
 The interaction level of tree-based approximations is limited by the tree size J. Namely, no interaction effects of level greater than J − 1 are possible. Since boosted models are additive in the trees (10.28), this limit extends to them as well. Setting J = 2 (single split "decision stump") produces boosted models with only main effects; no interactions are permitted. With J = 3, two-variable interaction effects are also allowed, and
 
@@ -541,9 +541,9 @@ The interaction level of tree-based approximations is limited by the tree size J
 
 FIGURE 10.9. Boosting with different sized trees, applied to the example (10.2) used in Figure 10.2. Since the generative model is additive, stumps perform the best. The boosting algorithm used the binomial deviance loss in Algorithm 10.3; shown for comparison is the AdaBoost Algorithm 10.1.
 
-so on. This suggests that the value chosen for J should reflect the level of dominant interactions of η(x). This is of course generally unknown, but in most situations it will tend to be low. Figure 10.9 illustrates the effect of interaction order (choice of J) on the simulation example (10.2). The generative function is additive (sum of quadratic monomials), so boosting models with J > 2 incurs unnecessary variance and hence the higher test error. Figure 10.10 compares the coordinate functions found by boosted stumps with the true functions.
+so on. This suggests that the value chosen for J should reflect the level of dominant interactions of \eta(x). This is of course generally unknown, but in most situations it will tend to be low. Figure 10.9 illustrates the effect of interaction order (choice of J) on the simulation example (10.2). The generative function is additive (sum of quadratic monomials), so boosting models with J > 2 incurs unnecessary variance and hence the higher test error. Figure 10.10 compares the coordinate functions found by boosted stumps with the true functions.
 
-Although in many applications J = 2 will be insufficient, it is unlikely that J > 10 will be required. Experience so far indicates that 4 ≤ J ≤ 8 works well in the context of boosting, with results being fairly insensitive to particular choices in this range. One can fine-tune the value for J by trying several different values and choosing the one that produces the lowest risk on a validation sample. However, this seldom provides significant improvement over using J ≃ 6.
+Although in many applications J = 2 will be insufficient, it is unlikely that J > 10 will be required. Experience so far indicates that 4 \le J \le 8 works well in the context of boosting, with results being fairly insensitive to particular choices in this range. One can fine-tune the value for J by trying several different values and choosing the one that produces the lowest risk on a validation sample. However, this seldom provides significant improvement over using J ≃ 6.
 
 # f1(x1) f2(x2) f3(x3) f4(x4) f5(x5) f6(x6) f7(x7) f8(x8) f9(x9) f10(x10)
 
@@ -553,7 +553,7 @@ FIGURE 10.10. Coordinate functions estimated by boosting stumps for the simulate
 
 # 10.12 Regularization
 
-Besides the size of the constituent trees, J, the other meta-parameter of gradient boosting is the number of boosting iterations M. Each iteration usually reduces the training risk L(fM), so that for M large enough this risk can be made arbitrarily small. However, fitting the training data too well can lead to overfitting, which degrades the risk on future predictions. Thus, there is an optimal number M<sup>∗</sup> minimizing future risk that is application dependent. A convenient way to estimate M<sup>∗</sup> is to monitor prediction risk as a function of M on a validation sample. The value of M that minimizes this risk is taken to be an estimate of M<sup>∗</sup> . This is analogous to the early stopping strategy often used with neural networks (Section 11.4).
+Besides the size of the constituent trees, J, the other meta-parameter of gradient boosting is the number of boosting iterations M. Each iteration usually reduces the training risk L(fM), so that for M large enough this risk can be made arbitrarily small. However, fitting the training data too well can lead to overfitting, which degrades the risk on future predictions. Thus, there is an optimal number M$^{∗}$ minimizing future risk that is application dependent. A convenient way to estimate M$^{∗}$ is to monitor prediction risk as a function of M on a validation sample. The value of M that minimizes this risk is taken to be an estimate of M$^{∗}$ . This is analogous to the early stopping strategy often used with neural networks (Section 11.4).
 
 # 10.12.1 Shrinkage
 
@@ -590,7 +590,7 @@ FIGURE 10.11. Test error curves for simulated example (10.2) of Figure 10.9, usi
 
 FIGURE 10.12. Test-error curves for the simulated example (10.2), showing the effect of stochasticity. For the curves labeled "Sample= 0.5", a different 50% subsample of the training data was used each time a tree was grown. In the left panel the models were fit by gbm using a binomial deviance loss function; in the right-hand panel using square-error loss.
 
-The downside is that we now have four parameters to set: J, M, ν and η. Typically some early explorations determine suitable values for J, ν and η, leaving M as the primary parameter.
+The downside is that we now have four parameters to set: J, M, ν and \eta. Typically some early explorations determine suitable values for J, ν and \eta, leaving M as the primary parameter.
 
 # 10.13 Interpretation
 
@@ -632,7 +632,7 @@ Figures 10.23 and 10.24 illustrate the use of these averaged and separate relati
 
 After the most relevant variables have been identified, the next step is to attempt to understand the nature of the dependence of the approximation f(X) on their joint values. Graphical renderings of the f(X) as a function of its arguments provides a comprehensive summary of its dependence on the joint values of the input variables.
 
-Unfortunately, such visualization is limited to low-dimensional views. We can easily display functions of one or two arguments, either continuous or discrete (or mixed), in a variety of different ways; this book is filled with such displays. Functions of slightly higher dimensions can be plotted by conditioning on particular sets of values of all but one or two of the arguments, producing a *trellis* of plots (Becker et al., 1996).<sup>1</sup>
+Unfortunately, such visualization is limited to low-dimensional views. We can easily display functions of one or two arguments, either continuous or discrete (or mixed), in a variety of different ways; this book is filled with such displays. Functions of slightly higher dimensions can be plotted by conditioning on particular sets of values of all but one or two of the arguments, producing a *trellis* of plots (Becker et al., 1996).$^{1}$
 
 For more than two or three variables, viewing functions of the corresponding higher-dimensional arguments is more difficult. A useful alternative can sometimes be to view a collection of plots, each one of which shows the partial dependence of the approximation f(X) on a selected small subset of the input variables. Although such a collection can seldom provide a comprehensive depiction of the approximation, it can often produce helpful clues, especially when f(x) is dominated by low-order interactions (10.40).
 
@@ -649,28 +649,28 @@ $$\bar{f}_{\mathcal{S}}(X_{\mathcal{S}}) = \frac{1}{N} \sum_{i=1}^{N} f(X_{\math
 
 where  $\{x_{1C}, x_{2C}, \dots, x_{NC}\}$  are the values of  $X_C$  occurring in the training data. This requires a pass over the data for each set of joint values of  $X_S$  for which  $\bar{f}_S(X_S)$  is to be evaluated. This can be computationally intensive,
 
-<sup>&</sup>lt;sup>1</sup>lattice in R.
+$ ^{1} $lattice in R.
 
-even for moderately sized data sets. Fortunately with decision trees, ¯f<sup>S</sup> (X<sup>S</sup> ) (10.48) can be rapidly computed from the tree itself without reference to the data (Exercise 10.11).
+even for moderately sized data sets. Fortunately with decision trees, ¯f$^{S}$ (X$^{S}$ ) (10.48) can be rapidly computed from the tree itself without reference to the data (Exercise 10.11).
 
-It is important to note that partial dependence functions defined in (10.47) represent the effect of X<sup>S</sup> on f(X) after accounting for the (average) effects of the other variables X<sup>C</sup> on f(X). They are not the effect of X<sup>S</sup> on f(X) ignoring the effects of XC. The latter is given by the conditional expectation
+It is important to note that partial dependence functions defined in (10.47) represent the effect of X$^{S}$ on f(X) after accounting for the (average) effects of the other variables X$^{C}$ on f(X). They are not the effect of X$^{S}$ on f(X) ignoring the effects of XC. The latter is given by the conditional expectation
 
 $$\tilde{f}_{\mathcal{S}}(X_{\mathcal{S}}) = \mathbb{E}(f(X_{\mathcal{S}}, X_{\mathcal{C}})|X_{\mathcal{S}}),$$
 (10.49)
 
-and is the best least squares approximation to f(X) by a function of X<sup>S</sup> alone. The quantities ˜f<sup>S</sup> (X<sup>S</sup> ) and ¯f<sup>S</sup> (X<sup>S</sup> ) will be the same only in the unlikely event that X<sup>S</sup> and X<sup>C</sup> are independent. For example, if the effect of the chosen variable subset happens to be purely additive,
+and is the best least squares approximation to f(X) by a function of X$^{S}$ alone. The quantities ˜f$^{S}$ (X$^{S}$ ) and ¯f$^{S}$ (X$^{S}$ ) will be the same only in the unlikely event that X$^{S}$ and X$^{C}$ are independent. For example, if the effect of the chosen variable subset happens to be purely additive,
 
 $$f(X) = h_1(X_S) + h_2(X_C).$$
  (10.50)
 
-Then (10.47) produces the h1(X<sup>S</sup> ) up to an additive constant. If the effect is purely multiplicative,
+Then (10.47) produces the h1(X$^{S}$ ) up to an additive constant. If the effect is purely multiplicative,
 
 $$f(X) = h_1(X_S) \cdot h_2(X_C),$$
  (10.51)
 
-then (10.47) produces h1(X<sup>S</sup> ) up to a multiplicative constant factor. On the other hand, (10.49) will not produce h1(X<sup>S</sup> ) in either case. In fact, (10.49) can produce strong effects on variable subsets for which f(X) has no dependence at all.
+then (10.47) produces h1(X$^{S}$ ) up to a multiplicative constant factor. On the other hand, (10.49) will not produce h1(X$^{S}$ ) in either case. In fact, (10.49) can produce strong effects on variable subsets for which f(X) has no dependence at all.
 
-Viewing plots of the partial dependence of the boosted-tree approximation (10.28) on selected variables subsets can help to provide a qualitative description of its properties. Illustrations are shown in Sections 10.8 and 10.14. Owing to the limitations of computer graphics, and human perception, the size of the subsets X<sup>S</sup> must be small (l ≈ 1, 2, 3). There are of course a large number of such subsets, but only those chosen from among the usually much smaller set of highly relevant predictors are likely to be informative. Also, those subsets whose effect on f(X) is approximately additive (10.50) or multiplicative (10.51) will be most revealing.
+Viewing plots of the partial dependence of the boosted-tree approximation (10.28) on selected variables subsets can help to provide a qualitative description of its properties. Illustrations are shown in Sections 10.8 and 10.14. Owing to the limitations of computer graphics, and human perception, the size of the subsets X$^{S}$ must be small (l \approx 1, 2, 3). There are of course a large number of such subsets, but only those chosen from among the usually much smaller set of highly relevant predictors are likely to be informative. Also, those subsets whose effect on f(X) is approximately additive (10.50) or multiplicative (10.51) will be most revealing.
 
 For K-class classification, there are K separate models (10.44), one for each class. Each one is related to the respective probabilities (10.21) through
 
@@ -685,7 +685,7 @@ In this section we illustrate gradient boosting on a number of larger datasets, 
 
 #### 10.14.1 California Housing
 
-This data set (Pace and Barry, 1997) is available from the Carnegie-Mellon StatLib repository<sup>2</sup> . It consists of aggregated data from each of 20,460 neighborhoods (1990 census block groups) in California. The response variable Y is the median house value in each neighborhood measured in units of \$100,000. The predictor variables are demographics such as median income MedInc, housing density as reflected by the number of houses House, and the average occupancy in each house AveOccup. Also included as predictors are the location of each neighborhood (longitude and latitude), and several quantities reflecting the properties of the houses in the neighborhood: average number of rooms AveRooms and bedrooms AveBedrms. There are thus a total of eight predictors, all numeric.
+This data set (Pace and Barry, 1997) is available from the Carnegie-Mellon StatLib repository$^{2}$ . It consists of aggregated data from each of 20,460 neighborhoods (1990 census block groups) in California. The response variable Y is the median house value in each neighborhood measured in units of \$100,000. The predictor variables are demographics such as median income MedInc, housing density as reflected by the number of houses House, and the average occupancy in each house AveOccup. Also included as predictors are the location of each neighborhood (longitude and latitude), and several quantities reflecting the properties of the houses in the neighborhood: average number of rooms AveRooms and bedrooms AveBedrms. There are thus a total of eight predictors, all numeric.
 
 We fit a gradient boosting model using the MART procedure, with J = 6 terminal nodes, a learning rate (10.41) of ν = 0.1, and the Huber loss criterion for predicting the numeric response. We randomly divided the dataset into a training set (80%) and a test set (20%).
 
@@ -695,9 +695,9 @@ $$AAE = E |y - \hat{f}_M(x)| \qquad (10.53)$$
 
 as a function for number of iterations M on both the training data and test data. The test error is seen to decrease monotonically with increasing M, more rapidly during the early stages and then leveling off to being nearly constant as iterations increase. Thus, the choice of a particular value of M is not critical, as long as it is not too small. This tends to be the case in many applications. The shrinkage strategy (10.41) tends to eliminate the problem of overfitting, especially for larger data sets.
 
-The value of AAE after 800 iterations is 0.31. This can be compared to that of the optimal constant predictor median{yi} which is 0.89. In terms of more familiar quantities, the squared multiple correlation coefficient of this model is R<sup>2</sup> = 0.84. Pace and Barry (1997) use a sophisticated spatial autoregression procedure, where prediction for each neighborhood is based on median house values in nearby neighborhoods, using the other predictors as covariates. Experimenting with transformations they achieved R<sup>2</sup> = 0.85, predicting log Y . Using log Y as the response the corresponding value for gradient boosting was R<sup>2</sup> = 0.86.
+The value of AAE after 800 iterations is 0.31. This can be compared to that of the optimal constant predictor median{yi} which is 0.89. In terms of more familiar quantities, the squared multiple correlation coefficient of this model is R$^{2}$ = 0.84. Pace and Barry (1997) use a sophisticated spatial autoregression procedure, where prediction for each neighborhood is based on median house values in nearby neighborhoods, using the other predictors as covariates. Experimenting with transformations they achieved R$^{2}$ = 0.85, predicting log Y . Using log Y as the response the corresponding value for gradient boosting was R$^{2}$ = 0.86.
 
-<sup>2</sup>http://lib.stat.cmu.edu.
+$^{2}$http://lib.stat.cmu.edu.
 
 ![Average-absolute error for California housing data](../figures/_page_390_Figure_2.jpeg)
 
@@ -737,7 +737,7 @@ gions. In the northern, central valley, and southeastern desert regions of Calif
 
 # 10.14.2 New Zealand Fish
 
-Plant and animal ecologists use regression models to predict species presence, abundance and richness as a function of environmental variables. Although for many years simple linear and parametric models were popular, recent literature shows increasing interest in more sophisticated models such as generalized additive models (Section 9.1, GAM), multivariate adaptive regression splines (Section 9.4, MARS) and boosted regression trees (Leathwick et al., 2005; Leathwick et al., 2006). Here we model the presence and abundance of the Black Oreo Dory, a marine fish found in the oceanic waters around New Zealand.<sup>3</sup>
+Plant and animal ecologists use regression models to predict species presence, abundance and richness as a function of environmental variables. Although for many years simple linear and parametric models were popular, recent literature shows increasing interest in more sophisticated models such as generalized additive models (Section 9.1, GAM), multivariate adaptive regression splines (Section 9.4, MARS) and boosted regression trees (Leathwick et al., 2005; Leathwick et al., 2006). Here we model the presence and abundance of the Black Oreo Dory, a marine fish found in the oceanic waters around New Zealand.$^{3}$
 
 Figure 10.18 shows the locations of 17,000 trawls (deep-water net fishing, with a maximum depth of 2km), and the red points indicate those 2353 trawls for which the Black Oreo was present, one of over a hundred species regularly recorded. The catch size in kg for each species was recorded for each trawl. Along with the species catch, a number of environmental measurements are available for each trawl. These include the average depth of the trawl (AvgDepth), and the temperature and salinity of the water. Since the latter two are strongly correlated with depth, Leathwick et al. (2006) derived instead TempResid and SalResid, the residuals obtained when these two measures are adjusted for depth (via separate non-parametric regressions). SSTGrad is a measure of the gradient of the sea surface temperature, and Chla is a broad indicator of ecosytem productivity via satellite-image measurements. SusPartMatter provides a measure of suspended particulate matter, particularly in coastal waters, and is also satellite derived.
 
@@ -748,11 +748,11 @@ $$E(Y|X) = E(Y|Y > 0, X) \cdot Pr(Y > 0|X).$$
 
 The second term is estimated by the logistic regression, and the first term can be estimated using only the 2353 trawls with a positive catch.
 
-For the logistic regression the authors used a gradient boosted model (GBM)<sup>4</sup> with binomial deviance loss function, depth-10 trees, and a shrinkage factor ν = 0.025. For the positive-catch regression, they modeled log(Y ) using a GBM with squared-error loss (also depth-10 trees, but ν = 0.01), and un-logged the predictions. In both cases they used 10-fold cross-validation for selecting the number of terms, as well as the shrinkage factor.
+For the logistic regression the authors used a gradient boosted model (GBM)$^{4}$ with binomial deviance loss function, depth-10 trees, and a shrinkage factor ν = 0.025. For the positive-catch regression, they modeled log(Y ) using a GBM with squared-error loss (also depth-10 trees, but ν = 0.01), and un-logged the predictions. In both cases they used 10-fold cross-validation for selecting the number of terms, as well as the shrinkage factor.
 
-<sup>3</sup>The models, data, and maps shown here were kindly provided by Dr John Leathwick of the National Institute of Water and Atmospheric Research in New Zealand, and Dr Jane Elith, School of Botany, University of Melbourne. The collection of the research trawl data took place from 1979–2005, and was funded by the New Zealand Ministry of Fisheries.
+$^{3}$The models, data, and maps shown here were kindly provided by Dr John Leathwick of the National Institute of Water and Atmospheric Research in New Zealand, and Dr Jane Elith, School of Botany, University of Melbourne. The collection of the research trawl data took place from 1979–2005, and was funded by the New Zealand Ministry of Fisheries.
 
-<sup>4</sup>Version 1.5-7 of package gbm in R, ver. 2.2.0.
+$^{4}$Version 1.5-7 of package gbm in R, ver. 2.2.0.
 
 ![Map of New Zealand trawls and Black Oreo presence](../figures/_page_395_Figure_2.jpeg)
 
@@ -760,7 +760,7 @@ FIGURE 10.18. Map of New Zealand and its surrounding exclusive economic zone, sh
 
 ![Mean deviance and ROC curves for GBM and GAM](../figures/_page_396_Figure_2.jpeg)
 
-FIGURE 10.19. The left panel shows the mean deviance as a function of the number of trees for the GBM logistic regression model fit to the presence/absence data. Shown are 10-fold cross-validation on the training data (and 1 × s.e. bars), and test deviance on the test data. Also shown for comparison is the test deviance using a GAM model with 8 df for each term. The right panel shows ROC curves on the test data for the chosen GBM model (vertical line in left plot) and the GAM model.
+FIGURE 10.19. The left panel shows the mean deviance as a function of the number of trees for the GBM logistic regression model fit to the presence/absence data. Shown are 10-fold cross-validation on the training data (and 1 \times s.e. bars), and test deviance on the test data. Also shown for comparison is the test deviance using a GAM model with 8 df for each term. The right panel shows ROC curves on the test data for the chosen GBM model (vertical line in left plot) and the GAM model.
 
 Figure 10.19 (left panel) shows the mean binomial deviance for the sequence of GBM models, both for 10-fold CV and test data. There is a modest improvement over the performance of a GAM model, fit using smoothing splines with 8 degrees-of-freedom (df) per term. The right panel shows the ROC curves (see Section 9.2.5) for both models, which measures predictive performance. From this point of view, the performance looks very similar, with GBM perhaps having a slight edge as summarized by the AUC (area under the curve). At the point of equal sensitivity/specificity, GBM achieves 91%, and GAM 90%.
 
@@ -812,13 +812,13 @@ FIGURE 10.24. Predictor variable importances separately for each of the four cla
 
 FIGURE 10.25. Partial dependence of the odds of three different occupations on age, for the demographics data.
 
-showed that a weak learner could always improve its performance by training two additional classifiers on filtered versions of the input data stream. A weak learner is an algorithm for producing a two-class classifier with performance guaranteed (with high probability) to be significantly better than a coin-flip. After learning an initial classifier G<sup>1</sup> on the first N training points,
+showed that a weak learner could always improve its performance by training two additional classifiers on filtered versions of the input data stream. A weak learner is an algorithm for producing a two-class classifier with performance guaranteed (with high probability) to be significantly better than a coin-flip. After learning an initial classifier G$^{1}$ on the first N training points,
 
-- G<sup>2</sup> is learned on a new sample of N points, half of which are misclassified by G1;
-- G<sup>3</sup> is learned on N points for which G<sup>1</sup> and G<sup>2</sup> disagree;
-- the boosted classifier is G<sup>B</sup> = majority vote(G1, G2, G3).
+- G$^{2}$ is learned on a new sample of N points, half of which are misclassified by G1;
+- G$^{3}$ is learned on N points for which G$^{1}$ and G$^{2}$ disagree;
+- the boosted classifier is G$^{B}$ = majority vote(G1, G2, G3).
 
-Schapire's "Strength of Weak Learnability" theorem proves that G<sup>B</sup> has improved performance over G1.
+Schapire's "Strength of Weak Learnability" theorem proves that G$^{B}$ has improved performance over G1.
 
 Freund (1995) proposed a "boost by majority" variation which combined many weak learners simultaneously and improved the performance of the simple boosting algorithm of Schapire. The theory supporting both of these algorithms requires the weak learner to produce a classifier with a fixed error rate. This led to the more adaptive and realistic AdaBoost (Freund and Schapire, 1996a) and its offspring, where this assumption was dropped.
 

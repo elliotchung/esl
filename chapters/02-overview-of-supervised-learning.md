@@ -49,7 +49,7 @@ Viewed as a function over the *p*-dimensional input space,  $f(X) = X^T \beta$  
 How do we fit the linear model to a set of training data? There are many different methods, but by far the most popular is the method of least squares. In this approach, we pick the coefficients  $\beta$  to minimize the residual sum of squares
 $$RSS(\beta) = \sum_{i=1}^{N} (y_i - x_i^T \beta)^2, \tag{2.3}$$
 
-RSS(β) is a quadratic function of the parameters, and hence its minimum always exists, but may not be unique. The solution is easiest to characterize in matrix notation. We can write
+RSS($\beta$) is a quadratic function of the parameters, and hence its minimum always exists, but may not be unique. The solution is easiest to characterize in matrix notation. We can write
 
 $$RSS(\beta) = (\mathbf{y} - \mathbf{X}\beta)^T (\mathbf{y} - \mathbf{X}\beta), \tag{2.4}$$
 
@@ -255,7 +255,7 @@ distance from the origin to the closest data point is given by the expression
 
 $$d(p,N) = \left(1 - \frac{1}{2}^{1/N}\right)^{1/p} \tag{2.24}$$
 
-(Exercise 2.3). A more complicated expression exists for the mean distance to the closest point. For N = 500, p = 10 , d(p, N) ≈ 0.52, more than halfway to the boundary. Hence most data points are closer to the boundary of the sample space than to any other data point. The reason that this presents a problem is that prediction is much more difficult near the edges of the training sample. One must extrapolate from neighboring sample points rather than interpolate between them.
+(Exercise 2.3). A more complicated expression exists for the mean distance to the closest point. For N = 500, p = 10 , d(p, N) $\approx$ 0.52, more than halfway to the boundary. Hence most data points are closer to the boundary of the sample space than to any other data point. The reason that this presents a problem is that prediction is much more difficult near the edges of the training sample. One must extrapolate from neighboring sample points rather than interpolate between them.
 
 Another manifestation of the curse is that the sampling density is proportional to $N^{1/p}$, where p is the dimension of the input space and N is the sample size. Thus, if $N_1 = 100$ represents a dense sample for a single input problem, then $N_{10} = 100^{10}$ is the sample size required for the same sampling density with 10 inputs. Thus in high dimensions all feasible training samples sparsely populate the input space.
 
@@ -268,8 +268,7 @@ without any measurement error. We use the 1-nearest-neighbor rule to predict $y_
 $$\begin{aligned}
 MSE(x_0) &= E_{\mathcal{T}}[f(x_0) - \hat{y}_0]^2 \\
 &= E_{\mathcal{T}}[\hat{y}_0 - E_{\mathcal{T}}(\hat{y}_0)]^2 + [E_{\mathcal{T}}(\hat{y}_0) - f(x_0)]^2 \\
-&= Var_{\mathcal{T}}(\hat{y}_0) + Bias^2(\hat{y}_0). \tag{2.25}
-\end{aligned}$$
+&= Var_{\mathcal{T}}(\hat{y}_0) + Bias^2(\hat{y}_0). \end{aligned} \tag{2.25}$$
 
 Figure 2.7 illustrates the setup. We have broken down the MSE into two components that will become familiar as we proceed: variance and squared bias. Such a decomposition is always possible and often useful, and is known as the bias-variance decomposition. Unless the nearest neighbor is at 0,  $\hat{y}_0$  will be smaller than f(0) in this example, and so the average estimate will be biased downward. The variance is due to the sampling variance of the 1-nearest neighbor. In low dimensions and with N=1000, the nearest neighbor is very close to 0, and so both the bias and variance are small. As the dimension increases, the nearest neighbor tends to stray further from the target point, and both bias and variance are incurred. By p=10, for more than 99% of the samples the nearest neighbor is a distance greater than 0.5 from the origin. Thus as p increases, the estimate tends to be 0 more often than not, and hence the MSE levels off at 1.0, as does the bias, and the variance starts dropping (an artifact of this example).
 
@@ -305,8 +304,7 @@ Here we have incurred an additional variance  $\sigma^2$  in the prediction erro
 $$\begin{aligned}
 E_{x_0} \text{EPE}(x_0) &\sim E_{x_0} x_0^T \text{Cov}(X)^{-1} x_0 \sigma^2 / N + \sigma^2 \\
 &= \text{trace}[\text{Cov}(X)^{-1} \text{Cov}(x_0)] \sigma^2 / N + \sigma^2 \\
-&= \sigma^2 (p/N) + \sigma^2. \tag{2.28}
-\end{aligned}$$
+&= \sigma^2 (p/N) + \sigma^2. \end{aligned} \tag{2.28}$$
 
 Here we see that the expected EPE increases linearly as a function of p, with slope  $\sigma^2/N$ . If N is large and/or  $\sigma^2$  is small, this growth in variance is negligible (0 in the deterministic case). By imposing some heavy restrictions on the class of models being fitted, we have avoided the curse of dimensionality. Some of the technical details in (2.27) and (2.28) are derived in Exercise 2.5.
 
@@ -316,9 +314,9 @@ Expected Prediction Error of 1NN vs. OLS
 
 ![](../figures/_page_45_Figure_3.jpeg)
 
-FIGURE 2.9. The curves show the expected prediction error (at x<sup>0</sup> = 0) for 1-nearest neighbor relative to least squares for the model Y = f(X) + ε. For the orange curve, f(x) = x1, while for the blue curve f(x) = <sup>1</sup> 2 (x<sup>1</sup> + 1)<sup>3</sup> .
+FIGURE 2.9. The curves show the expected prediction error (at x$^{0}$ = 0) for 1-nearest neighbor relative to least squares for the model Y = f(X) + $\epsilon$. For the orange curve, f(x) = x1, while for the blue curve f(x) = $^{1}$ 2 (x$^{1}$ + 1)$^{3}$ .
 
-is linear in the first coordinate, for the blue curve, cubic as in Figure 2.8. Shown is the relative EPE of 1-nearest neighbor to least squares, which appears to start at around 2 for the linear case. Least squares is unbiased in this case, and as discussed above the EPE is slightly above σ <sup>2</sup> = 1. The EPE for 1-nearest neighbor is always above 2, since the variance of ˆf(x0) in this case is at least σ 2 , and the ratio increases with dimension as the nearest neighbor strays from the target point. For the cubic case, least squares is biased, which moderates the ratio. Clearly we could manufacture examples where the bias of least squares would dominate the variance, and the 1-nearest neighbor would come out the winner.
+is linear in the first coordinate, for the blue curve, cubic as in Figure 2.8. Shown is the relative EPE of 1-nearest neighbor to least squares, which appears to start at around 2 for the linear case. Least squares is unbiased in this case, and as discussed above the EPE is slightly above $\sigma$ $^{2}$ = 1. The EPE for 1-nearest neighbor is always above 2, since the variance of ˆf(x0) in this case is at least $\sigma$ 2 , and the ratio increases with dimension as the nearest neighbor strays from the target point. For the cubic case, least squares is biased, which moderates the ratio. Clearly we could manufacture examples where the bias of least squares would dominate the variance, and the 1-nearest neighbor would come out the winner.
 
 By relying on rigid assumptions, the linear model has no bias at all and negligible variance, while the error in 1-nearest neighbor is substantially larger. However, if the assumptions are wrong, all bets are off and the 1-nearest neighbor may dominate. We will see that there is a whole spectrum of models between the rigid linear models and the extremely flexible 1-nearest-neighbor models, each with their own assumptions and biases, which have been proposed specifically to avoid the exponential growth in complexity of functions in high dimensions by drawing heavily on these assumptions.
 
@@ -359,21 +357,21 @@ Before we launch into more statistically oriented jargon, we present the functio
 
 The learning paradigm of the previous section has been the motivation for research into the supervised learning problem in the fields of machine learning (with analogies to human reasoning) and neural networks (with biological analogies to the brain). The approach taken in applied mathematics and statistics has been from the perspective of function approximation and estimation. Here the data pairs  $\{x_i, y_i\}$  are viewed as points in a (p+1)-dimensional Euclidean space. The function f(x) has domain equal to the p-dimensional input subspace, and is related to the data via a model
 
-such as y<sup>i</sup> = f(xi) + ε<sup>i</sup> . For convenience in this chapter we will assume the domain is IR<sup>p</sup> , a p-dimensional Euclidean space, although in general the inputs can be of mixed type. The goal is to obtain a useful approximation to f(x) for all x in some region of IR<sup>p</sup> , given the representations in T . Although somewhat less glamorous than the learning paradigm, treating supervised learning as a problem in function approximation encourages the geometrical concepts of Euclidean spaces and mathematical concepts of probabilistic inference to be applied to the problem. This is the approach taken in this book.
+such as y$^{i}$ = f(xi) + $\epsilon$$^{i}$ . For convenience in this chapter we will assume the domain is IR$^{p}$ , a p-dimensional Euclidean space, although in general the inputs can be of mixed type. The goal is to obtain a useful approximation to f(x) for all x in some region of IR$^{p}$ , given the representations in T . Although somewhat less glamorous than the learning paradigm, treating supervised learning as a problem in function approximation encourages the geometrical concepts of Euclidean spaces and mathematical concepts of probabilistic inference to be applied to the problem. This is the approach taken in this book.
 
-Many of the approximations we will encounter have associated a set of parameters θ that can be modified to suit the data at hand. For example, the linear model f(x) = x <sup>T</sup> β has θ = β. Another class of useful approximators can be expressed as linear basis expansions
+Many of the approximations we will encounter have associated a set of parameters $\theta$ that can be modified to suit the data at hand. For example, the linear model f(x) = x $^{T}$ $\beta$ has $\theta$ = $\beta$. Another class of useful approximators can be expressed as linear basis expansions
 
 $$f_{\theta}(x) = \sum_{k=1}^{K} h_k(x)\theta_k, \tag{2.30}$$
 
-where the h<sup>k</sup> are a suitable set of functions or transformations of the input vector x. Traditional examples are polynomial and trigonometric expansions, where for example h<sup>k</sup> might be x 2 1 , x1x 2 2 , cos(x1) and so on. We also encounter nonlinear expansions, such as the sigmoid transformation common to neural network models,
+where the h$^{k}$ are a suitable set of functions or transformations of the input vector x. Traditional examples are polynomial and trigonometric expansions, where for example h$^{k}$ might be x 2 1 , x1x 2 2 , cos(x1) and so on. We also encounter nonlinear expansions, such as the sigmoid transformation common to neural network models,
 
 $$h_k(x) = \frac{1}{1 + \exp(-x^T \beta_k)}, \tag{2.31}$$
 
-We can use least squares to estimate the parameters θ in f<sup>θ</sup> as we did for the linear model, by minimizing the residual sum-of-squares
+We can use least squares to estimate the parameters $\theta$ in f$^{\theta}$ as we did for the linear model, by minimizing the residual sum-of-squares
 
 $$RSS(\theta) = \sum_{i=1}^{N} (y_i - f_{\theta}(x_i))^2 \tag{2.32}$$
 
-as a function of θ. This seems a reasonable criterion for an additive error model. In terms of function approximation, we imagine our parameterized function as a surface in p + 1 space, and what we observe are noisy realizations from it. This is easy to visualize when p = 2 and the vertical coordinate is the output y, as in Figure 2.10. The noise is in the output coordinate, so we find the set of parameters such that the fitted surface gets as close to the observed points as possible, where close is measured by the sum of squared vertical errors in RSS(θ).
+as a function of $\theta$. This seems a reasonable criterion for an additive error model. In terms of function approximation, we imagine our parameterized function as a surface in p + 1 space, and what we observe are noisy realizations from it. This is easy to visualize when p = 2 and the vertical coordinate is the output y, as in Figure 2.10. The noise is in the output coordinate, so we find the set of parameters such that the fitted surface gets as close to the observed points as possible, where close is measured by the sum of squared vertical errors in RSS($\theta$).
 
 For the linear model we get a simple closed form solution to the minimization problem. This is also true for the basis function methods, if the basis functions themselves do not have any hidden parameters. Otherwise the solution requires either iterative methods or numerical optimization.
 
@@ -403,7 +401,7 @@ log-likelihood (also referred to as the cross-entropy) is
 
 $$L(\theta) = \sum_{i=1}^{N} \log p_{g_i,\theta}(x_i), \tag{2.36}$$
 
-and when maximized it delivers values of θ that best conform with the data in this likelihood sense.
+and when maximized it delivers values of $\theta$ that best conform with the data in this likelihood sense.
 
 ## 2.7 Structured Regression Models
 
@@ -415,9 +413,9 @@ Consider the RSS criterion for an arbitrary function f,
 
 $$RSS(f) = \sum_{i=1}^{N} (y_i - f(x_i))^2.\tag{2.37}$$
 
-Minimizing (2.37) leads to infinitely many solutions: any function ˆf passing through the training points (x<sup>i</sup> , yi) is a solution. Any particular solution chosen might be a poor predictor at test points different from the training points. If there are multiple observation pairs x<sup>i</sup> , yiℓ, ℓ = 1, . . . , N<sup>i</sup> at each value of x<sup>i</sup> , the risk is limited. In this case, the solutions pass through the average values of the yiℓ at each x<sup>i</sup> ; see Exercise 2.6. The situation is similar to the one we have already visited in Section 2.4; indeed, (2.37) is the finite sample version of (2.11) on page 18. If the sample size N were sufficiently large such that repeats were guaranteed and densely arranged, it would seem that these solutions might all tend to the limiting conditional expectation.
+Minimizing (2.37) leads to infinitely many solutions: any function ˆf passing through the training points (x$^{i}$ , yi) is a solution. Any particular solution chosen might be a poor predictor at test points different from the training points. If there are multiple observation pairs x$^{i}$ , yi$\ell$, $\ell$ = 1, . . . , N$^{i}$ at each value of x$^{i}$ , the risk is limited. In this case, the solutions pass through the average values of the yi$\ell$ at each x$^{i}$ ; see Exercise 2.6. The situation is similar to the one we have already visited in Section 2.4; indeed, (2.37) is the finite sample version of (2.11) on page 18. If the sample size N were sufficiently large such that repeats were guaranteed and densely arranged, it would seem that these solutions might all tend to the limiting conditional expectation.
 
-In order to obtain useful results for finite N, we must restrict the eligible solutions to (2.37) to a smaller set of functions. How to decide on the nature of the restrictions is based on considerations outside of the data. These restrictions are sometimes encoded via the parametric representation of fθ, or may be built into the learning method itself, either implicitly or explicitly. These restricted classes of solutions are the major topic of this book. One thing should be clear, though. Any restrictions imposed on f that lead to a unique solution to (2.37) do not really remove the ambiguity caused by the multiplicity of solutions. There are infinitely many possible restrictions, each leading to a unique solution, so the ambiguity has simply been transferred to the choice of constraint.
+In order to obtain useful results for finite N, we must restrict the eligible solutions to (2.37) to a smaller set of functions. How to decide on the nature of the restrictions is based on considerations outside of the data. These restrictions are sometimes encoded via the parametric representation of f$\theta$, or may be built into the learning method itself, either implicitly or explicitly. These restricted classes of solutions are the major topic of this book. One thing should be clear, though. Any restrictions imposed on f that lead to a unique solution to (2.37) do not really remove the ambiguity caused by the multiplicity of solutions. There are infinitely many possible restrictions, each leading to a unique solution, so the ambiguity has simply been transferred to the choice of constraint.
 
 In general the constraints imposed by most learning methods can be described as complexity restrictions of one kind or another. This usually means some kind of regular behavior in small neighborhoods of the input space. That is, for all input points x sufficiently close to each other in some metric, ˆf exhibits some special structure such as nearly constant, linear or low-order polynomial behavior. The estimator is then obtained by averaging or polynomial fitting in that neighborhood.
 
@@ -451,22 +449,22 @@ Penalty function, or regularization methods, express our prior belief that the t
 
 These methods can be thought of as explicitly providing estimates of the regression function or conditional expectation by specifying the nature of the local neighborhood, and of the class of regular functions fitted locally. The local neighborhood is specified by a kernel function  $K_{\lambda}(x_0, x)$  which assigns
 
-weights to points x in a region around x<sup>0</sup> (see Figure 6.1 on page 192). For example, the Gaussian kernel has a weight function based on the Gaussian density function
+weights to points x in a region around x$^{0}$ (see Figure 6.1 on page 192). For example, the Gaussian kernel has a weight function based on the Gaussian density function
 
 $$K_{\lambda}(x_0, x) = \frac{1}{\lambda} \exp\left[-\frac{||x - x_0||^2}{2\lambda}\right]\tag{2.40}$$
 
-and assigns weights to points that die exponentially with their squared Euclidean distance from x0. The parameter λ corresponds to the variance of the Gaussian density, and controls the width of the neighborhood. The simplest form of kernel estimate is the Nadaraya–Watson weighted average
+and assigns weights to points that die exponentially with their squared Euclidean distance from x0. The parameter $\lambda$ corresponds to the variance of the Gaussian density, and controls the width of the neighborhood. The simplest form of kernel estimate is the Nadaraya–Watson weighted average
 
 $$\hat{f}(x_0) = \frac{\sum_{i=1}^{N} K_{\lambda}(x_0, x_i) y_i}{\sum_{i=1}^{N} K_{\lambda}(x_0, x_i)}.\tag{2.41}$$
 
-In general we can define a local regression estimate of f(x0) as fθ<sup>ˆ</sup>(x0), where ˆθ minimizes
+In general we can define a local regression estimate of f(x0) as f$\theta$$^{ˆ}$(x0), where ˆ$\theta$ minimizes
 
 $$RSS(f_{\theta}, x_0) = \sum_{i=1}^{N} K_{\lambda}(x_0, x_i)(y_i - f_{\theta}(x_i))^2, \tag{2.42}$$
 
-and f<sup>θ</sup> is some parameterized function, such as a low-order polynomial. Some examples are:
+and f$^{\theta}$ is some parameterized function, such as a low-order polynomial. Some examples are:
 
-- fθ(x) = θ0, the constant function; this results in the Nadaraya– Watson estimate in (2.41) above.
-- fθ(x) = θ<sup>0</sup> + θ1x gives the popular local linear regression model.
+- f$\theta$(x) = $\theta$0, the constant function; this results in the Nadaraya– Watson estimate in (2.41) above.
+- f$\theta$(x) = $\theta$$^{0}$ + $\theta$1x gives the popular local linear regression model.
 
 Nearest-neighbor methods can be thought of as kernel methods having a more data-dependent metric. Indeed, the metric for k-nearest neighbors is
 
@@ -482,23 +480,23 @@ This class of methods includes the familiar linear and polynomial expansions, bu
 
 $$f_{\theta}(x) = \sum_{m=1}^{M} \theta_m h_m(x), \tag{2.43}$$
 
-where each of the h<sup>m</sup> is a function of the input x, and the term linear here refers to the action of the parameters θ. This class covers a wide variety of methods. In some cases the sequence of basis functions is prescribed, such as a basis for polynomials in x of total degree M.
+where each of the h$^{m}$ is a function of the input x, and the term linear here refers to the action of the parameters $\theta$. This class covers a wide variety of methods. In some cases the sequence of basis functions is prescribed, such as a basis for polynomials in x of total degree M.
 
-For one-dimensional x, polynomial splines of degree K can be represented by an appropriate sequence of M spline basis functions, determined in turn by M−K−1 knots. These produce functions that are piecewise polynomials of degree K between the knots, and joined up with continuity of degree K − 1 at the knots. As an example consider linear splines, or piecewise linear functions. One intuitively satisfying basis consists of the functions b1(x) = 1, b2(x) = x, and bm+2(x) = (x − tm)+, m = 1, . . . , M − 2, where t<sup>m</sup> is the mth knot, and z<sup>+</sup> denotes positive part. Tensor products of spline bases can be used for inputs with dimensions larger than one (see Section 5.2, and the CART and MARS models in Chapter 9.) The parameter M controls the degree of the polynomial or the number of knots in the case of splines.
+For one-dimensional x, polynomial splines of degree K can be represented by an appropriate sequence of M spline basis functions, determined in turn by M−K−1 knots. These produce functions that are piecewise polynomials of degree K between the knots, and joined up with continuity of degree K − 1 at the knots. As an example consider linear splines, or piecewise linear functions. One intuitively satisfying basis consists of the functions b1(x) = 1, b2(x) = x, and bm+2(x) = (x − tm)+, m = 1, . . . , M − 2, where t$^{m}$ is the mth knot, and z$^{+}$ denotes positive part. Tensor products of spline bases can be used for inputs with dimensions larger than one (see Section 5.2, and the CART and MARS models in Chapter 9.) The parameter M controls the degree of the polynomial or the number of knots in the case of splines.
 
 Radial basis functions are symmetric p-dimensional kernels located at particular centroids,
 
 $$f_{\theta}(x) = \sum_{m=1}^{M} K_{\lambda_m}(\mu_m, x)\theta_m, \tag{2.44}$$
 
-for example, the Gaussian kernel Kλ(µ, x) = e −||x−µ||2/2λ is popular.
+for example, the Gaussian kernel K$\lambda$($\mu$, x) = e −||x−$\mu$||2/2$\lambda$ is popular.
 
-Radial basis functions have centroids µ<sup>m</sup> and scales λ<sup>m</sup> that have to be determined. The spline basis functions have knots. In general we would like the data to dictate them as well. Including these as parameters changes the regression problem from a straightforward linear problem to a combinatorially hard nonlinear problem. In practice, shortcuts such as greedy algorithms or two stage processes are used. Section 6.7 describes some such approaches.
+Radial basis functions have centroids $\mu$$^{m}$ and scales $\lambda$$^{m}$ that have to be determined. The spline basis functions have knots. In general we would like the data to dictate them as well. Including these as parameters changes the regression problem from a straightforward linear problem to a combinatorially hard nonlinear problem. In practice, shortcuts such as greedy algorithms or two stage processes are used. Section 6.7 describes some such approaches.
 
 A single-layer feed-forward neural network model with linear output weights can be thought of as an adaptive basis function method. The model has the form
 
 $$f_{\theta}(x) = \sum_{m=1}^{M} \beta_m \sigma(\alpha_m^T x + b_m), \tag{2.45}$$
 
-where σ(x) = 1/(1 + e −x ) is known as the activation function. Here, as in the projection pursuit model, the directions α<sup>m</sup> and the bias terms b<sup>m</sup> have to be determined, and their estimation is the meat of the computation. Details are given in Chapter 11.
+where $\sigma$(x) = 1/(1 + e −x ) is known as the activation function. Here, as in the projection pursuit model, the directions $\alpha$$^{m}$ and the bias terms b$^{m}$ have to be determined, and their estimation is the meat of the computation. Details are given in Chapter 11.
 
 These adaptively chosen basis function methods are also known as dictionary methods, where one has available a possibly infinite set or dictionary D of candidate basis functions from which to choose, and models are built up by employing some kind of search mechanism.
 

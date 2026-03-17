@@ -34,7 +34,7 @@ Each row of  $\mathbf{C}$  is a binary code for representing that class. The row
 
 James and Hastie (1998) analyzed the ECOC approach, and showed that random code assignment worked as well as the optimally constructed error-correcting codes. They also argued that the main benefit of the coding was in variance reduction (as in bagging and random forests), because the different coded problems resulted in different trees, and the decoding step (3) above has a similar effect as averaging.
 
- $<sup>^{1}\</sup>mathrm{The}$  Hamming distance between two vectors is the number of mismatches between corresponding entries.
+ $$^{^{1}\}$mathrm{The}$  Hamming distance between two vectors is the number of mismatches between corresponding entries.
 
 # 16.2 Boosting and Regularization Paths
 
@@ -64,25 +64,25 @@ both covered in Section 3.4. As discussed there, the solution to the lasso probl
 
 #### Algorithm 16.1 Forward Stagewise Linear Regression.
 
-- 1. Initialize ˇα<sup>k</sup> = 0, k = 1, . . . , K. Set ε > 0 to some small constant, and M large.
+- 1. Initialize ˇ\alpha$^{k}$ = 0, k = 1, . . . , K. Set \epsilon > 0 to some small constant, and M large.
 - 2. For m = 1 to M:
 
 (a) 
 $$(\beta^*, k^*) = \arg\min_{\beta, k} \sum_{i=1}^{N} \left( y_i - \sum_{l=1}^{K} \check{\alpha}_l T_l(x_i) - \beta T_k(x_i) \right)^2$$
 .
 
-- (b) ˇαk<sup>∗</sup> ← αˇk<sup>∗</sup> + ε · sign(β ∗ ).
-- 3. Output fM(x) = P<sup>K</sup> <sup>k</sup>=1 αˇkTk(x).
+- (b) ˇ\alphak$^{∗}$ ← \alphaˇk$^{∗}$ + \epsilon \cdot sign(\beta ∗ ).
+- 3. Output fM(x) = P$^{K}$ $^{k}$=1 \alphaˇkTk(x).
 
-This seems reasonable since it is likely that only a small fraction of all possible trees will be relevant in approximating any particular target function. However, the relevant subset will be different for different targets. Those coefficients that are not set to zero are shrunk by the lasso in that their absolute values are smaller than their corresponding least squares values<sup>2</sup> : | αˆk(λ)| < | αˆk(0)|. As λ increases, the coefficients all shrink, each one ultimately becoming zero.
+This seems reasonable since it is likely that only a small fraction of all possible trees will be relevant in approximating any particular target function. However, the relevant subset will be different for different targets. Those coefficients that are not set to zero are shrunk by the lasso in that their absolute values are smaller than their corresponding least squares values$^{2}$ : | \alphaˆk(\lambda)| < | \alphaˆk(0)|. As \lambda increases, the coefficients all shrink, each one ultimately becoming zero.
 
-Owing to the very large number of basis functions Tk, directly solving (16.2) with the lasso penalty (16.4) is not possible. However, a feasible forward stagewise strategy exists that closely approximates the effect of the lasso, and is very similar to boosting and the forward stagewise Algorithm 10.2. Algorithm 16.1 gives the details. Although phrased in terms of tree basis functions Tk, the algorithm can be used with any set of basis functions. Initially all coefficients are zero in line 1; this corresponds to λ = ∞ in (16.2). At each successive step, the tree Tk<sup>∗</sup> is selected that best fits the current residuals in line 2(a). Its corresponding coefficient ˇαk<sup>∗</sup> is then incremented or decremented by an infinitesimal amount in 2(b), while all other coefficients ˇαk, k 6= k <sup>∗</sup> are left unchanged. In principle, this process could be iterated until either all the residuals are zero, or β <sup>∗</sup> = 0. The latter case can occur if K < N, and at that point the coefficient values represent a least squares solution. This corresponds to λ = 0 in (16.2).
+Owing to the very large number of basis functions Tk, directly solving (16.2) with the lasso penalty (16.4) is not possible. However, a feasible forward stagewise strategy exists that closely approximates the effect of the lasso, and is very similar to boosting and the forward stagewise Algorithm 10.2. Algorithm 16.1 gives the details. Although phrased in terms of tree basis functions Tk, the algorithm can be used with any set of basis functions. Initially all coefficients are zero in line 1; this corresponds to \lambda = \infty in (16.2). At each successive step, the tree Tk$^{∗}$ is selected that best fits the current residuals in line 2(a). Its corresponding coefficient ˇ\alphak$^{∗}$ is then incremented or decremented by an infinitesimal amount in 2(b), while all other coefficients ˇ\alphak, k 6= k $^{∗}$ are left unchanged. In principle, this process could be iterated until either all the residuals are zero, or \beta $^{∗}$ = 0. The latter case can occur if K < N, and at that point the coefficient values represent a least squares solution. This corresponds to \lambda = 0 in (16.2).
 
-After applying Algorithm 16.1 with M < ∞ iterations, many of the coefficients will be zero, namely, those that have yet to be incremented. The others will tend to have absolute values smaller than their corresponding least squares solution values, | αˇk(M)| < | αˆk(0)|. Therefore this M-iteration solution qualitatively resembles the lasso, with M inversely related to λ.
+After applying Algorithm 16.1 with M < \infty iterations, many of the coefficients will be zero, namely, those that have yet to be incremented. The others will tend to have absolute values smaller than their corresponding least squares solution values, | \alphaˇk(M)| < | \alphaˆk(0)|. Therefore this M-iteration solution qualitatively resembles the lasso, with M inversely related to \lambda.
 
 Figure 16.1 shows an example, using the prostate data studied in Chapter 3. Here, instead of using trees Tk(X) as basis functions, we use the origi-
 
-<sup>2</sup> If K > N, there is in general no unique "least squares value," since infinitely many solutions will exist that fit the data perfectly. We can pick the minimum L1-norm solution amongst these, which is the unique lasso solution.
+$^{2}$ If K > N, there is in general no unique "least squares value," since infinitely many solutions will exist that fit the data perfectly. We can pick the minimum L1-norm solution amongst these, which is the unique lasso solution.
 
 ![Figure 16.1: Profiles of estimated coefficients from linear regression, for the prostate data studied in Chapter 3.](../figures/_page_627_Figure_2.jpeg)
 
@@ -94,7 +94,7 @@ In some situations the resemblance is more than qualitative. For example, if all
 
 Efron et al. (2004) make the connections more precise, by characterizing the exact solution paths in the  $\varepsilon$ -limiting case. They show that the coefficient paths are piece-wise linear functions, both for the lasso and forward stagewise. This facilitates efficient algorithms which allow the entire paths to be computed with the same cost as a single least-squares fit. This least angle regression algorithm is described in more detail in Section 3.8.1.
 
-Hastie et al. (2007) show that this infinitesimal forward stagewise algorithm (FS<sub>0</sub>) fits a monotone version of the lasso, which optimally reduces at each step the loss function for a given increase in the *arc length* of the coefficient path (see Sections 16.2.3 and 3.8.1). The arc-length for the  $\epsilon > 0$  case is  $M\epsilon$ , and hence proportional to the number of steps.
+Hastie et al. (2007) show that this infinitesimal forward stagewise algorithm (FS$_{0}$) fits a monotone version of the lasso, which optimally reduces at each step the loss function for a given increase in the *arc length* of the coefficient path (see Sections 16.2.3 and 3.8.1). The arc-length for the  $\epsilon > 0$  case is  $M\epsilon$ , and hence proportional to the number of steps.
 
 Tree boosting (Algorithm 10.3) with shrinkage (10.41) closely resembles Algorithm 16.1, with the learning rate parameter  $\nu$  corresponding to  $\varepsilon$ . For squared error loss, the only difference is that the optimal tree to be selected at each iteration  $T_{k*}$  is approximated by the standard top-down greedy tree-induction algorithm. For other loss functions, such as the exponential loss of AdaBoost and the binomial deviance, Rosset et al. (2004a) show similar results to what we see here. Thus, one can view tree boosting with shrinkage as a form of monotone ill-posed regression on all possible (*J*-terminal node) trees, with the lasso penalty (16.4) as a regularizer. We return to this topic in Section 16.2.3.
 
@@ -106,11 +106,11 @@ As shown in the previous section, boosting's forward stagewise strategy with shr
 
 However, the sometimes superior performance of boosting over procedures such as the support vector machine may be largely due to the implicit use of the  $L_1$  versus  $L_2$  penalty. The shrinkage resulting from the
 
-L<sup>1</sup> penalty is better suited to sparse situations, where there are few basis functions with nonzero coefficients (among all possible choices).
+L$^{1}$ penalty is better suited to sparse situations, where there are few basis functions with nonzero coefficients (among all possible choices).
 
-We can strengthen this argument through a simple example, taken from Friedman et al. (2004). Suppose we have 10, 000 data points and our model is a linear combination of a million trees. If the true population coefficients of these trees arose from a Gaussian distribution, then we know that in a Bayesian sense the best predictor is ridge regression (Exercise 3.6). That is, we should use an L<sup>2</sup> rather than an L<sup>1</sup> penalty when fitting the coefficients. On the other hand, if there are only a small number (e.g., 1000) coefficients that are nonzero, the lasso (L<sup>1</sup> penalty) will work better. We think of this as a sparse scenario, while the first case (Gaussian coefficients) is dense. Note however that in the dense scenario, although the L<sup>2</sup> penalty is best, neither method does very well since there is too little data from which to estimate such a large number of nonzero coefficients. This is the curse of dimensionality taking its toll. In a sparse setting, we can potentially do well with the L<sup>1</sup> penalty, since the number of nonzero coefficients is small. The L<sup>2</sup> penalty fails again.
+We can strengthen this argument through a simple example, taken from Friedman et al. (2004). Suppose we have 10, 000 data points and our model is a linear combination of a million trees. If the true population coefficients of these trees arose from a Gaussian distribution, then we know that in a Bayesian sense the best predictor is ridge regression (Exercise 3.6). That is, we should use an L$^{2}$ rather than an L$^{1}$ penalty when fitting the coefficients. On the other hand, if there are only a small number (e.g., 1000) coefficients that are nonzero, the lasso (L$^{1}$ penalty) will work better. We think of this as a sparse scenario, while the first case (Gaussian coefficients) is dense. Note however that in the dense scenario, although the L$^{2}$ penalty is best, neither method does very well since there is too little data from which to estimate such a large number of nonzero coefficients. This is the curse of dimensionality taking its toll. In a sparse setting, we can potentially do well with the L$^{1}$ penalty, since the number of nonzero coefficients is small. The L$^{2}$ penalty fails again.
 
-In other words, use of the L<sup>1</sup> penalty follows what we call the "bet on sparsity" principle for high-dimensional problems:
+In other words, use of the L$^{1}$ penalty follows what we call the "bet on sparsity" principle for high-dimensional problems:
 
 Use a procedure that does well in sparse problems, since no procedure does well in dense problems.
 
@@ -124,13 +124,13 @@ Figure 16.2 illustrates these points in the context of linear models using simul
 
 ![Figure 16.2: Simulations showing the superiority of the L1 (lasso) penalty over L2 (ridge) in regression and classification.](../figures/_page_630_Figure_2.jpeg)
 
-FIGURE 16.2. Simulations that show the superiority of the L<sup>1</sup> (lasso) penalty over L<sup>2</sup> (ridge) in regression and classification. Each run has 50 observations with 300 independent Gaussian predictors. In the top row all 300 coefficients are nonzero, generated from a Gaussian distribution. In the middle row, only 10 are nonzero, and the last row has 30 nonzero. Gaussian errors are added to the linear predictor η(X) for the regression problems, and binary responses generated via the inverse-logit transform for the classification problems. Scaling of η(X) resulted in the noise-to-signal ratios shown. Lasso is used in the left sub-columns, ridge in the right. We report the optimal percentage of error explained on test data (relative to the error of a constant model), displayed as boxplots over 20 realizations for each combination. In the only situation where ridge beats lasso (top row), neither do well.
+FIGURE 16.2. Simulations that show the superiority of the L$^{1}$ (lasso) penalty over L$^{2}$ (ridge) in regression and classification. Each run has 50 observations with 300 independent Gaussian predictors. In the top row all 300 coefficients are nonzero, generated from a Gaussian distribution. In the middle row, only 10 are nonzero, and the last row has 30 nonzero. Gaussian errors are added to the linear predictor \eta(X) for the regression problems, and binary responses generated via the inverse-logit transform for the classification problems. Scaling of \eta(X) resulted in the noise-to-signal ratios shown. Lasso is used in the left sub-columns, ridge in the right. We report the optimal percentage of error explained on test data (relative to the error of a constant model), displayed as boxplots over 20 realizations for each combination. In the only situation where ridge beats lasso (top row), neither do well.
 
-added to the linear predictor η(X) = X<sup>T</sup> β to produce a continuous response. For classification the linear predictor is transformed via the inverselogit to a probability, and a binary response is generated. Five different noise-to-signal ratios are presented, obtained by scaling η(X) prior to generating the response. In both cases this is defined to be NSR = Var(Y |η(X))/Var(η(X)). Both the ridge regression and lasso coefficient paths were fit using a series of 50 values of λ corresponding to a range of df from 1 to 50 (see Chapter 3 for details). The models were evaluated on a large test set (infinite for Gaussian, 5000 for binary), and in each case the value for λ was chosen to minimize the test-set error. We report percentage variance explained for the regression problems, and percentage misclassification error explained for the classification problems (relative to a baseline error of 0.5). There are 20 simulation runs for each scenario.
+added to the linear predictor \eta(X) = X$^{T}$ \beta to produce a continuous response. For classification the linear predictor is transformed via the inverselogit to a probability, and a binary response is generated. Five different noise-to-signal ratios are presented, obtained by scaling \eta(X) prior to generating the response. In both cases this is defined to be NSR = Var(Y |\eta(X))/Var(\eta(X)). Both the ridge regression and lasso coefficient paths were fit using a series of 50 values of \lambda corresponding to a range of df from 1 to 50 (see Chapter 3 for details). The models were evaluated on a large test set (infinite for Gaussian, 5000 for binary), and in each case the value for \lambda was chosen to minimize the test-set error. We report percentage variance explained for the regression problems, and percentage misclassification error explained for the classification problems (relative to a baseline error of 0.5). There are 20 simulation runs for each scenario.
 
-Note that for the classification problems, we are using squared-error loss to fit the binary response. Note also that we do not using the training data to select λ, but rather are reporting the best possible behavior for each method in the different scenarios. The L<sup>2</sup> penalty performs poorly everywhere. The Lasso performs reasonably well in the only two situations where it can (sparse coefficients). As expected the performance gets worse as the NSR increases (less so for classification), and as the model becomes denser. The differences are less marked for classification than for regression.
+Note that for the classification problems, we are using squared-error loss to fit the binary response. Note also that we do not using the training data to select \lambda, but rather are reporting the best possible behavior for each method in the different scenarios. The L$^{2}$ penalty performs poorly everywhere. The Lasso performs reasonably well in the only two situations where it can (sparse coefficients). As expected the performance gets worse as the NSR increases (less so for classification), and as the model becomes denser. The differences are less marked for classification than for regression.
 
-These empirical results are supported by a large body of theoretical results (Donoho and Johnstone, 1994; Donoho and Elad, 2003; Donoho, 2006b; Candes and Tao, 2007) that support the superiority of L<sup>1</sup> estimation in sparse settings.
+These empirical results are supported by a large body of theoretical results (Donoho and Johnstone, 1994; Donoho and Elad, 2003; Donoho, 2006b; Candes and Tao, 2007) that support the superiority of L$^{1}$ estimation in sparse settings.
 
 # 16.2.3 Regularization Paths, Over-fitting and Margins
 
@@ -138,7 +138,7 @@ These empirical results are supported by a large body of theoretical results (Do
 
 It has often been observed that boosting "does not overfit," or more astutely is "slow to overfit." Part of the explanation for this phenomenon was made earlier for random forests — misclassification error is less sensitive to variance than is mean-squared error, and classification is the major focus in the boosting community. In this section we show that the regularization paths of boosted models are "well behaved," and that for certain loss functions they have an appealing limiting form.
 
-Figure 16.3 shows the coefficient paths for lasso and infinitesimal forward stagewise (FS0) in a simulated regression setting. The data consists of a dictionary of 1000 Gaussian variables, strongly correlated (ρ = 0.95) within blocks of 20, but uncorrelated between blocks. The generating model has nonzero coefficients for 50 variables, one drawn from each block, and the coefficient values are drawn from a standard Gaussian. Finally, Gaussian noise is added, with a noise-to-signal ratio of 0.72 (Exercise 16.1.) The FS<sup>0</sup> algorithm is a limiting form of algorithm 16.1, where the step size ε is shrunk to zero (Section 3.8.1). The grouping of the variables is intended to mimic the correlations of nearby trees, and with the forward-stagewise
+Figure 16.3 shows the coefficient paths for lasso and infinitesimal forward stagewise (FS0) in a simulated regression setting. The data consists of a dictionary of 1000 Gaussian variables, strongly correlated (\rho = 0.95) within blocks of 20, but uncorrelated between blocks. The generating model has nonzero coefficients for 50 variables, one drawn from each block, and the coefficient values are drawn from a standard Gaussian. Finally, Gaussian noise is added, with a noise-to-signal ratio of 0.72 (Exercise 16.1.) The FS$^{0}$ algorithm is a limiting form of algorithm 16.1, where the step size \epsilon is shrunk to zero (Section 3.8.1). The grouping of the variables is intended to mimic the correlations of nearby trees, and with the forward-stagewise
 
 ![Figure 16.3: Comparison of lasso and infinitesimal forward stagewise paths on simulated regression data.](../figures/_page_632_Figure_2.jpeg)
 
@@ -150,7 +150,7 @@ Here the coefficient profiles are similar only in the early stages of the paths.
 
 The performance of the two models is rather similar (Figure 16.4), and they achieve about the same minimum. In the later stages forward stagewise takes longer to overfit, a likely consequence of the smoother paths.
 
-Hastie et al. (2007) show that FS<sub>0</sub> solves a monotone version of the lasso problem for squared error loss. Let  $\mathcal{T}^a = \mathcal{T} \cup \{-\mathcal{T}\}$  be the augmented dictionary obtained by including a negative copy of every basis element in  $\mathcal{T}$ . We consider models  $f(x) = \sum_{T_k \in \mathcal{T}^a} \alpha_k T_k(x)$  with non-negative coefficients  $\alpha_k \geq 0$ . In this expanded space, the lasso coefficient paths are positive, while those of FS<sub>0</sub> are monotone nondecreasing.
+Hastie et al. (2007) show that FS$_{0}$ solves a monotone version of the lasso problem for squared error loss. Let  $\mathcal{T}^a = \mathcal{T} \cup \{-\mathcal{T}\}$  be the augmented dictionary obtained by including a negative copy of every basis element in  $\mathcal{T}$ . We consider models  $f(x) = \sum_{T_k \in \mathcal{T}^a} \alpha_k T_k(x)$  with non-negative coefficients  $\alpha_k \geq 0$ . In this expanded space, the lasso coefficient paths are positive, while those of FS$_{0}$ are monotone nondecreasing.
 
 The monotone lasso path is characterized by a differential equation
 
@@ -175,9 +175,9 @@ Here the minimum is taken over the training sample, and  $y_i \in \{-1, +1\}$ . 
 
 ![Figure 16.5: L1 margin m(f) for the Adaboost classifier on the mixture data.](../figures/_page_634_Figure_2.jpeg)
 
-FIGURE 16.5. The left panel shows the L<sup>1</sup> margin m(f) for the Adaboost classifier on the mixture data, as a function of the number of 4-node trees. The model was fit using the R package gbm, with a shrinkage factor of 0.02. After 10, 000 trees, m(f) has settled down. Note that when the margin crosses zero, the training error becomes zero. The right panel shows the test error, which is minimized at 240 trees. In this case, Adaboost overfits dramatically if run to convergence.
+FIGURE 16.5. The left panel shows the L$^{1}$ margin m(f) for the Adaboost classifier on the mixture data, as a function of the number of 4-node trees. The model was fit using the R package gbm, with a shrinkage factor of 0.02. After 10, 000 trees, m(f) has settled down. Note that when the margin crosses zero, the training error becomes zero. The right panel shows the test error, which is minimized at 240 trees. In this case, Adaboost overfits dramatically if run to convergence.
 
-Schapire et al. (1998) prove that with separable data, Adaboost increases m(f) with each iteration, converging to a margin-symmetric solution. R¨atsch and Warmuth (2002) prove the asymptotic convergence of Adaboost with shrinkage to a L1-margin-maximizing solution. Rosset et al. (2004a) consider regularized models of the form (16.2) for general loss functions. They show that as λ ↓ 0, for particular loss functions the solution converges to a margin-maximizing configuration. In particular they show this to be the case for the exponential loss of Adaboost, as well as binomial deviance.
+Schapire et al. (1998) prove that with separable data, Adaboost increases m(f) with each iteration, converging to a margin-symmetric solution. R¨atsch and Warmuth (2002) prove the asymptotic convergence of Adaboost with shrinkage to a L1-margin-maximizing solution. Rosset et al. (2004a) consider regularized models of the form (16.2) for general loss functions. They show that as \lambda ↓ 0, for particular loss functions the solution converges to a margin-maximizing configuration. In particular they show this to be the case for the exponential loss of Adaboost, as well as binomial deviance.
 
 Collecting together the results of this section, we reach the following summary for boosted classifiers:
 
@@ -322,9 +322,9 @@ The space of models is enlarged, and can lead to improved performance.
 FIGURE 16.10. Mean squared error for rule ensembles, using 20 realizations of the simulation example (16.13).
 
 - Rules are easier to interpret than trees, so there is the potential for a simplified model.
-- It is often natural to augment T RULE by including each variable X<sup>j</sup> separately as well, thus allowing the ensemble to model linear functions well.
+- It is often natural to augment T RULE by including each variable X$^{j}$ separately as well, thus allowing the ensemble to model linear functions well.
 
-Friedman and Popescu (2008) demonstrate the power of this procedure on a number of illustrative examples, including the simulation example (16.13). Figure 16.10 shows boxplots of the mean-squared error from the true model for twenty realizations from this model. The models were all fit using the Rulefit software, available on the ESL homepage<sup>3</sup> , which runs in an automatic mode.
+Friedman and Popescu (2008) demonstrate the power of this procedure on a number of illustrative examples, including the simulation example (16.13). Figure 16.10 shows boxplots of the mean-squared error from the true model for twenty realizations from this model. The models were all fit using the Rulefit software, available on the ESL homepage$^{3}$ , which runs in an automatic mode.
 
 On the same training set as used in Figure 16.8, the rule based model achieved a mean-squared error of 1.06. Although slightly worse than the best achieved in that figure, the results are not comparable because crossvalidation was used here to select the final model.
 
@@ -332,9 +332,9 @@ On the same training set as used in Figure 16.8, the rule based model achieved a
 
 As noted in the introduction, many of the new methods in machine learning have been dubbed "ensemble" methods. These include neural networks boosting, bagging and random forests; Dietterich (2000a) gives a survey of tree-based ensemble methods. Neural networks (Chapter 11) are perhaps more deserving of the name, since they simultaneously learn the parameters
 
-<sup>3</sup>ESL homepage: www-stat.stanford.edu/ElemStatLearn
+$^{3}$ESL homepage: www-stat.stanford.edu/ElemStatLearn
 
-of the hidden units (basis functions), along with how to combine them. Bishop (2006) discusses neural networks in some detail, along with the Bayesian perspective (MacKay, 1992; Neal, 1996). Support vector machines (Chapter 12) can also be regarded as an ensemble method; they perform L<sup>2</sup> regularized model fitting in high-dimensional feature spaces. Boosting and lasso exploit sparsity through L<sup>1</sup> regularization to overcome the highdimensionality, while SVMs rely on the "kernel trick" characteristic of L<sup>2</sup> regularization.
+of the hidden units (basis functions), along with how to combine them. Bishop (2006) discusses neural networks in some detail, along with the Bayesian perspective (MacKay, 1992; Neal, 1996). Support vector machines (Chapter 12) can also be regarded as an ensemble method; they perform L$^{2}$ regularized model fitting in high-dimensional feature spaces. Boosting and lasso exploit sparsity through L$^{1}$ regularization to overcome the highdimensionality, while SVMs rely on the "kernel trick" characteristic of L$^{2}$ regularization.
 
 C5.0 (Quinlan, 2004) is a commercial tree and rule generation package, with some goals in common with Rulefit.
 
@@ -344,11 +344,11 @@ There is a vast and varied literature often referred to as "combining classifier
 
 Ex. 16.1 Describe exactly how to generate the block correlated data used in the simulation in Section 16.2.3.
 
-Ex. 16.2 Let <sup>α</sup>(t) <sup>∈</sup> IR<sup>p</sup> be a piecewise-differentiable and continuous coefficient profile, with α(0) = 0. The L<sup>1</sup> arc-length of α from time 0 to t is defined by
+Ex. 16.2 Let $^{\alpha}$(t) $^{\in}$ IR$^{p}$ be a piecewise-differentiable and continuous coefficient profile, with \alpha(0) = 0. The L$^{1}$ arc-length of \alpha from time 0 to t is defined by
 
 $$\Lambda(t) = \int_0^t |\dot{\alpha}(t)|_1 dt. \tag{16.16}$$
 
-Show that Λ(t) ≥ |α(t)|1, with equality iff α(t) is monotone.
+Show that Λ(t) $\ge$ |$\alpha$(t)|1, with equality iff $\alpha$(t) is monotone.
 
 Ex. 16.3 Show that fitting a linear regression model using rules 1, 4, 5 and 6 in equation (16.14) gives the same fit as the regression tree corresponding to this tree. Show the same is true for classification, if a logistic regression model is fit.
 

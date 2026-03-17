@@ -6,7 +6,7 @@ In this chapter we revisit the classification problem and focus on linear method
 
 There are several different ways in which linear decision boundaries can be found. In Chapter 2 we fit linear regression models to the class indicator variables, and classify to the largest fit. Suppose there are K classes, for convenience labeled  $1, 2, \ldots, K$ , and the fitted linear model for the kth indicator response variable is  $\hat{f}_k(x) = \hat{\beta}_{k0} + \hat{\beta}_k^T x$ . The decision boundary between class k and  $\ell$  is that set of points for which  $\hat{f}_k(x) = \hat{f}_\ell(x)$ , that is, the set  $\{x: (\hat{\beta}_{k0} - \hat{\beta}_{\ell0}) + (\hat{\beta}_k - \hat{\beta}_{\ell})^T x = 0\}$ , an affine set or hyperplane. Since the same is true for any pair of classes, the input space is divided into regions of constant classification, with piecewise hyperplanar decision boundaries. This regression approach is a member of a class of methods that model discriminant functions  $\delta_k(x)$  for each class, and then classify x to the class with the largest value for its discriminant function. Methods
 
-<sup>&</sup>lt;sup>1</sup>Strictly speaking, a hyperplane passes through the origin, while an affine set need not. We sometimes ignore the distinction and refer in general to hyperplanes.
+$ ^{1} $Strictly speaking, a hyperplane passes through the origin, while an affine set need not. We sometimes ignore the distinction and refer in general to hyperplanes.
 
 that model the posterior probabilities  $\Pr(G = k|X = x)$  are also in this class. Clearly, if either the  $\delta_k(x)$  or  $\Pr(G = k|X = x)$  are linear in x, then the decision boundaries will be linear.
 
@@ -158,38 +158,38 @@ With two classes there is a simple correspondence between linear discriminant an
 
 $$x^{T} \hat{\boldsymbol{\Sigma}}^{-1} (\hat{\mu}_{2} - \hat{\mu}_{1}) > \frac{1}{2} (\hat{\mu}_{2} + \hat{\mu}_{1})^{T} \hat{\boldsymbol{\Sigma}}^{-1} (\hat{\mu}_{2} - \hat{\mu}_{1}) - \log(N_{2}/N_{1}), \quad (4.11)$$
 
-and class 1 otherwise. Suppose we code the targets in the two classes as +1 and −1, respectively. It is easy to show that the coefficient vector from least squares is proportional to the LDA direction given in (4.11) (Exercise 4.2). [In fact, this correspondence occurs for any (distinct) coding of the targets; see Exercise 4.2]. However unless N<sup>1</sup> = N<sup>2</sup> the intercepts are different and hence the resulting decision rules are different.
+and class 1 otherwise. Suppose we code the targets in the two classes as +1 and −1, respectively. It is easy to show that the coefficient vector from least squares is proportional to the LDA direction given in (4.11) (Exercise 4.2). [In fact, this correspondence occurs for any (distinct) coding of the targets; see Exercise 4.2]. However unless N$^{1}$ = N$^{2}$ the intercepts are different and hence the resulting decision rules are different.
 
 Since this derivation of the LDA direction via least squares does not use a Gaussian assumption for the features, its applicability extends beyond the realm of Gaussian data. However the derivation of the particular intercept or cut-point given in (4.11) does require Gaussian data. Thus it makes sense to instead choose the cut-point that empirically minimizes training error for a given dataset. This is something we have found to work well in practice, but have not seen it mentioned in the literature.
 
 With more than two classes, LDA is not the same as linear regression of the class indicator matrix, and it avoids the masking problems associated with that approach (Hastie et al., 1994). A correspondence between regression and LDA can be established through the notion of optimal scoring, discussed in Section 12.5.
 
-Getting back to the general discriminant problem (4.8), if the Σ<sup>k</sup> are not assumed to be equal, then the convenient cancellations in (4.9) do not occur; in particular the pieces quadratic in x remain. We then get quadratic discriminant functions (QDA),
+Getting back to the general discriminant problem (4.8), if the $\Sigma$$^{k}$ are not assumed to be equal, then the convenient cancellations in (4.9) do not occur; in particular the pieces quadratic in x remain. We then get quadratic discriminant functions (QDA),
 
 $$\delta_k(x) = -\frac{1}{2}\log|\mathbf{\Sigma}_k| - \frac{1}{2}(x - \mu_k)^T \mathbf{\Sigma}_k^{-1}(x - \mu_k) + \log \pi_k.$$
  (4.12)
 
-The decision boundary between each pair of classes k and ℓ is described by a quadratic equation {x : δk(x) = δℓ(x)}.
+The decision boundary between each pair of classes k and $\ell$ is described by a quadratic equation {x : $\delta$k(x) = $\delta$$\ell$(x)}.
 
-Figure 4.6 shows an example (from Figure 4.1 on page 103) where the three classes are Gaussian mixtures (Section 6.8) and the decision boundaries are approximated by quadratic equations in x. Here we illustrate two popular ways of fitting these quadratic boundaries. The right plot uses QDA as described here, while the left plot uses LDA in the enlarged five-dimensional quadratic polynomial space. The differences are generally small; QDA is the preferred approach, with the LDA method a convenient substitute <sup>2</sup> .
+Figure 4.6 shows an example (from Figure 4.1 on page 103) where the three classes are Gaussian mixtures (Section 6.8) and the decision boundaries are approximated by quadratic equations in x. Here we illustrate two popular ways of fitting these quadratic boundaries. The right plot uses QDA as described here, while the left plot uses LDA in the enlarged five-dimensional quadratic polynomial space. The differences are generally small; QDA is the preferred approach, with the LDA method a convenient substitute $^{2}$ .
 
-The estimates for QDA are similar to those for LDA, except that separate covariance matrices must be estimated for each class. When p is large this can mean a dramatic increase in parameters. Since the decision boundaries are functions of the parameters of the densities, counting the number of parameters must be done with care. For LDA, it seems there are (K − 1) × (p + 1) parameters, since we only need the differences δk(x) − δK(x)
+The estimates for QDA are similar to those for LDA, except that separate covariance matrices must be estimated for each class. When p is large this can mean a dramatic increase in parameters. Since the decision boundaries are functions of the parameters of the densities, counting the number of parameters must be done with care. For LDA, it seems there are (K − 1) $\times$ (p + 1) parameters, since we only need the differences $\delta$k(x) − $\delta$K(x)
 
-<sup>2</sup>For this figure and many similar figures in the book we compute the decision boundaries by an exhaustive contouring method. We compute the decision rule on a fine lattice of points, and then use contouring algorithms to compute the boundaries.
+$^{2}$For this figure and many similar figures in the book we compute the decision boundaries by an exhaustive contouring method. We compute the decision rule on a fine lattice of points, and then use contouring algorithms to compute the boundaries.
 
 ![**FIGURE 4.6.** Two methods for fitting quadratic boundaries. The left plot shows the quadratic decision boundaries for the data in Figure 4.1 (obtained using LDA in the five-dimensional space). The right plot shows the quadratic decision boundaries found by QDA.](../figures/_page_129_Figure_2.jpeg)
 
 **FIGURE 4.6.** Two methods for fitting quadratic boundaries. The left plot shows the quadratic decision boundaries for the data in Figure 4.1 (obtained using LDA in the five-dimensional space  $X_1, X_2, X_1X_2, X_1^2, X_2^2$ ). The right plot shows the quadratic decision boundaries found by QDA. The differences are small, as is usually the case.
 
-between the discriminant functions where K is some pre-chosen class (here we have chosen the last), and each difference requires p+1 parameters<sup>3</sup>. Likewise for QDA there will be  $(K-1) \times \{p(p+3)/2+1\}$  parameters. Both LDA and QDA perform well on an amazingly large and diverse set of classification tasks. For example, in the STATLOG project (Michie et al., 1994) LDA was among the top three classifiers for 7 of the 22 datasets, QDA among the top three for four datasets, and one of the pair were in the top three for 10 datasets. Both techniques are widely used, and entire books are devoted to LDA. It seems that whatever exotic tools are the rage of the day, we should always have available these two simple tools. The question arises why LDA and QDA have such a good track record. The reason is not likely to be that the data are approximately Gaussian, and in addition for LDA that the covariances are approximately equal. More likely a reason is that the data can only support simple decision boundaries such as linear or quadratic, and the estimates provided via the Gaussian models are stable. This is a bias variance tradeoff—we can put up with the bias of a linear decision boundary because it can be estimated with much lower variance than more exotic alternatives. This argument is less believable for QDA, since it can have many parameters itself, although perhaps fewer than the non-parametric alternatives.
+between the discriminant functions where K is some pre-chosen class (here we have chosen the last), and each difference requires p+1 parameters$^{3}$. Likewise for QDA there will be  $(K-1) \times \{p(p+3)/2+1\}$  parameters. Both LDA and QDA perform well on an amazingly large and diverse set of classification tasks. For example, in the STATLOG project (Michie et al., 1994) LDA was among the top three classifiers for 7 of the 22 datasets, QDA among the top three for four datasets, and one of the pair were in the top three for 10 datasets. Both techniques are widely used, and entire books are devoted to LDA. It seems that whatever exotic tools are the rage of the day, we should always have available these two simple tools. The question arises why LDA and QDA have such a good track record. The reason is not likely to be that the data are approximately Gaussian, and in addition for LDA that the covariances are approximately equal. More likely a reason is that the data can only support simple decision boundaries such as linear or quadratic, and the estimates provided via the Gaussian models are stable. This is a bias variance tradeoff—we can put up with the bias of a linear decision boundary because it can be estimated with much lower variance than more exotic alternatives. This argument is less believable for QDA, since it can have many parameters itself, although perhaps fewer than the non-parametric alternatives.
 
-<sup>&</sup>lt;sup>3</sup> Although we fit the covariance matrix  $\hat{\Sigma}$  to compute the LDA discriminant functions, a much reduced function of it is all that is required to estimate the O(p) parameters needed to compute the decision boundaries.
+$ ^{3} $ Although we fit the covariance matrix  $\hat{\Sigma}$  to compute the LDA discriminant functions, a much reduced function of it is all that is required to estimate the O(p) parameters needed to compute the decision boundaries.
 
 ### Regularized Discriminant Analysis on the Vowel Data
 
-![**FIGURE 4.7.** Test and training errors for the vowel data, using regularized discriminant analysis with a series of values of α ∈ [0, 1]. The optimum for the test data occurs around α = 0.9, close to quadratic discriminant analysis.](../figures/_page_130_Figure_3.jpeg)
+![**FIGURE 4.7.** Test and training errors for the vowel data, using regularized discriminant analysis with a series of values of $\alpha$ $\in$ [0, 1]. The optimum for the test data occurs around $\alpha$ = 0.9, close to quadratic discriminant analysis.](../figures/_page_130_Figure_3.jpeg)
 
-**FIGURE 4.7.** Test and training errors for the vowel data, using regularized discriminant analysis with a series of values of α ∈ [0, 1]. The optimum for the test data occurs around α = 0.9, close to quadratic discriminant analysis.
+**FIGURE 4.7.** Test and training errors for the vowel data, using regularized discriminant analysis with a series of values of $\alpha$ $\in$ [0, 1]. The optimum for the test data occurs around $\alpha$ = 0.9, close to quadratic discriminant analysis.
 
 ### 4.3.1 Regularized Discriminant Analysis
 
@@ -197,16 +197,16 @@ Friedman (1989) proposed a compromise between LDA and QDA, which allows one to s
 
 $$\hat{\Sigma}_k(\alpha) = \alpha \hat{\Sigma}_k + (1 - \alpha)\hat{\Sigma}, \tag{4.13}$$
 
-where <sup>Σ</sup><sup>ˆ</sup> is the pooled covariance matrix as used in LDA. Here <sup>α</sup> <sup>∈</sup> [0, 1] allows a continuum of models between LDA and QDA, and needs to be specified. In practice α can be chosen based on the performance of the model on validation data, or by cross-validation.
+where $^{\Sigma}$$^{ˆ}$ is the pooled covariance matrix as used in LDA. Here $^{\alpha}$ $^{\in}$ [0, 1] allows a continuum of models between LDA and QDA, and needs to be specified. In practice $\alpha$ can be chosen based on the performance of the model on validation data, or by cross-validation.
 
-Figure 4.7 shows the results of RDA applied to the vowel data. Both the training and test error improve with increasing α, although the test error increases sharply after α = 0.9. The large discrepancy between the training and test error is partly due to the fact that there are many repeat measurements on a small number of individuals, different in the training and test set.
+Figure 4.7 shows the results of RDA applied to the vowel data. Both the training and test error improve with increasing $\alpha$, although the test error increases sharply after $\alpha$ = 0.9. The large discrepancy between the training and test error is partly due to the fact that there are many repeat measurements on a small number of individuals, different in the training and test set.
 
-Similar modifications allow Σˆ itself to be shrunk toward the scalar covariance,
+Similar modifications allow $\Sigma$ˆ itself to be shrunk toward the scalar covariance,
 
 $$\hat{\mathbf{\Sigma}}(\gamma) = \gamma \hat{\mathbf{\Sigma}} + (1 - \gamma)\hat{\sigma}^2 \mathbf{I}$$
  (4.14)
 
-for <sup>γ</sup> <sup>∈</sup> [0, 1]. Replacing <sup>Σ</sup><sup>ˆ</sup> in (4.13) by <sup>Σ</sup><sup>ˆ</sup> (γ) leads to a more general family of covariances Σˆ (α, γ) indexed by a pair of parameters.
+for $^{γ}$ $^{\in}$ [0, 1]. Replacing $^{\Sigma}$$^{ˆ}$ in (4.13) by $^{\Sigma}$$^{ˆ}$ (γ) leads to a more general family of covariances $\Sigma$ˆ ($\alpha$, γ) indexed by a pair of parameters.
 
 In Chapter 12, we discuss other regularized versions of LDA, which are more suitable when the data arise from digitized analog signals and images. In these situations the features are high-dimensional and correlated, and the LDA coefficients can be regularized to be smooth or sparse in the original domain of the signal. This leads to better generalization and allows for easier interpretation of the coefficients. In Chapter 18 we also deal with very high-dimensional problems, where for example the features are gene-expression measurements in microarray studies. There the methods focus on the case  $\gamma=0$  in (4.14), and other severely regularized versions of LDA.
 
@@ -278,9 +278,9 @@ To summarize the developments so far:
 
 **FIGURE 4.10.** Training and test error rates for the vowel data, as a function of the dimension of the discriminant subspace. In this case the best error rate is for dimension 2. Figure 4.11 shows the decision boundaries in this space.
 
-The reduced subspaces have been motivated as a data reduction (for viewing) tool. Can they also be used for classification, and what is the rationale? Clearly they can, as in our original derivation; we simply limit the distance-to-centroid calculations to the chosen subspace. One can show that this is a Gaussian classification rule with the additional restriction that the centroids of the Gaussians lie in a L-dimensional subspace of IR<sup>p</sup> . Fitting such a model by maximum likelihood, and then constructing the posterior probabilities using Bayes' theorem amounts to the classification rule described above (Exercise 4.8).
+The reduced subspaces have been motivated as a data reduction (for viewing) tool. Can they also be used for classification, and what is the rationale? Clearly they can, as in our original derivation; we simply limit the distance-to-centroid calculations to the chosen subspace. One can show that this is a Gaussian classification rule with the additional restriction that the centroids of the Gaussians lie in a L-dimensional subspace of IR$^{p}$ . Fitting such a model by maximum likelihood, and then constructing the posterior probabilities using Bayes' theorem amounts to the classification rule described above (Exercise 4.8).
 
-Gaussian classification dictates the log π<sup>k</sup> correction factor in the distance calculation. The reason for this correction can be seen in Figure 4.9. The misclassification rate is based on the area of overlap between the two densities. If the π<sup>k</sup> are equal (implicit in that figure), then the optimal cut-point is midway between the projected means. If the π<sup>k</sup> are not equal, moving the cut-point toward the smaller class will improve the error rate. As mentioned earlier for two classes, one can derive the linear rule using LDA (or any other method), and then choose the cut-point to minimize misclassification error over the training data.
+Gaussian classification dictates the log $\pi$$^{k}$ correction factor in the distance calculation. The reason for this correction can be seen in Figure 4.9. The misclassification rate is based on the area of overlap between the two densities. If the $\pi$$^{k}$ are equal (implicit in that figure), then the optimal cut-point is midway between the projected means. If the $\pi$$^{k}$ are not equal, moving the cut-point toward the smaller class will improve the error rate. As mentioned earlier for two classes, one can derive the linear rule using LDA (or any other method), and then choose the cut-point to minimize misclassification error over the training data.
 
 As an example of the benefit of the reduced-rank restriction, we return to the vowel data. There are 11 classes and 10 variables, and hence 10 possible dimensions for the classifier. We can compute the training and test error in each of these hierarchical subspaces; Figure 4.10 shows the results. Figure 4.11 shows the decision boundaries for the classifier based on the two-dimensional LDA solution.
 
@@ -427,13 +427,13 @@ At this stage the analyst might do some model selection; find a subset of the va
 
 A better but more time-consuming strategy is to refit each of the models with one variable removed, and then perform an analysis of deviance to decide which variable to exclude. The residual deviance of a fitted model is minus twice its log-likelihood, and the deviance between two models is the difference of their individual residual deviances (in analogy to sums-ofsquares). This strategy gave the same final model as above.
 
-How does one interpret a coefficient of 0.081 (Std. Error = 0.026) for tobacco, for example? Tobacco is measured in total lifetime usage in kilograms, with a median of 1.0kg for the controls and 4.1kg for the cases. Thus an increase of 1kg in lifetime tobacco usage accounts for an increase in the odds of coronary heart disease of exp(0.081) = 1.084 or 8.4%. Incorporating the standard error we get an approximate 95% confidence interval of exp(0.081 ± 2 × 0.026) = (1.03, 1.14).
+How does one interpret a coefficient of 0.081 (Std. Error = 0.026) for tobacco, for example? Tobacco is measured in total lifetime usage in kilograms, with a median of 1.0kg for the controls and 4.1kg for the cases. Thus an increase of 1kg in lifetime tobacco usage accounts for an increase in the odds of coronary heart disease of exp(0.081) = 1.084 or 8.4%. Incorporating the standard error we get an approximate 95% confidence interval of exp(0.081 $\pm$ 2 $\times$ 0.026) = (1.03, 1.14).
 
 We return to these data in Chapter 5, where we see that some of the variables have nonlinear effects, and when modeled appropriately, are not excluded from the model.
 
 ### 4.4.3 Quadratic Approximations and Inference
 
-The maximum-likelihood parameter estimates βˆ satisfy a self-consistency relationship: they are the coefficients of a weighted least squares fit, where the responses are
+The maximum-likelihood parameter estimates $\beta$ˆ satisfy a self-consistency relationship: they are the coefficients of a weighted least squares fit, where the responses are
 
 $$z_i = x_i^T \hat{\beta} + \frac{(y_i - \hat{p}_i)}{\hat{p}_i (1 - \hat{p}_i)}, \tag{4.29}$$
 
@@ -451,7 +451,7 @@ a quadratic approximation to the deviance.
 
 Software implementations can take advantage of these connections. For example, the generalized linear modeling software in R (which includes logistic regression as part of the binomial family of models) exploits them fully. GLM (generalized linear model) objects can be treated as linear model objects, and all the tools available for linear models can be applied automatically.
 
-### 4.4.4 L<sub>1</sub> Regularized Logistic Regression
+### 4.4.4 L$_{1}$ Regularized Logistic Regression
 
 The  $L_1$  penalty used in the lasso (Section 3.4.2) can be used for variable selection and shrinkage with any linear regression model. For logistic regression, we would maximize a penalized version of (4.20):
 
@@ -508,7 +508,7 @@ With LDA we fit the parameters by maximizing the full log-likelihood, based on t
 
 $$Pr(X, G = k) = \phi(X; \mu_k, \Sigma)\pi_k, \tag{4.37}$$
 
-where φ is the Gaussian density function. Standard normal theory leads easily to the estimates ˆµk,Σˆ , and ˆπ<sup>k</sup> given in Section 4.3. Since the linear parameters of the logistic form (4.33) are functions of the Gaussian parameters, we get their maximum-likelihood estimates by plugging in the corresponding estimates. However, unlike in the conditional case, the marginal density Pr(X) does play a role here. It is a mixture density
+where φ is the Gaussian density function. Standard normal theory leads easily to the estimates ˆ$\mu$k,$\Sigma$ˆ , and ˆ$\pi$$^{k}$ given in Section 4.3. Since the linear parameters of the logistic form (4.33) are functions of the Gaussian parameters, we get their maximum-likelihood estimates by plugging in the corresponding estimates. However, unlike in the conditional case, the marginal density Pr(X) does play a role here. It is a mixture density
 
 $$\Pr(X) = \sum_{k=1}^{K} \pi_k \phi(X; \mu_k, \Sigma), \tag{4.38}$$
 
@@ -564,21 +564,21 @@ Hence f(x) is proportional to the signed distance from x to the hyperplane defin
 
 The perceptron learning algorithm tries to find a separating hyperplane by minimizing the distance of misclassified points to the decision boundary. If
 
-a response y<sup>i</sup> = 1 is misclassified, then x T <sup>i</sup> β + β<sup>0</sup> < 0, and the opposite for a misclassified response with y<sup>i</sup> = −1. The goal is to minimize
+a response y$^{i}$ = 1 is misclassified, then x T $^{i}$ $\beta$ + $\beta$$^{0}$ < 0, and the opposite for a misclassified response with y$^{i}$ = −1. The goal is to minimize
 
 $$D(\beta, \beta_0) = -\sum_{i \in \mathcal{M}} y_i(x_i^T \beta + \beta_0), \tag{4.41}$$
 
-where M indexes the set of misclassified points. The quantity is nonnegative and proportional to the distance of the misclassified points to the decision boundary defined by β <sup>T</sup> x + β<sup>0</sup> = 0. The gradient (assuming M is fixed) is given by
+where M indexes the set of misclassified points. The quantity is nonnegative and proportional to the distance of the misclassified points to the decision boundary defined by $\beta$ $^{T}$ x + $\beta$$^{0}$ = 0. The gradient (assuming M is fixed) is given by
 
 $$\partial \frac{D(\beta, \beta_0)}{\partial \beta} = -\sum_{i \in \mathcal{M}} y_i x_i, \tag{4.42}$$
 
 $$\partial \frac{D(\beta, \beta_0)}{\partial \beta_0} = -\sum_{i \in \mathcal{M}} y_i. \tag{4.43}$$
 
-The algorithm in fact uses stochastic gradient descent to minimize this piecewise linear criterion. This means that rather than computing the sum of the gradient contributions of each observation followed by a step in the negative gradient direction, a step is taken after each observation is visited. Hence the misclassified observations are visited in some sequence, and the parameters β are updated via
+The algorithm in fact uses stochastic gradient descent to minimize this piecewise linear criterion. This means that rather than computing the sum of the gradient contributions of each observation followed by a step in the negative gradient direction, a step is taken after each observation is visited. Hence the misclassified observations are visited in some sequence, and the parameters $\beta$ are updated via
 
 $$\begin{pmatrix} \beta \\ \beta_0 \end{pmatrix} \leftarrow \begin{pmatrix} \beta \\ \beta_0 \end{pmatrix} + \rho \begin{pmatrix} y_i x_i \\ y_i \end{pmatrix}. \tag{4.44}$$
 
-Here ρ is the learning rate, which in this case can be taken to be 1 without loss in generality. If the classes are linearly separable, it can be shown that the algorithm converges to a separating hyperplane in a finite number of steps (Exercise 4.6). Figure 4.14 shows two solutions to a toy problem, each started at a different random guess.
+Here $\rho$ is the learning rate, which in this case can be taken to be 1 without loss in generality. If the classes are linearly separable, it can be shown that the algorithm converges to a separating hyperplane in a finite number of steps (Exercise 4.6). Figure 4.14 shows two solutions to a toy problem, each started at a different random guess.
 
 There are a number of problems with this algorithm, summarized in Ripley (1996):
 
@@ -603,20 +603,20 @@ subject to  $y_i(x_i^T \beta + \beta_0) \ge M, \ i = 1, \dots, N.$
 
 $$(4.45)$$
 
-The set of conditions ensure that all the points are at least a signed distance M from the decision boundary defined by β and β0, and we seek the largest such M and associated parameters. We can get rid of the ||β|| = 1 constraint by replacing the conditions with
+The set of conditions ensure that all the points are at least a signed distance M from the decision boundary defined by $\beta$ and $\beta$0, and we seek the largest such M and associated parameters. We can get rid of the ||$\beta$|| = 1 constraint by replacing the conditions with
 
 $$\frac{1}{||\beta||} y_i(x_i^T \beta + \beta_0) \ge M, \tag{4.46}$$
 
-(which redefines β0) or equivalently
+(which redefines $\beta$0) or equivalently
 
 $$y_i(x_i^T \beta + \beta_0) \ge M||\beta||. \tag{4.47}$$
 
-Since for any β and β<sup>0</sup> satisfying these inequalities, any positively scaled multiple satisfies them too, we can arbitrarily set ||β|| = 1/M. Thus (4.45) is equivalent to
+Since for any $\beta$ and $\beta$$^{0}$ satisfying these inequalities, any positively scaled multiple satisfies them too, we can arbitrarily set ||$\beta$|| = 1/M. Thus (4.45) is equivalent to
 
 $$\min_{\beta,\beta_0} \frac{1}{2} ||\beta||^2$$
 subject to  $y_i(x_i^T \beta + \beta_0) \ge 1, \ i = 1, \dots, N.$
 
-In light of (4.40), the constraints define an empty slab or margin around the linear decision boundary of thickness 1/||β||. Hence we choose β and β<sup>0</sup> to maximize its thickness. This is a convex optimization problem (quadratic criterion with linear inequality constraints). The Lagrange (primal) function, to be minimized w.r.t. β and β0, is
+In light of (4.40), the constraints define an empty slab or margin around the linear decision boundary of thickness 1/||$\beta$||. Hence we choose $\beta$ and $\beta$$^{0}$ to maximize its thickness. This is a convex optimization problem (quadratic criterion with linear inequality constraints). The Lagrange (primal) function, to be minimized w.r.t. $\beta$ and $\beta$0, is
 
 $$L_P = \frac{1}{2}||\beta||^2 - \sum_{i=1}^N \alpha_i [y_i(x_i^T \beta + \beta_0) - 1]. \tag{4.49}$$
 
@@ -631,18 +631,18 @@ and substituting these in (4.49) we obtain the so-called Wolfe dual
 $$L_D = \sum_{i=1}^{N} \alpha_i - \frac{1}{2} \sum_{i=1}^{N} \sum_{k=1}^{N} \alpha_i \alpha_k y_i y_k x_i^T x_k$$
 subject to  $\alpha_i \ge 0$  and  $\sum_{i=1}^{N} \alpha_i y_i = 0$ . (4.52)
 
-The solution is obtained by maximizing L<sup>D</sup> in the positive orthant, a simpler convex optimization problem, for which standard software can be used. In addition the solution must satisfy the Karush–Kuhn–Tucker conditions, which include (4.50), (4.51), (4.52) and
+The solution is obtained by maximizing L$^{D}$ in the positive orthant, a simpler convex optimization problem, for which standard software can be used. In addition the solution must satisfy the Karush–Kuhn–Tucker conditions, which include (4.50), (4.51), (4.52) and
 
 $$\alpha_i[y_i(x_i^T\beta + \beta_0) - 1] = 0 \,\forall i. \tag{4.53}$$
 
 From these we can see that
 
-- if α<sup>i</sup> > 0, then yi(x T <sup>i</sup> β + β0) = 1, or in other words, x<sup>i</sup> is on the boundary of the slab;
-- if yi(x T <sup>i</sup> β+β0) > 1, x<sup>i</sup> is not on the boundary of the slab, and α<sup>i</sup> = 0.
+- if $\alpha$$^{i}$ > 0, then yi(x T $^{i}$ $\beta$ + $\beta$0) = 1, or in other words, x$^{i}$ is on the boundary of the slab;
+- if yi(x T $^{i}$ $\beta$+$\beta$0) > 1, x$^{i}$ is not on the boundary of the slab, and $\alpha$$^{i}$ = 0.
 
-From (4.50) we see that the solution vector β is defined in terms of a linear combination of the support points xi—those points defined to be on the boundary of the slab via α<sup>i</sup> > 0. Figure 4.16 shows the optimal separating hyperplane for our toy example; there are three support points. Likewise, β<sup>0</sup> is obtained by solving (4.53) for any of the support points.
+From (4.50) we see that the solution vector $\beta$ is defined in terms of a linear combination of the support points xi—those points defined to be on the boundary of the slab via $\alpha$$^{i}$ > 0. Figure 4.16 shows the optimal separating hyperplane for our toy example; there are three support points. Likewise, $\beta$$^{0}$ is obtained by solving (4.53) for any of the support points.
 
-The optimal separating hyperplane produces a function ˆf(x) = x <sup>T</sup> βˆ+βˆ 0 for classifying new observations:
+The optimal separating hyperplane produces a function ˆf(x) = x $^{T}$ $\beta$ˆ+$\beta$ˆ 0 for classifying new observations:
 
 $$\hat{G}(x) = \operatorname{sign}\hat{f}(x). \tag{4.54}$$
 
@@ -666,9 +666,9 @@ Good general texts on classification include Duda et al. (2000), Hand (1981), Mc
 
 ## Exercises
 
-Ex. 4.1 Show how to solve the generalized eigenvalue problem max a <sup>T</sup> Ba subject to a <sup>T</sup>Wa = 1 by transforming to a standard eigenvalue problem.
+Ex. 4.1 Show how to solve the generalized eigenvalue problem max a $^{T}$ Ba subject to a $^{T}$Wa = 1 by transforming to a standard eigenvalue problem.
 
-Ex. 4.2 Suppose we have features <sup>x</sup> <sup>∈</sup> IR<sup>p</sup> , a two-class response, with class sizes N1, N2, and the target coded as −N/N1, N/N2.
+Ex. 4.2 Suppose we have features $^{x}$ $^{\in}$ IR$^{p}$ , a two-class response, with class sizes N1, N2, and the target coded as −N/N1, N/N2.
 
 (a) Show that the LDA rule classifies to class 2 if
 
@@ -680,14 +680,14 @@ and class 1 otherwise.
 
 $$\sum_{i=1}^{N} (y_i - \beta_0 - x_i^T \beta)^2. \tag{4.55}$$
 
-Show that the solution βˆ satisfies
+Show that the solution $\beta$ˆ satisfies
 
 $$\left[ (N-2)\hat{\Sigma} + N\hat{\Sigma}_B \right] \beta = N(\hat{\mu}_2 - \hat{\mu}_1)$$
  (4.56)
 
-(after simplification), where Σˆ <sup>B</sup> = N1N<sup>2</sup> <sup>N</sup><sup>2</sup> (ˆµ<sup>2</sup> − µˆ1)(ˆµ<sup>2</sup> − µˆ1) T .
+(after simplification), where $\Sigma$ˆ $^{B}$ = N1N$^{2}$ $^{N}$$^{2}$ (ˆ$\mu$$^{2}$ − $\mu$ˆ1)(ˆ$\mu$$^{2}$ − $\mu$ˆ1) T .
 
-(c) Hence show that <sup>Σ</sup><sup>ˆ</sup> <sup>B</sup><sup>β</sup> is in the direction (ˆµ<sup>2</sup> <sup>−</sup> <sup>µ</sup>ˆ1) and thus
+(c) Hence show that $^{\Sigma}$$^{ˆ}$ $^{B}$$^{\beta}$ is in the direction (ˆ$\mu$$^{2}$ $^{−}$ $^{\mu}$ˆ1) and thus
 
 $$\hat{\beta} \propto \hat{\Sigma}^{-1} (\hat{\mu}_2 - \hat{\mu}_1). \tag{4.57}$$
 

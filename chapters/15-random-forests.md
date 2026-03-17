@@ -26,7 +26,7 @@ To make a prediction at a new point x:
 
 Regression:  $\hat{f}_{rf}^B(x) = \frac{1}{B} \sum_{b=1}^B T_b(x)$ .
 
-Classification: Let  $\hat{C}_b(x)$  be the class prediction of the bth random-forest tree. Then  $\hat{C}_{\rm rf}^B(x) = majority \ vote \ \{\hat{C}_b(x)\}_1^B$ .
+Classification: Let  $\hat{C}_b(x)$  be the class prediction of the bth random-forest tree. Then  $\hat{C}_{\mathrm rf}^B(x) = majority \ vote \ \{\hat{C}_b(x)\}_1^B$ .
 
 structures in the data, and if grown sufficiently deep, have relatively low bias. Since trees are notoriously noisy, they benefit greatly from the averaging. Moreover, since each tree generated in bagging is identically distributed (i.d.), the expectation of an average of B such trees is the same as the expectation of any one of them. This means the bias of bagged trees is the same as that of the individual (bootstrap) trees, and the only hope of improvement is through variance reduction. This is in contrast to boosting, where the trees are grown in an adaptive way to remove bias, and hence are not i.d.
 
@@ -44,7 +44,7 @@ Typically values for m are  $\sqrt{p}$  or even as low as 1.
 
 After B such trees  $\{T(x; \dot{\Theta}_b)\}_1^B$  are grown, the random forest (regression) predictor is
 
-$$\hat{f}_{\rm rf}^B(x) = \frac{1}{B} \sum_{b=1}^B T(x; \Theta_b).$$
+$$\hat{f}_{\mathrm rf}^B(x) = \frac{1}{B} \sum_{b=1}^B T(x; \Theta_b).$$
  (15.2)
 
 As in Section 10.9 (page 356),  $\Theta_b$  characterizes the *b*th random forest tree in terms of split variables, cutpoints at each node, and terminal-node values. Intuitively, reducing m will reduce the correlation between any pair of trees in the ensemble, and hence by (15.1) reduce the variance of the average.
@@ -55,19 +55,19 @@ As in Section 10.9 (page 356),  $\Theta_b$  characterizes the *b*th random fores
 
 Not all estimators can be improved by shaking up the data like this. It seems that highly nonlinear estimators, such as trees, benefit the most. For bootstrapped trees,  $\rho$  is typically small (0.05 or lower is typical; see Figure 15.9), while  $\sigma^2$  is not much larger than the variance for the original tree. On the other hand, bagging does not change *linear* estimates, such as the sample mean (hence its variance either); the pairwise correlation between bootstrapped means is about 50% (Exercise 15.4).
 
-Random forests are popular. Leo Breiman's<sup>1</sup> collaborator Adele Cutler maintains a random forest website<sup>2</sup> where the software is freely available, with more than 3000 downloads reported by 2002. There is a randomForest package in R, maintained by Andy Liaw, available from the CRAN website.
+Random forests are popular. Leo Breiman's$^{1}$ collaborator Adele Cutler maintains a random forest website$^{2}$ where the software is freely available, with more than 3000 downloads reported by 2002. There is a randomForest package in R, maintained by Andy Liaw, available from the CRAN website.
 
 The authors make grand claims about the success of random forests: "most accurate," "most interpretable," and the like. In our experience random forests do remarkably well, with very little tuning required. A random forest classifier achieves 4.88% misclassification error on the spam test data, which compares well with all other methods, and is not significantly worse than gradient boosting at 4.5%. Bagging achieves 5.4% which is significantly worse than either (using the McNemar test outlined in Exercise 10.6), so it appears on this example the additional randomization helps.
 
 ![FIGURE 15.2](../figures/_page_608_Figure_4.jpeg)
 
-FIGURE 15.2. The results of 50 simulations from the "nested spheres" model in IR<sup>10</sup>. The Bayes decision boundary is the surface of a sphere (additive). "RF-3" refers to a random forest with m = 3, and "GBM-6" a gradient boosted model with interaction order six; similarly for "RF-1" and "GBM-1." The training sets were of size 2000, and the test sets 10, 000.
+FIGURE 15.2. The results of 50 simulations from the "nested spheres" model in IR$^{10}$. The Bayes decision boundary is the surface of a sphere (additive). "RF-3" refers to a random forest with m = 3, and "GBM-6" a gradient boosted model with interaction order six; similarly for "RF-1" and "GBM-1." The training sets were of size 2000, and the test sets 10, 000.
 
 Figure 15.1 shows the test-error progression on 2500 trees for the three methods. In this case there is some evidence that gradient boosting has started to overfit, although 10-fold cross-validation chose all 2500 trees.
 
-<sup>1</sup>Sadly, Leo Breiman died in July, 2005.
+$^{1}$Sadly, Leo Breiman died in July, 2005.
 
-<sup>2</sup>http://www.math.usu.edu/∼adele/forests/
+$^{2}$http://www.math.usu.edu/∼adele/forests/
 
 #### **California Housing Data**
 
@@ -75,14 +75,14 @@ Figure 15.1 shows the test-error progression on 2500 trees for the three methods
 
 FIGURE 15.3. Random forests compared to gradient boosting on the California housing data. The curves represent mean absolute error on the test data as a function of the number of trees in the models. Two random forests are shown, with m = 2 and m = 6. The two gradient boosted models use a shrinkage parameter ν = 0.05 in (10.41), and have interaction depths of 4 and 6. The boosted models outperform random forests.
 
-Figure 15.2 shows the results of a simulation<sup>3</sup> comparing random forests to gradient boosting on the nested spheres problem [Equation (10.2) in Chapter 10]. Boosting easily outperforms random forests here. Notice that smaller m is better here, although part of the reason could be that the true decision boundary is additive.
+Figure 15.2 shows the results of a simulation$^{3}$ comparing random forests to gradient boosting on the nested spheres problem [Equation (10.2) in Chapter 10]. Boosting easily outperforms random forests here. Notice that smaller m is better here, although part of the reason could be that the true decision boundary is additive.
 
 Figure 15.3 compares random forests to boosting (with shrinkage) in a regression problem, using the California housing data (Section 10.14.1). Two strong features that emerge are
 
 - Random forests stabilize at about 200 trees, while at 1000 trees boosting continues to improve. Boosting is slowed down by the shrinkage, as well as the fact that the trees are much smaller.
 - Boosting outperforms random forests here. At 1000 terms, the weaker boosting model (GBM depth 4) has a smaller error than the stronger
 
-<sup>3</sup>Details: The random forests were fit using the R package randomForest 4.5-11, with 500 trees. The gradient boosting models were fit using R package gbm 1.5, with shrinkage parameter set to 0.05, and 2000 trees.
+$^{3}$Details: The random forests were fit using the R package randomForest 4.5-11, with 500 trees. The gradient boosting models were fit using R package gbm 1.5, with shrinkage parameter set to 0.05, and 2000 trees.
 
 ![FIGURE 15.4](../figures/_page_610_Figure_2.jpeg)
 
@@ -94,7 +94,7 @@ random forest (RF m = 6); a Wilcoxon test on the mean differences in absolute er
 
 We have glossed over the distinction between random forests for classification versus regression. When used for classification, a random forest obtains a class vote from each tree, and then classifies using majority vote (see Section 8.7 on bagging for a similar discussion). When used for regression, the predictions from each tree at a target point x are simply averaged, as in (15.2). In addition, the inventors make the following recommendations:
 
-- For classification, the default value for m is ⌊ <sup>√</sup>p⌋ and the minimum node size is one.
+- For classification, the default value for m is ⌊ $^{\sqrt{}}$p⌋ and the minimum node size is one.
 - For regression, the default value for m is ⌊p/3⌋ and the minimum node size is five.
 
 In practice the best values for these parameters will depend on the problem, and they should be treated as tuning parameters. In Figure 15.3 m = 6 performs much better than the default value ⌊8/3⌋ = 2.
@@ -103,7 +103,7 @@ In practice the best values for these parameters will depend on the problem, and
 
 An important feature of random forests is its use of out-of-bag (oob) samples:
 
-For each observation z<sup>i</sup> = (x<sup>i</sup> , yi), construct its random forest predictor by averaging only those trees corresponding to bootstrap samples in which z<sup>i</sup> did not appear.
+For each observation z$^{i}$ = (x$^{i}$ , yi), construct its random forest predictor by averaging only those trees corresponding to bootstrap samples in which z$^{i}$ did not appear.
 
 An oob error estimate is almost identical to that obtained by N-fold crossvalidation; see Exercise 15.2. Hence unlike many other nonlinear estimators, random forests can be fit in one sequence, with cross-validation being performed along the way. Once the oob error stabilizes, the training can be terminated.
 
@@ -125,7 +125,7 @@ FIGURE 15.6. (Left): Proximity plot for a random forest classifier grown to the 
 
 #### 15.3.3 Proximity Plots
 
-One of the advertised outputs of a random forest is a proximity plot. Figure 15.6 shows a proximity plot for the mixture data defined in Section 2.3.3 in Chapter 2. In growing a random forest, an N × N proximity matrix is accumulated for the training data. For every tree, any pair of oob observations sharing a terminal node has their proximity increased by one. This proximity matrix is then represented in two dimensions using multidimensional scaling (Section 14.8). The idea is that even though the data may be high-dimensional, involving mixed variables, etc., the proximity plot gives an indication of which observations are effectively close together in the eyes of the random forest classifier.
+One of the advertised outputs of a random forest is a proximity plot. Figure 15.6 shows a proximity plot for the mixture data defined in Section 2.3.3 in Chapter 2. In growing a random forest, an N $\times$ N proximity matrix is accumulated for the training data. For every tree, any pair of oob observations sharing a terminal node has their proximity increased by one. This proximity matrix is then represented in two dimensions using multidimensional scaling (Section 14.8). The idea is that even though the data may be high-dimensional, involving mixed variables, etc., the proximity plot gives an indication of which observations are effectively close together in the eyes of the random forest classifier.
 
 Proximity plots for random forests often look very similar, irrespective of the data, which casts doubt on their utility. They tend to have a star shape, one arm per class, which is more pronounced the better the classification performance.
 
@@ -133,11 +133,11 @@ Since the mixture data are two-dimensional, we can map points from the proximity
 
 #### 15.3.4 Random Forests and Overfitting
 
-When the number of variables is large, but the fraction of relevant variables small, random forests are likely to perform poorly with small m. At each split the chance can be small that the relevant variables will be selected. Figure 15.7 shows the results of a simulation that supports this claim. Details are given in the figure caption and Exercise 15.3. At the top of each pair we see the hyper-geometric probability that a relevant variable will be selected at any split by a random forest tree (in this simulation, the relevant variables are all equal in stature). As this probability gets small, the gap between boosting and random forests increases. When the number of relevant variables increases, the performance of random forests is surprisingly robust to an increase in the number of noise variables. For example, with 6 relevant and 100 noise variables, the probability of a relevant variable being selected at any split is 0.46, assuming m = p (6 + 100) ≈ 10. According to Figure 15.7, this does not hurt the performance of random forests compared with boosting. This robustness is largely due to the relative insensitivity of misclassification cost to the bias and variance of the probability estimates in each tree. We consider random forests for regression in the next section.
+When the number of variables is large, but the fraction of relevant variables small, random forests are likely to perform poorly with small m. At each split the chance can be small that the relevant variables will be selected. Figure 15.7 shows the results of a simulation that supports this claim. Details are given in the figure caption and Exercise 15.3. At the top of each pair we see the hyper-geometric probability that a relevant variable will be selected at any split by a random forest tree (in this simulation, the relevant variables are all equal in stature). As this probability gets small, the gap between boosting and random forests increases. When the number of relevant variables increases, the performance of random forests is surprisingly robust to an increase in the number of noise variables. For example, with 6 relevant and 100 noise variables, the probability of a relevant variable being selected at any split is 0.46, assuming m = p (6 + 100) $\approx$ 10. According to Figure 15.7, this does not hurt the performance of random forests compared with boosting. This robustness is largely due to the relative insensitivity of misclassification cost to the bias and variance of the probability estimates in each tree. We consider random forests for regression in the next section.
 
 Another claim is that random forests "cannot overfit" the data. It is certainly true that increasing B does not cause the random forest sequence to overfit; like bagging, the random forest estimate (15.2) approximates the expectation
 
-$$\hat{f}_{\rm rf}(x) = \mathcal{E}_{\Theta} T(x; \Theta) = \lim_{B \to \infty} \hat{f}(x)_{\rm rf}^B$$
+$$\hat{f}_{\mathrm rf}(x) = \mathcal{E}_{\Theta} T(x; \Theta) = \lim_{B \to \infty} \hat{f}(x)_{\mathrm rf}^B$$
  (15.3)
 
 with an average over B realizations of Θ. The distribution of Θ here is conditional on the training data. However, this limit can overfit the data; the average of fully grown trees can result in too rich a model, and incur unnecessary variance. Segal (2004) demonstrates small gains in performance by controlling the depths of the individual trees grown in random forests. Our experience is that using full-grown trees seldom costs much, and results in one less tuning parameter.
@@ -146,7 +146,7 @@ Figure 15.8 shows the modest effect of depth control in a simple regression exam
 
 ![FIGURE 15.7](../figures/_page_615_Figure_2.jpeg)
 
-FIGURE 15.7. A comparison of random forests and gradient boosting on problems with increasing numbers of noise variables. In each case the true decision boundary depends on two variables, and an increasing number of noise variables are included. Random forests uses its default value m = √p. At the top of each pair is the probability that one of the relevant variables is chosen at any split. The results are based on 50 simulations for each pair, with a training sample of 300, and a test sample of 500. See Exercise 15.3.
+FIGURE 15.7. A comparison of random forests and gradient boosting on problems with increasing numbers of noise variables. In each case the true decision boundary depends on two variables, and an increasing number of noise variables are included. Random forests uses its default value m = $\sqrt{}$p. At the top of each pair is the probability that one of the relevant variables is chosen at any split. The results are based on 50 simulations for each pair, with a training sample of 300, and a test sample of 500. See Exercise 15.3.
 
 # 15.4 Analysis of Random Forests
 
@@ -156,7 +156,7 @@ In this section we analyze the mechanisms at play with the additional randomizat
 
 # 15.4.1 Variance and the De-Correlation Effect
 
-The limiting form (B → ∞) of the random forest regression estimator is
+The limiting form (B $\to$ $\infty$) of the random forest regression estimator is
 
 $$\hat{f}_{rf}(x) = \mathcal{E}_{\Theta|\mathbf{Z}} T(x; \Theta(\mathbf{Z})), \tag{15.4}$$
 
@@ -170,17 +170,17 @@ $$Var \hat{f}_{rf}(x) = \rho(x)\sigma^2(x). \tag{15.5}$$
 
 Here
 
-• ρ(x) is the sampling correlation between any pair of trees used in the averaging:
+• $\rho$(x) is the sampling correlation between any pair of trees used in the averaging:
 
 $$\rho(x) = \operatorname{corr}[T(x; \Theta_1(\mathbf{Z})), T(x; \Theta_2(\mathbf{Z}))], \tag{15.6}$$
 
 where Θ1(Z) and Θ2(Z) are a randomly drawn pair of random forest trees grown to the randomly sampled Z;
 
-• σ 2 (x) is the sampling variance of any single randomly drawn tree,
+• $\sigma$ 2 (x) is the sampling variance of any single randomly drawn tree,
 
 $$\sigma^{2}(x) = \operatorname{Var} T(x; \Theta(\mathbf{Z})). \tag{15.7}$$
 
-It is easy to confuse ρ(x) with the average correlation between fitted trees in a given random-forest ensemble; that is, think of the fitted trees as Nvectors, and compute the average pairwise correlation between these vectors, conditioned on the data. This is not the case; this conditional correlation is not directly relevant in the averaging process, and the dependence on x in ρ(x) warns us of the distinction. Rather, ρ(x) is the theoretical correlation between a pair of random-forest trees evaluated at x, induced by repeatedly making training sample draws Z from the population, and then drawing a pair of random forest trees. In statistical jargon, this is the correlation induced by the sampling distribution of Z and Θ.
+It is easy to confuse $\rho$(x) with the average correlation between fitted trees in a given random-forest ensemble; that is, think of the fitted trees as Nvectors, and compute the average pairwise correlation between these vectors, conditioned on the data. This is not the case; this conditional correlation is not directly relevant in the averaging process, and the dependence on x in $\rho$(x) warns us of the distinction. Rather, $\rho$(x) is the theoretical correlation between a pair of random-forest trees evaluated at x, induced by repeatedly making training sample draws Z from the population, and then drawing a pair of random forest trees. In statistical jargon, this is the correlation induced by the sampling distribution of Z and Θ.
 
 More precisely, the variability averaged over in the calculations in (15.6) and (15.7) is both
 
@@ -198,7 +198,7 @@ The following demonstrations are based on a simulation model
 $$Y = \frac{1}{\sqrt{50}} \sum_{j=1}^{50} X_j + \varepsilon,$$
  (15.8)
 
-with all the X<sup>j</sup> and ε iid Gaussian. We use 500 training sets of size 100, and a single set of test locations of size 600. Since regression trees are nonlinear in Z, the patterns we see below will differ somewhat depending on the structure of the model.
+with all the X$^{j}$ and $\epsilon$ iid Gaussian. We use 500 training sets of size 100, and a single set of test locations of size 600. Since regression trees are nonlinear in Z, the patterns we see below will differ somewhat depending on the structure of the model.
 
 Figure 15.9 shows how the correlation (15.6) between pairs of trees decreases as m decreases: pairs of tree predictions at x for different training sets Z are likely to be less similar if they do not use the same splitting variables.
 
@@ -228,15 +228,15 @@ This is also typically greater (in absolute terms) than the bias of an unpruned 
 
 Any discussion of bias depends on the unknown true function. Figure 15.10 (right panel) shows the squared bias for our additive model simulation (estimated from the 500 realizations). Although for different models the shape and rate of the bias curves may differ, the general trend is that as m decreases, the bias increases. Shown in the figure is the mean-squared error, and we see a classical bias-variance trade-off in the choice of m. For all m the squared bias of the random forest is greater than that for a single tree (horizontal line).
 
-These patterns suggest a similarity with ridge regression (Section 3.4.1). Ridge regression is useful (in linear models) when one has a large number of variables with similarly sized coefficients; ridge shrinks their coefficients toward zero, and those of strongly correlated variables toward each other. Although the size of the training sample might not permit all the variables to be in the model, this regularization via ridge stabilizes the model and allows all the variables to have their say (albeit diminished). Random forests with small m perform a similar averaging. Each of the relevant variables get their turn to be the primary split, and the ensemble averaging reduces the contribution of any individual variable. Since this simulation example (15.8) is based on a linear model in all the variables, ridge regression achieves a lower mean-squared error (about 0.45 with df(λopt) ≈ 29).
+These patterns suggest a similarity with ridge regression (Section 3.4.1). Ridge regression is useful (in linear models) when one has a large number of variables with similarly sized coefficients; ridge shrinks their coefficients toward zero, and those of strongly correlated variables toward each other. Although the size of the training sample might not permit all the variables to be in the model, this regularization via ridge stabilizes the model and allows all the variables to have their say (albeit diminished). Random forests with small m perform a similar averaging. Each of the relevant variables get their turn to be the primary split, and the ensemble averaging reduces the contribution of any individual variable. Since this simulation example (15.8) is based on a linear model in all the variables, ridge regression achieves a lower mean-squared error (about 0.45 with df($\lambda$opt) $\approx$ 29).
 
 # 15.4.3 Adaptive Nearest Neighbors
 
-The random forest classifier has much in common with the k-nearest neighbor classifier (Section 13.3); in fact a weighted version thereof. Since each tree is grown to maximal size, for a particular Θ<sup>∗</sup> , T(x; Θ<sup>∗</sup> (Z)) is the response value for one of the training samples<sup>4</sup> . The tree-growing algorithm finds an "optimal" path to that observation, choosing the most informative predictors from those at its disposal. The averaging process assigns weights to these training responses, which ultimately vote for the prediction. Hence via the random-forest voting mechanism, those observations close to the target point get assigned weights—an equivalent kernel—which combine to form the classification decision.
+The random forest classifier has much in common with the k-nearest neighbor classifier (Section 13.3); in fact a weighted version thereof. Since each tree is grown to maximal size, for a particular Θ$^{∗}$ , T(x; Θ$^{∗}$ (Z)) is the response value for one of the training samples$^{4}$ . The tree-growing algorithm finds an "optimal" path to that observation, choosing the most informative predictors from those at its disposal. The averaging process assigns weights to these training responses, which ultimately vote for the prediction. Hence via the random-forest voting mechanism, those observations close to the target point get assigned weights—an equivalent kernel—which combine to form the classification decision.
 
 Figure 15.11 demonstrates the similarity between the decision boundary of 3-nearest neighbors and random forests on the mixture data.
 
-<sup>4</sup>We gloss over the fact that pure nodes are not split further, and hence there can be more than one observation in a terminal node
+$^{4}$We gloss over the fact that pure nodes are not split further, and hence there can be more than one observation in a terminal node
 
 #### Random Forest Classifier
 

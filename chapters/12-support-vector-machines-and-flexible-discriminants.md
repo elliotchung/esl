@@ -207,14 +207,14 @@ FIGURE 12.4. The support vector loss function (hinge loss), compared to the nega
 
 #### 12.3.2 The SVM as a Penalization Method
 
-With f(x) = h(x) <sup>T</sup> β + β0, consider the optimization problem
+With f(x) = h(x) $^{T}$ $\beta$ + $\beta$0, consider the optimization problem
 
 $$\min_{\beta_0, \beta} \sum_{i=1}^{N} [1 - y_i f(x_i)]_+ + \frac{\lambda}{2} \|\beta\|^2$$
  (12.25)
 
-where the subscript "+" indicates positive part. This has the form loss + penalty, which is a familiar paradigm in function estimation. It is easy to show (Exercise 12.1) that the solution to (12.25), with λ = 1/C, is the same as that for (12.8).
+where the subscript "+" indicates positive part. This has the form loss + penalty, which is a familiar paradigm in function estimation. It is easy to show (Exercise 12.1) that the solution to (12.25), with $\lambda$ = 1/C, is the same as that for (12.8).
 
-Examination of the "hinge" loss function L(y, f) = [1 − yf]<sup>+</sup> shows that it is reasonable for two-class classification, when compared to other more traditional loss functions. Figure 12.4 compares it to the log-likelihood loss for logistic regression, as well as squared-error loss and a variant thereof. The (negative) log-likelihood or binomial deviance has similar tails as the SVM loss, giving zero penalty to points well inside their margin, and a
+Examination of the "hinge" loss function L(y, f) = [1 − yf]$^{+}$ shows that it is reasonable for two-class classification, when compared to other more traditional loss functions. Figure 12.4 compares it to the log-likelihood loss for logistic regression, as well as squared-error loss and a variant thereof. The (negative) log-likelihood or binomial deviance has similar tails as the SVM loss, giving zero penalty to points well inside their margin, and a
 
 TABLE 12.1. The population minimizers for the different loss functions in Figure 12.4. Logistic regression uses the binomial log-likelihood or deviance. Linear discriminant analysis (Exercise 4.2) uses squared-error loss. The SVM hinge loss estimates the mode of the posterior class probabilities, whereas the others estimate a linear transformation of these probabilities.
 
@@ -225,13 +225,13 @@ TABLE 12.1. The population minimizers for the different loss functions in Figure
 | Squared<br>Error                    | − f(x)]2 = [1<br>− yf(x)]2<br>[y                                  | f(x) = 2Pr(Y<br>= +1 x)<br>− 1                   |
 | "Huberised"<br>Square<br>Hinge Loss | −4yf(x),<br>yf(x)<br><<br>-1<br>− yf(x)]2<br>[1<br>otherwise<br>+ | f(x) = 2Pr(Y<br>= +1 x)<br>− 1                   |
 
-linear penalty to points on the wrong side and far away. Squared-error, on the other hand gives a quadratic penalty, and points well inside their own margin have a strong influence on the model as well. The squared hinge loss L(y, f) = [1 − yf] 2 <sup>+</sup> is like the quadratic, except it is zero for points inside their margin. It still rises quadratically in the left tail, and will be less robust than hinge or deviance to misclassified observations. Recently Rosset and Zhu (2007) proposed a "Huberized" version of the squared hinge loss, which converts smoothly to a linear loss at yf = −1.
+linear penalty to points on the wrong side and far away. Squared-error, on the other hand gives a quadratic penalty, and points well inside their own margin have a strong influence on the model as well. The squared hinge loss L(y, f) = [1 − yf] 2 $^{+}$ is like the quadratic, except it is zero for points inside their margin. It still rises quadratically in the left tail, and will be less robust than hinge or deviance to misclassified observations. Recently Rosset and Zhu (2007) proposed a "Huberized" version of the squared hinge loss, which converts smoothly to a linear loss at yf = −1.
 
 We can characterize these loss functions in terms of what they are estimating at the population level. We consider minimizing EL(Y, f(X)). Table 12.1 summarizes the results. Whereas the hinge loss estimates the classifier G(x) itself, all the others estimate a transformation of the class posterior probabilities. The "Huberized" square hinge loss shares attractive properties of logistic regression (smooth loss function, estimates probabilities), as well as the SVM hinge loss (support points).
 
-Formulation (12.25) casts the SVM as a regularized function estimation problem, where the coefficients of the linear expansion f(x) = β<sup>0</sup> +h(x) <sup>T</sup> β are shrunk toward zero (excluding the constant). If h(x) represents a hierarchical basis having some ordered structure (such as ordered in roughness), then the uniform shrinkage makes more sense if the rougher elements  $h_j$  in the vector h have smaller norm.
+Formulation (12.25) casts the SVM as a regularized function estimation problem, where the coefficients of the linear expansion f(x) = $\beta$$^{0}$ +h(x) $^{T}$ $\beta$ are shrunk toward zero (excluding the constant). If h(x) represents a hierarchical basis having some ordered structure (such as ordered in roughness), then the uniform shrinkage makes more sense if the rougher elements  $h_j$  in the vector h have smaller norm.
 
-All the loss-functions in Table 12.1 except squared-error are so called "margin maximizing loss-functions" (Rosset et al., 2004b). This means that if the data are separable, then the limit of  $\hat{\beta}_{\lambda}$  in (12.25) as  $\lambda \to 0$  defines the optimal separating hyperplane<sup>1</sup>.
+All the loss-functions in Table 12.1 except squared-error are so called "margin maximizing loss-functions" (Rosset et al., 2004b). This means that if the data are separable, then the limit of  $\hat{\beta}_{\lambda}$  in (12.25) as  $\lambda \to 0$  defines the optimal separating hyperplane$^{1}$.
 
 # 12.3.3 Function Estimation and Reproducing Kernels
 
@@ -262,7 +262,7 @@ where **K** is the  $N \times N$  matrix of kernel evaluations for all pairs of 
 
 These models are quite general, and include, for example, the entire family of smoothing splines, additive and interaction spline models discussed
 
-<sup>&</sup>lt;sup>1</sup>For logistic regression with separable data,  $\hat{\beta}_{\lambda}$  diverges, but  $\hat{\beta}_{\lambda}/\|\hat{\beta}_{\lambda}\|$  converges to the optimal separating direction.
+$ ^{1} $For logistic regression with separable data,  $\hat{\beta}_{\lambda}$  diverges, but  $\hat{\beta}_{\lambda}/\|\hat{\beta}_{\lambda}\|$  converges to the optimal separating direction.
 
 in Chapters 5 and 9, and in more detail in Wahba (1990) and Hastie and Tibshirani (1990). They can be expressed more generally as
 
@@ -270,7 +270,7 @@ $$\min_{f \in \mathcal{H}} \sum_{i=1}^{N} [1 - y_i f(x_i)]_+ + \lambda J(f), \ta
 
 where  $\mathcal{H}$  is the structured space of functions, and J(f) an appropriate regularizer on that space. For example, suppose  $\mathcal{H}$  is the space of additive functions  $f(x) = \sum_{j=1}^p f_j(x_j)$ , and  $J(f) = \sum_j \int \{f''_j(x_j)\}^2 dx_j$ . Then the solution to (12.30) is an additive cubic spline, and has a kernel representation (12.28) with  $K(x,x') = \sum_{j=1}^p K_j(x_j,x'_j)$ . Each of the  $K_j$  is the kernel appropriate for the univariate smoothing spline in  $x_j$  (Wahba, 1990).
 
-Conversely this discussion also shows that, for example, any of the kernels described in (12.22) above can be used with any convex loss function, and will also lead to a finite-dimensional representation of the form (12.28). Figure 12.5 uses the same kernel functions as in Figure 12.3, except using the binomial log-likelihood as a loss function<sup>2</sup>. The fitted function is hence an estimate of the log-odds,
+Conversely this discussion also shows that, for example, any of the kernels described in (12.22) above can be used with any convex loss function, and will also lead to a finite-dimensional representation of the form (12.28). Figure 12.5 uses the same kernel functions as in Figure 12.3, except using the binomial log-likelihood as a loss function$^{2}$. The fitted function is hence an estimate of the log-odds,
 
 $$\hat{f}(x) = \log \frac{\hat{\Pr}(Y = +1|x)}{\hat{\Pr}(Y = -1|x)} 
 = \hat{\beta}_0 + \sum_{i=1}^{N} \hat{\alpha}_i K(x, x_i),$$
@@ -285,7 +285,7 @@ The fitted models are quite similar in shape and performance. Examples and more 
 
 It does happen that for SVMs, a sizable fraction of the N values of  $\alpha_i$  can be zero (the nonsupport points). In the two examples in Figure 12.3, these fractions are 42% and 45%, respectively. This is a consequence of the piecewise linear nature of the first part of the criterion (12.25). The lower the class overlap (on the training data), the greater this fraction will be. Reducing  $\lambda$  will generally reduce the overlap (allowing a more flexible f). A small number of support points means that  $\hat{f}(x)$  can be evaluated more quickly, which is important at lookup time. Of course, reducing the overlap too much can lead to poor generalization.
 
-<sup>&</sup>lt;sup>2</sup> Ji Zhu assisted in the preparation of these examples.
+$ ^{2} $ Ji Zhu assisted in the preparation of these examples.
 
 ![Figure 12.5 Top](../figures/_page_448_Figure_2.jpeg)
 
@@ -320,7 +320,7 @@ Line 1 uses the support vector classifier in the original feature space. Lines 2
 
 # 1e−01 1e+01 1e+03 0.20 0.25 0.30 0.35 1e−01 1e+01 1e+03 1e−01 1e+01 1e+03 1e−01 1e+01 1e+03 Test Error Test Error Curves − SVM with Radial Kernel γ = 5 γ = 1 γ = 0.5 γ = 0.1
 
-FIGURE 12.6. Test-error curves as a function of the cost parameter C for the radial-kernel SVM classifier on the mixture data. At the top of each plot is the scale parameter <sup>γ</sup> for the radial kernel: <sup>K</sup>γ(x, y) = exp (−γ||<sup>x</sup> <sup>−</sup> <sup>y</sup>||<sup>2</sup> ). The optimal value for C depends quite strongly on the scale of the kernel. The Bayes error rate is indicated by the broken horizontal lines.
+FIGURE 12.6. Test-error curves as a function of the cost parameter C for the radial-kernel SVM classifier on the mixture data. At the top of each plot is the scale parameter $^{γ}$ for the radial kernel: $^{K}$γ(x, y) = exp (−γ||$^{x}$ $^{−}$ $^{y}$||$^{2}$ ). The optimal value for C depends quite strongly on the scale of the kernel. The Bayes error rate is indicated by the broken horizontal lines.
 
 C
 
@@ -332,7 +332,7 @@ In the original feature space, a hyperplane cannot separate the classes, and the
 
 ![A Path Algorithm for the SVM Classifier](../figures/_page_450_Picture_7.jpeg)
 
-The regularization parameter for the SVM classifier is the cost parameter C, or its inverse λ in (12.25). Common usage is to set C high, leading often to somewhat overfit classifiers.
+The regularization parameter for the SVM classifier is the cost parameter C, or its inverse $\lambda$ in (12.25). Common usage is to set C high, leading often to somewhat overfit classifiers.
 
 Figure 12.6 shows the test error on the mixture data as a function of C, using different radial-kernel parameters γ. When γ = 5 (narrow peaked kernels), the heaviest regularization (small C) is called for. With γ = 1
 
@@ -465,13 +465,13 @@ Note, however, that this property depends on the choice of squared norm  $\|\bet
 
 The support vector machine can be extended to multiclass problems, essentially by solving many two-class problems. A classifier is built for each pair of classes, and the final classifier is the one that dominates the most (Kressel, 1999; Friedman, 1996; Hastie and Tibshirani, 1998). Alternatively, one could use the multinomial loss function along with a suitable kernel, as in Section 12.3.3. SVMs have applications in many other supervised and unsupervised learning problems. At the time of this writing, empirical evidence suggests that it performs well in many real learning problems.
 
-Finally, we mention the connection of the support vector machine and structural risk minimization (7.9). Suppose the training points (or their basis expansion) are contained in a sphere of radius R, and let G(x) = sign[f(x)] = sign[β <sup>T</sup> x + β0] as in (12.2). Then one can show that the class of functions {G(x), kβk ≤ A} has VC-dimension h satisfying
+Finally, we mention the connection of the support vector machine and structural risk minimization (7.9). Suppose the training points (or their basis expansion) are contained in a sphere of radius R, and let G(x) = sign[f(x)] = sign[$\beta$ $^{T}$ x + $\beta$0] as in (12.2). Then one can show that the class of functions {G(x), k$\beta$k $\le$ A} has VC-dimension h satisfying
 
 $$h \le R^2 A^2. \tag{12.50}$$
 
-If f(x) separates the training data, optimally for kβk ≤ A, then with probability at least 1 − η over training sets (Vapnik, 1996, page 139):
+If f(x) separates the training data, optimally for k$\beta$k $\le$ A, then with probability at least 1 − $\eta$ over training sets (Vapnik, 1996, page 139):
 
-Error <sub>Test</sub> 
+Error $_{Test}$ 
 $$\leq 4 \frac{h[\log(2N/h) + 1] - \log(\eta/4)}{N}$$
 . (12.51)
 
@@ -490,7 +490,7 @@ Some of the virtues of LDA are as follows:
 - LDA is the estimated Bayes classifier if the observations are multivariate Gaussian in each class, with a common covariance matrix. Since this assumption is unlikely to be true, this might not seem to be much of a virtue.
 - The decision boundaries created by LDA are linear, leading to decision rules that are simple to describe and implement.
 - LDA provides natural low-dimensional views of the data. For example, Figure 12.12 is an informative two-dimensional view of data in 256 dimensions with ten classes.
-- Often LDA produces the best classification results, because of its simplicity and low variance. LDA was among the top three classifiers for 7 of the 22 datasets studied in the STATLOG project (Michie et al., 1994)<sup>3</sup> .
+- Often LDA produces the best classification results, because of its simplicity and low variance. LDA was among the top three classifiers for 7 of the 22 datasets studied in the STATLOG project (Michie et al., 1994)$^{3}$ .
 
 Unfortunately the simplicity of LDA causes it to fail in a number of situations as well:
 
@@ -502,7 +502,7 @@ In the remainder of this chapter we describe a class of techniques that attend t
 
 The first idea is to recast the LDA problem as a linear regression problem. Many techniques exist for generalizing linear regression to more flexible, nonparametric forms of regression. This in turn leads to more flexible forms of discriminant analysis, which we call FDA. In most cases of interest, the
 
-<sup>3</sup>This study predated the emergence of SVMs.
+$^{3}$This study predated the emergence of SVMs.
 
 regression procedures can be seen to identify an enlarged set of predictors via basis expansions. FDA amounts to LDA in this enlarged space, the same paradigm used in SVMs.
 
@@ -596,9 +596,9 @@ TABLE 12.3. Vowel recognition data performance results. The results for neural n
 
 # 12.5.1 Computing the FDA Estimates
 
-The computations for the FDA coordinates can be simplified in many important cases, in particular when the nonparametric regression procedure can be represented as a linear operator. We will denote this operator by Sλ; that is, yˆ = Sλy, where y is the vector of responses and yˆ the vector of fits. Additive splines have this property, if the smoothing parameters are fixed, as does MARS once the basis functions are selected. The subscript λ denotes the entire set of smoothing parameters. In this case optimal scoring is equivalent to a canonical correlation problem, and the solution can be computed by a single eigen-decomposition. This is pursued in Exercise 12.6, and the resulting algorithm is presented here.
+The computations for the FDA coordinates can be simplified in many important cases, in particular when the nonparametric regression procedure can be represented as a linear operator. We will denote this operator by S$\lambda$; that is, yˆ = S$\lambda$y, where y is the vector of responses and yˆ the vector of fits. Additive splines have this property, if the smoothing parameters are fixed, as does MARS once the basis functions are selected. The subscript $\lambda$ denotes the entire set of smoothing parameters. In this case optimal scoring is equivalent to a canonical correlation problem, and the solution can be computed by a single eigen-decomposition. This is pursued in Exercise 12.6, and the resulting algorithm is presented here.
 
-We create an N × K indicator response matrix Y from the responses g<sup>i</sup> , such that yik = 1 if g<sup>i</sup> = k, otherwise yik = 0. For a five-class problem Y might look like the following:
+We create an N $\times$ K indicator response matrix Y from the responses g$^{i}$ , such that yik = 1 if g$^{i}$ = k, otherwise yik = 0. For a five-class problem Y might look like the following:
 
 $$\begin{array}{cccccccccccccccccccccccccccccccccccc$$
 
@@ -662,12 +662,12 @@ Linear discriminant analysis can be viewed as a prototype classifier. Each class
 $$P(X|G=k) = \sum_{r=1}^{R_k} \pi_{kr} \phi(X; \mu_{kr}, \Sigma),$$
  (12.59)
 
-where the mixing proportions πkr sum to one. This has R<sup>k</sup> prototypes for the kth class, and in our specification, the same covariance matrix Σ is used as the metric throughout. Given such a model for each class, the class posterior probabilities are given by
+where the mixing proportions $\pi$kr sum to one. This has R$^{k}$ prototypes for the kth class, and in our specification, the same covariance matrix $\Sigma$ is used as the metric throughout. Given such a model for each class, the class posterior probabilities are given by
 
 $$P(G = k|X = x) = \frac{\sum_{r=1}^{R_k} \pi_{kr} \phi(X; \mu_{kr}, \mathbf{\Sigma}) \Pi_k}{\sum_{\ell=1}^K \sum_{r=1}^{R_\ell} \pi_{\ell r} \phi(X; \mu_{\ell r}, \mathbf{\Sigma}) \Pi_\ell},$$
  (12.60)
 
-where Π<sup>k</sup> represent the class prior probabilities.
+where Π$^{k}$ represent the class prior probabilities.
 
 We saw these calculations for the special case of two components in Chapter 8. As in LDA, we estimate the parameters by maximum likelihood, using the joint log-likelihood based on P(G, X):
 
@@ -756,9 +756,9 @@ TABLE 12.4. Results for waveform data. The values are averages over ten simulati
 
 #### Computational Considerations
 
-With N training cases, p predictors, and m support vectors, the support vector machine requires <sup>m</sup><sup>3</sup> <sup>+</sup> mN <sup>+</sup> mpN operations, assuming <sup>m</sup> <sup>≈</sup> <sup>N</sup>. They do not scale well with N, although computational shortcuts are available (Platt, 1999). Since these are evolving rapidly, the reader is urged to search the web for the latest technology.
+With N training cases, p predictors, and m support vectors, the support vector machine requires $^{m}$$^{3}$ $^{+}$ mN $^{+}$ mpN operations, assuming $^{m}$ $^{\approx}$ $^{N}$. They do not scale well with N, although computational shortcuts are available (Platt, 1999). Since these are evolving rapidly, the reader is urged to search the web for the latest technology.
 
-LDA requires N p<sup>2</sup> + p <sup>3</sup> operations, as does PDA. The complexity of FDA depends on the regression method used. Many techniques are linear in N, such as additive models and MARS. General splines and kernel-based regression methods will typically require N<sup>3</sup> operations.
+LDA requires N p$^{2}$ + p $^{3}$ operations, as does PDA. The complexity of FDA depends on the regression method used. Many techniques are linear in N, such as additive models and MARS. General splines and kernel-based regression methods will typically require N$^{3}$ operations.
 
 Software is available for fitting FDA, PDA and MDA models in the R package mda, which is also available in S-PLUS.
 
@@ -780,13 +780,13 @@ Ex. 12.2 Show that the solution to (12.29) is the same as the solution to (12.25
 
 Ex. 12.3 Consider a modification to (12.43) where you do not penalize the constant. Formulate the problem, and characterize its solution.
 
-Ex. 12.4 Suppose you perform a reduced-subspace linear discriminant analysis for a K-group problem. You compute the canonical variables of dimension <sup>L</sup> <sup>≤</sup> <sup>K</sup> <sup>−</sup> 1 given by <sup>z</sup> <sup>=</sup> <sup>U</sup><sup>T</sup> <sup>x</sup>, where <sup>U</sup> is the <sup>p</sup> <sup>×</sup> <sup>L</sup> matrix of discriminant coefficients, and p > K is the dimension of x.
+Ex. 12.4 Suppose you perform a reduced-subspace linear discriminant analysis for a K-group problem. You compute the canonical variables of dimension $^{L}$ $^{\le}$ $^{K}$ $^{−}$ 1 given by $^{z}$ $^{=}$ $^{U}$$^{T}$ $^{x}$, where $^{U}$ is the $^{p}$ $^{\times}$ $^{L}$ matrix of discriminant coefficients, and p > K is the dimension of x.
 
 (a) If L = K − 1 show that
 
 $$||z - \bar{z}_k||^2 - ||z - \bar{z}_{k'}||^2 = ||x - \bar{x}_k||_W^2 - ||x - \bar{x}_{k'}||_W^2$$
 
-where k·k<sup>W</sup> denotes Mahalanobis distance with respect to the covariance W.
+where k$\cdot$k$^{W}$ denotes Mahalanobis distance with respect to the covariance W.
 
 (b) If L < K − 1, show that the same expression on the left measures the difference in Mahalanobis squared distances for the distributions projected onto the subspace spanned by U.
 
@@ -797,10 +797,10 @@ Ex. 12.5 The data in phoneme.subset, available from this book's website
 consists of digitized log-periodograms for phonemes uttered by 60 speakers, each speaker having produced phonemes from each of five classes. It is appropriate to plot each vector of 256 "features" against the frequencies 0–255.
 
 - (a) Produce a separate plot of all the phoneme curves against frequency for each class.
-- (b) You plan to use a nearest prototype classification scheme to classify the curves into phoneme classes. In particular, you will use a K-means clustering algorithm in each class (kmeans() in R), and then classify observations to the class of the closest cluster center. The curves are high-dimensional and you have a rather small sample-size-to-variables ratio. You decide to restrict all the prototypes to be smooth functions of frequency. In particular, you decide to represent each prototype m as m = Bθ where B is a 256 × J matrix of natural spline basis functions with J knots uniformly chosen in (0, 255) and boundary knots at 0 and 255. Describe how to proceed analytically, and in particular, how to avoid costly high-dimensional fitting procedures. (Hint: It may help to restrict B to be orthogonal.)
+- (b) You plan to use a nearest prototype classification scheme to classify the curves into phoneme classes. In particular, you will use a K-means clustering algorithm in each class (kmeans() in R), and then classify observations to the class of the closest cluster center. The curves are high-dimensional and you have a rather small sample-size-to-variables ratio. You decide to restrict all the prototypes to be smooth functions of frequency. In particular, you decide to represent each prototype m as m = B$\theta$ where B is a 256 $\times$ J matrix of natural spline basis functions with J knots uniformly chosen in (0, 255) and boundary knots at 0 and 255. Describe how to proceed analytically, and in particular, how to avoid costly high-dimensional fitting procedures. (Hint: It may help to restrict B to be orthogonal.)
 - (c) Implement your procedure on the phoneme data, and try it out. Divide the data into a training set and a test set (50-50), making sure that speakers are not split across sets (why?). Use K = 1, 3, 5, 7 centers per class, and for each use J = 5, 10, 15 knots (taking care to start the K-means procedure at the same starting values for each value of J), and compare the results.
 
-Ex. 12.6 Suppose that the regression procedure used in FDA (Section 12.5.1) is a linear expansion of basis functions hm(x), m = 1, . . . , M. Let D<sup>π</sup> = Y<sup>T</sup> Y/N be the diagonal matrix of class proportions.
+Ex. 12.6 Suppose that the regression procedure used in FDA (Section 12.5.1) is a linear expansion of basis functions hm(x), m = 1, . . . , M. Let D$^{\pi}$ = Y$^{T}$ Y/N be the diagonal matrix of class proportions.
 
 (a) Show that the optimal scoring problem (12.52) can be written in vector notation as
 
