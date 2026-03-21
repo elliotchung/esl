@@ -1,8 +1,14 @@
 project:
   type: book
 
+website:
+  title: "The Elements of Statistical Learning"
+  sidebar:
+    logo: figures/esl-cover.jpg
+    repo-url: https://github.com/elliotchung/esl
+
 book:
-  title: "esl"
+  title: "The Elements of Statistical Learning"
   author: "Trevor Hastie, Robert Tibshirani, Jerome Friedman"
   date: "1/13/2017"
   chapters:
