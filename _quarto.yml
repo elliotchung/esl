@@ -1,16 +1,26 @@
 project:
   type: book
-
-website:
-  title: "The Elements of Statistical Learning"
-  sidebar:
-    logo: figures/esl-cover.jpg
-    repo-url: https://github.com/elliotchung/esl
+  output-dir: _book
 
 book:
   title: "The Elements of Statistical Learning"
   author: "Trevor Hastie, Robert Tibshirani, Jerome Friedman"
   date: "1/13/2017"
+  reader-mode: true
+  cover-image: figures/esl-cover.jpg
+  favicon: figures/esl-cover.jpg
+  site-url: https://elliotchung.github.io/esl/
+  repo-url: https://github.com/elliotchung/esl
+  repo-branch: main
+  repo-actions: [edit, issue]
+
+  page-footer:
+    left: |
+      The Elements of Statistical Learning was written by Trevor Hastie, 
+      Robert Tibshirani, and Jerome Friedman.
+    right: |
+      This book was built with <a href="https://quarto.org/">Quarto</a>.
+
   chapters:
     - index.qmd
     - chapters/01-introduction.md
@@ -42,9 +52,10 @@ format:
   html:
     theme:
       - cosmo
-      - brand
+    code-link: true
+    callout-appearance: simple
+    author-meta: "Trevor Hastie, Robert Tibshirani, and Jerome Friedman"
   pdf:
     documentclass: scrreprt
 
-
-
+editor: source
