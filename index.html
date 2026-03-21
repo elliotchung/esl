@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,6 +11,9 @@
 
 <title>esl</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -35,15 +38,14 @@ ul.task-list li input[type="checkbox"] {
 <link href="./chapters/01-introduction.html" rel="next">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-00ccf60c28c3bdf2d57f5131fbf16f11.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-44ee0976171e9be92e6ebe9be850cd66.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -72,6 +74,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -189,8 +220,113 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="preface" class="level1 unnumbered">
 <h1 class="unnumbered">Preface</h1>
-<p>This is a Quarto book.</p>
-<p>To learn more about Quarto books visit <a href="https://quarto.org/docs/books" class="uri">https://quarto.org/docs/books</a>.</p>
+<p><em>In God we trust, all others bring data.</em></p>
+<p>—William Edwards Deming (1900-1993)<sup>1</sup></p>
+<p>We have been gratified by the popularity of the first edition of <em>The Elements of Statistical Learning</em>. This, along with the fast pace of research in the statistical learning field, motivated us to update our book with a second edition.</p>
+<p>We have added four new chapters and updated some of the existing chapters. Because many readers are familiar with the layout of the first edition, we have tried to change it as little as possible. Here is a summary of the main changes:</p>
+<hr>
+<p><sup>1</sup>On the Web, this quote has been widely attributed to both Deming and Robert W. Hayden; however Professor Hayden told us that he can claim no credit for this quote, and ironically we could find no “data” confirming that Deming actually said this.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 74%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Chapter</th>
+<th>What’s new</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><b>1. Introduction</b></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><b>2. Overview of Supervised Learning</b></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><b>3. Linear Methods for Regression</b></td>
+<td>LAR algorithm and generalizations of the lasso</td>
+</tr>
+<tr class="even">
+<td><b>4. Linear Methods for Classification</b></td>
+<td>Lasso path for logistic regression</td>
+</tr>
+<tr class="odd">
+<td><b>5. Basis Expansions and Regularization</b></td>
+<td>Additional illustrations of RKHS</td>
+</tr>
+<tr class="even">
+<td><b>6. Kernel Smoothing Methods</b></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><b>7. Model Assessment and Selection</b></td>
+<td>Strengths and pitfalls of cross-validation</td>
+</tr>
+<tr class="even">
+<td><b>8. Model Inference and Averaging</b></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><b>9. Additive Models, Trees, and Related Methods</b></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><b>10. Boosting and Additive Trees</b></td>
+<td>New example from ecology; some material split off to Chapter 16.</td>
+</tr>
+<tr class="odd">
+<td><b>11. Neural Networks</b></td>
+<td>Bayesian neural nets and the NIPS 2003 challenge</td>
+</tr>
+<tr class="even">
+<td><b>12. Support Vector Machines and Flexible Discriminants</b></td>
+<td>Path algorithm for SVM classifier</td>
+</tr>
+<tr class="odd">
+<td><b>13. Prototype Methods and Nearest-Neighbors</b></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><b>14. Unsupervised Learning</b></td>
+<td>Spectral clustering, kernel PCA, sparse PCA, non-negative matrix factorization archetypal analysis, nonlinear dimension reduction, Google page rank algorithm, a direct approach to ICA</td>
+</tr>
+<tr class="odd">
+<td><b>15. Random Forests</b></td>
+<td>New</td>
+</tr>
+<tr class="even">
+<td><b>16. Ensemble Learning</b></td>
+<td>New</td>
+</tr>
+<tr class="odd">
+<td><b>17. Undirected Graphical Models</b></td>
+<td>New</td>
+</tr>
+<tr class="even">
+<td><b>18. High-Dimensional Problems</b></td>
+<td>New</td>
+</tr>
+</tbody>
+</table>
+<p>Some further notes:</p>
+<ul>
+<li><p>Our first edition was unfriendly to colorblind readers; in particular, we tended to favor red/green contrasts which are particularly troublesome. We have changed the color palette in this edition to a large extent, replacing the above with an orange/blue contrast.</p></li>
+<li><p>We have changed the name of Chapter 6 from “Kernel Methods” to “Kernel Smoothing Methods”, to avoid confusion with the machine-learning kernel method that is discussed in the context of support vector machines (Chapter 12) and more generally in Chapters 5 and 14.</p></li>
+<li><p>In the first edition, the discussion of error-rate estimation in Chapter 7 was sloppy, as we did not clearly differentiate the notions of conditional error rates (conditional on the training set) and unconditional rates. We have fixed this in the new edition.</p></li>
+<li><p>Chapters 15 and 16 follow naturally from Chapter 10, and the chapters are probably best read in that order.</p></li>
+<li><p>In Chapter 17, we have not attempted a comprehensive treatment of graphical models, and discuss only undirected models and some new methods for their estimation. Due to a lack of space, we have specifically omitted coverage of directed graphical models.</p></li>
+<li><p>Chapter 18 explores the “ <span class="math inline">\(p \gg N\)</span> ” problem, which is learning in high-dimensional feature spaces. These problems arise in many areas, including genomic and proteomic studies, and document classification.</p></li>
+</ul>
+<p>We thank the many readers who have found the (too numerous) errors in the first edition. We apologize for those and have done our best to avoid errors in this new edition. We thank Mark Segal, Bala Rajaratnam, and Larry Wasserman for comments on some of the new chapters, and many Stanford graduate and post-doctoral students who offered comments, in particular Mohammed AlQuraishi, John Boik, Holger Hoefling, Arian Maleki, Donal McMahon, Saharon Rosset, Babak Shababa, Daniela Witten, Ji Zhu and Hui Zou. We thank John Kimmel for his patience in guiding us through this new edition. RT dedicates this edition to the memory of Anna McPhee.</p>
+<p><em>Trevor Hastie<br>
+Robert Tibshirani<br>
+Jerome Friedman</em><br>
+Stanford, California<br>
+August 2008</p>
 
 
 </section>
