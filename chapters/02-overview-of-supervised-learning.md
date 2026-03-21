@@ -1,12 +1,12 @@
 # Overview of Supervised Learning
 
-## 2.1 Introduction
+## Introduction
 
 The first three examples described in Chapter 1 have several components in common. For each there is a set of variables that might be denoted as inputs, which are measured or preset. These have some influence on one or more outputs. For each example the goal is to use the inputs to predict the values of the outputs. This exercise is called supervised learning.
 
 We have used the more modern language of machine learning. In the statistical literature the inputs are often called the predictors, a term we will use interchangeably with inputs, and more classically the independent variables. In the pattern recognition literature the term features is preferred, which we use as well. The outputs are called the responses, or classically the dependent variables.
 
-## 2.2 Variable Types and Terminology
+## Variable Types and Terminology
 
 The outputs vary in nature among the examples. In the glucose prediction example, the output is a quantitative measurement, where some measurements are bigger than others, and measurements close in value are close in nature. In the famous Iris discrimination example due to R. A. Fisher, the output is qualitative (species of Iris) and assumes values in a finite set G = {Virginica, Setosa and Versicolor}. In the handwritten digit example the output is one of 10 different digit classes: G = {0, 1, . . . , 9}. In both of these there is no explicit ordering in the classes, and in fact often descriptive labels rather than numbers are used to denote the classes. Qualitative variables are also referred to as categorical or discrete variables as well as factors.
 
@@ -28,21 +28,21 @@ For a two-class G, one approach is to denote the binary coded target as Y, and t
 
 We need data to construct prediction rules, often a lot of it. We thus suppose we have available a set of measurements  $(x_i, y_i)$  or  $(x_i, g_i)$ ,  $i = 1, \ldots, N$ , known as the *training data*, with which to construct our prediction rule.
 
-## 2.3 Two Simple Approaches to Prediction: Least Squares and Nearest Neighbors
+## Two Simple Approaches to Prediction: Least Squares and Nearest Neighbors
 
 In this section we develop two simple but powerful prediction methods: the linear model fit by least squares and the k-nearest-neighbor prediction rule. The linear model makes huge assumptions about structure and yields stable but possibly inaccurate predictions. The method of k-nearest neighbors makes very mild structural assumptions: its predictions are often accurate but can be unstable.
 
-### 2.3.1 Linear Models and Least Squares
+### Linear Models and Least Squares
 
 The linear model has been a mainstay of statistics for the past 30 years and remains one of our most important tools. Given a vector of inputs  $X^T = (X_1, X_2, \dots, X_p)$ , we predict the output Y via the model
 
-$$\hat{Y} = \hat{\beta}_0 + \sum_{j=1}^p X_j \hat{\beta}_j, \tag{2.1}$$
+$$\hat{Y} = \hat{\beta}_0 + \sum_{j=1}^p X_j \hat{\beta}_j \tag{2.1}$$
 
-The term  $\hat{\beta}_0$  is the intercept, also known as the *bias* in machine learning. Often it is convenient to include the constant variable 1 in X, include  $\hat{\beta}_0$  in the vector of coefficients  $\hat{\beta}$ , and then write the linear model in vector form as an inner product
+The term  $\hat{\beta}_0$  is the intercept, also known as the *bias* in machine learning. Often it is convenient to include the constant variable 1 in X, include  $\hat{\beta}_0$  in the vector of coefficients $\hat{\beta}$, and then write the linear model in vector form as an inner product
 
 $$\hat{Y} = X^T \hat{\beta},\tag{2.2}$$
 
-where  $X^T$  denotes vector or matrix transpose (X being a column vector). Here we are modeling a single output, so  $\hat{Y}$  is a scalar; in general  $\hat{Y}$  can be a K-vector, in which case  $\beta$  would be a  $p \times K$  matrix of coefficients. In the (p+1)-dimensional input-output space,  $(X,\hat{Y})$  represents a hyperplane. If the constant is included in X, then the hyperplane includes the origin and is a subspace; if not, it is an affine set cutting the Y-axis at the point  $(0,\hat{\beta}_0)$ . From now on we assume that the intercept is included in  $\hat{\beta}$ .
+where  $X^T$  denotes vector or matrix transpose ($X$ being a column vector). Here we are modeling a single output, so  $\hat{Y}$  is a scalar; in general  $\hat{Y}$  can be a K-vector, in which case  $\beta$  would be a  $p \times K$  matrix of coefficients. In the (p+1)-dimensional input-output space,  $(X,\hat{Y})$  represents a hyperplane. If the constant is included in X, then the hyperplane includes the origin and is a subspace; if not, it is an affine set cutting the Y-axis at the point  $(0,\hat{\beta}_0)$ . From now on we assume that the intercept is included in  $\hat{\beta}$ .
 
 Viewed as a function over the *p*-dimensional input space,  $f(X) = X^T \beta$  is linear, and the gradient  $f'(X) = \beta$  is a vector in input space that points in the steepest uphill direction.
 

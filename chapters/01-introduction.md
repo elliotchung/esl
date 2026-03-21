@@ -47,19 +47,15 @@ $^{1}$There was an error in these data in the first edition of this book. Subjec
 
 The goal is to predict the log of PSA (lpsa) from a number of measurements including log cancer volume (lcavol), log prostate weight lweight, age, log of benign prostatic hyperplasia amount lbph, seminal vesicle invasion svi, log of capsular penetration lcp, Gleason score gleason, and percent of Gleason scores 4 or 5 pgg45. Figure 1.1 is a scatterplot matrix of the variables. Some correlations with lpsa are evident, but a good predictive model is difficult to construct by eye.
 
-![Scatterplot matrix showing relationships between prostate cancer variables. The 10x10 grid displays bivariate scatter plots for lpsa, lcavol, lweight, age, lbph, svi, lcp, gleason, and pgg45. The first row shows lpsa (log PSA) plotted against each predictor. The diagonal contains variable names. Purple points indicate individual observations. Two predictors, svi and gleason, are categorical and show distinct vertical or horizontal patterns rather than continuous scatter.](../figures/_page_21_Figure_2.jpeg)
-
-**FIGURE 1.1.** Scatterplot matrix of the prostate cancer data. The first row shows the response against each of the predictors in turn. Two of the predictors, svi and gleason, are categorical.
+![**FIGURE 1.1.** Scatterplot matrix of the prostate cancer data. The first row shows the response against each of the predictors in turn. Two of the predictors, svi and gleason, are categorical.](../figures/_page_21_Figure_2.jpeg)
 
 This is a supervised learning problem, known as a regression problem, because the outcome measurement is quantitative.
 
 ## Example 3: Handwritten Digit Recognition
 
-The data from this example come from the handwritten ZIP codes on envelopes from U.S. postal mail. Each image is a segment from a five digit ZIP code, isolating a single digit. The images are 16$\times$16 eight-bit grayscale maps, with each pixel ranging in intensity from 0 to 255. Some sample images are shown in Figure 1.2.
+The data from this example come from the handwritten ZIP codes on envelopes from U.S. postal mail. Each image is a segment from a five digit ZIP code, isolating a single digit. The images are 16 $\times$ 16 eight-bit grayscale maps, with each pixel ranging in intensity from 0 to 255. Some sample images are shown in Figure 1.2.
 
-![Examples of handwritten digits from U.S. postal envelopes.](../figures/_page_22_Figure_2.jpeg)
-
-**FIGURE 1.2.** Examples of handwritten digits from U.S. postal envelopes.
+![**FIGURE 1.2.** Examples of handwritten digits from U.S. postal envelopes.](../figures/_page_22_Figure_2.jpeg)
 
 The images have been normalized to have approximately the same size and orientation. The task is to predict, from the 16 $\times$ 16 matrix of pixel intensities, the identity of each image (0, 1, . . . , 9) quickly and accurately. If it is accurate enough, the resulting algorithm would be used as part of an automatic sorting procedure for envelopes. This is a classification problem for which the error rate needs to be kept very low to avoid misdirection of mail. In order to achieve this low error rate, some objects can be assigned to a "don't know" category, and sorted instead by hand.
 
@@ -73,15 +69,13 @@ A gene expression dataset collects together the expression values from a series 
 
 The challenge here is to understand how the genes and samples are organized. Typical questions include the following:
 
-- (a) which samples are most similar to each other, in terms of their expression profiles across genes?
-- (b) which genes are most similar to each other, in terms of their expression profiles across samples?
-- (c) do certain genes show very high (or low) expression for certain cancer samples?
+(a) which samples are most similar to each other, in terms of their expression profiles across genes?
+(b) which genes are most similar to each other, in terms of their expression profiles across samples?
+(c) do certain genes show very high (or low) expression for certain cancer samples?
 
 We could view this task as a regression problem, with two categorical predictor variables—genes and samples—with the response variable being the level of expression. However, it is probably more useful to view it as unsupervised learning problem. For example, for question (a) above, we think of the samples as points in 6830–dimensional space, which we want to cluster together in some way.
 
-![DNA microarray data: expression matrix of 6830 genes (rows) and 64 samples (columns), for the human tumor data. Only a random sample of 100 rows are shown. The display is a heat map, ranging from bright green (negative, under expressed) to bright red (positive, over expressed). Missing values are gray. The rows and columns are displayed in a randomly chosen order.](../figures/_page_24_Figure_2.jpeg)
-
-**FIGURE 1.3.** DNA microarray data: expression matrix of 6830 genes (rows) and 64 samples (columns), for the human tumor data. Only a random sample of 100 rows are shown. The display is a heat map, ranging from bright green (negative, under expressed) to bright red (positive, over expressed). Missing values are gray. The rows and columns are displayed in a randomly chosen order.
+![**FIGURE 1.3.** DNA microarray data: expression matrix of 6830 genes (rows) and 64 samples (columns), for the human tumor data. Only a random sample of 100 rows are shown. The display is a heat map, ranging from bright green (negative, under expressed) to bright red (positive, over expressed). Missing values are gray. The rows and columns are displayed in a randomly chosen order.](../figures/_page_24_Figure_2.jpeg)
 
 ## Who Should Read this Book
 
