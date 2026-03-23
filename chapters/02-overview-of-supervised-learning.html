@@ -200,7 +200,7 @@ window.Quarto = {
   <li><a href="#two-simple-approaches-to-prediction-least-squares-and-nearest-neighbors" id="toc-two-simple-approaches-to-prediction-least-squares-and-nearest-neighbors" class="nav-link" data-scroll-target="#two-simple-approaches-to-prediction-least-squares-and-nearest-neighbors"><span class="header-section-number">2.3</span> Two Simple Approaches to Prediction: Least Squares and Nearest Neighbors</a>
   <ul class="collapse">
   <li><a href="#linear-models-and-least-squares" id="toc-linear-models-and-least-squares" class="nav-link" data-scroll-target="#linear-models-and-least-squares"><span class="header-section-number">2.3.1</span> Linear Models and Least Squares</a></li>
-  <li><a href="#nearest-neighbor-methods" id="toc-nearest-neighbor-methods" class="nav-link" data-scroll-target="#nearest-neighbor-methods"><span class="header-section-number">2.3.2</span> 2.3.2 Nearest-Neighbor Methods</a></li>
+  <li><a href="#nearest-neighbor-methods" id="toc-nearest-neighbor-methods" class="nav-link" data-scroll-target="#nearest-neighbor-methods"><span class="header-section-number">2.3.2</span> Nearest-Neighbor Methods</a></li>
   <li><a href="#from-least-squares-to-nearest-neighbors" id="toc-from-least-squares-to-nearest-neighbors" class="nav-link" data-scroll-target="#from-least-squares-to-nearest-neighbors"><span class="header-section-number">2.3.3</span> 2.3.3 From Least Squares to Nearest Neighbors</a></li>
   </ul></li>
   <li><a href="#statistical-decision-theory" id="toc-statistical-decision-theory" class="nav-link" data-scroll-target="#statistical-decision-theory"><span class="header-section-number">2.4</span> 2.4 Statistical Decision Theory</a></li>
@@ -307,32 +307,34 @@ window.Quarto = {
 <p>We now look at another classification and regression procedure that is in some sense at the opposite end of the spectrum to the linear model, and far better suited to the second scenario.</p>
 </section>
 <section id="nearest-neighbor-methods" class="level3" data-number="2.3.2">
-<h3 data-number="2.3.2" class="anchored" data-anchor-id="nearest-neighbor-methods"><span class="header-section-number">2.3.2</span> 2.3.2 Nearest-Neighbor Methods</h3>
-<p>Nearest-neighbor methods use those observations in the training set <span class="math inline">\(\mathcal{T}\)</span> closest in input space to x to form <span class="math inline">\(\hat{Y}\)</span> . Specifically, the k-nearest neighbor fit for <span class="math inline">\(\hat{Y}\)</span> is defined as follows:</p>
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="nearest-neighbor-methods"><span class="header-section-number">2.3.2</span> Nearest-Neighbor Methods</h3>
+<p>Nearest-neighbor methods use those observations in the training set <span class="math inline">\(\mathcal{T}\)</span> closest in input space to <span class="math inline">\(x\)</span> to form <span class="math inline">\(\hat{Y}\)</span> . Specifically, the k-nearest neighbor fit for <span class="math inline">\(\hat{Y}\)</span> is defined as follows:</p>
 <p><span class="math display">\[\hat{Y}(x) = \frac{1}{k} \sum_{x_i \in N_k(x)} y_i, \tag{2.8}\]</span></p>
-<p>where <span class="math inline">\(N_k(x)\)</span> is the neighborhood of x defined by the k closest points <span class="math inline">\(x_i\)</span> in the training sample. Closeness implies a metric, which for the moment we assume is Euclidean distance. So, in words, we find the k observations with <span class="math inline">\(x_i\)</span> closest to x in input space, and average their responses.</p>
+<p>where <span class="math inline">\(N_k(x)\)</span> is the neighborhood of <span class="math inline">\(x\)</span> defined by the k closest points <span class="math inline">\(x_i\)</span> in the training sample. Closeness implies a metric, which for the moment we assume is Euclidean distance. So, in words, we find the <span class="math inline">\(k\)</span> observations with <span class="math inline">\(x_i\)</span> closest to <span class="math inline">\(x\)</span> in input space, and average their responses.</p>
 <p>In Figure 2.2 we use the same training data as in Figure 2.1, and use 15-nearest-neighbor averaging of the binary coded response as the method of fitting. Thus <span class="math inline">\(\hat{Y}\)</span> is the proportion of <code>ORANGE</code>’s in the neighborhood, and so assigning class <code>ORANGE</code> to <span class="math inline">\(\hat{G}\)</span> if <span class="math inline">\(\hat{Y}&gt;0.5\)</span> amounts to a majority vote in the neighborhood. The colored regions indicate all those points in input space classified as <code>BLUE</code> or <code>ORANGE</code> by such a rule, in this case found by evaluating the procedure on a fine grid in input space. We see that the decision boundaries that separate the <code>BLUE</code> from the <code>ORANGE</code> regions are far more irregular, and respond to local clusters where one class dominates.</p>
-<p>Figure 2.3 shows the results for 1-nearest-neighbor classification: <span class="math inline">\(\hat{Y}\)</span> is assigned the value <span class="math inline">\(y_{\ell}\)</span> of the closest point <span class="math inline">\(x_{\ell}\)</span> to x in the training data. In this case the regions of classification can be computed relatively easily, and correspond to a <em>Voronoi tessellation</em> of the training data. Each point <span class="math inline">\(x_i\)</span> has an associated tile bounding the region for which it is the closest input point. For all points x in the tile, <span class="math inline">\(\hat{G}(x) = g_i\)</span> . The decision boundary is even more irregular than before.</p>
-<p>The method of k-nearest-neighbor averaging is defined in exactly the same way for regression of a quantitative output Y, although k=1 would be an unlikely choice.</p>
-<p>15-Nearest Neighbor Classifier</p>
+<p>Figure 2.3 shows the results for 1-nearest-neighbor classification: <span class="math inline">\(\hat{Y}\)</span> is assigned the value <span class="math inline">\(y_{\ell}\)</span> of the closest point <span class="math inline">\(x_{\ell}\)</span> to <span class="math inline">\(x\)</span> in the training data. In this case the regions of classification can be computed relatively easily, and correspond to a <em>Voronoi tessellation</em> of the training data. Each point <span class="math inline">\(x_i\)</span> has an associated tile bounding the region for which it is the closest input point. For all points x in the tile, <span class="math inline">\(\hat{G}(x) = g_i\)</span> . The decision boundary is even more irregular than before.</p>
+<p>The method of k-nearest-neighbor averaging is defined in exactly the same way for regression of a quantitative output <span class="math inline">\(Y\)</span>, although <span class="math inline">\(k=1\)</span> would be an unlikely choice.</p>
+<center>
+<strong>15-Nearest Neighbor Classifier</strong>
+</center>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="../figures/_page_33_Figure_3.jpeg" class="img-fluid figure-img"></p>
-<figcaption>The same classification example in two dimensions as in Figure 2.1. The classes are coded as a binary variable (BLUE = 0, ORANGE = 1) and then fit by 15-nearest-neighbor averaging as in (2.8). The predicted class is hence chosen by majority vote amongst the 15-nearest neighbors.</figcaption>
+<figcaption><strong>FIGURE 2.2.</strong> The same classification example in two dimensions as in Figure 2.1. The classes are coded as a binary variable (BLUE = 0, ORANGE = 1) and then fit by 15-nearest-neighbor averaging as in (2.8). The predicted class is hence chosen by majority vote amongst the 15-nearest neighbors.</figcaption>
 </figure>
 </div>
-<p><strong>FIGURE 2.2.</strong> The same classification example in two dimensions as in Figure 2.1. The classes are coded as a binary variable (BLUE = 0, ORANGE = 1) and then fit by 15-nearest-neighbor averaging as in (2.8). The predicted class is hence chosen by majority vote amongst the 15-nearest neighbors.</p>
 <p>In Figure 2.2 we see that far fewer training observations are misclassified than in Figure 2.1. This should not give us too much comfort, though, since in Figure 2.3 none of the training data are misclassified. A little thought suggests that for k-nearest-neighbor fits, the error on the training data should be approximately an increasing function of k, and will always be 0 for k = 1. An independent test set would give us a more satisfactory means for comparing the different methods.</p>
 <p>It appears that k-nearest-neighbor fits have a single parameter, the number of neighbors k, compared to the p parameters in least-squares fits. Although this is the case, we will see that the <em>effective</em> number of parameters of k-nearest neighbors is N/k and is generally bigger than p, and decreases with increasing k. To get an idea of why, note that if the neighborhoods were nonoverlapping, there would be N/k neighborhoods and we would fit one parameter (a mean) in each neighborhood.</p>
 <p>It is also clear that we cannot use sum-of-squared errors on the training set as a criterion for picking k, since we would always pick k=1! It would seem that k-nearest-neighbor methods would be more appropriate for the mixture Scenario 2 described above, while for Gaussian data the decision boundaries of k-nearest neighbors would be unnecessarily noisy.</p>
-<p>1-Nearest Neighbor Classifier</p>
+<center>
+<strong>1-Nearest Neighbor Classifier</strong>
+</center>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="../figures/_page_34_Figure_3.jpeg" class="img-fluid figure-img"></p>
-<figcaption>The same classification example in two dimensions as in Figure 2.1. The classes are coded as a binary variable (BLUE = 0, ORANGE = 1), and then predicted by 1-nearest-neighbor classification.</figcaption>
+<figcaption><strong>FIGURE 2.3.</strong> The same classification example in two dimensions as in Figure 2.1. The classes are coded as a binary variable (BLUE = 0, ORANGE = 1), and then predicted by 1-nearest-neighbor classification.</figcaption>
 </figure>
 </div>
-<p><strong>FIGURE 2.3.</strong> The same classification example in two dimensions as in Figure 2.1. The classes are coded as a binary variable (BLUE = 0, ORANGE = 1), and then predicted by 1-nearest-neighbor classification.</p>
 </section>
 <section id="from-least-squares-to-nearest-neighbors" class="level3" data-number="2.3.3">
 <h3 data-number="2.3.3" class="anchored" data-anchor-id="from-least-squares-to-nearest-neighbors"><span class="header-section-number">2.3.3</span> 2.3.3 From Least Squares to Nearest Neighbors</h3>
