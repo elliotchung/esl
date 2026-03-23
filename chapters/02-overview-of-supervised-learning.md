@@ -53,7 +53,7 @@ RSS($\beta$) is a quadratic function of the parameters, and hence its minimum al
 
 $$RSS(\beta) = (\mathbf{y} - \mathbf{X}\beta)^T (\mathbf{y} - \mathbf{X}\beta), \tag{2.4}$$
 
-where **X** is an  $N \times p$  matrix with each row an input vector, and **y** is an N-vector of the outputs in the training set. Differentiating w.r.t.  $\beta$  we get the normal equations
+where $\mathbf{X}$ is an  $N \times p$  matrix with each row an input vector, and $\mathbf{y}$ is an N-vector of the outputs in the training set. Differentiating w.r.t.  $\beta$  we get the normal equations
 
 $$\mathbf{X}^T(\mathbf{y} - \mathbf{X}\beta) = 0. \tag{2.5}$$
 
@@ -61,23 +61,21 @@ If  $\mathbf{X}^T \mathbf{X}$  is nonsingular, then the unique solution is given
 
 $$\hat{\beta} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}, \tag{2.6}$$
 
-and the fitted value at the *i*th input  $x_i$  is  $\hat{y}_i = \hat{y}(x_i) = x_i^T \hat{\beta}$ . At an arbitrary input  $x_0$  the prediction is  $\hat{y}(x_0) = x_0^T \hat{\beta}$ . The entire fitted surface is characterized by the p parameters  $\hat{\beta}$ . Intuitively, it seems that we do not need a very large data set to fit such a model.
+and the fitted value at the $i$th input  $x_i$  is  $\hat{y}_i = \hat{y}(x_i) = x_i^T \hat{\beta}$ . At an arbitrary input  $x_0$  the prediction is  $\hat{y}(x_0) = x_0^T \hat{\beta}$ . The entire fitted surface is characterized by the $p$ parameters  $\hat{\beta}$ . Intuitively, it seems that we do not need a very large data set to fit such a model.
 
 Let's look at an example of the linear model in a classification context. Figure 2.1 shows a scatterplot of training data on a pair of inputs  $X_1$  and  $X_2$ . The data are simulated, and for the present the simulation model is not important. The output class variable G has the values BLUE or ORANGE, and is represented as such in the scatterplot. There are 100 points in each of the two classes. The linear regression model was fit to these data, with the response Y coded as 0 for BLUE and 1 for ORANGE. The fitted values  $\hat{Y}$  are converted to a fitted class variable  $\hat{G}$  according to the rule
 
 $$\hat{G} = \begin{cases} \text{ORANGE} & \text{if } \hat{Y} > 0.5, \\ \text{BLUE} & \text{if } \hat{Y} \le 0.5. \end{cases} \tag{2.7}$$
 
-Linear Regression of 0/1 Response
+<center>**Linear Regression of 0/1 Response**</center>
 
-![A classification example in two dimensions. The classes are coded as a binary variable (BLUE = 0, ORANGE = 1), and then fit by linear regression. The line is the decision boundary defined by  $x^T \hat{\beta} = 0.5$ . The orange shaded region denotes that part of input space classified as ORANGE, while the blue region is classified as BLUE.](../figures/_page_31_Figure_3.jpeg)
+![**FIGURE 2.1.** A classification example in two dimensions. The classes are coded as a binary variable (BLUE = 0, ORANGE = 1), and then fit by linear regression. The line is the decision boundary defined by  $x^T \hat{\beta} = 0.5$ . The orange shaded region denotes that part of input space classified as ORANGE, while the blue region is classified as BLUE.](../figures/_page_31_Figure_3.jpeg)
 
-**FIGURE 2.1.** A classification example in two dimensions. The classes are coded as a binary variable (BLUE = 0, ORANGE = 1), and then fit by linear regression. The line is the decision boundary defined by  $x^T \hat{\beta} = 0.5$ . The orange shaded region denotes that part of input space classified as ORANGE, while the blue region is classified as BLUE.
+The set of points in  $\mathbb{R}^2$  classified as ORANGE corresponds to  $\{x: x^T \hat{\beta} > 0.5\}$ , indicated in Figure 2.1, and the two predicted classes are separated by the *decision boundary*  $\{x: x^T \hat{\beta} = 0.5\}$ , which is linear in this case. We see that for these data there are several misclassifications on both sides of the decision boundary. Perhaps our linear model is too rigid— or are such errors unavoidable? Remember that these are errors on the training data itself, and we have not said where the constructed data came from. Consider the two possible scenarios:
 
-The set of points in  $\mathbb{R}^2$  classified as ORANGE corresponds to  $\{x: x^T \hat{\beta} > 0.5\}$ , indicated in Figure 2.1, and the two predicted classes are separated by the decision boundary  $\{x: x^T \hat{\beta} = 0.5\}$ , which is linear in this case. We see that for these data there are several misclassifications on both sides of the decision boundary. Perhaps our linear model is too rigid— or are such errors unavoidable? Remember that these are errors on the training data itself, and we have not said where the constructed data came from. Consider the two possible scenarios:
+**Scenario 1:** The training data in each class were generated from bivariate Gaussian distributions with uncorrelated components and different means.
 
-Scenario 1: The training data in each class were generated from bivariate Gaussian distributions with uncorrelated components and different means.
-
-Scenario 2: The training data in each class came from a mixture of 10 low-variance Gaussian distributions, with individual means themselves distributed as Gaussian.
+**Scenario 2:** The training data in each class came from a mixture of 10 low-variance Gaussian distributions, with individual means themselves distributed as Gaussian.
 
 A mixture of Gaussians is best described in terms of the generative model. One first generates a discrete variable that determines which of the component Gaussians to use, and then generates an observation from the chosen density. In the case of one Gaussian per class, we will see in Chapter 4 that a linear decision boundary is the best one can do, and that our estimate is almost optimal. The region of overlap is inevitable, and future data to be predicted will be plagued by this overlap as well.
 
