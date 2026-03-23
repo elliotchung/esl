@@ -83,25 +83,23 @@ In the case of mixtures of tightly clustered Gaussians the story is different. A
 
 We now look at another classification and regression procedure that is in some sense at the opposite end of the spectrum to the linear model, and far better suited to the second scenario.
 
-### 2.3.2 Nearest-Neighbor Methods
+### Nearest-Neighbor Methods
 
-Nearest-neighbor methods use those observations in the training set  $\mathcal{T}$  closest in input space to x to form  $\hat{Y}$ . Specifically, the k-nearest neighbor fit for  $\hat{Y}$  is defined as follows:
+Nearest-neighbor methods use those observations in the training set  $\mathcal{T}$  closest in input space to $x$ to form  $\hat{Y}$ . Specifically, the k-nearest neighbor fit for  $\hat{Y}$  is defined as follows:
 
 $$\hat{Y}(x) = \frac{1}{k} \sum_{x_i \in N_k(x)} y_i, \tag{2.8}$$
 
-where  $N_k(x)$  is the neighborhood of x defined by the k closest points  $x_i$  in the training sample. Closeness implies a metric, which for the moment we assume is Euclidean distance. So, in words, we find the k observations with  $x_i$  closest to x in input space, and average their responses.
+where  $N_k(x)$  is the neighborhood of $x$ defined by the k closest points  $x_i$  in the training sample. Closeness implies a metric, which for the moment we assume is Euclidean distance. So, in words, we find the $k$ observations with  $x_i$  closest to $x$ in input space, and average their responses.
 
 In Figure 2.2 we use the same training data as in Figure 2.1, and use 15-nearest-neighbor averaging of the binary coded response as the method of fitting. Thus  $\hat{Y}$  is the proportion of `ORANGE`'s in the neighborhood, and so assigning class `ORANGE` to  $\hat{G}$  if  $\hat{Y}>0.5$  amounts to a majority vote in the neighborhood. The colored regions indicate all those points in input space classified as `BLUE` or `ORANGE` by such a rule, in this case found by evaluating the procedure on a fine grid in input space. We see that the decision boundaries that separate the `BLUE` from the `ORANGE` regions are far more irregular, and respond to local clusters where one class dominates.
 
-Figure 2.3 shows the results for 1-nearest-neighbor classification:  $\hat{Y}$  is assigned the value  $y_{\ell}$  of the closest point  $x_{\ell}$  to x in the training data. In this case the regions of classification can be computed relatively easily, and correspond to a *Voronoi tessellation* of the training data. Each point  $x_i$  has an associated tile bounding the region for which it is the closest input point. For all points x in the tile,  $\hat{G}(x) = g_i$ . The decision boundary is even more irregular than before.
+Figure 2.3 shows the results for 1-nearest-neighbor classification:  $\hat{Y}$  is assigned the value  $y_{\ell}$  of the closest point  $x_{\ell}$  to $x$ in the training data. In this case the regions of classification can be computed relatively easily, and correspond to a *Voronoi tessellation* of the training data. Each point  $x_i$  has an associated tile bounding the region for which it is the closest input point. For all points x in the tile,  $\hat{G}(x) = g_i$ . The decision boundary is even more irregular than before.
 
-The method of k-nearest-neighbor averaging is defined in exactly the same way for regression of a quantitative output Y, although k=1 would be an unlikely choice.
+The method of k-nearest-neighbor averaging is defined in exactly the same way for regression of a quantitative output $Y$, although $k=1$ would be an unlikely choice.
 
-15-Nearest Neighbor Classifier
+<center>**15-Nearest Neighbor Classifier**</center>
 
-![The same classification example in two dimensions as in Figure 2.1. The classes are coded as a binary variable (BLUE = 0, ORANGE = 1) and then fit by 15-nearest-neighbor averaging as in (2.8). The predicted class is hence chosen by majority vote amongst the 15-nearest neighbors.](../figures/_page_33_Figure_3.jpeg)
-
-**FIGURE 2.2.** The same classification example in two dimensions as in Figure 2.1. The classes are coded as a binary variable (BLUE = 0, ORANGE = 1) and then fit by 15-nearest-neighbor averaging as in (2.8). The predicted class is hence chosen by majority vote amongst the 15-nearest neighbors.
+![**FIGURE 2.2.** The same classification example in two dimensions as in Figure 2.1. The classes are coded as a binary variable (BLUE = 0, ORANGE = 1) and then fit by 15-nearest-neighbor averaging as in (2.8). The predicted class is hence chosen by majority vote amongst the 15-nearest neighbors.](../figures/_page_33_Figure_3.jpeg)
 
 In Figure 2.2 we see that far fewer training observations are misclassified than in Figure 2.1. This should not give us too much comfort, though, since in Figure 2.3 none of the training data are misclassified. A little thought suggests that for k-nearest-neighbor fits, the error on the training data should be approximately an increasing function of k, and will always be 0 for k = 1. An independent test set would give us a more satisfactory means for comparing the different methods.
 
@@ -109,11 +107,9 @@ It appears that k-nearest-neighbor fits have a single parameter, the number of n
 
 It is also clear that we cannot use sum-of-squared errors on the training set as a criterion for picking k, since we would always pick k=1! It would seem that k-nearest-neighbor methods would be more appropriate for the mixture Scenario 2 described above, while for Gaussian data the decision boundaries of k-nearest neighbors would be unnecessarily noisy.
 
-1-Nearest Neighbor Classifier
+<center>**1-Nearest Neighbor Classifier**</center>
 
-![The same classification example in two dimensions as in Figure 2.1. The classes are coded as a binary variable (BLUE = 0, ORANGE = 1), and then predicted by 1-nearest-neighbor classification.](../figures/_page_34_Figure_3.jpeg)
-
-**FIGURE 2.3.** The same classification example in two dimensions as in Figure 2.1. The classes are coded as a binary variable (BLUE = 0, ORANGE = 1), and then predicted by 1-nearest-neighbor classification.
+![**FIGURE 2.3.** The same classification example in two dimensions as in Figure 2.1. The classes are coded as a binary variable (BLUE = 0, ORANGE = 1), and then predicted by 1-nearest-neighbor classification.](../figures/_page_34_Figure_3.jpeg)
 
 ### 2.3.3 From Least Squares to Nearest Neighbors
 
